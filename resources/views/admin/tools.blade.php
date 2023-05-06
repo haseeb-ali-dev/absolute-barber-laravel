@@ -18,16 +18,16 @@
 
     @php
         $dashboard_section = [
+            ['key' => 'bercoweb', 'name' => 'Bercoweb', 'icon' => 'fas fa-cog'],
+            ['key' => 'bercostore', 'name' => 'Bercostore', 'icon' => 'fas fa-shopping-cart'],
+            ['key' => 'subscriber', 'name' => 'Subscriber Section', 'icon' => 'fas fa-share-alt-square'],
+            ['key' => 'administration', 'name' => 'Administration Users', 'icon' => 'fas fa-user-secret'],
             ['route' => route('admin.landing_page_contact_setting'), 'img' => 'public/uploads/1_1.png', 'icon' => 'fa fa-users'],
             ['route' => route('admin.excel.import'), 'img' => 'public/uploads/2_2.png', 'icon' => 'fas fa-users'],
             ['route' => route('signature-pad.draw'), 'img' => 'public/uploads/3_3.png', 'icon' => 'fa fa-sticky-note'],
             ['route' => route('admin.landing_page_messages'), 'img' => 'public/uploads/4_4.png', 'icon' => 'fas fa-users'],
             ['route' => route('admin.compose_document'), 'img' => 'public/uploads/5_5.png', 'icon' => 'fas fa-file'],
             ['route' => route('file-manager.index'), 'img' => 'public/uploads/6_6.png', 'icon' => 'fas fa-archive'],
-            ['key' => 'bercoweb', 'name' => 'Bercoweb', 'icon' => 'fas fa-cog'],
-            ['key' => 'bercostore', 'name' => 'Bercostore', 'icon' => 'fas fa-shopping-cart'],
-            ['key' => 'subscriber', 'name' => 'Subscriber Section', 'icon' => 'fas fa-share-alt-square'],
-            ['key' => 'administration', 'name' => 'Administration Users', 'icon' => 'fas fa-user-secret'],
         ];
         $bercoweb = [
             ['route' => route('admin.dashboard'), 'name' => 'Dashboard', 'icon' => 'fas fa-fw fa-home'],
