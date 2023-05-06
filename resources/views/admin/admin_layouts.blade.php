@@ -22,7 +22,7 @@
 <div id="wrapper">
 
     <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion d-none" id="accordionSidebar">
 
          <!-- Sidebar - Brand -->
          <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('admin.dashboard') }}">
@@ -568,6 +568,11 @@
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav ml-auto">
 
+                    <li class="nav-item dropdown no-arrow mx-1">
+                        <a class="btn btn-success btn-sm mt-3" href="{{ route('admin.tools') }}">
+                            <i class="fa fa-arrow-left"></i> Back to Dashoboard
+                        </a>
+                    </li>
 
                     <!-- Nav Item - Alerts -->
                     <li class="nav-item dropdown no-arrow mx-1">

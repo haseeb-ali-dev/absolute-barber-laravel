@@ -152,9 +152,9 @@
                 </div>
             @endforeach
             @if (isset($section['back']))
-                <div class="col-xl-12 col-md-12 mb-2">
-                    <a class="btn btn-success btn-sm mt-3" href="javascript:;" onclick="toggleSection('{{ $section['back'] }}')">
-                        <i class="fa fa-arrow-left"></i> Back to {{ ucwords($section['back']) }}
+                <div class="col-xl-12 col-md-12 mb-5">
+                    <a class="btn btn-success mt-3" href="javascript:;" onclick="toggleSection('{{ $section['back'] }}')">
+                        <i class="fa fa-arrow-left mr-3"></i>Back to {{ ucwords($section['back']) }}
                     </a>
                 </div>
             @endif
