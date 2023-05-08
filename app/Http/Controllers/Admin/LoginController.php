@@ -56,7 +56,7 @@ class LoginController extends Controller
         session(['role_id' => $check_email->role_id]);
         session(['is_super' => $check_email->is_super]);
 
-        $redirectRoute = $check_email->is_super ? 'superadmin.message.limit' : 'admin.dashboard';
+        $redirectRoute = $check_email->is_super ? 'superadmin.message.limit' : 'admin.tools';
 
         return redirect()->route($redirectRoute);
     }
