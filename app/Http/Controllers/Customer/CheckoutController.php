@@ -14,7 +14,8 @@ use PayPal\Api\Details;
 use PayPal\Api\Payment;
 use PayPal\Api\PaymentExecution;
 use PayPal\Api\Transaction;
-
+use App\Models\AdminMonthlyPayment;
+use Carbon\Carbon;
 
 class CheckoutController extends Controller
 {
@@ -142,6 +143,44 @@ class CheckoutController extends Controller
 
         $g_setting = DB::table('general_settings')->where('id', 1)->first();
         return view('pages.payment', compact('g_setting'));
+    }
+
+
+    public function stripe1(Request $request){
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+
+        if(isset($_POST['stripeToken']))
+        {
+            \Stripe\Stripe::setVerifySslCerts(false);
+
+			$token = $_POST['stripeToken'];
+            $response = \Stripe\Charge::create([
+                'amount' => 10*100,
+                'currency' => 'usd',
+                'description' => 'Stripe Payment',
+                'source' => $token,
+                'metadata' => ['order_id' => uniqid()],
+            ]);
+
+            $bal = \Stripe\BalanceTransaction::retrieve($response->balance_transaction);
+            $balJson = $bal->jsonSerialize();
+            $currentDate = Carbon::now()->toDateString();
+            if($response->status=='succeeded'){
+                $data = new AdminMonthlyPayment;
+                $data->transaction_id=$response->balance_transaction;
+                $data->amount=10;
+                $data->payment_status='Captured';
+                $data->valid_till=$newDate = Carbon::parse($currentDate)->addDays(31)->toDateString(); 
+
+                $data->save();
+                return Redirect()->back()->with('success', 'Payment is successful!');
+            }else{
+                return Redirect()->back()->with('error', 'Please Try Again!');
+            }
+
+        }
+
+
     }
 
     public function stripe()

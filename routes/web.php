@@ -151,6 +151,7 @@ Route::get('customer/order', [OrderControllerForCustomer::class,'index'])->name(
 Route::post('customer/checkout/billing/shipping', [CheckoutController::class,'billing_shipping'])->name('customer.billing_shipping_submit');
 Route::get('customer/payment', [CheckoutController::class,'payment'])->name('customer.payment');
 Route::post('customer/payment/stripe', [CheckoutController::class,'stripe'])->name('customer.stripe');
+Route::post('customer/payment/stripe1', [CheckoutController::class,'stripe1'])->name('customer.stripe1');
 Route::get('customer/execute-payment', [CheckoutController::class,'paypal']);
 
 
@@ -158,6 +159,7 @@ Route::get('customer/execute-payment', [CheckoutController::class,'paypal']);
 /* Admin Login and profile management */
 /* --------------------------------------- */
 Route::get('admin/dashboard', [DashboardControllerForAdmin::class,'index'])->name('admin.dashboard');
+Route::get('admin/plan_payment', [DashboardControllerForAdmin::class,'plan_payment'])->name('admin.plan_payment');
 Route::get('admin/tools', [DashboardControllerForAdmin::class,'tools'])->name('admin.tools');
 Route::get('admin', function () {return redirect('admin/login');});
 Route::get('admin/login', [LoginControllerForAdmin::class,'index'])->name('admin.login');

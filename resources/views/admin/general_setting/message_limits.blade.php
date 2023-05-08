@@ -8,18 +8,18 @@
     <div class="card shadow mb-4">
         <div class="card-body">
 
-            <input type="hidden" name="id" value="{{ $limits?->id }}">
+            <input type="hidden" name="id" value="{{ $limits->id }}">
 
             <div class="form-group d-flex align-items-center">
                 <label for="sms">SMS Limit</label>
                 <input type="number" name="sms" id="sms" class="form-control form-control-sm mx-3" min="1"
-                    value="{{ $limits?->sms }}">
+                    value="{{ $limits->sms }}">
             </div>
 
             <div class="form-group d-flex align-items-center">
                 <label for="whatsapp">Whatsapp Limit</label>
                 <input type="number" name="whatsapp" id="whatsapp" class="form-control form-control-sm mx-3"
-                    min="1" value="{{ $limits?->whatsapp }}">
+                    min="1" value="{{ $limits->whatsapp }}">
             </div>
 
 

@@ -28,6 +28,7 @@
             ['route' => route('admin.landing_page_messages'), 'img' => 'public/uploads/4_4.png', 'icon' => 'fas fa-users'],
             ['route' => route('admin.compose_document'), 'img' => 'public/uploads/5_5.png', 'icon' => 'fas fa-file'],
             ['route' => route('file-manager.index'), 'img' => 'public/uploads/6_6.png', 'icon' => 'fas fa-archive'],
+            ['route' => route('admin.plan_payment'), 'name' => 'My Plan & Payments', 'icon' => 'fas fa-fw fa-cog'],
         ];
         $bercoweb = [
             ['route' => route('admin.dashboard'), 'name' => 'Dashboard', 'icon' => 'fas fa-fw fa-home'],
