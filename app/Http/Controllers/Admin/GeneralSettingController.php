@@ -951,4 +951,40 @@ class GeneralSettingController extends Controller
 
     }
 
+    public function logo(){
+        return view('admin.general_setting.admin_logo');
+    }
+
+    public function store_post_admin_logo(Request $request){
+        $setting = GeneralSetting::where('id',1)->first();
+        $request->validate([
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:5048',
+        ]);
+
+
+        if (isset($request['file']))
+        {
+            $ext = $request->file('file')->extension();
+            $final_name = time().'.'.$ext;
+            $request->file('file')->move(public_path('uploads/'), $final_name);
+            
+            $setting->admin_logo=$final_name;
+            $setting->save();
+        }
+
+        return redirect()->back()->with('success', 'Logo Updated successfully!');
+        
+    }
+
+    public function store_post_admin_logo_size(Request $request){
+        $setting = GeneralSetting::where('id',1)->first();
+
+        $setting->admin_logo_width=$request['admin_logo_width'];
+        $setting->admin_logo_height=$request['admin_logo_height'];
+
+        $setting->save();
+
+        return redirect()->back()->with('success', 'Logo Size updated successfully!');
+    }
+
 }

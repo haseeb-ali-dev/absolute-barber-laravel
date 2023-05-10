@@ -52,6 +52,9 @@ class AppServiceProvider extends ServiceProvider
             $view->with('smsFlag' , $smsSent < $smsLimit);
             $view->with('whatsappFlag' , $whatsappSent < $whatsappLimit);
 
+            //admin logo
+            $general_settings_global = DB::table('general_settings')->where('id', 1)->first();
+            $view->with('general_settings_global', $general_settings_global);
         });
     }
 }

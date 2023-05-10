@@ -62,4 +62,24 @@ class DashboardController extends Controller
         return view('admin.plan_payment',compact('transactions','valid'));
     }
 
+
+    public function plan_payment_history(){
+        $transactions=AdminMonthlyPayment::all();
+
+        $status=AdminMonthlyPayment::latest()->get()->last();
+        $storedDate = Carbon::parse($status->valid_till); // assuming the date is stored in a column called date_column
+
+        $currentDate = Carbon::now();
+        $valid=null;
+        if ($storedDate->isPast()) {
+            // the stored date is in the past
+            $valid='false';
+        } else {
+            // the stored date is in the future
+            $valid='true';
+        }
+        
+        return view('admin.plan_payment_history',compact('transactions','valid'));
+    }
+
 }
