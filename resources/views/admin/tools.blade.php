@@ -18,16 +18,16 @@
 
     @php
         $dashboard_section = [
-            ['key' => 'bercoweb', 'img' => 'public/uploads/7_7.png', 'name' => 'Bercoweb', 'icon' => 'fas fa-cog'],
-            ['key' => 'bercostore','img' => 'public/uploads/8_8.png', 'name' => 'Bercostore', 'icon' => 'fas fa-shopping-cart'],
-            ['key' => 'subscriber','img' => 'public/uploads/9_9.png', 'name' => 'Subscriber Section', 'icon' => 'fas fa-share-alt-square'],
-            ['key' => 'administration','img' => 'public/uploads/10_10.png', 'name' => 'Administration Users', 'icon' => 'fas fa-user-secret'],
-            ['route' => route('admin.landing_page_contact_setting'), 'img' => 'public/uploads/1_1.png', 'icon' => 'fa fa-users'],
-            ['route' => route('admin.excel.import'), 'img' => 'public/uploads/2_2.png', 'icon' => 'fas fa-users'],
-            ['route' => route('signature-pad.draw'), 'img' => 'public/uploads/3_3.png', 'icon' => 'fa fa-sticky-note'],
-            ['route' => route('admin.landing_page_messages'), 'img' => 'public/uploads/4_4.png', 'icon' => 'fas fa-users'],
-            ['route' => route('admin.compose_document'), 'img' => 'public/uploads/5_5.png', 'icon' => 'fas fa-file'],
-            ['route' => route('file-manager.index'), 'img' => 'public/uploads/6_6.png', 'icon' => 'fas fa-archive'],
+            ['key' => 'bercoweb', 'img' => asset("public/uploads/$general_settings_global->bercotool_1"), 'name' => 'Bercoweb', 'icon' => 'fas fa-cog'],
+            ['key' => 'bercostore','img' => asset("public/uploads/$general_settings_global->bercotool_2"), 'name' => 'Bercostore', 'icon' => 'fas fa-shopping-cart'],
+            ['key' => 'subscriber','img' => asset("public/uploads/$general_settings_global->bercotool_3"), 'name' => 'Subscriber Section', 'icon' => 'fas fa-share-alt-square'],
+            ['key' => 'administration','img' => asset("public/uploads/$general_settings_global->bercotool_4"), 'name' => 'Administration Users', 'icon' => 'fas fa-user-secret'],
+            ['route' => route('admin.landing_page_contact_setting'), 'img' => asset("public/uploads/$general_settings_global->bercotool_5"), 'icon' => 'fa fa-users'],
+            ['route' => route('admin.excel.import'), 'img' => asset("public/uploads/$general_settings_global->bercotool_6"), 'icon' => 'fas fa-users'],
+            ['route' => route('signature-pad.draw'), 'img' => asset("public/uploads/$general_settings_global->bercotool_7"), 'icon' => 'fa fa-sticky-note'],
+            ['route' => route('admin.landing_page_messages'), 'img' => asset("public/uploads/$general_settings_global->bercotool_8"), 'icon' => 'fas fa-users'],
+            ['route' => route('admin.compose_document'), 'img' => asset("public/uploads/$general_settings_global->bercotool_9"), 'icon' => 'fas fa-file'],
+            ['route' => route('file-manager.index'), 'img' => asset("public/uploads/$general_settings_global->bercotool_10"), 'icon' => 'fas fa-archive'],
             // ['route' => route('admin.plan_payment'), 'name' => 'My Plan & Payments', 'icon' => 'fas fa-fw fa-cog'],
         ];
         $bercoweb = [

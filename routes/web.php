@@ -587,6 +587,8 @@ Route::post('admin/landing_page_contact/setting', [GeneralSettingController::cla
 Route::get('superadmin/landing_page_images', [GeneralSettingController::class,'landing_page_images'])->name('superadmin.landing_page_images');
 Route::get('superadmin/landing_page_left_images', [GeneralSettingController::class,'landing_page_left_images'])->name('superadmin.landing_page_left_images');
 Route::get('superadmin/logo', [GeneralSettingController::class,'logo'])->name('superadmin.logo');
+Route::get('superadmin/bercotool_images', [GeneralSettingController::class,'bercotool_images'])->name('superadmin.bercotool_images');
+Route::post('superadmin/post_bercotool_images', [GeneralSettingController::class,'store_post_bercotool_images'])->name('superadmin.post_bercotool_images.store');
 Route::post('superadmin/post_admin_logo', [GeneralSettingController::class,'store_post_admin_logo'])->name('superadmin.post_admin_logo.store');
 Route::post('superadmin/post_admin_logo_size', [GeneralSettingController::class,'store_post_admin_logo_size'])->name('superadmin.post_admin_logo_size.store');
 Route::post('superadmin/landing_page_images', [GeneralSettingController::class,'store_landing_page_images'])->name('superadmin.landing_page_images.store');

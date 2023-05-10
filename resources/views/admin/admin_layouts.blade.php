@@ -13,7 +13,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Sen:wght@400;700&display=swap" rel="stylesheet">
 
     @include('admin.includes.scripts')
-
+    <style>
+        #main_logo_mobile {
+          /* default width and height based on Laravel variables */
+          width: {{$general_settings_global->admin_logo_width}}px;
+          height: {{$general_settings_global->admin_logo_height}}px;
+        }
+      
+        @media (max-width: 767px) {
+          #main_logo_mobile {
+            /* override width and height for mobile screens */
+            width: 100px;
+            height: 50px;
+          }
+        }
+      </style>
 </head>
 
 <body id="page-top">
@@ -22,10 +36,10 @@
 <div id="wrapper">
 
     <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion  id="accordionSidebar">
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
          <!-- Sidebar - Brand -->
-         <img class="img-profile" style="width: {{$general_settings_global->admin_logo_width}}px;height: {{$general_settings_global->admin_logo_height}}px;" src="{{ asset("public/uploads/$general_settings_global->admin_logo") }}">
+         <img class="img-profile" id="main_logo_mobile"  src="{{ asset("public/uploads/$general_settings_global->admin_logo") }}">
 
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
@@ -82,37 +96,60 @@
 
                     $conName[1] = 'file-manager';
                 }
+                if(Request::path()=='plan_payment')
+                {
+
+                    $conName[1] = 'plan_payment';
+                }
+                if(Request::path()=='plan_payment_history')
+                {
+
+                    $conName[1] = 'plan_payment_history';
+                }
         @endphp
      
 
+        @php $arr_one = array(); @endphp
+        @if(session('role_id')!=1)
+            @php
+                $row = array();
+                $access_data = DB::table('role_permissions')
+        ->join('role_pages', 'role_permissions.role_page_id', 'role_pages.id')
+        ->where('role_id', session('role_id'))
+        ->get();
+            @endphp
+            @foreach($access_data as $row)
+                @php
+                    if($row->access_status == 1):
+                    $arr_one[] = $row->page_title;
+                    endif;
+                @endphp
+            @endforeach
+        @endif
+
+
+
         <li  class="nav-item active">
             <a class="nav-link" href="{{ route('admin.tools') }}">
-                {{-- <i class="fas fa-photo-video"></i> --}}
+                <i class="fas fa-link"></i>
                 <span>Bercotools</span>
             </a>
         </li> 
         
         <li  class="nav-item active">
             <a class="nav-link" href="{{ route('admin.profile_change') }}">
-                {{-- <i class="fas fa-photo-video"></i> --}}
+                <i class="fas fa-user-circle"></i>
                 <span>Profile</span>
-            </a>
-        </li>
-        
-        <li  class="nav-item active">
-            <a class="nav-link" href="#">
-                {{-- <i class="fas fa-photo-video"></i> --}}
-                <span>MailBox</span>
             </a>
         </li>
         <!-- Admin Users Section -->
    
         <li class="nav-item  active ">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAdminUser" aria-expanded="true" aria-controls="collapseAdminUser">
-                {{-- <i class="fas fa-user-secret"></i> --}}
+                <i class="fas fa-credit-card"></i>
                 <span>Payments</span>
             </a>
-            <div id="collapseAdminUser" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div id="collapseAdminUser" class="collapse @if($conName[1] == 'plan_payment' || $conName[1] == 'plan_payment_history') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('admin.plan_payment') }}">Billing</a>
                     <a class="collapse-item" href="{{ route('admin.plan_payment_history') }}">Purchase History</a>
@@ -120,7 +157,6 @@
                 </div>
             </div>
         </li>
-        
 
 
         <!-- Divider -->
@@ -152,7 +188,7 @@
                 <i class="fas fa-photo-video"></i>
                 <span>Left Side Images</span>
             </a>
-        </li>
+        </li>   
 
         <li class="nav-item active">
             <a class="nav-link" href="{{ route('superadmin.logo') }}">
@@ -164,8 +200,15 @@
 
         <li class="nav-item active">
             <a class="nav-link" href="{{ route('admin.plan_payment') }}">
-                <i class="fas fa-photo-video"></i>
+                <i class="fas fa-credit-card"></i>
                 <span>Admin Billing</span>
+            </a>
+        </li>
+
+        <li class="nav-item active">
+            <a class="nav-link" href="{{ route('superadmin.bercotool_images') }}">
+                <i class="fas fa-photo-video"></i>
+                <span>BercoTools Images</span>
             </a>
         </li>
 
@@ -188,11 +231,6 @@
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav ml-auto">
 
-                    <li class="nav-item dropdown no-arrow mx-1">
-                        <a class="btn btn-success btn-sm mt-3" href="{{ route('admin.tools') }}">
-                            <i class="fa fa-arrow-left"></i> Back to Dashoboard
-                        </a>
-                    </li>
 
                     <!-- Nav Item - Alerts -->
                     <li class="nav-item dropdown no-arrow mx-1">
@@ -254,6 +292,14 @@
 </a>
 
 @include('admin.includes.scripts-footer')
-
+<script>
+    $(document).ready(function() {
+        // Check if the screen size is smaller than desktop
+        if ($(window).width() < 992) {
+            // Remove the 'show' class from the div with id 'collapseAdminUser'
+            $('#collapseAdminUser').removeClass('show');
+        }
+    });
+</script>
 </body>
 </html>
