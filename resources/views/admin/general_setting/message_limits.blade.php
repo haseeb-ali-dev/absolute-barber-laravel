@@ -28,4 +28,22 @@
     </div>
 </form>
 
+<h1 class="h3 mb-3 text-gray-800">Admin Monthly Package Fee</h1>
+<form action="{{ url('superadmin/update/fees') }}" method="post">
+    @csrf
+    <div class="card shadow mb-4">
+        <div class="card-body">
+
+            <div class="form-group d-flex align-items-center">
+                <label for="sms">Price in $</label>
+                <input type="number" name="monthly_fee" value="{{$general_settings_global->monthly_fee}}" min="1" max="10000" id="sms" class="form-control form-control-sm mx-3 col-md-3" min="1"
+                    value="{{ $limits->sms }}">
+            </div>
+
+
+            <button type="submit" class="btn btn-success">Update Pricing</button>
+        </div>
+    </div>
+</form>
+
 @endsection

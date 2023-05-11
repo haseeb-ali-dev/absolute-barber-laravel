@@ -27,6 +27,29 @@
             height: 50px;
           }
         }
+
+
+        #menu_text1,#menu_text2,#menu_text3 {
+          /* default width and height based on Laravel variables */
+          font-size: 20px;
+        }
+        .collapse-item{
+            font-size: 18px;
+        }
+        @media (max-width: 767px) {
+            #menu_text1,#menu_text2,#menu_text3 {
+            /* default width and height based on Laravel variables */
+               font-size: 15px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .collapse-item{
+                font-size: 15px;
+                
+            }
+        }
+
       </style>
 </head>
 
@@ -129,17 +152,17 @@
 
 
 
-        <li  class="nav-item active">
+        <li style="margin-top: 39px;"  class="nav-item active">
             <a class="nav-link" href="{{ route('admin.tools') }}">
                 <i class="fas fa-link"></i>
-                <span>Bercotools</span>
+                <span id="menu_text1">Bercotools</span>
             </a>
         </li> 
         
         <li  class="nav-item active">
             <a class="nav-link" href="{{ route('admin.profile_change') }}">
                 <i class="fas fa-user-circle"></i>
-                <span>Profile</span>
+                <span id="menu_text2">Profile</span>
             </a>
         </li>
         <!-- Admin Users Section -->
@@ -147,13 +170,13 @@
         <li class="nav-item  active ">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAdminUser" aria-expanded="true" aria-controls="collapseAdminUser">
                 <i class="fas fa-credit-card"></i>
-                <span>Payments</span>
+                <span id="menu_text3">Payments</span>
             </a>
             <div id="collapseAdminUser" class="collapse @if($conName[1] == 'plan_payment' || $conName[1] == 'plan_payment_history') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="{{ route('admin.plan_payment') }}">Billing</a>
-                    <a class="collapse-item" href="{{ route('admin.plan_payment_history') }}">Purchase History</a>
-                    <a class="collapse-item" href="#">Invoice</a>
+                <div style="background: #4e73df" class="py-2 collapse-inner rounded">
+                    <a style="background: none; color:white;" class="collapse-item" href="{{ route('admin.plan_payment') }}">Billing</a>
+                    <a style="background: none; color:white;" class="collapse-item" href="{{ route('admin.plan_payment_history') }}">Purchase History</a>
+                    <a style="background: none; color:white;" class="collapse-item" href="#">Invoice</a>
                 </div>
             </div>
         </li>
@@ -172,7 +195,7 @@
         <li class="nav-item active">
             <a class="nav-link" href="{{ route('superadmin.message.limit') }}">
                 <i class="fas fa-sliders-h"></i>
-                <span>Message Limits</span>
+                <span>Software Limits</span>
             </a>
         </li>
 

@@ -15,6 +15,7 @@ use PayPal\Api\Payment;
 use PayPal\Api\PaymentExecution;
 use PayPal\Api\Transaction;
 use App\Models\AdminMonthlyPayment;
+use App\Models\Admin\GeneralSetting;
 use Carbon\Carbon;
 
 class CheckoutController extends Controller
@@ -147,6 +148,10 @@ class CheckoutController extends Controller
 
 
     public function stripe1(Request $request){
+
+        $setting = GeneralSetting::where('id',1)->first();
+        $price=$setting->monthly_fee;
+
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
 
         if(isset($_POST['stripeToken']))
@@ -155,7 +160,7 @@ class CheckoutController extends Controller
 
 			$token = $_POST['stripeToken'];
             $response = \Stripe\Charge::create([
-                'amount' => 10*100,
+                'amount' => $price*100,
                 'currency' => 'usd',
                 'description' => 'Stripe Payment',
                 'source' => $token,
@@ -168,7 +173,7 @@ class CheckoutController extends Controller
             if($response->status=='succeeded'){
                 $data = new AdminMonthlyPayment;
                 $data->transaction_id=$response->balance_transaction;
-                $data->amount=10;
+                $data->amount=$price;
                 $data->payment_status='Captured';
                 $data->valid_till=$newDate = Carbon::parse($currentDate)->addDays(31)->toDateString(); 
 

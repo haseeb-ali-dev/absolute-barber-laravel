@@ -1007,6 +1007,7 @@ class GeneralSettingController extends Controller
             'bercotool_8' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
             'bercotool_9' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
             'bercotool_10' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
+            'bercotool_11' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
 
         ]);
 
@@ -1130,7 +1131,29 @@ class GeneralSettingController extends Controller
             $setting->save();
         }
 
+        if (isset($request['bercotool_11']))
+        {
+            $setting = GeneralSetting::where('id',1)->first();
+            $ext = $request->file('bercotool_11')->extension();
+            $randomNumber = rand(10000, 99999); // generate random 5-digit number
+            $final_name10 = time().$randomNumber.'.'.$ext;
+            $request->file('bercotool_11')->move(public_path('uploads/'), $final_name10);
+            
+            $setting->bercotool_11=$final_name10;
+            $setting->save();
+        }
+
         return redirect()->back()->with('success', 'Logo Updated successfully!');
+    }
+
+    public function superadmin_update_fees(Request $request){
+        // dd($request->monthly_fee);
+        $setting = GeneralSetting::where('id',1)->first();
+
+        $setting->monthly_fee=$request->monthly_fee;
+
+        $setting->save();
+        return redirect()->back()->with('success', 'Updated successfully!');
     }
 
 

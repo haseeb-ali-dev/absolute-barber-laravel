@@ -120,6 +120,22 @@
                     <img style="width:230px; height:100px;" src="{{ asset("public/uploads/$general_settings_global->bercotool_10") }}" alt="">
                 </div>
             </div>
+
+            <div class="row card-body d-flex align-items-baseline">
+                <div class="form-group d-flex flex-column col-md-2">
+                    <input type="file" name="bercotool_11" accept="image/*">
+                    <span>BercoBlog</span>
+                </div>
+                <div class="col-md-2" >
+                    <img style="width:230px; height:100px;" src="{{ asset("public/uploads/$general_settings_global->bercotool_11") }}" alt="">
+                </div>
+
+                <div class="col-md-2" ></div>
+                
+                
+            </div>
+
+
             <br>
             <div class="row justify-content-center">
                 <button type="submit" class="btn btn-primary">Upload BercoTool Images</button>

@@ -28,13 +28,14 @@
             ['route' => route('admin.landing_page_messages'), 'img' => asset("public/uploads/$general_settings_global->bercotool_8"), 'icon' => 'fas fa-users'],
             ['route' => route('admin.compose_document'), 'img' => asset("public/uploads/$general_settings_global->bercotool_9"), 'icon' => 'fas fa-file'],
             ['route' => route('file-manager.index'), 'img' => asset("public/uploads/$general_settings_global->bercotool_10"), 'icon' => 'fas fa-archive'],
+            ['key' => 'blogsection', 'img' => asset("public/uploads/$general_settings_global->bercotool_11"), 'name' => 'BercoBlog', 'icon' => 'fas fa-cog'],
             // ['route' => route('admin.plan_payment'), 'name' => 'My Plan & Payments', 'icon' => 'fas fa-fw fa-cog'],
         ];
         $bercoweb = [
             ['route' => route('admin.dashboard'), 'name' => 'Dashboard', 'icon' => 'fas fa-fw fa-home'],
             ['key' => 'general', 'name' => 'General Settings', 'icon' => 'fas fa-cog'],
             ['key' => 'page', 'name' => 'Page Settings', 'icon' => 'fas fa-paste'],
-            ['key' => 'blog', 'name' => 'Blog Section', 'icon' => 'fas fa-cubes'],
+            // ['key' => 'blog', 'name' => 'Blog Section', 'icon' => 'fas fa-cubes'],
             ['key' => 'career', 'name' => 'Career Section', 'icon' => 'fas fa-user-secret'],
             ['route' => route('admin.footer.index'), 'name' => 'Footer Columns', 'icon' => 'fas fa-fw fa-list-alt'],
             ['route' => route('admin.slider.index'), 'name' => 'Sliders', 'icon' => 'fas fa-sliders-h'],
@@ -120,7 +121,7 @@
             ['title' => 'Administration Users', 'key' => 'administration', 'back' => 'dashboard', 'items' => $administration],
             ['title' => 'General Settings', 'key' => 'general', 'back' => 'bercoweb', 'items' => $general_settings],
             ['title' => 'Page Settings', 'key' => 'page', 'back' => 'bercoweb', 'items' => $page_settings],
-            ['title' => 'Blog Section', 'key' => 'blog', 'back' => 'bercoweb', 'items' => $blog_section],
+            ['title' => 'Blog Section', 'key' => 'blogsection', 'back' => 'dashboard', 'items' => $blog_section],
             ['title' => 'Career Section', 'key' => 'career', 'back' => 'bercoweb', 'items' => $career_section],
         ];
     @endphp
@@ -144,9 +145,9 @@
                                         @endif
                                     </a>
                                 </div>
-                                <div class="col-auto">
+                                {{-- <div class="col-auto">
                                     <i class="{{ $item['icon'] }} fa-2x text-gray-300"></i>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -163,7 +164,7 @@
     @endforeach
 
     <script>
-        const keys = ['dashboard', 'bercoweb', 'bercostore', 'subscriber', 'administration', 'general', 'page', 'blog', 'career']
+        const keys = ['dashboard', 'bercoweb', 'bercostore', 'subscriber', 'administration', 'general', 'page', 'blog', 'career','blogsection']
         function toggleSection(key)
         {
            $(`#${key}`).show()

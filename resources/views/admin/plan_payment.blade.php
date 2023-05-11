@@ -54,7 +54,8 @@
         </div>
     </div>
     @php
-        $cents = 10*100;
+        $cents = $general_settings_global->monthly_fee*100;
+        
         $admin_data = App\Models\Admin\Admin::where('id',session('id'))->first();
         $c_email=$admin_data->email;
     @endphp

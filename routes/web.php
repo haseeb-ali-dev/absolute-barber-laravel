@@ -592,6 +592,7 @@ Route::post('superadmin/post_bercotool_images', [GeneralSettingController::class
 Route::post('superadmin/post_admin_logo', [GeneralSettingController::class,'store_post_admin_logo'])->name('superadmin.post_admin_logo.store');
 Route::post('superadmin/post_admin_logo_size', [GeneralSettingController::class,'store_post_admin_logo_size'])->name('superadmin.post_admin_logo_size.store');
 Route::post('superadmin/landing_page_images', [GeneralSettingController::class,'store_landing_page_images'])->name('superadmin.landing_page_images.store');
+Route::post('superadmin/update/fees', [GeneralSettingController::class,'superadmin_update_fees'])->name('superadmin.update.fees');
 Route::get('superadmin/landing_page_images/delete/{id}', [GeneralSettingController::class,'delete_landing_page_images'])->name('superadmin.landing_page_images.delete');
 
 
