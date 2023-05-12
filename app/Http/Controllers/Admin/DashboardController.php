@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\AdminMonthlyPayment;
 use PDF;
+use DB;
+use App\Models\Admin\Admin;
 
 
 class DashboardController extends Controller
@@ -92,5 +94,41 @@ class DashboardController extends Controller
         
         return view('admin.plan_payment_history',compact('transactions','valid'));
     }
+
+    public function invoices(){
+        $transactions=AdminMonthlyPayment::all();
+
+        $status=AdminMonthlyPayment::latest()->get()->last();
+        $storedDate = Carbon::parse($status->valid_till); // assuming the date is stored in a column called date_column
+
+        $currentDate = Carbon::now();
+        $valid=null;
+        if ($storedDate->isPast()) {
+            // the stored date is in the past
+            $valid='false';
+        } else {
+            // the stored date is in the future
+            $valid='true';
+        }
+        
+        return view('admin.invoices',compact('transactions','valid'));
+    }
+
+    public function generate_invoice(Request $request){
+        $transaction=AdminMonthlyPayment::where('id',$request->transaction_id)->first();
+        $g_setting = DB::table('general_settings')->where('id', 1)->first();
+        $admin_data = Admin::where('id',session('id'))->first();
+        
+
+        $pdf = PDF::loadView('admin.invoices.transaction', [
+            'transaction' => $transaction,
+            'g_setting' => $g_setting,
+            'admin_data'=>$admin_data,
+        ]);
+        
+        return $pdf->download("$transaction->transaction_id.invoice.pdf");
+
+    }
+
 
 }

@@ -176,7 +176,7 @@
                 <div style="background: #4e73df" class="py-2 collapse-inner rounded">
                     <a style="background: none; color:white;" class="collapse-item" href="{{ route('admin.plan_payment') }}">Billing</a>
                     <a style="background: none; color:white;" class="collapse-item" href="{{ route('admin.plan_payment_history') }}">Purchase History</a>
-                    <a style="background: none; color:white;" class="collapse-item" href="#">Invoice</a>
+                    <a style="background: none; color:white;" class="collapse-item" href="{{ route('admin.invoices') }}">Invoice</a>
                 </div>
             </div>
         </li>

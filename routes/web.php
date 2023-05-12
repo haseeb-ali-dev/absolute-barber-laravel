@@ -161,6 +161,8 @@ Route::get('customer/execute-payment', [CheckoutController::class,'paypal']);
 Route::get('admin/dashboard', [DashboardControllerForAdmin::class,'index'])->name('admin.dashboard');
 Route::get('admin/plan_payment', [DashboardControllerForAdmin::class,'plan_payment'])->name('admin.plan_payment');
 Route::get('admin/plan_payment_history', [DashboardControllerForAdmin::class,'plan_payment_history'])->name('admin.plan_payment_history');
+Route::get('admin/invoices', [DashboardControllerForAdmin::class,'invoices'])->name('admin.invoices');
+Route::post('admin/generate_invoice', [DashboardControllerForAdmin::class,'generate_invoice'])->name('admin.generate_invoice');
 Route::get('admin/tools', [DashboardControllerForAdmin::class,'tools'])->name('admin.tools');
 Route::get('admin', function () {return redirect('admin/login');});
 Route::get('admin/login', [LoginControllerForAdmin::class,'index'])->name('admin.login');
