@@ -742,4 +742,5 @@ Route::put('admin/save-signature/{id}', [FileManagerController::class, 'saveSign
 /* --------------------------------------- */
 Route::resource('admin/invoice-builder', InvoiceController::class)->except(['destroy']);
 Route::get('admin/invoice-builder/delete/{id}', [InvoiceController::class, 'destroy']);
+Route::post('admin/invoice-builder/get_invoice', [InvoiceController::class, 'getInvoice'])->name('invoice-builder.get_invoice');
 Route::get('admin/invoice-builder/item/delete/{id}', [InvoiceController::class, 'deleteItem']);

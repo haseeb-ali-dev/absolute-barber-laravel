@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\Invoice;
 use App\Models\Admin\InvoiceItem;
 use Illuminate\Http\Request;
+use PDF;
+use DB;
 
 class InvoiceController extends Controller
 {
@@ -44,15 +46,6 @@ class InvoiceController extends Controller
         }
 
         return redirect()->route('invoice-builder.index')->with('success', 'Invoice is built successfully!');
-    }
-
-    public function show($id)
-    {
-        $invoice = Invoice::find($id);
-        if (isset($invoice)) {
-            return view('admin.invoice_builder.show', ['invoice' => $invoice]);
-        }
-        return redirect()->route('invoice-builder.index')->with('error', 'Invoice not found!');
     }
 
     public function edit($id)
@@ -119,5 +112,19 @@ class InvoiceController extends Controller
             return redirect()->back()->with('success', 'Invoice Item is removed successfully!');
         }
         return redirect()->route('invoice-builder.index')->with('error', 'Invoice Item is not found!');
+    }
+
+    public function getInvoice(Request $request)
+    {
+        $invoice = Invoice::find($request['id']);
+        if (isset($invoice)) {
+            $g_setting = DB::table('general_settings')->where('id', 1)->first();
+            $pdf = PDF::loadView('admin.invoice_builder.show', [
+                'invoice' => $invoice,
+                'g_setting' => $g_setting,
+            ]);
+            return $pdf->download(time() . ".invoice.pdf");
+        }
+        return redirect()->route('invoice-builder.index')->with('error', 'Invoice not found!');
     }
 }
