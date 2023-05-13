@@ -967,13 +967,13 @@ class GeneralSettingController extends Controller
             $ext = $request->file('file')->extension();
             $final_name = time().'.'.$ext;
             $request->file('file')->move(public_path('uploads/'), $final_name);
-            
+
             $setting->admin_logo=$final_name;
             $setting->save();
         }
 
         return redirect()->back()->with('success', 'Logo Updated successfully!');
-        
+
     }
 
     public function store_post_admin_logo_size(Request $request){
@@ -995,7 +995,7 @@ class GeneralSettingController extends Controller
 
 
     public function store_post_bercotool_images(Request $request){
-        
+
         $request->validate([
             'bercotool_1' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
             'bercotool_2' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
@@ -1019,7 +1019,7 @@ class GeneralSettingController extends Controller
             $randomNumber = rand(10000, 99999); // generate random 5-digit number
             $final_name1 = time().$randomNumber.'.'.$ext;
             $request->file('bercotool_1')->move(public_path('uploads/'), $final_name1);
-            
+
             $setting->bercotool_1=$final_name1;
             $setting->save();
         }
@@ -1031,7 +1031,7 @@ class GeneralSettingController extends Controller
             $randomNumber = rand(10000, 99999); // generate random 5-digit number
             $final_name2 = time().$randomNumber.'.'.$ext;
             $request->file('bercotool_2')->move(public_path('uploads/'), $final_name2);
-            
+
             $setting->bercotool_2=$final_name2;
             $setting->save();
         }
@@ -1042,7 +1042,7 @@ class GeneralSettingController extends Controller
             $randomNumber = rand(10000, 99999); // generate random 5-digit number
             $final_name3 = time().$randomNumber.'.'.$ext;
             $request->file('bercotool_3')->move(public_path('uploads/'), $final_name3);
-            
+
             $setting->bercotool_3=$final_name3;
             $setting->save();
         }
@@ -1054,7 +1054,7 @@ class GeneralSettingController extends Controller
             $randomNumber = rand(10000, 99999); // generate random 5-digit number
             $final_name4 = time().$randomNumber.'.'.$ext;
             $request->file('bercotool_4')->move(public_path('uploads/'), $final_name4);
-            
+
             $setting->bercotool_4=$final_name4;
             $setting->save();
         }
@@ -1066,7 +1066,7 @@ class GeneralSettingController extends Controller
             $randomNumber = rand(10000, 99999); // generate random 5-digit number
             $final_name5 = time().$randomNumber.'.'.$ext;
             $request->file('bercotool_5')->move(public_path('uploads/'), $final_name5);
-            
+
             $setting->bercotool_5=$final_name5;
             $setting->save();
         }
@@ -1078,7 +1078,7 @@ class GeneralSettingController extends Controller
             $randomNumber = rand(10000, 99999); // generate random 5-digit number
             $final_name6 = time().$randomNumber.'.'.$ext;
             $request->file('bercotool_6')->move(public_path('uploads/'), $final_name6);
-            
+
             $setting->bercotool_6=$final_name6;
             $setting->save();
         }
@@ -1090,7 +1090,7 @@ class GeneralSettingController extends Controller
             $randomNumber = rand(10000, 99999); // generate random 5-digit number
             $final_name7 = time().$randomNumber.'.'.$ext;
             $request->file('bercotool_7')->move(public_path('uploads/'), $final_name7);
-            
+
             $setting->bercotool_7=$final_name7;
             $setting->save();
         }
@@ -1102,7 +1102,7 @@ class GeneralSettingController extends Controller
             $randomNumber = rand(10000, 99999); // generate random 5-digit number
             $final_name8 = time().$randomNumber.'.'.$ext;
             $request->file('bercotool_8')->move(public_path('uploads/'), $final_name8);
-            
+
             $setting->bercotool_8=$final_name8;
             $setting->save();
         }
@@ -1114,7 +1114,7 @@ class GeneralSettingController extends Controller
             $randomNumber = rand(10000, 99999); // generate random 5-digit number
             $final_name9 = time().$randomNumber.'.'.$ext;
             $request->file('bercotool_9')->move(public_path('uploads/'), $final_name9);
-            
+
             $setting->bercotool_9=$final_name9;
             $setting->save();
         }
@@ -1126,7 +1126,7 @@ class GeneralSettingController extends Controller
             $randomNumber = rand(10000, 99999); // generate random 5-digit number
             $final_name10 = time().$randomNumber.'.'.$ext;
             $request->file('bercotool_10')->move(public_path('uploads/'), $final_name10);
-            
+
             $setting->bercotool_10=$final_name10;
             $setting->save();
         }
@@ -1138,7 +1138,7 @@ class GeneralSettingController extends Controller
             $randomNumber = rand(10000, 99999); // generate random 5-digit number
             $final_name10 = time().$randomNumber.'.'.$ext;
             $request->file('bercotool_11')->move(public_path('uploads/'), $final_name10);
-            
+
             $setting->bercotool_11=$final_name10;
             $setting->save();
         }
@@ -1154,6 +1154,25 @@ class GeneralSettingController extends Controller
 
         $setting->save();
         return redirect()->back()->with('success', 'Updated successfully!');
+    }
+
+    public function default_homepage_edit()
+    {
+        $general_setting = GeneralSetting::where('id',1)->first();
+        return view('admin.general_setting.default_homepage', compact('general_setting'));
+    }
+
+    public function default_homepage_update(Request $request)
+    {
+        if(env('PROJECT_MODE') == 0) {
+            return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
+        }
+
+        $data = $request->validate([
+            'default_homepage' => 'required|in:website,ecommerce',
+        ]);
+        GeneralSetting::where('id',1)->update($data);
+        return redirect()->back()->with('success', 'Default Homepage is updated successfully!');
     }
 
 

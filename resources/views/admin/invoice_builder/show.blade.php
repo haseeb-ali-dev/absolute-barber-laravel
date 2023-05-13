@@ -75,6 +75,7 @@
     table tr,
     th,
     td {
+        border: 1px solid #928f95;
         border-collapse: collapse;
         padding: 7px 8px;
     }
@@ -174,7 +175,7 @@
                 @endphp
             @endforeach
             @php
-                $total = $sub_total - $sub_total * ($tax / 100);
+                $total = $sub_total + $sub_total * ($tax / 100);
             @endphp
             <tr>
                 <td colspan="5">
@@ -186,7 +187,7 @@
                         </div>
                         <div class="total-right w-15 float-left text-bold" align="right">
                             <p>{{ round($sub_total, 2) }} $</p>
-                            <p>{{ $tax }} $</p>
+                            <p>{{ $tax }} %</p>
                             <p>{{ round($total, 2) }} $</p>
                         </div>
                         <div style="clear: both;"></div>

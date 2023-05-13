@@ -744,3 +744,9 @@ Route::resource('admin/invoice-builder', InvoiceController::class)->except(['des
 Route::get('admin/invoice-builder/delete/{id}', [InvoiceController::class, 'destroy']);
 Route::post('admin/invoice-builder/get_invoice', [InvoiceController::class, 'getInvoice'])->name('invoice-builder.get_invoice');
 Route::get('admin/invoice-builder/item/delete/{id}', [InvoiceController::class, 'deleteItem']);
+
+/* --------------------------------------- */
+/* Default Homepage - Admin */
+/* --------------------------------------- */
+Route::get('admin/setting/general/default_homepage/edit', [GeneralSettingController::class,'default_homepage_edit'])->name('admin.general_setting.default_homepage');
+Route::post('admin/setting/general/default_homepage/update', [GeneralSettingController::class,'default_homepage_update']);

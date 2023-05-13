@@ -89,6 +89,7 @@ class GeneralSetting extends Model
 
         'lpc_centered',
         'lpc_left_bg',
+        'defualt_homepage',
 
 
     ];
