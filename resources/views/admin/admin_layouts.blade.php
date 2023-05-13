@@ -19,7 +19,7 @@
           width: {{$general_settings_global->admin_logo_width}}px;
           height: {{$general_settings_global->admin_logo_height}}px;
         }
-      
+
         @media (max-width: 767px) {
           #main_logo_mobile {
             /* override width and height for mobile screens */
@@ -46,7 +46,7 @@
         @media (max-width: 767px) {
             .collapse-item{
                 font-size: 15px;
-                
+
             }
         }
 
@@ -136,7 +136,7 @@
                     $conName[1] = 'invoices';
                 }
         @endphp
-     
+
 
         @php $arr_one = array(); @endphp
         @if(session('role_id')!=1)
@@ -163,8 +163,8 @@
                 <i class="fas fa-link"></i>
                 <span id="menu_text1">Bercotools</span>
             </a>
-        </li> 
-        
+        </li>
+
         <li  class="nav-item active">
             <a class="nav-link" href="{{ route('admin.profile_change') }}">
                 <i class="fas fa-user-circle"></i>
@@ -172,7 +172,7 @@
             </a>
         </li>
         <!-- Admin Users Section -->
-   
+
         <li class="nav-item  active ">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAdminUser" aria-expanded="true" aria-controls="collapseAdminUser">
                 <i class="fas fa-credit-card"></i>
@@ -217,7 +217,7 @@
                 <i class="fas fa-photo-video"></i>
                 <span>Left Side Images</span>
             </a>
-        </li>   
+        </li>
 
         <li class="nav-item active">
             <a class="nav-link" href="{{ route('superadmin.logo') }}">
@@ -263,7 +263,7 @@
 
                     <!-- Nav Item - Alerts -->
                     <li class="nav-item dropdown no-arrow mx-1">
-                        <a class="btn btn-info btn-sm mt-3" href="{{ url('/') }}" target="_blank">
+                        <a class="btn btn-info btn-sm mt-3" href="{{ $general_settings_global->default_homepage == 'website' ? url('/') : url('/shop') }}" target="_blank">
                             Visit Website
                         </a>
                     </li>

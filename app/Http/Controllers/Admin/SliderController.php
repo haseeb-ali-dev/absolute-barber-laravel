@@ -35,7 +35,7 @@ class SliderController extends Controller
 
         $request->validate([
             'slider_type' => 'required',
-            'slider_photo' => 'required_if:slider_type,photo|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'slider_photo' => 'required_if:slider_type,photo|image|mimes:jpeg,png,jpg,gif|max:2400000',
             'slider_video' => 'required_if:slider_type,video',
             'slider_mp4' => 'required_if:slider_type,mp4|max:15360|mimes:mp4',
             'slider_color' => 'required_if:slider_type,color|max:100',
