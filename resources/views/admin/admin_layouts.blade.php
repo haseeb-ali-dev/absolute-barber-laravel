@@ -129,6 +129,12 @@
 
                     $conName[1] = 'plan_payment_history';
                 }
+
+                if(Request::path()=='invoices')
+                {
+
+                    $conName[1] = 'invoices';
+                }
         @endphp
      
 
@@ -172,7 +178,7 @@
                 <i class="fas fa-credit-card"></i>
                 <span id="menu_text3">Payments</span>
             </a>
-            <div id="collapseAdminUser" class="collapse @if($conName[1] == 'plan_payment' || $conName[1] == 'plan_payment_history') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div id="collapseAdminUser" class="collapse @if($conName[1] == 'plan_payment' ||$conName[1] == 'invoices' || $conName[1] == 'plan_payment_history') show @endif" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div style="background: #4e73df" class="py-2 collapse-inner rounded">
                     <a style="background: none; color:white;" class="collapse-item" href="{{ route('admin.plan_payment') }}">Billing</a>
                     <a style="background: none; color:white;" class="collapse-item" href="{{ route('admin.plan_payment_history') }}">Purchase History</a>

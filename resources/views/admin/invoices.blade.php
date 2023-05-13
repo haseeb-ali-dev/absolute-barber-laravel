@@ -10,16 +10,19 @@
                 <table class="table table-bordered" id="customers-table" width="100%" cellspacing="0">
                     <thead>
                     <tr>
+                        <th>Invoice ID</th>
                         <th>Transaction ID</th>
                         <th>Amount</th>
                         <th>Payment Status</th>
                         <th>Valid Till</th>
                         <th>Status</th>
+                        <th>Get Invoice</th>
                     </tr>
                     </thead>
                     <tbody>
                         @foreach($transactions as $row)
                         <tr>
+                            <td>#{{ $row->id }}</td>
                             <td>{{ $row->transaction_id }}</td>
                             <td>{{ $row->amount }}$</td>
                             <td>{{ $row->payment_status }}</td>

@@ -86,13 +86,14 @@
 </style>
 <body>
 <div class="head-title">
-    <h1 class="text-center m-0 p-0"> <img style="width: 150px;" src="{{ asset('public/uploads/'.$g_setting->logo) }}"> </h1>
+    <h1 class="text-center m-0 p-0"> <img style="width: 150px;" src="{{ asset("public/uploads/$general_settings_global->admin_logo") }}"> </h1>
 </div>
 <div style="width: 100%;" class="add-detail mt-10">
     <div class="w-50 float-left mt-10">
         <p class="m-0 pt-5 text-bold w-100">Invoice Id - <span class="gray-color">#{{$transaction->id}}</span></p>
         <p class="m-0 pt-5 text-bold w-100">trnx Id - <span class="gray-color">#{{$transaction->transaction_id}}</span></p>
         <p  class="m-0 pt-5 text-bold w-100">Transaction Date - <span class="gray-color">{{ \Carbon\Carbon::parse($transaction->valid_till)->format('d M Y') }}</span></p>
+        <p class="m-0 pt-5 text-bold w-100">trnx Status - <span class="gray-color">Paid</span></p>
     </div>
     <div style="clear: both;"></div>
 </div>
@@ -154,7 +155,7 @@
                 <div class="total-part">
                     <div class="total-left w-85 float-left" align="right">
                         <p>Sub Total</p>
-                        <p>Total Payable</p>
+                        <p>Total Paid</p>
                     </div>
                     <div class="total-right w-15 float-left text-bold" align="right">
                         <p>{{$transaction->amount}}$</p>
