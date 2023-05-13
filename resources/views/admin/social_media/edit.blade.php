@@ -22,14 +22,28 @@
                             <label for="">Existing Icon</label>
                             <div class="col-sm-5">
                                 <div class="pt_10">
-                                    <i class="{{ $social_media->social_icon }}"></i>
+                                    <i class="{{ $social_media->social_icon }}" id="social-icon-value" style="font-size: 32px;"></i>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="">Icon (Font Awesome 5 Codes) *</label>
+                            <select name="social_icon" id="social-icon" class="form-control">
+                                <option value="">Select a social icon</option>
+                                <option value="fab fa-facebook" @if($social_media->social_icon == 'fab fa-facebook') selected @endif>Facebook (fab fa-facebook)</option>
+                                <option value="fab fa-twitter" @if($social_media->social_icon == 'fab fa-twitter') selected @endif>Twitter (fab fa-twitter)</option>
+                                <option value="fab fa-instagram" @if($social_media->social_icon == 'fab fa-instagram') selected @endif>Instagram (fab fa-instagram)</option>
+                                <option value="fab fa-linkedin" @if($social_media->social_icon == 'fab fa-linkedin') selected @endif>LinkedIn (fab fa-linkedin)</option>
+                                <option value="fab fa-reddit" @if($social_media->social_icon == 'fab fa-reddit') selected @endif>Reddit (fab fa-reddit)</option>
+                                <option value="fab fa-behance" @if($social_media->social_icon == 'fab fa-behance') selected @endif>Behance (fab fa-behance)</option>
+                                <option value="fab fa-dribbble" @if($social_media->social_icon == 'fab fa-dribbble') selected @endif>Dribble (fab fa-dribbble)</option>
+                                <option value="fab fa-vk" @if($social_media->social_icon == 'fab fa-vk') selected @endif>VK (fab fa-vk)</option>
+                                <option value="fab fa-youtube" @if($social_media->social_icon == 'fab fa-youtube') selected @endif>Yoututbe (fab fa-youtube)</option>
+                            </select>
+
+                            {{-- <label for="">Icon (Font Awesome 5 Codes) *</label>
                             <input type="text" name="social_icon" class="form-control" value="{{ $social_media->social_icon }}">
-                            <div class="text-danger">Example: "fab fa-facebook-f"</div>
+                            <div class="text-danger">Example: "fab fa-facebook-f"</div> --}}
                         </div>
                         <div class="form-group">
                             <label for="">Order</label>
@@ -41,5 +55,13 @@
             </div>
         </div>
     </form>
+    <script>
+        const socialIconSelect = document.getElementById('social-icon');
+        const socialIcon = document.getElementById('social-icon-value');
+
+        socialIconSelect.addEventListener('change', () => {
+            socialIcon.className = socialIconSelect.value;
+        });
+    </script>
 
 @endsection

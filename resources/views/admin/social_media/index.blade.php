@@ -26,7 +26,7 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $row->social_url }}</td>
-                            <td><i class="{{ $row->social_icon }}"></i></td>
+                            <td><i class="{{ $row->social_icon }}" style="font-size: 20px;"></i></td>
                             <td>{{ $row->social_order }}</td>
                             <td>
                                 <a href="{{ URL::to('admin/social-media/edit/'.$row->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
