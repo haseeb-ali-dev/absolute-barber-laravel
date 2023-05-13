@@ -29,6 +29,7 @@
             ['route' => route('admin.compose_document'), 'img' => asset("public/uploads/$general_settings_global->bercotool_9"), 'icon' => 'fas fa-file'],
             ['route' => route('file-manager.index'), 'img' => asset("public/uploads/$general_settings_global->bercotool_10"), 'icon' => 'fas fa-archive'],
             ['key' => 'blogsection', 'img' => asset("public/uploads/$general_settings_global->bercotool_11"), 'name' => 'BercoBlog', 'icon' => 'fas fa-cog'],
+            ['route' => route('invoice-builder.index'), 'name' => 'Invoice Builder', 'icon' => 'fas fa-cog'],
             // ['route' => route('admin.plan_payment'), 'name' => 'My Plan & Payments', 'icon' => 'fas fa-fw fa-cog'],
         ];
         $bercoweb = [

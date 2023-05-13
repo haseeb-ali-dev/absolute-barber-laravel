@@ -49,6 +49,7 @@ use App\Http\Controllers\Admin\FaqController as FaqControllerForAdmin;
 use App\Http\Controllers\Admin\ProductController as ProductControllerForAdmin;
 use App\Http\Controllers\Admin\ProductCategoryController as ProductCategoryControllerForAdmin;
 use App\Http\Controllers\Admin\OrderController as OrderControllerForAdmin;
+use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\OrderShippingController;
 use App\Http\Controllers\Admin\RoleController;
 
@@ -736,4 +737,9 @@ Route::get('admin/signature-pad', [FileManagerController::class, 'signaturePad']
 Route::get('admin/take-signature/{id}', [FileManagerController::class, 'takeSignature'])->name('signature.take');
 Route::put('admin/save-signature/{id}', [FileManagerController::class, 'saveSignature'])->name('signature.save');
 
-
+/* --------------------------------------- */
+/* Invoice Builder - Admin */
+/* --------------------------------------- */
+Route::resource('admin/invoice-builder', InvoiceController::class)->except(['destroy']);
+Route::get('admin/invoice-builder/delete/{id}', [InvoiceController::class, 'destroy']);
+Route::get('admin/invoice-builder/item/delete/{id}', [InvoiceController::class, 'deleteItem']);
