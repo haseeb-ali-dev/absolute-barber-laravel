@@ -55,7 +55,7 @@
             ['route' => route('admin.email_template.index'), 'name' => 'Email Template', 'icon' => 'fas fa-envelope'],
             ['route' => route('admin.social_media.index'), 'name' => 'Social Media', 'icon' => 'fas fa-basketball-ball'],
             ['route' => route('admin.messages.index'), 'name' => 'Messages', 'icon' => 'fab fa-facebook-messenger'],
-            ['route' => route('admin.general_setting.default_homepage'), 'name' => 'Default Homepage', 'icon' => 'fab fa-facebook-messenger'],
+            // ['route' => route('admin.general_setting.default_homepage'), 'name' => 'Default Homepage', 'icon' => 'fab fa-facebook-messenger'],
         ];
         $bercostore = [
             ['route' => route('admin.product.index'), 'name' => 'Product', 'icon' => 'fas fa-shopping-cart'],

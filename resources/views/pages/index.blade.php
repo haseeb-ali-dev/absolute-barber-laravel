@@ -22,7 +22,7 @@
         <div class="slider-item">
             <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, {{$row->overlay}});"></div>
 
-            <iframe class="slider-item_video" width="100%" height="800" src="{{ $row->slider_video }}?autoplay=1&mute=1&loop=1" frameborder="0" autoplay allowfullscreen></iframe>
+            <iframe class="slider-item_video" width="100%" height="800" src="{{ $row->slider_video }}?autoplay=1&mute=1&loop=1&rel=0" frameborder="0" autoplay allowfullscreen></iframe>
 
             {{-- <video class="slider-item_video" width="100%" height="auto" playsinline="playsinline" muted="muted"
                 preload="yes" autoplay="autoplay" loop="loop" id="vjs_video_739_html5_api" class="video-js"
