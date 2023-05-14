@@ -169,8 +169,10 @@
         const keys = ['dashboard', 'bercoweb', 'bercostore', 'subscriber', 'administration', 'general', 'page', 'blog', 'career','blogsection']
         function toggleSection(key)
         {
-           $(`#${key}`).show()
-           keys.filter(elm => elm != key).map(el => $(`#${el}`).hide())
+            const audio = new Audio("{{ asset('public/backend/ping-1.mp3') }}")
+            audio.play()
+            $(`#${key}`).show()
+            keys.filter(elm => elm != key).map(el => $(`#${el}`).hide())
         }
     </script>
 
