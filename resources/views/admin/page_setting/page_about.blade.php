@@ -12,17 +12,20 @@
                 </div>
                 <div class="form-group">
                     <label for="">Detail</label>
-                    <textarea name="detail" class="form-control editor" cols="30" rows="10">{{ $page_about->detail }}</textarea>
+                    {{-- <textarea name="detail" class="form-control editor" cols="30" rows="10">{{ $page_about->detail }}</textarea> --}}
+                    <textarea name="detail" class="form-control" id="detail_editor" cols="30" rows="10">{{ $page_about->detail }}</textarea>
                 </div>
                 <div class="form-group">
                     <label for="">Status</label>
                     <div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="status" id="rr1" value="Show" @if($page_about->status == 'Show') checked @endif>
+                            <input class="form-check-input" type="radio" name="status" id="rr1" value="Show"
+                                @if ($page_about->status == 'Show') checked @endif>
                             <label class="form-check-label font-weight-normal" for="rr1">Show</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="status" id="rr2" value="Hide" @if($page_about->status == 'Hide') checked @endif>
+                            <input class="form-check-input" type="radio" name="status" id="rr2" value="Hide"
+                                @if ($page_about->status == 'Hide') checked @endif>
                             <label class="form-check-label font-weight-normal" for="rr2">Hide</label>
                         </div>
                     </div>
@@ -44,4 +47,7 @@
             </div>
         </div>
     </form>
+    <script>
+        var editor1 = new RichTextEditor("#detail_editor");
+    </script>
 @endsection
