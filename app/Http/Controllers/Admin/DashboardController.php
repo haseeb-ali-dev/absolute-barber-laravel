@@ -23,18 +23,6 @@ class DashboardController extends Controller
     }
     public function tools()
     {
-
-
-
-// $html = '<h1>Hello Buddy!</h1><p>This is a sample PDF generated from Master Script.</p>';
-
-// $pdf = PDF::loadHTML($html);
-// return $pdf->download('invoice.pdf');
-
-        // $currentDate = Carbon::now()->toDateString();
-        // dd($currentDate);
-        // $newDate = Carbon::parse($currentDate)->addDays(30)->toDateString();
-        // dd($newDate);
         $transactions=AdminMonthlyPayment::get()->last();
         
         $storedDate = Carbon::parse($transactions->valid_till); // assuming the date is stored in a column called date_column

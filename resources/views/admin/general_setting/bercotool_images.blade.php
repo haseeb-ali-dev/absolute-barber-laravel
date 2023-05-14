@@ -132,6 +132,13 @@
 
                 <div class="col-md-2" ></div>
                 
+                <div class="form-group d-flex flex-column col-md-2">
+                    <input type="file" name="bercotool_12" accept="image/*">
+                    <span>BercoInvoice</span>
+                </div>
+                <div class="col-md-2" >
+                    <img style="width:230px; height:100px;" src="{{ asset("public/uploads/$general_settings_global->bercotool_12") }}" alt="">
+                </div>
                 
             </div>
 

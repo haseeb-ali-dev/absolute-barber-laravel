@@ -1008,6 +1008,7 @@ class GeneralSettingController extends Controller
             'bercotool_9' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
             'bercotool_10' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
             'bercotool_11' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
+            'bercotool_12' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
 
         ]);
 
@@ -1140,6 +1141,18 @@ class GeneralSettingController extends Controller
             $request->file('bercotool_11')->move(public_path('uploads/'), $final_name10);
 
             $setting->bercotool_11=$final_name10;
+            $setting->save();
+        }
+
+        if (isset($request['bercotool_12']))
+        {
+            $setting = GeneralSetting::where('id',1)->first();
+            $ext = $request->file('bercotool_12')->extension();
+            $randomNumber = rand(10000, 99999); // generate random 5-digit number
+            $final_name10 = time().$randomNumber.'.'.$ext;
+            $request->file('bercotool_12')->move(public_path('uploads/'), $final_name10);
+
+            $setting->bercotool_12=$final_name10;
             $setting->save();
         }
 
