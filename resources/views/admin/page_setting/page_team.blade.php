@@ -12,7 +12,8 @@
                 </div>
                 <div class="form-group">
                     <label for="">Detail</label>
-                    <textarea name="detail" class="form-control editor" cols="30" rows="10">{{ $page_team->detail }}</textarea>
+                    <textarea name="detail" class="form-control input_editor" cols="30" rows="10">{{ $page_team->detail }}</textarea>
+                    {{-- <textarea name="detail" class="form-control editor" cols="30" rows="10">{{ $page_team->detail }}</textarea> --}}
                 </div>
                 <div class="form-group">
                     <label for="">Status</label>

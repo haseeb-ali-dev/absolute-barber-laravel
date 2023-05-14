@@ -13,7 +13,7 @@
                 <div class="form-group">
                     <label for="">Detail</label>
                     {{-- <textarea name="detail" class="form-control editor" cols="30" rows="10">{{ $page_about->detail }}</textarea> --}}
-                    <textarea name="detail" class="form-control" id="detail_editor" cols="30" rows="10">{{ $page_about->detail }}</textarea>
+                    <textarea name="detail" class="form-control input_editor" cols="30" rows="10">{{ $page_about->detail }}</textarea>
                 </div>
                 <div class="form-group">
                     <label for="">Status</label>
@@ -47,7 +47,4 @@
             </div>
         </div>
     </form>
-    <script>
-        var editor1 = new RichTextEditor("#detail_editor");
-    </script>
 @endsection

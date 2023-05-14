@@ -40,3 +40,7 @@
         toastr.success('{{ session()->get('success') }}');
     </script>
 @endif
+
+<script>
+    var editor1 = new RichTextEditor(".input_editor");
+</script>
