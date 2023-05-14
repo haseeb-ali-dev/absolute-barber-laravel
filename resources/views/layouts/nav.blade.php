@@ -29,7 +29,7 @@ $menus = \App\Models\Admin\Menu::whereNull('parent_id')->get();
 
                         @if($row->menu_status == 'Show')
 
-                        
+
                         @if($row->menu_name=='Home')
                             <li class="nav-item" style="margin-top: -1px;">
                         @else
@@ -45,15 +45,15 @@ $menus = \App\Models\Admin\Menu::whereNull('parent_id')->get();
 
                                 @foreach ($row->sub_menu as $sub)
 
-                                
+
 
                                 @endforeach
 
                             </ul>
 
                             @else
-                                    @if($row->menu_name=='Home')
-                                        <a style="color: #{{$settings['items_color']}}; text-align:right; border-top:none;" href="{{ route($row->route) }}" class="nav-link">{{ $row->menu_name }}</a>
+                                    @if($row->menu_key=='Home')
+                                        <a style="color: #{{$settings['items_color']}}; text-align:right; border-top:none;" href="{{ route($row->route, ['menu' => 1]) }}" class="nav-link">{{ $row->menu_name }}</a>
                                     @else
                                         <a style="color: #{{$settings['items_color']}}; text-align:right;" href="{{ route($row->route) }}" class="nav-link">{{ $row->menu_name }}</a>
                                     @endif

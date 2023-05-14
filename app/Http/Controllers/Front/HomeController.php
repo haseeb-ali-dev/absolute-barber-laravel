@@ -7,7 +7,7 @@ use DB;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
     	$sliders = DB::table('sliders')->get();
     	$page_home = DB::table('page_home_items')->where('id',1)->first();
@@ -18,7 +18,21 @@ class HomeController extends Controller
     	$team_members = DB::table('team_members')->get();
     	$blogs = DB::table('blogs')->get();
 		$theme_color = DB::table('general_settings')->first();
-		
-        return view('pages.index', compact('sliders','page_home','why_choose_items','services', 'testimonials','projects','team_members','blogs','theme_color'));
+
+        if(isset($request['menu']))
+        {
+            return view('pages.index', compact('sliders','page_home','why_choose_items','services', 'testimonials','projects','team_members','blogs','theme_color'));
+        }
+        else
+        {
+            if($theme_color->default_homepage == 'website')
+            {
+                return view('pages.index', compact('sliders','page_home','why_choose_items','services', 'testimonials','projects','team_members','blogs','theme_color'));
+            }
+            else
+            {
+                return redirect()->route('front.shop');
+            }
+        }
     }
 }
