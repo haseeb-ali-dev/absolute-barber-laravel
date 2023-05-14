@@ -30,8 +30,8 @@
                                 <td>{{ $row->number }}</td>
                                 <td>
                                     <div class="d-flex flex-column">
-                                        <span> {{ $row?->client_name ?? 'No name' }}</span>
-                                        <span> {{ $row?->client_email ?? 'N/A' }}</span>
+                                        <span> {{ $row->client_name ?? 'No name' }}</span>
+                                        <span> {{ $row->client_email ?? 'N/A' }}</span>
                                     </div>
                                 </td>
                                 <td><span
