@@ -750,3 +750,16 @@ Route::get('admin/invoice-builder/item/delete/{id}', [InvoiceController::class, 
 /* --------------------------------------- */
 Route::get('admin/setting/general/default_homepage/edit', [GeneralSettingController::class,'default_homepage_edit'])->name('admin.general_setting.default_homepage');
 Route::post('admin/setting/general/default_homepage/update', [GeneralSettingController::class,'default_homepage_update']);
+
+
+/* --------------------------------------- */
+/* Stripe Keys - Admin */
+/* --------------------------------------- */
+Route::get('admin/setting/general/stripe_keys/edit', [GeneralSettingController::class,'stripe_keys_edit'])->name('admin.general_setting.stripe_keys');
+Route::post('admin/setting/general/stripe_keys/update', [GeneralSettingController::class,'stripe_keys_update']);
+
+/* --------------------------------------- */
+/* Paypal Keys - Admin */
+/* --------------------------------------- */
+Route::get('admin/setting/general/paypal_keys/edit', [GeneralSettingController::class,'paypal_keys_edit'])->name('admin.general_setting.paypal_keys');
+Route::post('admin/setting/general/paypal_keys/update', [GeneralSettingController::class,'paypal_keys_update']);

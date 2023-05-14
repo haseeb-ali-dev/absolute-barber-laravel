@@ -1188,6 +1188,59 @@ class GeneralSettingController extends Controller
         return redirect()->back()->with('success', 'Default Homepage is updated successfully!');
     }
 
+    public function stripe_keys_edit()
+    {
+        return view('admin.general_setting.stripe_keys');
+    }
+
+    public function stripe_keys_update(Request $request)
+    {
+        if(env('PROJECT_MODE') == 0) {
+            return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
+        }
+        $data = $request->validate([
+            'public_key' => 'required|alpha_dash',
+            'secret_key' => 'required|alpha_dash',
+        ]);
+        $this->setEnvironmentValue('ADMIN_STRIPE_PUBLIC_KEY', $data['public_key']);
+        $this->setEnvironmentValue('ADMIN_STRIPE_SECRET_KEY', $data['secret_key']);
+        return redirect()->back()->with('success', 'Stripe keys are saved successfully!');
+    }
+    public function paypal_keys_edit()
+    {
+        return view('admin.general_setting.paypal_keys');
+    }
+
+    public function paypal_keys_update(Request $request)
+    {
+        if(env('PROJECT_MODE') == 0) {
+            return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
+        }
+        $data = $request->validate([
+            'env_type' => 'required|in:production,sandbox',
+            'client_id' => 'required|alpha_dash',
+            'secret_key' => 'required|alpha_dash',
+        ]);
+        $this->setEnvironmentValue('PAYPAL_ENV_TYPE', $data['env_type']);
+        $this->setEnvironmentValue('PAYPAL_CLIENT_ID', $data['client_id']);
+        $this->setEnvironmentValue('PAYPAL_SECRET_KEY', $data['secret_key']);
+        return redirect()->back()->with('success', 'Paypal keys are saved successfully!');
+    }
+
+    public function setEnvironmentValue($envKey, $envValue)
+    {
+        $envFile = app()->environmentFilePath();
+        $str = file_get_contents($envFile);
+
+        $oldValue = env($envKey);
+
+        $str = str_replace("{$envKey}={$oldValue}", "{$envKey}={$envValue}", $str);
+
+        $fp = fopen($envFile, 'w');
+        fwrite($fp, $str);
+        fclose($fp);
+    }
+
 
 
 }
