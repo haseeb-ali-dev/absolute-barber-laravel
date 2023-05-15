@@ -122,7 +122,7 @@
 <body>
     <div class="head-title">
         <h1 class="text-center m-0 p-0"> <img style="width: 150px;"
-                src="{{ asset("public/uploads/$g_setting->admin_logo") }}"> </h1>
+                src="{{ asset("public/uploads/$general_settings_global->logo") }}"> </h1>
     </div>
     <hr class="w-100" style="color:#d6d4d8;margin-top:15px;margin-bottom:0px;">
     <div class="wrapper">
