@@ -135,6 +135,13 @@
             <div class="col-xl-12 col-md-12 mb-2">
                 <h1 class="h3 mb-3 text-gray-800">{{ $section['title'] }}</h1>
             </div>
+            @if (isset($section['back']))
+                <div class="col-xl-12 col-md-12 mb-5">
+                    <a class="btn btn-success mt-3" href="javascript:;" onclick="toggleSection('{{ $section['back'] }}')">
+                        <i class="fa fa-arrow-left mr-3"></i>Back to {{ ucwords($section['back']) }}
+                    </a>
+                </div>
+            @endif
             @foreach ($section['items'] as $item)
                 <div class="col-xl-3 col-md-6 mb-4" @if(isset($item['key'])) onclick="toggleSection('{{ $item['key'] }}')" @endif>
                     <div class="card border-left-primary shadow h-100 py-2">
@@ -157,13 +164,6 @@
                     </div>
                 </div>
             @endforeach
-            @if (isset($section['back']))
-                <div class="col-xl-12 col-md-12 mb-5">
-                    <a class="btn btn-success mt-3" href="javascript:;" onclick="toggleSection('{{ $section['back'] }}')">
-                        <i class="fa fa-arrow-left mr-3"></i>Back to {{ ucwords($section['back']) }}
-                    </a>
-                </div>
-            @endif
         </div>
     @endforeach
 
