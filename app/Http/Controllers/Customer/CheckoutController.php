@@ -201,7 +201,7 @@ class CheckoutController extends Controller
             $final_price =session()->get('subtotal') - session()->get('coupon_amount');
         }
 
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+        \Stripe\Stripe::setApiKey(env('ADMIN_STRIPE_SECRET_KEY'));
 
         if(isset($_POST['stripeToken']))
         {

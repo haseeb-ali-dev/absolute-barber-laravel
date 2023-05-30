@@ -68,7 +68,7 @@
                             @csrf
                             <script
                                 src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                data-key="{{ env('STRIPE_PUBLIC_KEY') }}"
+                                data-key="{{ env('ADMIN_STRIPE_PUBLIC_KEY') }}"
                                 data-amount="{{ $cents }}"
                                 data-name="{{ env('APP_NAME') }}"
                                 data-description=""
