@@ -16,6 +16,9 @@
         </a><br>
         <a href="{{ URL::to('admin/landing_contacts/delete') }}" class="btn btn-danger btn-sm btn-block" onClick="return confirm('You are deleting all Contacts. Are you sure?');">Delete All Contacts</a>
         <div class="card-body">
+            <button class="btn btn-info rounded-pill float-right mb-2" onclick="exportToExcel('customers-table')">
+                <i class="fas fa-file-export ml-1 mr-2"></i>Export to Excel
+            </button>
             <div class="table-responsive">
                 <table class="table table-bordered" id="customers-table" width="100%" cellspacing="0">
                     <thead>
