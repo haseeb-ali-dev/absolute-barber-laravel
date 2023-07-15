@@ -52,7 +52,7 @@
 
     <!--Email Modal -->
     <div class="modal fade" id="send_email" tabindex="-1" role="dialog" aria-labelledby="send_emailLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-xl" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="send_emailLabel">Write Email</h5>
@@ -80,7 +80,7 @@
     @if ($smsFlag)
       <!--SMS Modal -->
     <div class="modal fade" id="send_sms" tabindex="-1" role="dialog" aria-labelledby="send_smsLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-xl" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="send_smsLabel">Write SMS</h5>
@@ -109,7 +109,7 @@
     @if ($whatsappFlag)
       <!--Whatsapp Modal -->
     <div class="modal fade" id="send_whatsapp" tabindex="-1" role="dialog" aria-labelledby="send_whatsappLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-xl" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="send_whatsappLabel">Write Whatsapp Message</h5>
