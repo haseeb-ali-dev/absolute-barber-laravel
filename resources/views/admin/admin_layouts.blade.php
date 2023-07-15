@@ -187,6 +187,13 @@
             </div>
         </li>
 
+        <li class="nav-item active">
+            <a class="nav-link" href="{{ url('/clear-cache') }}">
+                <i class="fas fa-circle-notch"></i>
+                <span>Clear Cache</span>
+            </a>
+        </li>
+
 
         <!-- Divider -->
         <hr class="sidebar-divider">
@@ -238,6 +245,13 @@
             <a class="nav-link" href="{{ route('superadmin.bercotool_images') }}">
                 <i class="fas fa-photo-video"></i>
                 <span>BercoTools Images</span>
+            </a>
+        </li>
+
+        <li class="nav-item active">
+            <a class="nav-link" href="{{ url('/clear-cache') }}">
+                <i class="fas fa-circle-notch"></i>
+                <span>Clear Cache</span>
             </a>
         </li>
 

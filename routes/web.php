@@ -763,3 +763,11 @@ Route::post('admin/setting/general/stripe_keys/update', [GeneralSettingControlle
 /* --------------------------------------- */
 Route::get('admin/setting/general/paypal_keys/edit', [GeneralSettingController::class,'paypal_keys_edit'])->name('admin.general_setting.paypal_keys');
 Route::post('admin/setting/general/paypal_keys/update', [GeneralSettingController::class,'paypal_keys_update']);
+
+/* --------------------------------------- */
+/* Clear Cache - Admin */
+/* --------------------------------------- */
+Route::get('/clear-cache', function ()  {
+    Artisan::call('cache:clear');
+    return back()->with('success', 'Cache Cleared');
+});
