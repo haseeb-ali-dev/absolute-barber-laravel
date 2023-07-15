@@ -174,7 +174,7 @@ margin-top: 20px;
                 <div  class="col-md-6 pt-5 right-bg">
                     <div class="d-flex flex-column  align-items-center left-margin">
                         {{-- if not center  --}}
-                       
+
                         @if ($setting->lpc_centered=='0')
                             <div class="d-flex flex-column align-items-start" style="width:550px;">
                                 <p class="heading font-big title_dynamic">{{$setting->lpc_title}}</p>
@@ -205,7 +205,12 @@ margin-top: 20px;
                                     </div>
                                     <div class="form-group">
                                         <label class="form_label" for="phone">Phone number</label>
-                                        <input required type="tel" name="phone" class="form-control" id="phone" placeholder="Enter your phone number">
+                                        <div class="d-flex">
+                                            <select id="countryCodes" class="form-control" name="code">
+                                                <option value="">Select Country Code</option>
+                                            </select>
+                                            <input required type="tel" name="phone" class="form-control" id="phone" placeholder="Enter your phone number">
+                                        </div>
                                     </div>
                                     <button style="width: 100%; margin-top: 10px;" type="submit" class="btn btn-custom">Submit</button>
                                 </form>
@@ -232,6 +237,35 @@ margin-top: 20px;
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script>
+        var selectElement = document.getElementById("countryCodes");
+        fetch("https://restcountries.com/v3.1/all")
+        .then(response => response.json())
+        .then(data => {
+            data.sort((a,b) => {
+                let fa = a.name.common.toLowerCase(),
+                    fb = b.name.common.toLowerCase();
+                if (fa < fb) {
+                    return -1;
+                }
+                if (fa > fb) {
+                    return 1;
+                }
+                return 0;
+            }).forEach(country => {
+                if (country.idd.root) {
+                    var countryCode = `${country.idd.root}${country.idd.suffixes ? country.idd.suffixes[country.idd.suffixes.length - 1] : ''}`;
+                    var countryName = country.name.common;
+                    var countryFlag = country.flag;
+                    var option = document.createElement("option");
+                    option.value = countryCode;
+                    option.text = `${countryName} ${countryFlag} (${countryCode})`;
+                    selectElement.appendChild(option);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
 
@@ -444,7 +478,7 @@ margin-top: 20px;
                 <div  class="col-md-6 pt-5 right-bg">
                     <div class="d-flex flex-column  align-items-center left-margin">
                         {{-- if not center  --}}
-                       
+
                         @if ($setting->lpc_centered=='0')
                             <div class="d-flex flex-column align-items-start" style="width:550px;">
                                 <p class="heading font-big title_dynamic">{{$setting->lpc_title}}</p>
@@ -475,7 +509,12 @@ margin-top: 20px;
                                     </div>
                                     <div class="form-group">
                                         <label class="form_label" for="phone">Phone number</label>
-                                        <input required type="tel" name="phone" class="form-control" id="phone" placeholder="Enter your phone number">
+                                        <div class="d-flex">
+                                            <select id="countryCodes" class="form-control"  name="code">
+                                                <option value="">Select Country Code</option>
+                                            </select>
+                                            <input required type="tel" name="phone" class="form-control ml-1" id="phone" placeholder="Enter your phone number">
+                                        </div>
                                     </div>
                                     <button style="width: 100%; margin-top: 10px;" type="submit" class="btn btn-custom" >Submit</button>
                                 </form>
@@ -495,13 +534,42 @@ margin-top: 20px;
               </div>
             </div>
           </footer>
-          
+
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script>
+        var selectElement = document.getElementById("countryCodes");
+        fetch("https://restcountries.com/v3.1/all")
+        .then(response => response.json())
+        .then(data => {
+            data.sort((a,b) => {
+                let fa = a.name.common.toLowerCase(),
+                    fb = b.name.common.toLowerCase();
+                if (fa < fb) {
+                    return -1;
+                }
+                if (fa > fb) {
+                    return 1;
+                }
+                return 0;
+            }).forEach(country => {
+                if (country.idd.root) {
+                    var countryCode = `${country.idd.root}${country.idd.suffixes ? country.idd.suffixes[country.idd.suffixes.length - 1] : ''}`;
+                    var countryName = country.name.common;
+                    var countryFlag = country.flag;
+                    var option = document.createElement("option");
+                    option.value = countryCode;
+                    option.text = `${countryName} ${countryFlag} (${countryCode})`;
+                    selectElement.appendChild(option);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
 

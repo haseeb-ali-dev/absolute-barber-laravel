@@ -887,8 +887,12 @@ class GeneralSettingController extends Controller
         $data = $request->validate([
             'email' => 'required|email',
             'phone' => 'required|max:25',
+            'code' => 'required',
             'name' => 'required|max:224',
         ]);
+
+        $data['phone'] = $data['code'].$data['phone'];
+        unset($data['code']);
 
         DB::table('landing_page_contacts')->insert($data);
 
