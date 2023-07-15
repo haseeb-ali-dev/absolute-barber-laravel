@@ -22,16 +22,16 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <ul class="nav nav-pills nav-fill mb-3" id="pills-tab" role="tablist">
+            <ul class="nav nav-pills nav-fill mb-5" id="pills-tab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
-                        aria-controls="pills-home" aria-selected="true">All</a>
+                    <a class="nav-link h4 active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
+                        aria-controls="pills-home" aria-selected="true" style="border-radius: 0 !important;">All</a>
                 </li>
 
                 @foreach ($categories as $row)
                 <li class="nav-item">
-                    <a class="nav-link" id="category-tab-{{$row->id}}" data-toggle="pill" href="#category-{{$row->id}}"
-                        role="tab" aria-controls="pills-profile" aria-selected="false">{{$row->name}}</a>
+                    <a class="nav-link h4" id="category-tab-{{$row->id}}" data-toggle="pill" href="#category-{{$row->id}}"
+                        role="tab" aria-controls="pills-profile" aria-selected="false" style="border-radius: 0 !important;">{{$row->name}}</a>
                 </li>
                 @endforeach
 
