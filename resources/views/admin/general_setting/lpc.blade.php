@@ -365,7 +365,10 @@
                 <button type="submit" class="btn btn-success">Update Settings</button>
                 <br>
                 <br>
-                <br>
+
+                <div class="container-fluid p-1">
+                    <img src="{{ asset('public/frontend/images/dummy-landing-page.jpg') }}" alt="Dummy Landing Image" class="w-100">
+                </div>
             </div>
         </div>
     </form>
