@@ -167,4 +167,24 @@ class CustomerController extends Controller
         return Redirect()->back()->with('success', 'All Contacts deleted successfully!');
     }
 
+    public function updateLandingPageContact(Request $request, $id)
+    {
+        $data = $request->validate([
+            'email' => 'required|email',
+            'phone' => 'required|max:25',
+            'name' => 'required|max:224',
+        ]);
+
+        DB::table('landing_page_contacts')->where('id', $id)->update($data);
+
+        return back()->with('success', 'Contact updated successfully');
+    }
+
+    public function deleteLandingPageContact($id)
+    {
+        DB::table('landing_page_contacts')->where('id', $id)->delete();
+
+        return back()->with('success', 'Contact deleted successfully');
+    }
+
 }

@@ -674,6 +674,8 @@ Route::post('admin/customer/send-message', [CustomerController::class,'send_mess
 Route::get('compose_document', [CustomerController::class,'compose_document'])->name('admin.compose_document');
 Route::post('save/compose_document', [CustomerController::class,'save_compose_document'])->name('admin.compose_document.save');
 Route::get('delete/compose_document/{id}', [CustomerController::class,'delete_compose_document'])->name('admin.compose_document.delete');
+Route::put('landing_page_messages/contact/{id}', [CustomerController::class,'updateLandingPageContact']);
+Route::delete('landing_page_messages/contact/{id}/delete', [CustomerController::class,'deleteLandingPageContact']);
 
 /* --------------------------------------- */
 /* Footer Columns - Admin */
