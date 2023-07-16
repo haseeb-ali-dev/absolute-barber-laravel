@@ -73,7 +73,9 @@ class RoleController extends Controller
         $data['token'] = '';
 
         $admin->fill($data)->save();
-        return redirect()->route('admin.role.user')->with('success', 'Admin User is added successfully!');
+        return (isset($request->from) && $request->from == 'website')
+            ? back()->with('success', 'Employee registered successfully')
+            : redirect()->route('admin.role.user')->with('success', 'Admin User is added successfully!');
     }
 
 

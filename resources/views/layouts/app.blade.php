@@ -14,7 +14,7 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
     @php
     $url = Request::path();
     $conName = explode('/',$url);
-    
+
     if(!isset($conName[1]))
     {
         $conName[1] = '';
@@ -53,7 +53,7 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
         <title>{{ $item_row->seo_title }}</title>
     @endif
 
-   
+
 
     @if($conName[0] == 'shop')
         @php
@@ -79,7 +79,7 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
         <title>{{ $item_row->seo_title }}</title>
     @endif
 
-  
+
 
     @if($conName[0] == 'category')
         @php
@@ -239,7 +239,7 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
         <title>{{ $item_row->seo_title }}</title>
     @endif
 
-    @if($conName[0] == 'customer' && $conName[1] == 'register')
+    @if(in_array($conName[0], ['customer', 'employee']) && $conName[1] == 'register')
         @php
             $item_row = DB::table('page_other_items')->where('id',5)->first();
         @endphp
@@ -389,14 +389,14 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
             background: transparent!important;
             border-color: #fff!important;
         }
-        
-        
+
+
         .codeless-add-purchase-button {
     position: fixed;
     bottom: 24px;
     right: 20px;
     height: 70px;
-    border: none; 
+    border: none;
     -webkit-border-radius: 100%;
     border-radius: 100%;
     color: #fff;
@@ -529,7 +529,7 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
 @endif
 
 @if (Request::getHost()!='prismafreight.com')
-    
+
 
 <div class="top">
     <div class="container">
@@ -589,6 +589,10 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
                                 </li>
                                 @endif
 
+                                <li class="registration_top_menu">
+                                    <a href="{{ route('employee.registration') }}">Register as Employee</a>
+                                </li>
+
                             @endif
 
                             @if(session()->get('customer_id'))
@@ -627,7 +631,7 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
 <div class="footer-area" style="background-color: black;">
     <div class="container">
         <div class="row">
-            
+
             <div class="col-lg-8 col-md-6 col-sm-6">
                 <div class="footer-item footer-contact">
                     <h2>{{ $g_setting->footer_column3_heading }}</h2>

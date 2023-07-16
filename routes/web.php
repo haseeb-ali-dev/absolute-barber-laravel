@@ -154,7 +154,7 @@ Route::get('customer/payment', [CheckoutController::class,'payment'])->name('cus
 Route::post('customer/payment/stripe', [CheckoutController::class,'stripe'])->name('customer.stripe');
 Route::post('customer/payment/stripe1', [CheckoutController::class,'stripe1'])->name('customer.stripe1');
 Route::get('customer/execute-payment', [CheckoutController::class,'paypal']);
-
+Route::get('employee/register', [RegistrationController::class,'registerEmployee'])->name('employee.registration');
 
 /* --------------------------------------- */
 /* Admin Login and profile management */

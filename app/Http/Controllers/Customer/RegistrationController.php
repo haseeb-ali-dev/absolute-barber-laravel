@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Mail\RegistrationEmailToCustomer;
+use App\Models\Admin\Role;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Hash;
@@ -23,7 +24,7 @@ class RegistrationController extends Controller
         if(env('PROJECT_MODE') == 0) {
             return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
         }
-        
+
         $g_setting = DB::table('general_settings')->where('id', 1)->first();
         $token = hash('sha256',time());
 
@@ -102,6 +103,21 @@ class RegistrationController extends Controller
         Customer::where('customer_email',$email_from_url)->update($data);
 
         return redirect()->route('customer.login')->with('success', 'Registration is completed. You can now login.');
+    }
+
+    public function registerEmployee()
+    {
+        $g_setting = DB::table('general_settings')->where('id', 1)->first();
+
+        $query = Role::where('role_name', 'Employee');
+        if ($query->exists()) {
+            $role = $query->first()->id;
+        } else {
+            $newRole = Role::create(['role_name' => 'Employee']);
+            $role = $newRole->id;
+        }
+        
+    	return view('pages.employee_register', compact('g_setting', 'role'));
     }
 
 }
