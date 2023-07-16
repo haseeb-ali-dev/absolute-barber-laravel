@@ -16,4 +16,9 @@ class Admin extends Model
         'is_super'
     ];
 
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
 }

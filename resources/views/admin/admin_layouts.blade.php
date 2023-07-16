@@ -173,6 +173,7 @@
         </li>
         <!-- Admin Users Section -->
 
+        @if (session('type') !== 'employee')
         <li class="nav-item  active ">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAdminUser" aria-expanded="true" aria-controls="collapseAdminUser">
                 <i class="fas fa-credit-card"></i>
@@ -186,6 +187,7 @@
                 </div>
             </div>
         </li>
+        @endif
 
         <li class="nav-item active">
             <a class="nav-link" href="{{ url('/clear-cache') }}">
