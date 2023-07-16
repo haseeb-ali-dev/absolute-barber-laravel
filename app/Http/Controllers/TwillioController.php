@@ -172,8 +172,12 @@ class TwillioController extends Controller
                 return back()->with('error', 'No customer selected to send message!');
             } else {
 
-
-                $customers = ExcelContact::whereIn('id', $customersIds)->get();
+                $customers = [];
+                if (isset($request->from) && $request->from == 'contact_us') {
+                    $customers = DB::table('messages')->whereIn('id', $customersIds)->get();
+                } else {
+                    $customers = ExcelContact::whereIn('id', $customersIds)->get();
+                }
 
                 $message1 = $request->message;
                 foreach($customers as $row)
@@ -344,8 +348,13 @@ class TwillioController extends Controller
                 return back()->with('error', 'No customer selected to send message!');
             } else {
 
+                $customers = [];
+                if (isset($request->from) && $request->from == 'contact_us') {
+                    $customers = DB::table('messages')->whereIn('id', $customersIds)->get();
+                } else {
+                    $customers = ExcelContact::whereIn('id', $customersIds)->get();
+                }
 
-                $customers = ExcelContact::whereIn('id', $customersIds)->get();
                 $message1 = $request->message;
                 foreach($customers as $row)
                 {
