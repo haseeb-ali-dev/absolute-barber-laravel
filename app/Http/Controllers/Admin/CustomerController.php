@@ -177,14 +177,38 @@ class CustomerController extends Controller
 
         DB::table('landing_page_contacts')->where('id', $id)->update($data);
 
-        return back()->with('success', 'Contact updated successfully');
+        return back()->with('success', 'Landing Page Contact updated successfully');
     }
 
     public function deleteLandingPageContact($id)
     {
         DB::table('landing_page_contacts')->where('id', $id)->delete();
 
-        return back()->with('success', 'Contact deleted successfully');
+        return back()->with('success', 'Landing Page Contact deleted successfully');
+    }
+
+    public function updateExcelContact(Request $request, $id)
+    {
+        $data = $request->validate([
+            'email' => 'required|email',
+            'phone' => 'required|max:25',
+            'name' => 'required|max:224',
+        ]);
+
+        $contact = ExcelContact::find($id);
+        $contact->name = $data['name'];
+        $contact->email = $data['email'];
+        $contact->phone = $data['phone'];
+        $contact->save();
+
+        return back()->with('success', 'Excel Contact updated successfully');
+    }
+
+    public function deleteExcelContact($id)
+    {
+        ExcelContact::find($id)->delete();
+
+        return back()->with('success', 'Excel Contact deleted successfully');
     }
 
 }

@@ -58,6 +58,7 @@
                         <th>Customer Name</th>
                         <th>Customer Email</th>
                         <th>Customer Phone</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -71,6 +72,23 @@
                             <td>{{ $row->name }}</td>
                             <td>{{ $row->email }}</td>
                             <td>{{ $row->phone }}</td>
+                            <td>
+                                <div class="d-flex">
+                                     <button class="btn btn-sm text-success py-0 edit-contact-btn"
+                                         data-url="{{ url('excel_contact/'. $row->id) }}"
+                                         data-name="{{ $row->name }}" data-email="{{ $row->email }}" data-phone="{{ $row->phone }}">
+                                         <i class="fas fa-pencil-alt"></i> Edit
+                                     </button>
+                                     <form action="{{ url('excel_contact/'. $row->id) }}" method="post">
+                                         @csrf
+                                         @method('DELETE')
+                                         <button class="btn btn-sm text-danger py-0" type="button"
+                                             onclick="if(confirm('Are you sure') == true){$(form).submit()}">
+                                             <i class="far fa-trash-alt"></i> Delete
+                                         </button>
+                                     </form>
+                                 </div>
+                             </td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -192,6 +210,44 @@
       </div>
     @endif
 
+    <div class="modal fade" id="edit_contact" tabindex="-1" role="dialog" aria-labelledby="edit_contactLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="edit_contactLabel">Edit Excel Contact</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post">
+                        @csrf
+                        @method('PUT')
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" name="name" placeholder="Customer name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" name="email" placeholder="Customer email">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="test" class="form-control" name="phone" placeholder="Customer phone">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary pull-right float-right">Update</button>
+                            <button type="button" class="btn float-right" data-dismiss="modal" aria-label="Close">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
 
@@ -283,7 +339,17 @@ $.fn.TableCheckAll = function (options) {
 };
 </script>
 
-
+    <script>
+        $('.edit-contact-btn').click(function () {
+            // Set values to form and its inputs
+            $("#edit_contact form").attr('action', $(this).data('url'));
+            $("#edit_contact input[name='name']").val($(this).data('name'));
+            $("#edit_contact input[name='email']").val($(this).data('email'));
+            $("#edit_contact input[name='phone']").val($(this).data('phone'));
+            // Show modal
+            $("#edit_contact").modal('show');
+        });
+    </script>
 
 
 

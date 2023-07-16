@@ -573,6 +573,8 @@ Route::get('import_excel_contacts', [CustomerController::class,'import_excel_con
 Route::post('admin/excel_import', [CustomerController::class,'excel_import']);
 Route::get('admin/excel/delete', [CustomerController::class,'excel_delete']);
 Route::get('admin/landing_contacts/delete', [CustomerController::class,'landing_contacts_delete']);
+Route::put('excel_contact/{id}', [CustomerController::class, 'updateExcelContact']);
+Route::delete('excel_contact/{id}', [CustomerController::class, 'deleteExcelContact']);
 
 
 /* --------------------------------------- */
