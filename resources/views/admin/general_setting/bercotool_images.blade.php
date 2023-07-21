@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="col-md-2" ></div>
-                
+
                 <div class="form-group d-flex flex-column col-md-2">
                     <input type="file" name="bercotool_2" accept="image/*">
                     <span>BercoStore</span>
@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="col-md-2" ></div>
-                
+
                 <div class="form-group d-flex flex-column col-md-2">
                     <input type="file" name="bercotool_4" accept="image/*">
                     <span>BercoManage</span>
@@ -71,7 +71,7 @@
                 </div>
 
                 <div class="col-md-2" ></div>
-                
+
                 <div class="form-group d-flex flex-column col-md-2">
                     <input type="file" name="bercotool_6" accept="image/*">
                     <span>ExcelLeads</span>
@@ -91,7 +91,7 @@
                 </div>
 
                 <div class="col-md-2" ></div>
-                
+
                 <div class="form-group d-flex flex-column col-md-2">
                     <input type="file" name="bercotool_8" accept="image/*">
                     <span>BercoLeads</span>
@@ -111,7 +111,7 @@
                 </div>
 
                 <div class="col-md-2" ></div>
-                
+
                 <div class="form-group d-flex flex-column col-md-2">
                     <input type="file" name="bercotool_10" accept="image/*">
                     <span>BercoBox</span>
@@ -131,7 +131,7 @@
                 </div>
 
                 <div class="col-md-2" ></div>
-                
+
                 <div class="form-group d-flex flex-column col-md-2">
                     <input type="file" name="bercotool_12" accept="image/*">
                     <span>BercoInvoice</span>
@@ -139,7 +139,30 @@
                 <div class="col-md-2" >
                     <img style="width:230px; height:100px;" src="{{ asset("public/uploads/$general_settings_global->bercotool_12") }}" alt="">
                 </div>
-                
+
+            </div>
+
+            <div class="row card-body d-flex align-items-baseline">
+                <div class="form-group d-flex flex-column col-md-2">
+                    <input type="file" name="bercotool_13" accept="image/*">
+                    <span>Chat with Employees</span>
+                </div>
+                <div class="col-md-2">
+                    <img style="width:230px; height:100px;" src="{{ isset($general_settings_global->bercotool_13) ? asset("public/uploads/$general_settings_global->bercotool_13") : 'http://via.placeholder.com/640x360'
+                    }}" alt="">
+                </div>
+
+                <div class="col-md-2"></div>
+
+                <div class="form-group d-flex flex-column col-md-2">
+                    <input type="file" name="bercotool_14" accept="image/*">
+                    <span class="fwt-bold">Chat with Customers</span>
+                </div>
+                <div class="col-md-2">
+                    <img style="width:230px; height:100px;" src="{{ isset($general_settings_global->bercotool_13) ? asset("public/uploads/$general_settings_global->bercotool_13") : 'http://via.placeholder.com/640x360'
+                }}" alt="">
+                </div>
+
             </div>
 
 
@@ -148,12 +171,12 @@
                 <button type="submit" class="btn btn-primary">Upload BercoTool Images</button>
             </div>
             <br>
-            
+
         </div>
-        
-        
+
+
     </form>
     <br> <br><br>
 
-    
+
 @endsection

@@ -1013,13 +1013,15 @@ class GeneralSettingController extends Controller
             'bercotool_10' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
             'bercotool_11' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
             'bercotool_12' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
+            'bercotool_13' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
+            'bercotool_14' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
 
         ]);
 
+        $setting = GeneralSetting::where('id',1)->first();
 
         if (isset($request['bercotool_1']))
         {
-            $setting = GeneralSetting::where('id',1)->first();
             $ext = $request->file('bercotool_1')->extension();
             $randomNumber = rand(10000, 99999); // generate random 5-digit number
             $final_name1 = time().$randomNumber.'.'.$ext;
@@ -1031,7 +1033,6 @@ class GeneralSettingController extends Controller
 
         if (isset($request['bercotool_2']))
         {
-            $setting = GeneralSetting::where('id',1)->first();
             $ext = $request->file('bercotool_2')->extension();
             $randomNumber = rand(10000, 99999); // generate random 5-digit number
             $final_name2 = time().$randomNumber.'.'.$ext;
@@ -1042,7 +1043,6 @@ class GeneralSettingController extends Controller
         }
         if (isset($request['bercotool_3']))
         {
-            $setting = GeneralSetting::where('id',1)->first();
             $ext = $request->file('bercotool_3')->extension();
             $randomNumber = rand(10000, 99999); // generate random 5-digit number
             $final_name3 = time().$randomNumber.'.'.$ext;
@@ -1054,7 +1054,6 @@ class GeneralSettingController extends Controller
 
         if (isset($request['bercotool_4']))
         {
-            $setting = GeneralSetting::where('id',1)->first();
             $ext = $request->file('bercotool_4')->extension();
             $randomNumber = rand(10000, 99999); // generate random 5-digit number
             $final_name4 = time().$randomNumber.'.'.$ext;
@@ -1066,7 +1065,6 @@ class GeneralSettingController extends Controller
 
         if (isset($request['bercotool_5']))
         {
-            $setting = GeneralSetting::where('id',1)->first();
             $ext = $request->file('bercotool_5')->extension();
             $randomNumber = rand(10000, 99999); // generate random 5-digit number
             $final_name5 = time().$randomNumber.'.'.$ext;
@@ -1078,7 +1076,6 @@ class GeneralSettingController extends Controller
 
         if (isset($request['bercotool_6']))
         {
-            $setting = GeneralSetting::where('id',1)->first();
             $ext = $request->file('bercotool_6')->extension();
             $randomNumber = rand(10000, 99999); // generate random 5-digit number
             $final_name6 = time().$randomNumber.'.'.$ext;
@@ -1090,7 +1087,6 @@ class GeneralSettingController extends Controller
 
         if (isset($request['bercotool_7']))
         {
-            $setting = GeneralSetting::where('id',1)->first();
             $ext = $request->file('bercotool_7')->extension();
             $randomNumber = rand(10000, 99999); // generate random 5-digit number
             $final_name7 = time().$randomNumber.'.'.$ext;
@@ -1102,7 +1098,6 @@ class GeneralSettingController extends Controller
 
         if (isset($request['bercotool_8']))
         {
-            $setting = GeneralSetting::where('id',1)->first();
             $ext = $request->file('bercotool_8')->extension();
             $randomNumber = rand(10000, 99999); // generate random 5-digit number
             $final_name8 = time().$randomNumber.'.'.$ext;
@@ -1114,7 +1109,6 @@ class GeneralSettingController extends Controller
 
         if (isset($request['bercotool_9']))
         {
-            $setting = GeneralSetting::where('id',1)->first();
             $ext = $request->file('bercotool_9')->extension();
             $randomNumber = rand(10000, 99999); // generate random 5-digit number
             $final_name9 = time().$randomNumber.'.'.$ext;
@@ -1126,7 +1120,6 @@ class GeneralSettingController extends Controller
 
         if (isset($request['bercotool_10']))
         {
-            $setting = GeneralSetting::where('id',1)->first();
             $ext = $request->file('bercotool_10')->extension();
             $randomNumber = rand(10000, 99999); // generate random 5-digit number
             $final_name10 = time().$randomNumber.'.'.$ext;
@@ -1138,7 +1131,6 @@ class GeneralSettingController extends Controller
 
         if (isset($request['bercotool_11']))
         {
-            $setting = GeneralSetting::where('id',1)->first();
             $ext = $request->file('bercotool_11')->extension();
             $randomNumber = rand(10000, 99999); // generate random 5-digit number
             $final_name10 = time().$randomNumber.'.'.$ext;
@@ -1150,7 +1142,6 @@ class GeneralSettingController extends Controller
 
         if (isset($request['bercotool_12']))
         {
-            $setting = GeneralSetting::where('id',1)->first();
             $ext = $request->file('bercotool_12')->extension();
             $randomNumber = rand(10000, 99999); // generate random 5-digit number
             $final_name10 = time().$randomNumber.'.'.$ext;
@@ -1160,7 +1151,29 @@ class GeneralSettingController extends Controller
             $setting->save();
         }
 
-        return redirect()->back()->with('success', 'Logo Updated successfully!');
+        if (isset($request['bercotool_13']))
+        {
+            $ext = $request->file('bercotool_13')->extension();
+            $randomNumber = rand(10000, 99999);
+            $filename = time().$randomNumber . '.' . $ext;
+            $request->file('bercotool_13')->move(public_path('uploads/'), $filename);
+
+            $setting->bercotool_13 = $filename;
+            $setting->save();
+        }
+
+        if (isset($request['bercotool_14']))
+        {
+            $ext = $request->file('bercotool_14')->extension();
+            $randomNumber = rand(10000, 99999);
+            $filename = time().$randomNumber . '.' . $ext;
+            $request->file('bercotool_14')->move(public_path('uploads/'), $filename);
+
+            $setting->bercotool_14 = $filename;
+            $setting->save();
+        }
+
+        return redirect()->back()->with('success', 'Tools Images Updated successfully!');
     }
 
     public function superadmin_update_fees(Request $request){
