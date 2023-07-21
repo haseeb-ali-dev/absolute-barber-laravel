@@ -37,15 +37,16 @@ $menus = \App\Models\Admin\Menu::whereNull('parent_id')->get();
                         @endif
                             @if (count($row->sub_menu) > 0)
 
-                            <a style="color: #{{$settings['items_color']}}; text-align:right; " href="javascript:void(0);" class="nav-link dropdown-toggle">{{ $row->menu_name }}</a>
+                            <a style="color: #{{$settings['items_color']}};" href="javascript:void(0);" class="nav-link dropdown-toggle">{{ $row->menu_name }}</a>
                             <ul class="dropdown-menu">
-                                <li class="nav-item">
-                                    <a style="color: #{{$settings['items_color']}}; text-align:right; " href="{{ route($row->route) }}" class="nav-link">{{ $row->menu_name }}</a>
-                                </li>
 
                                 @foreach ($row->sub_menu as $sub)
 
-
+                                    @if($sub->menu_status == 'Show')
+                                        <li class="nav-item">
+                                            <a style="color: #{{$settings['items_color']}};" href="{{ route($sub->route) }}" class="nav-link">{{ $sub->menu_name }}</a>
+                                        </li>
+                                    @endif
 
                                 @endforeach
 
@@ -53,9 +54,9 @@ $menus = \App\Models\Admin\Menu::whereNull('parent_id')->get();
 
                             @else
                                     @if($row->menu_key=='Home')
-                                        <a style="color: #{{$settings['items_color']}}; text-align:right; border-top:none;" href="{{ route($row->route, ['menu' => 1]) }}" class="nav-link">{{ $row->menu_name }}</a>
+                                        <a style="color: #{{$settings['items_color']}}; border-top:none;" href="{{ route($row->route, ['menu' => 1]) }}" class="nav-link">{{ $row->menu_name }}</a>
                                     @else
-                                        <a style="color: #{{$settings['items_color']}}; text-align:right;" href="{{ route($row->route) }}" class="nav-link">{{ $row->menu_name }}</a>
+                                        <a style="color: #{{$settings['items_color']}};" href="{{ route($row->route) }}" class="nav-link">{{ $row->menu_name }}</a>
                                     @endif
                             @endif
 
@@ -75,7 +76,7 @@ $menus = \App\Models\Admin\Menu::whereNull('parent_id')->get();
                          @foreach($dynamic_pages as $row)
 
                                 <li class="nav-item">
-                                    <a style="color: #{{$settings['items_color']}}; text-align:right;" href="{{ url('page/'.$row->dynamic_page_slug) }}" class="nav-link">{{
+                                    <a style="color: #{{$settings['items_color']}};" href="{{ url('page/'.$row->dynamic_page_slug) }}" class="nav-link">{{
                                         $row->dynamic_page_name }}</a>
                                 </li>
 
@@ -83,10 +84,10 @@ $menus = \App\Models\Admin\Menu::whereNull('parent_id')->get();
 
                         @endif
                         <li class="nav-item">
-                            <a style="color: #{{$settings['items_color']}}; text-align:right;" href="{{ route('customer.registration') }}" class="nav-link">Register</a>
+                            <a style="color: #{{$settings['items_color']}};" href="{{ route('customer.registration') }}" class="nav-link">Register</a>
                         </li>
                         <li class="nav-item">
-                            <a style="color: #{{$settings['items_color']}}; text-align:right;" href="{{ route('front.contact') }}" class="nav-link">Contact</a>
+                            <a style="color: #{{$settings['items_color']}};" href="{{ route('front.contact') }}" class="nav-link">Contact</a>
                         </li>
                     </ul>
                 </div>
