@@ -159,7 +159,7 @@
 
 
         <li style="margin-top: 39px;"  class="nav-item active">
-            <a class="nav-link" href="{{ route('admin.tools') }}">
+            <a class="nav-link" href="{{ route('admin.tools', 'page=1') }}">
                 <i class="fas fa-link"></i>
                 <span id="menu_text1">Bercotools</span>
             </a>
@@ -322,6 +322,11 @@
 
             </div>
             <!-- /.container-fluid -->
+            <div class="py-2 px-4 float-right mr-5">
+                <button class="btn btn-secondary" onClick="window.history.back();">
+                    <i class="fas fa-hand-point-left"></i> Go Back
+                </button>
+            </div>
         </div>
         <!-- End of Main Content -->
 

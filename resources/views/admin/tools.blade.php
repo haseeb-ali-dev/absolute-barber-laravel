@@ -137,7 +137,7 @@
             </div>
             @if (isset($section['back']))
                 <div class="col-xl-12 col-md-12 mb-5">
-                    <a class="btn btn-success mt-3" href="javascript:;" onclick="toggleSection('{{ $section['back'] }}')">
+                    <a class="btn btn-success mt-3" href="javascript:;" onclick="toggleSection('{{ $section['back'] }}', true)">
                         <i class="fa fa-arrow-left mr-3"></i>Back to {{ ucwords($section['back']) }}
                     </a>
                 </div>
@@ -211,12 +211,17 @@
 
     <script>
         const keys = ['dashboard', 'bercoweb', 'bercostore', 'subscriber', 'administration', 'general', 'page', 'blog', 'career','blogsection']
-        function toggleSection(key)
+        function toggleSection(key, back = false)
         {
             const audio = new Audio("{{ asset('public/backend/ping-1.mp3') }}")
             audio.play()
             $(`#${key}`).show()
             keys.filter(elm => elm != key).map(el => $(`#${el}`).hide())
+            if (back) {
+                window.history.pushState({}, 'New Page', "{{ Request::url() }}" + '?page=1');
+            } else {
+                window.history.pushState({}, 'New Page', "{{ Request::url() }}" + '?page=2');
+            }
         }
     </script>
 
