@@ -64,12 +64,6 @@
                                     <label for="">Information</label>
                                     <textarea name="info" class="form-control" rows="4">{{ old('info') }}</textarea>
                                 </div>
-                                <div class="form-group w-50 px-2">
-                                    <div class="row align-items-center">
-                                        <input type="checkbox" name="landing_page_contact" class="col-md-1">
-                                        <span class="col-md-11">Make a Appointment (Landing Contact)</span>
-                                    </div>
-                                </div>
                                 <button type="submit" class="btn btn-primary btn-arf">Reserve a table</button>
                             </form>
                         </div>

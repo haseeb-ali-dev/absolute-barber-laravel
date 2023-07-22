@@ -40,17 +40,22 @@ class BookingController extends Controller
             'time' => 'required|date_format:H:i',
             'info' => 'sometimes',
             'type' => 'required|in:1,2',
-            'landing_page_contact' => 'sometimes',
         ]);
         Booking::create($data);
-        if (isset($data['landing_page_contact']) && $data['landing_page_contact'] == 'on') {
+        $this->add_to_landing_page_contact($data);
+        return back()->with('success', $data['type'] == 1 ? 'You reserved a table successfully' : 'You made a appointment successfully');
+    }
+
+    protected function add_to_landing_page_contact($data)
+    {
+        $exists = DB::table('landing_page_contacts')->where('email', $data['email'])->exists();
+        if (!$exists) {
             DB::table('landing_page_contacts')->insert([
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'phone' => $data['phone'],
             ]);
         }
-        return back()->with('success', $data['type'] == 1 ? 'You reserved a table successfully' : 'You made a appointment successfully');
     }
 
     public function update_status(Request $request, Booking $booking)
