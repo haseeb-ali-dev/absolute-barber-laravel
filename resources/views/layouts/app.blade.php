@@ -603,13 +603,17 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
                                     <a href="{{ route('employee.registration') }}">Register as Employee</a>
                                 </li>
 
+                                @if (!in_array(15, $enabled_tools))
                                 <li class="registration_top_menu">
                                     <a href="{{ route('reservation.create') }}">Reservation</a>
                                 </li>
+                                @endif
 
+                                @if (!in_array(16, $enabled_tools))
                                 <li class="registration_top_menu">
                                     <a href="{{ route('appointment.create') }}">Appointment</a>
                                 </li>
+                                @endif
 
                             @endif
 
