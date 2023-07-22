@@ -127,4 +127,18 @@ class InvoiceController extends Controller
         }
         return redirect()->route('invoice-builder.index')->with('error', 'Invoice not found!');
     }
+
+    public function thermal_invoice(Request $request)
+    {
+        $invoice = Invoice::find($request['id']);
+        if (isset($invoice)) {
+            $g_setting = DB::table('general_settings')->where('id', 1)->first();
+            $pdf = PDF::loadView('admin.invoice_builder.thermal', [
+                'invoice' => $invoice,
+                'g_setting' => $g_setting,
+            ]);
+            return $pdf->stream(time() . ".thermal_invoice.pdf");
+        }
+        return redirect()->route('invoice-builder.index')->with('error', 'Invoice not found!');
+    }
 }

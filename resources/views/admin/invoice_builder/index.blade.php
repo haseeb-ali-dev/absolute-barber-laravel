@@ -51,6 +51,13 @@
                                             <i class="fas fa-arrow-alt-circle-down"></i>
                                         </button>
                                     </form>
+                                    <form action="{{ route('invoice-builder.thermal_invoice') }}" method="post" class="d-inline" target="_blank">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $row->id }}">
+                                        <button type="submit" class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-arrow-down"></i> Print
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
