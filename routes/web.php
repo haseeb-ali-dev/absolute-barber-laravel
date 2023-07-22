@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\CustomerController;
@@ -781,3 +782,16 @@ Route::get('/clear-cache', function ()  {
 /* --------------------------------------- */
 Route::get('admin/employee-tools', [DashboardControllerForAdmin::class,'employee_tools'])->name('admin.employee.tools');
 Route::post('admin/employee-tools', [DashboardControllerForAdmin::class,'set_employee_tools'])->name('admin.employee.tools.set');
+
+
+/* --------------------------------------- */
+/* Bookings - Admin or Web */
+/* --------------------------------------- */
+Route::get('admin/reservations', [BookingController::class, 'reservations'])->name('admin.reservations');
+Route::get('admin/appointments', [BookingController::class, 'appointments'])->name('admin.appointments');
+Route::get('reservation/create', [BookingController::class, 'create_reservation'])->name('reservation.create');
+Route::get('appointment/create', [BookingController::class, 'create_appointment'])->name('appointment.create');
+Route::post('admin/booking', [BookingController::class, 'store'])->name('admin.booking.store');
+Route::put('admin/booking/{booking}', [BookingController::class, 'update'])->name('admin.booking.update');
+Route::put('admin/booking/status/{booking}', [BookingController::class, 'update_status'])->name('admin.booking.status.update');
+Route::delete('admin/booking/{booking}', [BookingController::class, 'destroy'])->name('admin.booking.delete');

@@ -271,6 +271,16 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
         <title>{{ $item_row->seo_title }}</title>
     @endif
 
+    @if($conName[0] == 'reservation')
+        <meta name="description" content="Create-Reservation">
+        <title>Create Reservation</title>
+    @endif
+
+    @if($conName[0] == 'appointment')
+        <meta name="description" content="Create-Appointment">
+        <title>Create Appointment</title>
+    @endif
+
 
     @include('layouts.styles')
 
@@ -534,7 +544,7 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
 <div class="top">
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="top-contact">
                     <ul>
                         <li>
@@ -548,7 +558,7 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
                     </ul>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <div class="top-right">
 
                     @if($g_setting->top_bar_social_status == 'Show')
@@ -591,6 +601,14 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
 
                                 <li class="registration_top_menu">
                                     <a href="{{ route('employee.registration') }}">Register as Employee</a>
+                                </li>
+
+                                <li class="registration_top_menu">
+                                    <a href="{{ route('reservation.create') }}">Reservation</a>
+                                </li>
+
+                                <li class="registration_top_menu">
+                                    <a href="{{ route('appointment.create') }}">Appointment</a>
                                 </li>
 
                             @endif

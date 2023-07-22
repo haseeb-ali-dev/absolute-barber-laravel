@@ -148,7 +148,7 @@
                     <span>Chat with Employees</span>
                 </div>
                 <div class="col-md-2">
-                    <img style="width:230px; height:100px;" src="{{ isset($general_settings_global->bercotool_13) ? asset("public/uploads/$general_settings_global->bercotool_13") : 'http://via.placeholder.com/640x360'
+                    <img style="width:230px; height:100px;" src="{{ isset($general_settings_global->bercotool_13) ? asset("public/uploads/$general_settings_global->bercotool_13") :  'https://placehold.co/640x360?text=Chat+with+Employees'
                     }}" alt="">
                 </div>
 
@@ -156,10 +156,33 @@
 
                 <div class="form-group d-flex flex-column col-md-2">
                     <input type="file" name="bercotool_14" accept="image/*">
-                    <span class="fwt-bold">Chat with Customers</span>
+                    <span>Chat with Customers</span>
                 </div>
                 <div class="col-md-2">
-                    <img style="width:230px; height:100px;" src="{{ isset($general_settings_global->bercotool_13) ? asset("public/uploads/$general_settings_global->bercotool_13") : 'http://via.placeholder.com/640x360'
+                    <img style="width:230px; height:100px;" src="{{ isset($general_settings_global->bercotool_14) ? asset("public/uploads/$general_settings_global->bercotool_14") : 'https://placehold.co/640x360?text=Chat+with+Customers'
+                }}" alt="">
+                </div>
+
+            </div>
+
+            <div class="row card-body d-flex align-items-baseline">
+                <div class="form-group d-flex flex-column col-md-2">
+                    <input type="file" name="bercotool_15" accept="image/*">
+                    <span>Reservations</span>
+                </div>
+                <div class="col-md-2">
+                    <img style="width:230px; height:100px;" src="{{ isset($general_settings_global->bercotool_15) ? asset("public/uploads/$general_settings_global->bercotool_15") : 'https://placehold.co/640x360?text=Reservations'
+                    }}" alt="">
+                </div>
+
+                <div class="col-md-2"></div>
+
+                <div class="form-group d-flex flex-column col-md-2">
+                    <input type="file" name="bercotool_16" accept="image/*">
+                    <span>Appointments</span>
+                </div>
+                <div class="col-md-2">
+                    <img style="width:230px; height:100px;" src="{{ isset($general_settings_global->bercotool_16) ? asset("public/uploads/$general_settings_global->bercotool_16") : 'https://placehold.co/640x360?text=Appointments'
                 }}" alt="">
                 </div>
 
