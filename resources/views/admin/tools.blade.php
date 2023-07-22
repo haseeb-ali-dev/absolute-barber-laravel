@@ -169,6 +169,9 @@
                             </div>
                         @endif
                     @else
+                        @if (in_array($item['code'], $enabled_tools))
+                            @continue
+                        @endif
                         <div class="col-xl-3 col-md-6 mb-4" @if(isset($item['key'])) onclick="toggleSection('{{ $item['key'] }}')" @endif>
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">

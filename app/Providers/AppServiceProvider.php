@@ -55,6 +55,11 @@ class AppServiceProvider extends ServiceProvider
             //admin logo
             $general_settings_global = DB::table('general_settings')->where('id', 1)->first();
             $view->with('general_settings_global', $general_settings_global);
+
+            //enabled tools
+            $record = DB::table('admin_tools')->where('user_id', 0)->first();
+            $enabled_tools = isset($record) ? explode(',', $record->codes) : [];
+            $view->with('enabled_tools', $enabled_tools);
         });
     }
 }

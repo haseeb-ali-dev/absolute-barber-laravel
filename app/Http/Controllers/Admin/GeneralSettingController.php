@@ -1197,7 +1197,16 @@ class GeneralSettingController extends Controller
             $setting->save();
         }
 
-        return redirect()->back()->with('success', 'Tools Images Updated successfully!');
+        if(isset($request->codes))
+        {
+            DB::table('admin_tools')->updateOrInsert(['user_id' => 0], ['codes' => implode(',', $request->codes)]);
+        }
+        else
+        {
+            DB::table('admin_tools')->where('user_id', 0)->delete();
+        }
+
+        return redirect()->back()->with('success', 'Tools Updated successfully!');
     }
 
     public function superadmin_update_fees(Request $request){
