@@ -71,6 +71,7 @@
             ['route' => route('admin.order.index'), 'name' => 'Order Section', 'icon' => 'fas fa-bookmark'],
             ['route' => route('admin.general_setting.stripe_keys'), 'name' => 'Stripe Keys', 'icon' => 'fas fa-bookmark'],
             ['route' => route('admin.general_setting.paypal_keys'), 'name' => 'Paypal Keys', 'icon' => 'fas fa-bookmark'],
+            ['route' => route('admin.shop.qrcode'), 'name' => 'Shop QR Code', 'icon' => 'fas fa-bookmark'],
         ];
         $subscriber = [
             ['route' => route('admin.subscriber.index'), 'name' => 'All Subscribers', 'icon' => 'fas fa-share-alt-square'],

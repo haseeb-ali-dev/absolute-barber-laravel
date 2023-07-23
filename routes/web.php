@@ -646,6 +646,11 @@ Route::get('admin/product/delete/{id}', [ProductControllerForAdmin::class,'destr
 Route::get('admin/product/edit/{id}', [ProductControllerForAdmin::class,'edit']);
 Route::post('admin/product/update/{id}', [ProductControllerForAdmin::class,'update']);
 
+/* --------------------------------------- */
+/* Shop QR Code - Admin */
+/* --------------------------------------- */
+Route::get('admin/shop/qrcode', [ProductControllerForAdmin::class, 'qrcode'])->name('admin.shop.qrcode');
+
 
 /* --------------------------------------- */
 /* Product  Category - Admin */

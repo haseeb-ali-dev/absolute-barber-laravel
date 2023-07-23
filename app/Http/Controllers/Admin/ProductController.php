@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Menu;
 use App\Models\Admin\Product;
 use App\Models\Admin\ProductCategory;
 use Illuminate\Http\Request;
@@ -133,5 +134,11 @@ class ProductController extends Controller
         // unlink(public_path('uploads/'.$product->product_featured_photo));
         $product->delete();
         return Redirect()->back()->with('success', 'Product is deleted successfully!');
+    }
+
+    public function qrcode()
+    {
+        $shop_hidden = Menu::where('menu_key', 'Shop')->value('menu_status') != 'Show';
+        return view('admin.shop.qrcode' , compact('shop_hidden'));
     }
 }
