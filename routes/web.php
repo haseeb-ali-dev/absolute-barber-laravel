@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BookingController;
+use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\CustomerController;
@@ -796,3 +797,12 @@ Route::post('admin/booking', [BookingController::class, 'store'])->name('admin.b
 Route::put('admin/booking/{booking}', [BookingController::class, 'update'])->name('admin.booking.update');
 Route::put('admin/booking/status/{booking}', [BookingController::class, 'update_status'])->name('admin.booking.status.update');
 Route::delete('admin/booking/{booking}', [BookingController::class, 'destroy'])->name('admin.booking.delete');
+
+
+/* --------------------------------------- */
+/* Chat - Admin */
+/* --------------------------------------- */
+Route::get('admin/employees/chat', [ChatController::class, 'employees_chat'])->name('admin.employees.chat');
+Route::get('admin/customers/chat', [ChatController::class, 'customers_chat'])->name('admin.customers.chat');
+Route::get('admin/chat/new/message', [ChatController::class, 'create'])->name('admin.chat.new.message');
+Route::post('admin/chat/store', [ChatController::class, 'store'])->name('admin.chat.store');
