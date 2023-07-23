@@ -9,6 +9,7 @@ use App\Models\Admin\CustomerChat;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class ChatController extends Controller
 {
@@ -93,24 +94,24 @@ class ChatController extends Controller
             $data = $request->validate([
                 'sent_by' => 'required|in:admin,employee',
                 'employee_id' => 'required',
-                'msg' => 'required|min:10'
+                'msg' => 'required'
             ]);
 
             EmployeeChat::create($data);
 
 
-            $route = $data['sent_by'] == 'admin' ? 'admin.employees.chat' : 'admin.employee.chat' ;
+            $route = $data['sent_by'] == 'admin' ? 'admin.employees.chat' : 'admin.employee.chat';
 
         } else {
             $data = $request->validate([
-                'sent_by' => 'required|in:admin,employee',
+                'sent_by' => 'required|in:admin,customer',
                 'customer_id' => 'required',
-                'msg' => 'required|min:10'
+                'msg' => 'required'
             ]);
 
             CustomerChat::create($data);
 
-            $route = 'admin.customers.chat';
+            $route = $data['sent_by'] == 'admin' ? 'admin.customers.chat' : 'customer.chat';
         }
 
         return redirect()->route($route)->with('success', 'Message sent successfully');
@@ -129,5 +130,22 @@ class ChatController extends Controller
 
         return view('admin.chat.employee', compact('employee', 'messages'));
     }
+
+    public function customer_chat()
+    {
+        $id = session()->get('customer_id');
+        $customer = Customer::where('id', $id)->first();
+
+        if (!isset($customer)) {
+            return back()->with('error', 'No such customer found with this ID');
+        }
+
+        $messages = CustomerChat::where('customer_id', $id)->get();
+
+        $g_setting = DB::table('general_settings')->where('id', 1)->first();
+
+        return view('customer.pages.chat', compact('customer', 'messages', 'g_setting'));
+    }
+
 
 }

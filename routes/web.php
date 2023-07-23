@@ -157,6 +157,7 @@ Route::post('customer/payment/stripe', [CheckoutController::class,'stripe'])->na
 Route::post('customer/payment/stripe1', [CheckoutController::class,'stripe1'])->name('customer.stripe1');
 Route::get('customer/execute-payment', [CheckoutController::class,'paypal']);
 Route::get('employee/register', [RegistrationController::class,'registerEmployee'])->name('employee.registration');
+Route::get('customer/chat', [ChatController::class,'customer_chat'])->name('customer.chat')->middleware('customer');
 
 /* --------------------------------------- */
 /* Admin Login and profile management */

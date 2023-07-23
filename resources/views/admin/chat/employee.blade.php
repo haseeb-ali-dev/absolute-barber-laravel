@@ -19,7 +19,7 @@
                                         class="message @if ($row->sent_by === 'admin') admin-message @else employee-message @endif">
                                         <div class="message-content">
                                             <small class="username">
-                                                {{ $row->sent_by === 'admin' ? session('name') : $employee->name }}</small>
+                                                {{ $row->sent_by === 'admin' ? 'Admin' : $employee->name }}</small>
                                             <p class="message-text">{!! $row->msg !!}</p>
                                             <small class="message-time">
                                                 {{ $row->created_at->format('M d, Y h:i A') }}
