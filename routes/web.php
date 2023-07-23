@@ -806,3 +806,8 @@ Route::get('admin/employees/chat', [ChatController::class, 'employees_chat'])->n
 Route::get('admin/customers/chat', [ChatController::class, 'customers_chat'])->name('admin.customers.chat');
 Route::get('admin/chat/new/message', [ChatController::class, 'create'])->name('admin.chat.new.message');
 Route::post('admin/chat/store', [ChatController::class, 'store'])->name('admin.chat.store');
+
+/* --------------------------------------- */
+/* Employee Chat - Admin */
+/* --------------------------------------- */
+Route::get('admin/employee/chat', [ChatController::class, 'employee_chat'])->name('admin.employee.chat');

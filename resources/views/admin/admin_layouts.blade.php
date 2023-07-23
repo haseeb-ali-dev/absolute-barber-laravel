@@ -187,6 +187,13 @@
                 </div>
             </div>
         </li>
+        @else
+        <li  class="nav-item active">
+            <a class="nav-link" href="{{ route('admin.employee.chat') }}">
+                <i class="fas fa-comment"></i>
+                <span id="menu_text2">Chat</span>
+            </a>
+        </li>
         @endif
 
         <li class="nav-item active">

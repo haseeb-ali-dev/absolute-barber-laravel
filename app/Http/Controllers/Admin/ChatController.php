@@ -98,7 +98,8 @@ class ChatController extends Controller
 
             EmployeeChat::create($data);
 
-            $route = 'admin.employees.chat';
+
+            $route = $data['sent_by'] == 'admin' ? 'admin.employees.chat' : 'admin.employee.chat' ;
 
         } else {
             $data = $request->validate([
@@ -113,6 +114,20 @@ class ChatController extends Controller
         }
 
         return redirect()->route($route)->with('success', 'Message sent successfully');
+    }
+
+    public function employee_chat()
+    {
+        $id = session('id');
+        $employee = Admin::find($id);
+
+        if (!isset($employee)) {
+            return back()->with('error', 'No such employee found with this ID');
+        }
+
+        $messages = EmployeeChat::where('employee_id', $id)->get();
+
+        return view('admin.chat.employee', compact('employee', 'messages'));
     }
 
 }
