@@ -324,6 +324,48 @@
 
             </div>
 
+
+            <div class="row card-body d-flex align-items-baseline">
+                <div class="form-group d-flex flex-column col-md-2">
+                    <input type="file" name="bercotool_17" accept="image/*">
+                    <span>Registered Customers</span>
+                </div>
+                <div class="col-md-2">
+                    <input type="checkbox" name="codes[]" value="17"
+                        @if (in_array(17, $enabled_tools)) checked @endif>
+                    @if (in_array(17, $enabled_tools))
+                        Uncheck to Enable
+                    @else
+                        Check to Disable
+                    @endif
+                </div>
+                <div class="col-md-2">
+                    <img style="width:230px; height:100px;"
+                        src="{{ isset($general_settings_global->bercotool_17) ? asset("public/uploads/$general_settings_global->bercotool_17") : 'https://placehold.co/640x360?text=Registered+Customers' }}"
+                        alt="">
+                </div>
+
+                <div class="form-group d-flex flex-column col-md-2">
+                    <input type="file" name="bercotool_18" accept="image/*">
+                    <span>Display Orders</span>
+                </div>
+                <div class="col-md-2">
+                    <input type="checkbox" name="codes[]" value="18"
+                        @if (in_array(18, $enabled_tools)) checked @endif>
+                    @if (in_array(18, $enabled_tools))
+                        Uncheck to Enable
+                    @else
+                        Check to Disable
+                    @endif
+                </div>
+                <div class="col-md-2">
+                    <img style="width:230px; height:100px;"
+                        src="{{ isset($general_settings_global->bercotool_18) ? asset("public/uploads/$general_settings_global->bercotool_18") : 'https://placehold.co/640x360?text=Display+Orders' }}"
+                        alt="">
+                </div>
+
+            </div>
+
             <br>
             <div class="row justify-content-center">
                 <button type="submit" class="btn btn-primary">Upload BercoTool Images</button>
