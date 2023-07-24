@@ -24,7 +24,14 @@
                     <tbody>
                     @foreach($order as $row)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
+                            <td>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    {{ $loop->iteration }}
+                                    @if ($row->created_at->diffInMinutes(now()) < 1440)
+                                        <img src="{{ asset('public/frontend/images/new_order.gif') }}" alt="gif" width="35" height="35">
+                                    @endif
+                                </div>
+                            </td>
                             <td>
                                 {{ $row->customer_name }}<br>
                                 {{ $row->customer_email }}<br>
