@@ -38,6 +38,7 @@
                             <td>
                                 <a href="{{ URL::to('admin/order/detail/'.$row->id) }}" class="btn btn-success btn-sm btn-block" target="_blank">Detail</a>
                                 <a href="{{ URL::to('admin/order/invoice/'.$row->id) }}" class="btn btn-info btn-sm btn-block" target="_blank">Invoice</a>
+                                <a href="{{ URL::to('admin/order/invoice/thermal/'.$row->id) }}" class="btn btn-secondary btn-sm btn-block" target="_blank">Thermal Print</a>
                                 <a href="{{ URL::to('admin/order/delete/'.$row->id) }}" class="btn btn-danger btn-sm btn-block" onClick="return confirm('Are you sure?');">Delete</a>
                             </td>
                         </tr>
