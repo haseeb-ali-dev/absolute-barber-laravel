@@ -41,8 +41,8 @@ class DashboardController extends Controller
             return view('admin.pay_to_superadmin');
         }
 
-        $record = DB::table('employee_tools')->where('user_id', 0)->first();
-        $assigned = session('type') == 'employee' && isset($record) ? explode(',', $record->codes) : null;
+        $record = DB::table('employee_tools')->where('user_id', session('id'))->first();
+        $assigned = session('type') == 'admin' ? null : (isset($record) ? explode(',', $record->codes) : []);
 
         return view('admin.tools', compact('assigned'));
     }
