@@ -20,8 +20,8 @@
             margin-bottom: 20px;
         }
         .logo {
-            height: 100px;
-            width: auto;
+            height: {{$setting->lpc_logo_pc_height}}px;
+            width: {{$setting->lpc_logo_pc_width}}px;
         }
         .heading {
             /* text-align: justify;
@@ -115,6 +115,10 @@
 @media (max-width: 767px) {
     .logo-container {
         flex-wrap: wrap;
+    }
+    .logo {
+        height: {{$setting->lpc_logo_mobile_height}}px;
+        width: {{$setting->lpc_logo_mobile_width}}px;
     }
     .title_text {
         text-align: center;
@@ -318,8 +322,8 @@ margin-top: 20px;
             margin-bottom: 20px;
         }
         .logo {
-            height: 100px;
-            width: auto;
+            height: {{$setting->lpc_logo_pc_height}}px;
+            width: {{$setting->lpc_logo_pc_width}}px;
         }
         .heading {
             /* text-align: justify;
@@ -413,6 +417,11 @@ margin-top: 20px;
 @media (max-width: 767px) {
     .logo-container {
         flex-wrap: wrap;
+    }
+    
+    .logo {
+        height: {{$setting->lpc_logo_mobile_height}}px;
+        width: {{$setting->lpc_logo_mobile_width}}px;
     }
     .title_text {
         /* display: none; */

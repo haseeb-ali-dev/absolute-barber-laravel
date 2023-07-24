@@ -91,6 +91,11 @@ class GeneralSetting extends Model
         'lpc_left_bg',
         'defualt_homepage',
 
+        'lpc_logo_mobile_width',
+        'lpc_logo_mobile_height',
+        'lpc_logo_pc_width',
+        'lpc_logo_pc_height',
+
 
     ];
 

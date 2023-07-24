@@ -107,20 +107,7 @@
 
                 </div>
 
-                <div class="form-group">
-                    <label for="">Existing Logo</label>
-                    <div>
-                        <img src="{{ isset($general_setting->lpc_logo) ? asset('public/uploads/' . $general_setting->lpc_logo) : 'https://placehold.co/400' }}"
-                            alt="" class="w_200">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="">Change Logo</label>
-                    <div>
-                        <input type="file" name="lpc_logo">
-                    </div>
-                </div>
+                @includeIf('admin.general_setting.lpc_logo', ['general_setting' => $general_setting])
 
                 <div class="form-group d-flex align-items-center">
                     <label for="text">Text</label>

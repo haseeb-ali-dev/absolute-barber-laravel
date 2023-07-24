@@ -859,6 +859,11 @@ class GeneralSettingController extends Controller
         $data['lpc_submit_text_font_size'] = $request['lpc_submit_text_font_size'];
         $data['lpc_submit_text_font_family'] = $request['lpc_submit_text_font_family'];
 
+        $data['lpc_logo_mobile_width'] = $request['lpc_logo_mobile_width'];
+        $data['lpc_logo_mobile_height'] = $request['lpc_logo_mobile_height'];
+        $data['lpc_logo_pc_width'] = $request['lpc_logo_pc_width'];
+        $data['lpc_logo_pc_height'] = $request['lpc_logo_pc_height'];
+
         $data['lpc_centered']= isset($request['lpc_centered']) ? 1 : 0;;
         // dd($request->all());
         GeneralSetting::where('id',1)->update($data);
