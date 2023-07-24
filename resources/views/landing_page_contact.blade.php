@@ -28,7 +28,7 @@
             text-justify: inter-word; */
         }
         .form-container {
-            margin-top: 50px;
+            margin-top: 1%;
         }
         .btn-custom {
             background-color: {{$setting->lpc_btn_color}};
@@ -52,6 +52,7 @@
             color: {{$setting->lpc_title_color}};
             font-size: {{$setting->lpc_title_font_size}};
             font-family: {{$setting->lpc_title_font_family}};
+            line-height: initial;
         }
 
         .title_text{
@@ -116,7 +117,7 @@
         flex-wrap: wrap;
     }
     .title_text {
-        /* display: none; */
+        text-align: center;
     }
 
     .logo-container .col-md-4 {
@@ -141,12 +142,20 @@ footer {
 margin-top: 20px;
 }
 }
+
+@if ($setting->lpc_centered=='1')
 @media screen and (max-width: 767px) {
   .heading.font-big.title_dynamic {
     text-align: center;
   }
 }
-
+@else
+@media screen and (max-width: 767px) {
+  .heading.font-big.title_dynamic {
+    text-align: left;
+  }
+}
+@endif
     </style>
 </head>
 <body>
@@ -176,7 +185,7 @@ margin-top: 20px;
                         {{-- if not center  --}}
 
                         @if ($setting->lpc_centered=='0')
-                            <div class="d-flex flex-column align-items-start" style="width:550px;">
+                            <div class="d-flex flex-column align-items-start" style="width:580px;">
                                 <p class="heading font-big title_dynamic">{{$setting->lpc_title}}</p>
                                 <p class="heading title_text" style="text-align: justify">{{$setting->lpc_text}}</p>
                             </div>
@@ -192,7 +201,7 @@ margin-top: 20px;
 
 
                         <div class="row form-container justify-content-center mx-1">
-                            <div class="p-4 rounded" style="background-color: {{ $setting->lpc_form_bg_color }};width:550px;height:430px;">
+                            <div class="p-4 rounded" style="background-color: {{ $setting->lpc_form_bg_color }};width:580px;height:500px;">
                                 <form action="{{ route('landing_page_contact.save') }}" method="post" class="space-y">
                                     @csrf
                                     <div class="form-group">
@@ -317,7 +326,7 @@ margin-top: 20px;
             text-justify: inter-word; */
         }
         .form-container {
-            margin-top: 50px;
+            margin-top: 1%;
         }
         .btn-custom {
             background-color: {{$setting->lpc_btn_color}};
@@ -341,6 +350,7 @@ margin-top: 20px;
             color: {{$setting->lpc_title_color}};
             font-size: {{$setting->lpc_title_font_size}};
             font-family: {{$setting->lpc_title_font_family}};
+            line-height: initial;
         }
 
         .title_text{
@@ -432,11 +442,19 @@ footer {
 margin-top: 20px;
 }
 }
+@if ($setting->lpc_centered=='1')
 @media screen and (max-width: 767px) {
   .heading.font-big.title_dynamic {
     text-align: center;
   }
 }
+@else
+@media screen and (max-width: 767px) {
+  .heading.font-big.title_dynamic {
+    text-align: left;
+  }
+}
+@endif
 
     </style>
 </head>
@@ -480,7 +498,7 @@ margin-top: 20px;
                         {{-- if not center  --}}
 
                         @if ($setting->lpc_centered=='0')
-                            <div class="d-flex flex-column align-items-start" style="width:550px;">
+                            <div class="d-flex flex-column align-items-start" style="width:580px;">
                                 <p class="heading font-big title_dynamic">{{$setting->lpc_title}}</p>
                                 <p class="heading title_text" style="text-align: justify">{{$setting->lpc_text}}</p>
                             </div>
@@ -496,7 +514,7 @@ margin-top: 20px;
 
 
                         <div class="row form-container justify-content-center mx-1">
-                            <div class="p-4 rounded" style="background-color: {{ $setting->lpc_form_bg_color }};width:550px;height:430px;">
+                            <div class="p-4 rounded" style="background-color: {{ $setting->lpc_form_bg_color }};width:580px;height:500px;">
                                 <form action="{{ route('landing_page_contact.save') }}" method="post" class="space-y">
                                     @csrf
                                     <div class="form-group">

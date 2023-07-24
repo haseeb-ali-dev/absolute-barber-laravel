@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="page-banner" style="background-image: url({{ asset('public/uploads/'.$g_setting->banner_checkout) }})">
+    {{-- <div class="page-banner" style="background-image: url({{ asset('public/uploads/'.$g_setting->banner_checkout) }})">
         <div class="bg-page"></div>
         <div class="text">
             <h1>Checkout</h1>
@@ -12,7 +12,7 @@
                 </ol>
             </nav>
         </div>
-    </div>
+    </div> --}}
 
     <div class="page-content pt_50 pb_60">
         <div class="container">

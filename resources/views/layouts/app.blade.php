@@ -586,34 +586,49 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
                     <div class="top-profile">
                         <ul>
                             @if(!session()->get('customer_id'))
-
-                                @if($g_setting->top_bar_login_status == 'Show')
-                                <li class="login_top_menu">
-                                    <a href="{{ route('customer.login') }}">Login</a>
-                                </li>
+                                
+                                @if(request()->is('*shop*') || request()->is('*product*') || request()->is('*cart*') || request()->is('*checkout*') || request()->is('*payment*'))
+                                    @if($g_setting->top_bar_login_status == 'Show')
+                                    <li class="login_top_menu">
+                                        <a href="{{ route('customer.login') }}">Login</a>
+                                    </li>
+                                    @endif
                                 @endif
 
-                                @if($g_setting->top_bar_registration_status == 'Show')
-                                <li class="registration_top_menu">
-                                    <a href="{{ route('customer.registration') }}">Registration</a>
-                                </li>
+                                @if(!request()->is('*shop*') && !request()->is('*product*') && !request()->is('*cart*') && !request()->is('*checkout*') && !request()->is('*payment*'))
+                                    @if($g_setting->top_bar_login_status == 'Show')
+                                    <li class="login_top_menu">
+                                        <a href="{{ route('admin.login') }}">Employee Login</a>
+                                    </li>
+                                    @endif
+                                @endif
+                                
+                                @if(request()->is('*shop*') || request()->is('*product*') || request()->is('*cart*') || request()->is('*checkout*') || request()->is('*payment*'))
+                                    @if($g_setting->top_bar_registration_status == 'Show')
+                                    <li class="registration_top_menu">
+                                        <a href="{{ route('customer.registration') }}">Registration</a>
+                                    </li>
+                                    @endif
+                                @endif
+                                @if(!request()->is('*shop*') && !request()->is('*product*') && !request()->is('*cart*') && !request()->is('*checkout*') && !request()->is('*payment*'))
+                                    <li class="registration_top_menu">
+                                        <a href="{{ route('employee.registration') }}">Register as Employee</a>
+                                    </li>
+                                @endif
+                               
+                                @if(request()->is('*shop*') || request()->is('*product*') || request()->is('*cart*') || request()->is('*checkout*') || request()->is('*payment*'))
+                                    @if (!in_array(15, $enabled_tools))
+                                    <li class="registration_top_menu">
+                                        <a href="{{ route('reservation.create') }}">Reservation</a>
+                                    </li>
+                                    @endif
                                 @endif
 
-                                <li class="registration_top_menu">
-                                    <a href="{{ route('employee.registration') }}">Register as Employee</a>
-                                </li>
-
-                                @if (!in_array(15, $enabled_tools))
-                                <li class="registration_top_menu">
-                                    <a href="{{ route('reservation.create') }}">Reservation</a>
-                                </li>
-                                @endif
-
-                                @if (!in_array(16, $enabled_tools))
+                                {{-- @if (!in_array(16, $enabled_tools))
                                 <li class="registration_top_menu">
                                     <a href="{{ route('appointment.create') }}">Appointment</a>
                                 </li>
-                                @endif
+                                @endif --}}
 
                             @endif
 

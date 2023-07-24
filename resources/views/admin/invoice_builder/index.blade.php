@@ -48,14 +48,14 @@
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $row->id }}">
                                         <button type="submit" class="btn btn-primary btn-sm">
-                                            <i class="fas fa-arrow-alt-circle-down"></i>
+                                            <i class="fas fa-arrow-alt-circle-down">Invoice</i>
                                         </button>
                                     </form>
                                     <form action="{{ route('invoice-builder.thermal_invoice') }}" method="post" class="d-inline" target="_blank">
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $row->id }}">
                                         <button type="submit" class="btn btn-secondary btn-sm">
-                                            <i class="fas fa-arrow-down"></i> Print
+                                            <i class="fas fa-arrow-down"></i> Thermal Print
                                         </button>
                                     </form>
                                 </td>
