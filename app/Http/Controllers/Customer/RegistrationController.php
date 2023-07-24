@@ -108,16 +108,8 @@ class RegistrationController extends Controller
     public function registerEmployee()
     {
         $g_setting = DB::table('general_settings')->where('id', 1)->first();
-
-        $query = Role::where('role_name', 'Employee');
-        if ($query->exists()) {
-            $role = $query->first()->id;
-        } else {
-            $newRole = Role::create(['role_name' => 'Employee']);
-            $role = $newRole->id;
-        }
-        
-    	return view('pages.employee_register', compact('g_setting', 'role'));
+        $roles = Role::where('role_name', '!=' ,'Admin')->get();
+    	return view('pages.employee_register', compact('g_setting', 'roles'));
     }
 
 }
