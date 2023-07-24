@@ -789,7 +789,7 @@ Route::get('/clear-cache', function ()  {
 /* --------------------------------------- */
 /* Employee Assigned Tools - Admin */
 /* --------------------------------------- */
-Route::get('admin/employee-tools', [DashboardControllerForAdmin::class,'employee_tools'])->name('admin.employee.tools');
+Route::get('admin/employee-tools/{id}', [DashboardControllerForAdmin::class,'employee_tools'])->name('admin.employee.tools');
 Route::post('admin/employee-tools', [DashboardControllerForAdmin::class,'set_employee_tools'])->name('admin.employee.tools.set');
 
 

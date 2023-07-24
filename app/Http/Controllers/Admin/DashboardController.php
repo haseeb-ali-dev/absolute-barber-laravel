@@ -122,23 +122,25 @@ class DashboardController extends Controller
 
     }
 
-    public function employee_tools()
+    public function employee_tools($id)
     {
-        $record = DB::table('employee_tools')->where('user_id', 0)->first();
+        $record = DB::table('employee_tools')->where('user_id', $id)->first();
 
         $assigned = isset($record) ? explode(',', $record->codes) : [];
 
-        return view('admin.role.employee_tools', compact('assigned'));
+        return view('admin.role.employee_tools', compact('assigned', 'id'));
     }
 
     public function set_employee_tools(Request $request)
     {
-        if(!isset($request->codes))
-        {
-            return back()->with('error', 'Please select any tool to assign');
-        }
+        $data = $request->validate([
+            'codes' => 'required|array',
+            'user_id' => 'required'
+        ], [
+            'codes.required' => 'Please select any tool to assign',
+        ]);
 
-        DB::table('employee_tools')->updateOrInsert(['user_id' => 0], ['codes' => implode(',', $request->codes)]);
+        DB::table('employee_tools')->updateOrInsert(['user_id' => $data['user_id']], ['codes' => implode(',', $data['codes'])]);
 
         return back()->with('success', 'Tools are assigned to employee');
     }

@@ -173,7 +173,7 @@
         </li>
         <!-- Admin Users Section -->
 
-        @if (session('type') !== 'employee')
+        @if (session('type') === 'admin')
         <li class="nav-item  active ">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAdminUser" aria-expanded="true" aria-controls="collapseAdminUser">
                 <i class="fas fa-credit-card"></i>

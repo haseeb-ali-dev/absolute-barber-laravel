@@ -35,6 +35,9 @@
                                     <a href="{{ URL::to('admin/role/user/edit/password/'.$row->id) }}" class="btn btn-success btn-sm"><i class="fas fa-key"></i></a>
                                     <a href="{{ URL::to('admin/role/user/edit/'.$row->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
                                     <a href="{{ URL::to('admin/role/user/delete/'.$row->id) }}" class="btn btn-danger btn-sm" onClick="return confirm('Are you sure?');"><i class="fas fa-trash-alt"></i></a>
+                                    <a href="{{ route('admin.employee.tools', ['id' => $row->id]) }}" class="btn btn-info btn-sm">
+                                        <i class="fas fa-arrow-alt-circle-right"></i> Assign Tools
+                                    </a>
                                 @endif
                             </td>
                         </tr>
