@@ -18,6 +18,9 @@
                                     <div
                                         class="message @if ($row->sent_by === 'admin') admin-message @else employee-message @endif">
                                         <div class="message-content">
+                                            @if ($row->sent_by!='admin')
+                                                    <img style="width: 30px;height: 30px;" class="img-profile rounded-circle" src="{{ asset('public/uploads/'.$employee->photo) }}">   
+                                                @endif
                                             <small class="username">
                                                 {{ $row->sent_by === 'admin' ? 'Admin' : $employee->name }}</small>
                                             <p class="message-text">{!! $row->msg !!}</p>

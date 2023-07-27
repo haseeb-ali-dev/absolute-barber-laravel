@@ -1024,6 +1024,7 @@ class GeneralSettingController extends Controller
             'bercotool_16' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
             'bercotool_17' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
             'bercotool_18' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
+            'bercotool_19' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
 
         ]);
 
@@ -1223,6 +1224,16 @@ class GeneralSettingController extends Controller
             $request->file('bercotool_18')->move(public_path('uploads/'), $filename);
 
             $setting->bercotool_18 = $filename;
+            $setting->save();
+        }
+        if (isset($request['bercotool_19']))
+        {
+            $ext = $request->file('bercotool_19')->extension();
+            $randomNumber = rand(10000, 99999);
+            $filename = time().$randomNumber . '.' . $ext;
+            $request->file('bercotool_19')->move(public_path('uploads/'), $filename);
+
+            $setting->bercotool_19 = $filename;
             $setting->save();
         }
 

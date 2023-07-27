@@ -37,7 +37,7 @@ class ChatController extends Controller
             // Latest Employee
             $employee = Admin::find($latestEmployeeId);
         }
-
+        
         return view('admin.chat.with_employees', compact('messages', 'users', 'employee'));
     }
 
@@ -143,7 +143,7 @@ class ChatController extends Controller
         $messages = CustomerChat::where('customer_id', $id)->get();
 
         $g_setting = DB::table('general_settings')->where('id', 1)->first();
-
+        
         return view('customer.pages.chat', compact('customer', 'messages', 'g_setting'));
     }
 

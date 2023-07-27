@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    /* Add border to the nav-link class */
+    .nav-item .nav-link {
+        border: 1px solid #000; /* Replace #000 with the desired border color */
+    }
+</style>
 {{-- <div class="page-banner" style="background-image: url({{ asset('public/uploads/'.$g_setting->banner_product) }})">
     <div class="bg-page"></div>
     <div class="text">
@@ -22,19 +28,18 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <ul class="nav nav-pills nav-fill mb-5" id="pills-tab" role="tablist">
+            <ul style="margin-bottom: 6rem!important;" class="nav nav-pills nav-fill mb-5" id="pills-tab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link h4 active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
                         aria-controls="pills-home" aria-selected="true" style="border-radius: 0 !important;">All</a>
                 </li>
-
+            
                 @foreach ($categories as $row)
                 <li class="nav-item">
                     <a class="nav-link h4" id="category-tab-{{$row->id}}" data-toggle="pill" href="#category-{{$row->id}}"
                         role="tab" aria-controls="pills-profile" aria-selected="false" style="border-radius: 0 !important;">{{$row->name}}</a>
                 </li>
                 @endforeach
-
             </ul>
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">

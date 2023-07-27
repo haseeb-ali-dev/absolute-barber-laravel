@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="{{ asset('public/frontend/css/cookieconsent.min.css') }}">
 
 <script src='https://www.google.com/recaptcha/api.js'></script>
-
+    
 <style>
     #preloader #status {
         background-image: url({{ asset('public/uploads/preloader.gif') }});

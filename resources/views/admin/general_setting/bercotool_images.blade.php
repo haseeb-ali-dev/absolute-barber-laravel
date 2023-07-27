@@ -366,6 +366,30 @@
 
             </div>
 
+            <div class="row card-body d-flex align-items-baseline">
+                <div class="form-group d-flex flex-column col-md-2">
+                    <input type="file" name="bercotool_19" accept="image/*">
+                    <span>Contact Form information</span>
+                </div>
+                <div class="col-md-2">
+                    <input type="checkbox" name="codes[]" value="19"
+                        @if (in_array(19, $enabled_tools)) checked @endif>
+                    @if (in_array(19, $enabled_tools))
+                        Uncheck to Enable
+                    @else
+                        Check to Disable
+                    @endif
+                </div>
+                <div class="col-md-2">
+                    <img style="width:230px; height:100px;"
+                        src="{{ isset($general_settings_global->bercotool_19) ? asset("public/uploads/$general_settings_global->bercotool_19") : 'https://placehold.co/640x360?text=Contact+Form+information' }}"
+                        alt="">
+                </div>
+
+               
+
+            </div>
+
             <br>
             <div class="row justify-content-center">
                 <button type="submit" class="btn btn-primary">Upload BercoTool Images</button>

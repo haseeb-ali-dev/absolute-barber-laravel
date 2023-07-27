@@ -27,13 +27,17 @@
                 <div class="chat-box">
                     <div class="container-fluid">
                         @if (isset($employee))
-                            <h4>Chat with {{ $employee->name }}</h4>
+                            <h4>Chat with {{ $employee->name }} <img style="width: 50px;height: 50px;" class="img-profile rounded-circle" src="{{ asset('public/uploads/'.$employee->photo) }}"></h4>
                             <div class="chat-container">
                                 @foreach ($messages as $row)
                                     <div
                                         class="message @if ($row->sent_by === 'admin') admin-message @else employee-message @endif">
                                         <div class="message-content">
                                             <small class="username">
+                                                
+                                                @if ($row->sent_by!='admin')
+                                                    <img style="width: 30px;height: 30px;" class="img-profile rounded-circle" src="{{ asset('public/uploads/'.$employee->photo) }}">   
+                                                @endif
                                                 {{ $row->sent_by === 'admin' ? session('name') : $employee->name }}</small>
                                             <p class="message-text">{!! $row->msg !!}</p>
                                             <small class="message-time">

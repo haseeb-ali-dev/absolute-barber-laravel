@@ -583,7 +583,7 @@ Route::delete('excel_contact/{id}', [CustomerController::class, 'deleteExcelCont
 /* --------------------------------------- */
 /* Landing Page Contacts - Admin */
 /* --------------------------------------- */
-Route::get('landing_page_contact', [GeneralSettingController::class,'landing_page_contact'])->name('landing_page_contact');
+Route::get('landingpage', [GeneralSettingController::class,'landing_page_contact'])->name('landing_page_contact');
 Route::post('landing_page_contact', [GeneralSettingController::class,'landing_page_contact_save'])->name('landing_page_contact.save');
 Route::get('admin/landing_page_contact/setting', [GeneralSettingController::class,'landing_page_contact_setting'])->name('admin.landing_page_contact_setting');
 Route::post('admin/landing_page_contact/setting', [GeneralSettingController::class,'landing_page_contact_setting_update'])->name('admin.landing_page_contact_setting.store');

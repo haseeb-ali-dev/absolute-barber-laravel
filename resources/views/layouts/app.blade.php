@@ -10,7 +10,9 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    @php
+        $navbar_color = \App\Models\Admin\GeneralSetting::where('id',1)->value('navbar_color');
+    @endphp
     @php
     $url = Request::path();
     $conName = explode('/',$url);
@@ -281,9 +283,9 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
         <title>Create Appointment</title>
     @endif
 
-
+    
     @include('layouts.styles')
-
+    
     <!-- Favicon -->
     <link href="{{ asset('public/uploads/'.$g_setting->favicon) }}" rel="shortcut icon" type="image/png">
 
@@ -291,7 +293,7 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
     <link href="https://fonts.googleapis.com/css2?family=Sen:wght@400;700&display=swap" rel="stylesheet">
 
     @include('layouts.scripts')
-
+    
     <style>
         .top,
         .main-nav nav .navbar-nav .nav-item .dropdown-menu,
@@ -327,7 +329,9 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
         .nav-pills .nav-item .nav-link.active {
             background: {{ '#'.$g_setting->theme_color }}!important;
         }
-
+        .mean-bar{
+            background-color: #{{$navbar_color}}!important;
+        }
         .nav-pills .nav-item .nav-link.active {
             border-radius: 30px !important;
             color: #fff !important;
@@ -541,122 +545,124 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
 @if (Request::getHost()!='prismafreight.com')
 
 
-<div class="top">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="top-contact">
-                    <ul>
-                        <li>
-                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
-                            <span>{{ $g_setting->top_bar_email }}</span>
-                        </li>
-                        <li>
-                            <i class="fa fa-phone" aria-hidden="true"></i>
-                            <span>{{ $g_setting->top_bar_phone }}</span>
-                        </li>
-                    </ul>
+    <div class="top">
+        <div class="container">
+            <div class="row">
+                @if(!request()->is('*shop*') && !request()->is('*product*') && !request()->is('*cart*') && !request()->is('*checkout*') && !request()->is('*payment*'))
+                <div class="col-md-4">
+                    <div class="top-contact">
+                        <ul>
+                            <li>
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                <span>{{ $g_setting->top_bar_email }}</span>
+                            </li>
+                            <li>
+                                <i class="fa fa-phone" aria-hidden="true"></i>
+                                <span>{{ $g_setting->top_bar_phone }}</span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-8">
-                <div class="top-right">
+                @endif
+                <div class="col-md-8">
+                    <div class="top-right">
 
-                    @if($g_setting->top_bar_social_status == 'Show')
-                    <div class="top-social">
-                        <ul>
-                            @foreach($s_media as $row)
-                                <li><a href="{{ $row->social_url }}" target="_blank"><i class="{{ $row->social_icon }}"></i></a></li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    @endif
+                        @if($g_setting->top_bar_social_status == 'Show')
+                        <div class="top-social">
+                            <ul>
+                                @foreach($s_media as $row)
+                                    <li><a href="{{ $row->social_url }}" target="_blank"><i class="{{ $row->social_icon }}"></i></a></li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
 
-                    @php
-                        $menus = DB::table('menus')->get();
-                        $menu_arr = array();
-                    @endphp
-
-                    @foreach($menus as $row)
                         @php
-                            $menu_arr[$row->menu_name] = $row->menu_status;
+                            $menus = DB::table('menus')->get();
+                            $menu_arr = array();
                         @endphp
-                    @endforeach
 
-                    @if($menu_arr['Shop'] == 'Show')
-                    <div class="top-profile">
-                        <ul>
-                            @if(!session()->get('customer_id'))
+                        @foreach($menus as $row)
+                            @php
+                                $menu_arr[$row->menu_name] = $row->menu_status;
+                            @endphp
+                        @endforeach
+
+                        @if($menu_arr['Shop'] == 'Show')
+                        <div class="top-profile">
+                            <ul>
+                                @if(!session()->get('customer_id'))
+                                    
+                                    @if(request()->is('*shop*') || request()->is('*product*') || request()->is('*cart*') || request()->is('*checkout*') || request()->is('*payment*'))
+                                        @if($g_setting->top_bar_login_status == 'Show')
+                                        <li class="login_top_menu">
+                                            <a href="{{ route('customer.login') }}">Login</a>
+                                        </li>
+                                        @endif
+                                    @endif
+
+                                    @if(!request()->is('*shop*') && !request()->is('*product*') && !request()->is('*cart*') && !request()->is('*checkout*') && !request()->is('*payment*'))
+                                        @if($g_setting->top_bar_login_status == 'Show')
+                                        <li class="login_top_menu">
+                                            <a href="{{ route('admin.login') }}">Employee Login</a>
+                                        </li>
+                                        @endif
+                                    @endif
+                                    
+                                    @if(request()->is('*shop*') || request()->is('*product*') || request()->is('*cart*') || request()->is('*checkout*') || request()->is('*payment*'))
+                                        @if($g_setting->top_bar_registration_status == 'Show')
+                                        <li class="registration_top_menu">
+                                            <a href="{{ route('customer.registration') }}">Registration</a>
+                                        </li>
+                                        @endif
+                                    @endif
+                                    @if(!request()->is('*shop*') && !request()->is('*product*') && !request()->is('*cart*') && !request()->is('*checkout*') && !request()->is('*payment*'))
+                                        <li class="registration_top_menu">
+                                            <a href="{{ route('employee.registration') }}">Register as Employee</a>
+                                        </li>
+                                    @endif
                                 
-                                @if(request()->is('*shop*') || request()->is('*product*') || request()->is('*cart*') || request()->is('*checkout*') || request()->is('*payment*'))
-                                    @if($g_setting->top_bar_login_status == 'Show')
-                                    <li class="login_top_menu">
-                                        <a href="{{ route('customer.login') }}">Login</a>
-                                    </li>
+                                    @if(request()->is('*shop*') || request()->is('*product*') || request()->is('*cart*') || request()->is('*checkout*') || request()->is('*payment*'))
+                                        @if (!in_array(15, $enabled_tools))
+                                        <li class="registration_top_menu">
+                                            <a href="{{ route('reservation.create') }}">Reservation</a>
+                                        </li>
+                                        @endif
                                     @endif
+
+                                    {{-- @if (!in_array(16, $enabled_tools))
+                                    <li class="registration_top_menu">
+                                        <a href="{{ route('appointment.create') }}">Appointment</a>
+                                    </li>
+                                    @endif --}}
+
                                 @endif
 
-                                @if(!request()->is('*shop*') && !request()->is('*product*') && !request()->is('*cart*') && !request()->is('*checkout*') && !request()->is('*payment*'))
-                                    @if($g_setting->top_bar_login_status == 'Show')
-                                    <li class="login_top_menu">
-                                        <a href="{{ route('admin.login') }}">Employee Login</a>
-                                    </li>
-                                    @endif
-                                @endif
-                                
-                                @if(request()->is('*shop*') || request()->is('*product*') || request()->is('*cart*') || request()->is('*checkout*') || request()->is('*payment*'))
-                                    @if($g_setting->top_bar_registration_status == 'Show')
-                                    <li class="registration_top_menu">
-                                        <a href="{{ route('customer.registration') }}">Registration</a>
-                                    </li>
-                                    @endif
-                                @endif
-                                @if(!request()->is('*shop*') && !request()->is('*product*') && !request()->is('*cart*') && !request()->is('*checkout*') && !request()->is('*payment*'))
-                                    <li class="registration_top_menu">
-                                        <a href="{{ route('employee.registration') }}">Register as Employee</a>
-                                    </li>
-                                @endif
-                               
-                                @if(request()->is('*shop*') || request()->is('*product*') || request()->is('*cart*') || request()->is('*checkout*') || request()->is('*payment*'))
-                                    @if (!in_array(15, $enabled_tools))
-                                    <li class="registration_top_menu">
-                                        <a href="{{ route('reservation.create') }}">Reservation</a>
-                                    </li>
-                                    @endif
-                                @endif
-
-                                {{-- @if (!in_array(16, $enabled_tools))
+                                @if(session()->get('customer_id'))
                                 <li class="registration_top_menu">
-                                    <a href="{{ route('appointment.create') }}">Appointment</a>
+                                    <a href="{{ route('customer.dashboard') }}">Dashboard</a>
                                 </li>
-                                @endif --}}
-
-                            @endif
-
-                            @if(session()->get('customer_id'))
-                            <li class="registration_top_menu">
-                                <a href="{{ route('customer.dashboard') }}">Dashboard</a>
-                            </li>
-                            @endif
-
-                            @if($g_setting->top_bar_cart_status == 'Show')
-                            <li class="cart">
-                                <a href="{{ route('front.cart') }}">Cart </a>
-                                @if(session()->get('cart_product_id'))
-                                <div class="number number_cart">{{ count(session()->get('cart_product_id')) }}</div>
                                 @endif
-                            </li>
-                            @endif
+                                @if(request()->is('*shop*') || request()->is('*product*') || request()->is('*cart*') || request()->is('*checkout*') || request()->is('*payment*'))     
+                                    @if($g_setting->top_bar_cart_status == 'Show')
+                                    <li class="cart">
+                                        <a href="{{ route('front.cart') }}">Cart </a>
+                                        @if(session()->get('cart_product_id'))
+                                        <div class="number number_cart">{{ count(session()->get('cart_product_id')) }}</div>
+                                        @endif
+                                    </li>
+                                    @endif
+                                @endif
+                            </ul>
+                        </div>
+                        @endif
 
-                        </ul>
+
                     </div>
-                    @endif
-
-
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 @endif
 

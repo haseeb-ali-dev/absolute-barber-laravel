@@ -26,7 +26,7 @@
                             <td>{{ $row->role_name }}</td>
                             <td>
                                 @if($row->id != 1)
-                                    <a href="{{ URL::to('admin/role/access-setup/'.$row->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-cubes"></i></a>
+                                    {{-- <a href="{{ URL::to('admin/role/access-setup/'.$row->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-cubes"></i></a> --}}
                                     <a href="{{ URL::to('admin/role/edit/'.$row->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
                                     <a href="{{ URL::to('admin/role/delete/'.$row->id) }}" class="btn btn-danger btn-sm" onClick="return confirm('Are you sure?');"><i class="fas fa-trash-alt"></i></a>
                                 @endif
