@@ -6,6 +6,11 @@
     .nav-item .nav-link {
         border: 1px solid #000; /* Replace #000 with the desired border color */
     }
+    @media screen and (max-width: 767px) {
+        #pills-tab {
+            margin-top: 13%;
+        }
+    }
 </style>
 {{-- <div class="page-banner" style="background-image: url({{ asset('public/uploads/'.$g_setting->banner_product) }})">
     <div class="bg-page"></div>
