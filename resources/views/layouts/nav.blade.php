@@ -6,7 +6,7 @@ $menus = \App\Models\Admin\Menu::whereNull('parent_id')->get();
 @endphp
 <style>
     .main-nav nav .navbar-nav .nav-item .dropdown-menu li a:hover {
-        background: {{$settings['sub_items_hover_bg_color']}} !important;
+        background: #{{$settings['sub_items_hover_bg_color']}} !important;
     }
 </style>
 <!-- Start Navbar Area -->
@@ -43,7 +43,7 @@ $menus = \App\Models\Admin\Menu::whereNull('parent_id')->get();
 
                                     <a style="color: #{{$settings['items_color']}};" href="javascript:void(0);" class="nav-link dropdown-toggle">{{ $row->menu_name }}</a>
 
-                                    <ul class="dropdown-menu" style="background-color: {{$settings['sub_items_bg_color']}} !important;">
+                                    <ul class="dropdown-menu" style="background-color: #{{$settings['sub_items_bg_color']}} !important;">
 
                                         @foreach ($row->sub_menu as $sub)
 

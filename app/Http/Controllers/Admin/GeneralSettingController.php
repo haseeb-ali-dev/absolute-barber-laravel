@@ -207,6 +207,8 @@ class GeneralSettingController extends Controller
         $data['navbar_color'] = $request->get('navbar_color');
         $data['items_color'] = $request->get('items_color');
         $data['items_hover_color'] = $request->get('items_hover_color');
+        $data['sub_items_bg_color'] = $request->get('sub_items_bg_color');
+        $data['sub_items_hover_bg_color'] = $request->get('sub_items_hover_bg_color');
 
         GeneralSetting::where('id',1)->update($data);
 
