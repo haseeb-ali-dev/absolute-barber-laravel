@@ -11,7 +11,8 @@ class Menu extends Model
         'menu_name',
         'menu_status',
         'parent_id',
-        'link',
+        'route',
+        'fixed',
     ];
 
     public function sub_menu()

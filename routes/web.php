@@ -703,9 +703,11 @@ Route::post('admin/footer/update/{id}', [FooterColumnController::class,'update']
 /* Menu - Admin */
 /* --------------------------------------- */
 Route::get('admin/menu/view', [MenuController::class,'index'])->name('admin.menu.index');
+Route::post('admin/menu/store', [MenuController::class,'store'])->name('admin.menu.store');
 Route::post('admin/menu/update', [MenuController::class,'update']);
 Route::post('admin/submenu/add', [MenuController::class,'addSubmenu'])->name('admin.submenu.add');
 Route::delete('admin/submenu/remove/{id}', [MenuController::class,'removeSubmenu'])->name('admin.submenu.remove');
+Route::delete('admin/menu/remove/{id}', [MenuController::class,'destroy'])->name('admin.menu.remove');
 
 
 /* --------------------------------------- */

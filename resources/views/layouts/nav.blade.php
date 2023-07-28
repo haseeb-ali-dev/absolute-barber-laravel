@@ -49,7 +49,7 @@ $menus = \App\Models\Admin\Menu::whereNull('parent_id')->get();
 
                                             @if($sub->menu_status == 'Show')
                                                 <li class="nav-item">
-                                                    <a style="color: #{{$settings['items_color']}};" href="{{ route($sub->route) }}" class="nav-link" @if ($sub->menu_key == 'Shop') target='_blank' @endif>{{ $sub->menu_name }}</a>
+                                                    <a style="color: #{{$settings['items_color']}};" href="{{ $sub->fixed ? route($sub->route) : url($sub->route) }}" class="nav-link" @if ($sub->menu_key == 'Shop') target='_blank' @endif>{{ $sub->menu_name }}</a>
                                                 </li>
                                             @endif
 
@@ -61,7 +61,7 @@ $menus = \App\Models\Admin\Menu::whereNull('parent_id')->get();
                                             @if($row->menu_key=='Home')
                                                 <a style="color: #{{$settings['items_color']}}; border-top:none;" href="{{ route($row->route, ['menu' => 1]) }}" class="nav-link">{{ $row->menu_name }}</a>
                                             @else
-                                                <a style="color: #{{$settings['items_color']}};" href="{{ route($row->route) }}" class="nav-link" @if ($row->menu_key == 'Shop') target='_blank' @endif>{{ $row->menu_name }}</a>
+                                                <a style="color: #{{$settings['items_color']}};" href="{{ $row->fixed ? route($row->route) : url($row->route) }}" class="nav-link" @if ($row->menu_key == 'Shop') target='_blank' @endif>{{ $row->menu_name }}</a>
                                             @endif
                                     @endif
 

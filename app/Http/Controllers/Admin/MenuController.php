@@ -88,4 +88,43 @@ class MenuController extends Controller
             return back()->with('error', $e);
         }
     }
+
+    public function store(Request $request)
+    {
+        if(env('PROJECT_MODE') == 0) {
+            return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
+        }
+        try {
+
+            $data = $request->validate([
+                'menu_key' => 'required|alpha_num',
+                'menu_name' => 'required|alpha_num',
+                'menu_status' => 'required|in:Show,Hide',
+                'fixed' => 'required|in:0,1',
+                'route' => 'required',
+            ]);
+            
+            Menu::create($data);
+
+            return back()->with('success', 'Menu is added successfully!');
+
+        } catch (\Exception $e) {
+
+            return back()->with('error', $e);
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            Menu::find($id)->delete();
+
+            return back()->with('success', 'Menu is deleted successfully!');
+
+        } catch (\Exception $e) {
+
+            return back()->with('error', $e);
+        }
+    }
+
 }
