@@ -28,6 +28,16 @@
                         <input type="text" name="items_hover_color" class="form-control jscolor"
                             value="{{ $general_setting->items_hover_color }}">
                     </div>
+                    <div class="form-group">
+                        <label for="">Navbar Sub Menu Items (Text Color of Menu Sub Items)</label>
+                        <input type="text" name="sub_items_bg_color" class="form-control jscolor"
+                            value="{{ $general_setting->sub_items_bg_color }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Navbar Sub Menu Hover Items (Text Color of Menu Sub Items on hovering them)</label>
+                        <input type="text" name="sub_items_hover_bg_color" class="form-control jscolor"
+                            value="{{ $general_setting->sub_items_hover_bg_color }}">
+                    </div>
                     <button type="submit" class="btn btn-success">Update</button>
                 </div>
             </div>
