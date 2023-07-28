@@ -665,6 +665,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
 /* Order - Admin */
 /* --------------------------------------- */
 Route::get('admin/order/view', [OrderControllerForAdmin::class,'index'])->name('admin.order.index');
+Route::get('admin/order/grid/view', [OrderControllerForAdmin::class,'grid'])->name('admin.order.grid');
 Route::get('admin/order/create', [OrderControllerForAdmin::class,'create'])->name('admin.order.create');
 Route::post('admin/order/store', [OrderControllerForAdmin::class,'store'])->name('admin.order.store');
 Route::get('admin/order/detail/{id}', [OrderControllerForAdmin::class,'detail']);

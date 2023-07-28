@@ -18,6 +18,7 @@ class StatusController extends Controller
     {
         $data = $request->validate([
             'title' => 'required|max:250|unique:status,title',
+            'hex' => 'required|alpha_dash'
         ]);
 
         Status::create($data);
@@ -29,6 +30,7 @@ class StatusController extends Controller
     {
         $data = $request->validate([
             'title' => 'required|max:250|unique:status,title,' . $status->id,
+            'hex' => 'required|alpha_dash'
         ]);
 
         $status->update($data);

@@ -15,6 +15,7 @@
                                 <tr>
                                     <th>SL</th>
                                     <th>Status Title</th>
+                                    <th>Status Hex</th>
                                     <th>Updated Date</th>
                                     <th>Action</th>
                                 </tr>
@@ -24,10 +25,15 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $row->title }}</td>
+                                        <td>
+                                            <div class="btn p-3 rounded-circle"
+                                                style="background-color: #{{ $row->hex }}"></div>
+                                            #{{ $row->hex }}
+                                        </td>
                                         <td>{{ $row->updated_at->format('M d, Y') }}</td>
                                         <td class="d-flex">
                                             <button data-route="{{ route('admin.status.update', ['status' => $row]) }}"
-                                                data-title="{{ $row->title }}"
+                                                data-title="{{ $row->title }}" data-hex="{{ $row->hex }}"
                                                 class="btn btn-warning btn-sm mr-2 edit-btn"><i class="fas fa-edit"></i>
                                             </button>
                                             <form action="{{ route('admin.status.destroy', ['status' => $row]) }}"
@@ -60,6 +66,11 @@
                             <label for="">Title</label>
                             <input type="text" name="title" class="form-control" value="{{ old('title') }}">
                         </div>
+                        <div class="form-group">
+                            <label for="">Color Hex</label>
+                            <input type="text" name="hex" class="form-control jscolor"
+                                value="{{ old('hex') ? old('hex') : '000000' }}">
+                        </div>
                         <button type="submit" class="btn btn-success">Save</button>
                     </div>
                 </div>
@@ -76,6 +87,10 @@
                             <label for="">Title</label>
                             <input type="text" name="title" class="form-control">
                         </div>
+                        <div class="form-group">
+                            <label for="">Color Hex</label>
+                            <input type="text" name="hex" class="form-control jscolor">
+                        </div>
                         <button type="submit" class="btn btn-success">Update</button>
                     </div>
                 </div>
@@ -87,6 +102,7 @@
         $('.edit-btn').click(function() {
             $('#edit-status-form').attr('action', $(this).data('route'));
             $('#edit-status-form input[name="title"]').val($(this).data('title'));
+            $('#edit-status-form input[name="hex"]').val($(this).data('hex'));
             $('#edit-status-form').show();
         });
     </script>

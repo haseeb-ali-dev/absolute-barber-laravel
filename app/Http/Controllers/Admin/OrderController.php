@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Order;
+use App\Models\Admin\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -20,6 +21,16 @@ class OrderController extends Controller
     {
         $order = Order::all();
         return view('admin.order.index', compact('order'));
+    }
+    public function grid(Request $request)
+    {
+        $query = Order::with(['products', 'status']);
+
+        $data = isset($request->status_id) ? $query->where('status_id' , $request->status_id)->get(): $query->get();
+
+        $status = Status::active()->get();
+
+        return view('admin.order.grid', compact('data', 'status'));
     }
 
     public function detail($id)
@@ -50,7 +61,7 @@ class OrderController extends Controller
         if(env('PROJECT_MODE') == 0) {
             return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
         }
-        
+
         DB::table('orders')->where('id', $id)->delete();
         DB::table('order_details')->where('order_id', $id)->delete();
 

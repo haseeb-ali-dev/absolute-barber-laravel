@@ -14,6 +14,7 @@ class Status extends Model
     protected $fillable = [
         'title',
         'active',
+        'hex'
     ];
 
 
@@ -22,9 +23,13 @@ class Status extends Model
         $this->attributes['title'] = Str::lower($value);
     }
 
-
     public function scopeActive($query)
     {
         return $query->where('active', 1)->orderBy('updated_at', 'DESC');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'status_id', 'id');
     }
 }

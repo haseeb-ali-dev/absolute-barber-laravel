@@ -40,6 +40,18 @@ class Order extends Model
         'card_exp_year',
         'payment_method',
         'payment_status',
-        'order_no'
+        'order_no',
+        'status_id'
     ];
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class, 'status_id')->withTrashed();
+    }
+
+    public function products()
+    {
+        return $this->hasMany(OrderDetail::class, 'order_id', 'id');
+    }
+
 }
