@@ -40,6 +40,7 @@ use App\Http\Controllers\Admin\ProjectController as ProjectControllerForAdmin;
 use App\Http\Controllers\Admin\ServiceController as ServiceControllerForAdmin;
 use App\Http\Controllers\Admin\ShippingController;
 use App\Http\Controllers\Admin\SocialMediaItemController;
+use App\Http\Controllers\Admin\StatusController;
 use App\Http\Controllers\Admin\SubscriberController;
 use App\Http\Controllers\Admin\TeamMemberController as TeamMemberControllerForAdmin;
 use App\Http\Controllers\Admin\SliderController;
@@ -671,6 +672,11 @@ Route::get('admin/order/invoice/{id}', [OrderControllerForAdmin::class,'invoice'
 Route::get('admin/order/invoice/thermal/{id}', [OrderControllerForAdmin::class,'invoice_thermal']);
 Route::get('admin/order/delete/{id}', [OrderControllerForAdmin::class,'destroy']);
 
+
+/* --------------------------------------- */
+/* Status - Admin */
+/* --------------------------------------- */
+Route::resource('admin/status', StatusController::class)->except(['show', 'create', 'edit'])->names('admin.status');
 
 /* --------------------------------------- */
 /* Customer - Admin */
