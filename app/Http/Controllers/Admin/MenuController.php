@@ -103,7 +103,7 @@ class MenuController extends Controller
                 'fixed' => 'required|in:0,1',
                 'route' => 'required',
             ]);
-            
+
             Menu::create($data);
 
             return back()->with('success', 'Menu is added successfully!');
@@ -117,7 +117,17 @@ class MenuController extends Controller
     public function destroy($id)
     {
         try {
-            Menu::find($id)->delete();
+            $item = Menu::with('sub_menu')->find($id);
+
+            if (!isset($item)) {
+                return back()->with('error', 'Menu not exists');
+            }
+
+            if (sizeof($item->sub_menu) > 0) {
+                $item->sub_menu()->update(['parent_id' => null]);
+            }
+
+            $item->delete();
 
             return back()->with('success', 'Menu is deleted successfully!');
 
