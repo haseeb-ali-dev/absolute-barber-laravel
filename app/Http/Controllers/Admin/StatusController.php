@@ -10,7 +10,7 @@ class StatusController extends Controller
 {
     public function index()
     {
-        $data = Status::active()->get();
+        $data = Status::active()->withCount('orders')->get();
         return view('admin.status.index', compact('data'));
     }
 
@@ -40,6 +40,11 @@ class StatusController extends Controller
 
     public function destroy(Status $status)
     {
+        if ($status->orders->count() > 0) {
+
+            return back()->with('error', 'This Status cannot be deleted because of some orders are underlying this status! Please remove or change status of these orders to delete this status!');
+        }
+
         $status->deleteOrFail();
 
         return back()->with('success', 'Status is deleted successfully!');

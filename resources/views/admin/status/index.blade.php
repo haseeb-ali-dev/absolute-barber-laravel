@@ -16,6 +16,7 @@
                                     <th>SL</th>
                                     <th>Status Title</th>
                                     <th>Status Hex</th>
+                                    <th>Total Orders</th>
                                     <th>Updated Date</th>
                                     <th>Action</th>
                                 </tr>
@@ -30,6 +31,7 @@
                                                 style="background-color: #{{ $row->hex }}"></div>
                                             #{{ $row->hex }}
                                         </td>
+                                        <td>{{ $row->orders_count }}</td>
                                         <td>{{ $row->updated_at->format('M d, Y') }}</td>
                                         <td class="d-flex">
                                             <button data-route="{{ route('admin.status.update', ['status' => $row]) }}"
