@@ -28,11 +28,11 @@ class OrderController extends Controller
 
         $data = isset($request->status_id) ? $query->where('status_id' , $request->status_id)->get(): $query->get();
 
-        $status = Status::active()->get();
+        $status = Status::active()->withCount('orders')->get();
 
-        $color = isset($request->status_id) ? Status::find($request->status_id)->hex : '36b9cc';
+        $active = isset($request->status_id) ? Status::find($request->status_id) : collect(['hex' => '36b9cc' , 'title' => 'All']);
 
-        return view('admin.order.grid', compact('data', 'status', 'color'));
+        return view('admin.order.grid', compact('data', 'status', 'active'));
     }
 
     public function detail($id)

@@ -1,8 +1,9 @@
 @extends('admin.admin_layouts')
 @section('admin_content')
-    @includeIf('admin.order.grid_css', ['color' => $color])
 
-    <h1 class="h3 mb-3 text-gray-800">Orders</h1>
+    @includeIf('admin.order.grid_css', ['color' => $active['hex']])
+
+    <h1 class="h3 mb-3 text-gray-800">Orders -- {{ strtoupper($active['title']) }}</h1>
 
     <div class="card shadow mb-4">
         <div class="card-body">
@@ -13,7 +14,7 @@
                 @foreach ($status as $row)
                     <a class="btn m-1" href="{{ route('admin.order.grid', 'status_id=' . $row->id) }}"
                         style="border-color: #{{ $row->hex }};color: #{{ $row->hex }};">
-                        {{ ucwords($row->title) }}
+                        {{ $row->orders_count }} - {{ ucwords($row->title) }}
                     </a>
                 @endforeach
             </div>
@@ -36,7 +37,8 @@
                                         <form action="{{ route('admin.order.status_change', ['id' => $row->id]) }}"
                                             method="post">
                                             @csrf
-                                            <select name="status_id" class="form-control form-control-sm" onchange="$(form).submit()">
+                                            <select name="status_id" class="form-control form-control-sm"
+                                                onchange="$(form).submit()">
                                                 <option value=''>Choose status</option>
                                                 @foreach ($status as $item)
                                                     <option value="{{ $item->id }}" style="color:#{{ $item->hex }}"
