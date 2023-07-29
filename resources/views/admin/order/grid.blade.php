@@ -1,5 +1,7 @@
 @extends('admin.admin_layouts')
 @section('admin_content')
+    @includeIf('admin.order.grid_css', ['color' => $color])
+
     <h1 class="h3 mb-3 text-gray-800">Orders</h1>
 
     <div class="card shadow mb-4">
@@ -18,23 +20,36 @@
             <div class="row">
                 @forelse ($data as $row)
                     <div class="col-md-3 my-2">
-                        <div class="card">
-                            <div class="card-header p-2 d-flex flex-column">
+                        <div class="card order_card">
+                            <div class="card-header p-2 d-flex flex-column order_header">
                                 <div class="d-flex justify-content-between">
                                     @if ($row->created_at->diffInMinutes(now()) < 14400)
                                         <span class="d-flex w-50 align-items-center justify-content-start">
                                             <img src="{{ asset('public/frontend/images/new_order.gif') }}" alt="gif"
                                                 width="35" height="35">
-                                            <span>{{ $row->order_no }}</span>
+                                            <span class="customer_name">{{ $row->customer_name }}</span>
                                         </span>
                                     @else
-                                        <span>{{ $row->order_no }}</span>
+                                        <span class="customer_name">{{ $row->customer_name }}</span>
                                     @endif
-                                    <span>Status Selectbox</span>
+                                    <span>
+                                        <form action="{{ route('admin.order.status_change', ['id' => $row->id]) }}"
+                                            method="post">
+                                            @csrf
+                                            <select name="status_id" class="form-control form-control-sm" onchange="$(form).submit()">
+                                                <option value=''>Choose status</option>
+                                                @foreach ($status as $item)
+                                                    <option value="{{ $item->id }}" style="color:#{{ $item->hex }}"
+                                                        @if ($row->status_id == $item->id) selected @endif>
+                                                        {{ ucwords($item->title) }}</option>
+                                                @endforeach
+                                            </select>
+                                        </form>
+                                    </span>
                                 </div>
-                                <div class="d-flex justify-content-between text-sm">
-                                    <a href="{{ route('admin.order.index') }}" class='text-white'>
-                                        {{ $row->order_no }}
+                                <div class="d-flex justify-content-between mt-1">
+                                    <a href="{{ URL::to('admin/order/detail/' . $row->id) }}" class="order_no">
+                                        #{{ $row->order_no }}
                                     </a>
                                     <span>
                                         {{ $row->created_at->format('M d, Y') }}
@@ -49,7 +64,7 @@
                                         <span class="col-md-1">
                                             {{ $item->product_qty }}
                                         </span>
-                                        <span class="col-md-11" style="font-size: 14px;">
+                                        <span class="col-md-11 product_name">
                                             {{ $item->product_name }}
                                         </span>
                                     </div>

@@ -30,7 +30,9 @@ class OrderController extends Controller
 
         $status = Status::active()->get();
 
-        return view('admin.order.grid', compact('data', 'status'));
+        $color = isset($request->status_id) ? Status::find($request->status_id)->hex : '36b9cc';
+
+        return view('admin.order.grid', compact('data', 'status', 'color'));
     }
 
     public function detail($id)
@@ -66,5 +68,24 @@ class OrderController extends Controller
         DB::table('order_details')->where('order_id', $id)->delete();
 
         return Redirect()->back()->with('success', 'Order is deleted successfully!');
+    }
+
+    public function status_change(Request $request, $id)
+    {
+        if(env('PROJECT_MODE') == 0) {
+            return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
+        }
+
+        $order = Order::find($id);
+
+        if (!isset($order)) {
+            return back()->with('error', 'No souch order found');
+        }
+
+        $request->validate(['status_id' => 'required']);
+
+        $order->update(['status_id' => $request->get('status_id')]);
+
+        return back()->with('success', 'Status updated successfully!');
     }
 }

@@ -672,6 +672,7 @@ Route::get('admin/order/detail/{id}', [OrderControllerForAdmin::class,'detail'])
 Route::get('admin/order/invoice/{id}', [OrderControllerForAdmin::class,'invoice']);
 Route::get('admin/order/invoice/thermal/{id}', [OrderControllerForAdmin::class,'invoice_thermal']);
 Route::get('admin/order/delete/{id}', [OrderControllerForAdmin::class,'destroy']);
+Route::post('admin/order/status/{id}/change', [OrderControllerForAdmin::class,'status_change'])->name('admin.order.status_change');
 
 
 /* --------------------------------------- */
