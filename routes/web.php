@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\ChatController;
+use App\Http\Controllers\Admin\VideoConferenceController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\CustomerController;
@@ -828,3 +829,15 @@ Route::post('admin/chat/store', [ChatController::class, 'store'])->name('admin.c
 /* Employee Chat - Admin */
 /* --------------------------------------- */
 Route::get('admin/employee/chat', [ChatController::class, 'employee_chat'])->name('admin.employee.chat');
+
+
+
+/* --------------------------------------- */
+/* Video Conference */
+/* --------------------------------------- */
+
+Route::get('admin/video/conference', [VideoConferenceController::class, 'index'])->name('admin.video_conference.index');
+Route::get('admin/video/conference/delete/{id}', [VideoConferenceController::class,'video_conference_destroy']);
+Route::get('admin/video/conference/create', [VideoConferenceController::class,'video_conference_create'])->name('admin.video_conference_create');
+Route::post('admin/video/conference/store', [VideoConferenceController::class,'video_conference_store'])->name('admin.video_conference_store');
+Route::get('admin/video/conference/start/{id}', [VideoConferenceController::class,'video_conference_start'])->name('admin.video_conference_start');

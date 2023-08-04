@@ -21,23 +21,23 @@
             <div class="row">
                 @forelse ($data as $row)
                     <div class="col-md-3 my-2">
-                        <div class="card order_card">
+                        <div class="card order_card" @if ($row->status==null) style="border-color:red;" @endif>
                             <div class="card-header p-2 d-flex flex-column order_header">
                                 <div class="d-flex justify-content-between">
                                     @if ($row->created_at->diffInMinutes(now()) < 14400)
                                         <span class="d-flex w-50 align-items-center justify-content-start">
                                             <img src="{{ asset('public/frontend/images/new_order.gif') }}" alt="gif"
                                                 width="35" height="35">
-                                            <span class="customer_name">{{ $row->customer_name }}</span>
+                                            <span @if ($row->status==null) style="color:red;" @endif  class="customer_name">{{ $row->customer_name }}</span>
                                         </span>
                                     @else
-                                        <span class="customer_name">{{ $row->customer_name }}</span>
+                                        <span @if ($row->status==null) style="color:red;" @endif class="customer_name">{{ $row->customer_name }}</span>
                                     @endif
                                     <span>
                                         <form action="{{ route('admin.order.status_change', ['id' => $row->id]) }}"
                                             method="post">
                                             @csrf
-                                            <select name="status_id" class="form-control form-control-sm"
+                                            <select @if ($row->status==null) style="color:red;" @endif name="status_id" class="form-control form-control-sm"
                                                 onchange="$(form).submit()">
                                                 <option value=''>Choose status</option>
                                                 @foreach ($status as $item)
@@ -50,7 +50,7 @@
                                     </span>
                                 </div>
                                 <div class="d-flex justify-content-between mt-1">
-                                    <a href="{{ URL::to('admin/order/detail/' . $row->id) }}" class="order_no">
+                                    <a @if ($row->status==null) style="color:red;" @endif href="{{ URL::to('admin/order/detail/' . $row->id) }}" class="order_no">
                                         #{{ $row->order_no }}
                                     </a>
                                     <span>
@@ -58,8 +58,8 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="card-body py-2 px-3 text-dark">
-                                <p class="card-text d-flex flex-column align-items-center">
+                            <div  class="card-body py-2 px-3 text-dark">
+                                <p  class="card-text d-flex flex-column align-items-center">
                                 <p>Products:</p>
                                 @forelse ($row->products as $item)
                                     <div class="row border my-1">
