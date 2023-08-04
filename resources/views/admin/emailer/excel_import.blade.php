@@ -1,24 +1,48 @@
 @extends('admin.admin_layouts')
 @section('admin_content')
-    <h1 class="h3 mb-3 text-gray-800">Landing Page Contacts</h1>
+    <h1 class="h3 mb-3 text-gray-800">Import Excel Contacts</h1>
 
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div id="account_edit">
+                {{-- {{ Form::open(['route' => 'bulk.sms.excel.post', 'method' => 'post', 'id' => 'sms_form', 'files' => true]) }} --}}
+                <form action="{{ url('admin/excel_import') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div id="upload_excel" class="mb-3">
+                                        <label for="excel_file" class="form-label">Upload Excel File:</label>
+                                        <input type="file" name="file" class="form-control-file" id="excel_file">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div id="download_sample_excel" class="mb-3">
+                                        <a href="{{ asset('public/demo_excels') }}/demo_bulk.xlsx" download>Download Sample Excel File</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-100 text-right">
+                                <button type="submit" class="btn btn-sm btn-primary rounded-pill mr-auto" id="submit-all">{{ __('Import Excel Sheet') }}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <br>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            {{-- <h6 class="m-0 mt-2 font-weight-bold text-primary">View Landing Page Contacts</h6> --}}
+            {{-- <h6 class="m-0 mt-2 font-weight-bold text-primary">Imported Excel Contact</h6> --}}
 
         </div>
-        {{-- <a href="#"  data-toggle="modal" class="btn btn-primary btn-sm btn-block" data-target="#send_email">Send Email to Customers</a> --}}
-        <a href="#"  data-toggle="modal" class="btn btn-info btn-sm btn-block" data-target="#send_sms">Send SMS to Customers
-            <span class="font-weight-bold" style="font-size: 18px">({{ $smsSent . ' / ' . $smsLimit }})</span>
-        </a>
-        <a href="#"  data-toggle="modal" class="btn btn-success btn-sm btn-block" data-target="#send_whatsapp">Send Whatsapp to Customers
-            <span class="font-weight-bold" style="font-size: 18px">({{ $whatsappSent . ' / ' . $whatsappLimit }})</span>
-        </a><br>
-        <a href="{{ URL::to('admin/landing_contacts/delete') }}" class="btn btn-danger btn-sm btn-block" onClick="return confirm('You are deleting all Contacts. Are you sure?');">Delete All Contacts</a>
+        <a href="#"  data-toggle="modal" class="btn btn-primary btn-sm btn-block" data-target="#send_email">Send Email to Customers</a>
+        
+        <a href="{{ URL::to('admin/excel/delete') }}" class="btn btn-danger btn-sm btn-block" onClick="return confirm('You are deleting all Excel Contacts. Are you sure?');">Delete All Imported Contacts</a>
         <div class="card-body">
-            <button class="btn btn-info rounded-pill float-right mb-2" onclick="exportToExcel('customers-table')">
-                <i class="fas fa-file-export ml-1 mr-2"></i>Export to Excel
-            </button>
             <div class="table-responsive">
                 <table class="table table-bordered" id="customers-table" width="100%" cellspacing="0">
                     <thead>
@@ -45,22 +69,22 @@
                             <td>{{ $row->email }}</td>
                             <td>{{ $row->phone }}</td>
                             <td>
-                               <div class="d-flex">
-                                    <button class="btn btn-sm text-success py-0 edit-contact-btn"
-                                        data-url="{{ url('landing_page_messages/contact/'. $row->id) }}"
-                                        data-name="{{ $row->name }}" data-email="{{ $row->email }}" data-phone="{{ $row->phone }}">
-                                        <i class="fas fa-pencil-alt"></i> Edit
-                                    </button>
-                                    <form action="{{ url('landing_page_messages/contact/'. $row->id .'/delete') }}" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-sm text-danger py-0" type="button"
-                                            onclick="if(confirm('Are you sure') == true){$(form).submit()}">
-                                            <i class="far fa-trash-alt"></i> Delete
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
+                                <div class="d-flex">
+                                     <button class="btn btn-sm text-success py-0 edit-contact-btn"
+                                         data-url="{{ url('excel_contact/'. $row->id) }}"
+                                         data-name="{{ $row->name }}" data-email="{{ $row->email }}" data-phone="{{ $row->phone }}">
+                                         <i class="fas fa-pencil-alt"></i> Edit
+                                     </button>
+                                     <form action="{{ url('excel_contact/'. $row->id) }}" method="post">
+                                         @csrf
+                                         @method('DELETE')
+                                         <button class="btn btn-sm text-danger py-0" type="button"
+                                             onclick="if(confirm('Are you sure') == true){$(form).submit()}">
+                                             <i class="far fa-trash-alt"></i> Delete
+                                         </button>
+                                     </form>
+                                 </div>
+                             </td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -69,6 +93,32 @@
         </div>
     </div>
 
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Write Message</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="{{ route('admin.customer.sendmessage') }}" method="post">
+                @csrf
+                <input type="hidden" name="id" id="id"/>
+               <div class="form-group">
+                   <textarea class="form-control" name="message" placeholder="Hello"></textarea>
+               </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary pull-right float-right">Send</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
     <!--Email Modal -->
@@ -82,7 +132,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form action="{{ route('admin.customers.send_email_action.landing') }}" method="post">
+              <form action="{{ route('admin.customers.send_email_action.excel') }}" method="post">
                   @csrf
                   <input type="hidden" name="customer_ids" class="customer_ids">
                  <div class="form-group">
@@ -110,7 +160,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form action="{{ route('admin.customers.send_sms_action_landing') }}" method="post">
+              <form action="{{ route('admin.customers.send_sms_action.excel') }}" method="post">
                   @csrf
                   <input type="hidden" name="customer_ids" class="customer_ids">
                  <div class="form-group">
@@ -139,7 +189,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form action="{{ route('admin.customers.send_whatsapp_action_landing') }}" method="post">
+              <form action="{{ route('admin.customers.send_whatsapp_action.excel') }}" method="post">
                   @csrf
                   <input type="hidden" name="customer_ids" class="customer_ids">
                  <div class="form-group">
@@ -156,13 +206,12 @@
       </div>
     @endif
 
-
     <div class="modal fade" id="edit_contact" tabindex="-1" role="dialog" aria-labelledby="edit_contactLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="edit_contactLabel">Edit Landing Page Contact</h5>
+                    <h5 class="modal-title" id="edit_contactLabel">Edit Excel Contact</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -194,6 +243,7 @@
             </div>
         </div>
     </div>
+
 
 
 

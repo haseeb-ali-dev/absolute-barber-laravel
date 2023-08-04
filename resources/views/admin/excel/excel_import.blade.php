@@ -39,7 +39,7 @@
             {{-- <h6 class="m-0 mt-2 font-weight-bold text-primary">Imported Excel Contact</h6> --}}
 
         </div>
-        <a href="#"  data-toggle="modal" class="btn btn-primary btn-sm btn-block" data-target="#send_email">Send Email to Customers</a>
+        {{-- <a href="#"  data-toggle="modal" class="btn btn-primary btn-sm btn-block" data-target="#send_email">Send Email to Customers</a> --}}
         <a href="#"  data-toggle="modal" class="btn btn-info btn-sm btn-block" data-target="#send_sms">Send SMS to Customers
             <span class="font-weight-bold" style="font-size: 18px">({{ $smsSent . ' / ' . $smsLimit }})</span>
         </a>

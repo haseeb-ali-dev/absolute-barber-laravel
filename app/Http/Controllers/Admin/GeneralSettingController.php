@@ -1028,227 +1028,27 @@ class GeneralSettingController extends Controller
             'bercotool_18' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
             'bercotool_19' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
             'bercotool_20' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
+            'bercotool_21' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
 
         ]);
 
         $setting = GeneralSetting::where('id',1)->first();
 
-        if (isset($request['bercotool_1']))
-        {
-            $ext = $request->file('bercotool_1')->extension();
-            $randomNumber = rand(10000, 99999); // generate random 5-digit number
-            $final_name1 = time().$randomNumber.'.'.$ext;
-            $request->file('bercotool_1')->move(public_path('uploads/'), $final_name1);
-
-            $setting->bercotool_1=$final_name1;
-            $setting->save();
+        for ($i = 1; $i <= 21; $i++) {
+            $inputName = 'bercotool_' . $i;
+        
+            if ($request->hasFile($inputName)) {
+                $file = $request->file($inputName);
+                $ext = $file->getClientOriginalExtension();
+                $randomNumber = rand(10000, 99999);
+                $finalName = time() . $randomNumber . '.' . $ext;
+                $file->move(public_path('uploads/'), $finalName);
+        
+                $setting->$inputName = $finalName;
+            }
         }
-
-        if (isset($request['bercotool_2']))
-        {
-            $ext = $request->file('bercotool_2')->extension();
-            $randomNumber = rand(10000, 99999); // generate random 5-digit number
-            $final_name2 = time().$randomNumber.'.'.$ext;
-            $request->file('bercotool_2')->move(public_path('uploads/'), $final_name2);
-
-            $setting->bercotool_2=$final_name2;
-            $setting->save();
-        }
-        if (isset($request['bercotool_3']))
-        {
-            $ext = $request->file('bercotool_3')->extension();
-            $randomNumber = rand(10000, 99999); // generate random 5-digit number
-            $final_name3 = time().$randomNumber.'.'.$ext;
-            $request->file('bercotool_3')->move(public_path('uploads/'), $final_name3);
-
-            $setting->bercotool_3=$final_name3;
-            $setting->save();
-        }
-
-        if (isset($request['bercotool_4']))
-        {
-            $ext = $request->file('bercotool_4')->extension();
-            $randomNumber = rand(10000, 99999); // generate random 5-digit number
-            $final_name4 = time().$randomNumber.'.'.$ext;
-            $request->file('bercotool_4')->move(public_path('uploads/'), $final_name4);
-
-            $setting->bercotool_4=$final_name4;
-            $setting->save();
-        }
-
-        if (isset($request['bercotool_5']))
-        {
-            $ext = $request->file('bercotool_5')->extension();
-            $randomNumber = rand(10000, 99999); // generate random 5-digit number
-            $final_name5 = time().$randomNumber.'.'.$ext;
-            $request->file('bercotool_5')->move(public_path('uploads/'), $final_name5);
-
-            $setting->bercotool_5=$final_name5;
-            $setting->save();
-        }
-
-        if (isset($request['bercotool_6']))
-        {
-            $ext = $request->file('bercotool_6')->extension();
-            $randomNumber = rand(10000, 99999); // generate random 5-digit number
-            $final_name6 = time().$randomNumber.'.'.$ext;
-            $request->file('bercotool_6')->move(public_path('uploads/'), $final_name6);
-
-            $setting->bercotool_6=$final_name6;
-            $setting->save();
-        }
-
-        if (isset($request['bercotool_7']))
-        {
-            $ext = $request->file('bercotool_7')->extension();
-            $randomNumber = rand(10000, 99999); // generate random 5-digit number
-            $final_name7 = time().$randomNumber.'.'.$ext;
-            $request->file('bercotool_7')->move(public_path('uploads/'), $final_name7);
-
-            $setting->bercotool_7=$final_name7;
-            $setting->save();
-        }
-
-        if (isset($request['bercotool_8']))
-        {
-            $ext = $request->file('bercotool_8')->extension();
-            $randomNumber = rand(10000, 99999); // generate random 5-digit number
-            $final_name8 = time().$randomNumber.'.'.$ext;
-            $request->file('bercotool_8')->move(public_path('uploads/'), $final_name8);
-
-            $setting->bercotool_8=$final_name8;
-            $setting->save();
-        }
-
-        if (isset($request['bercotool_9']))
-        {
-            $ext = $request->file('bercotool_9')->extension();
-            $randomNumber = rand(10000, 99999); // generate random 5-digit number
-            $final_name9 = time().$randomNumber.'.'.$ext;
-            $request->file('bercotool_9')->move(public_path('uploads/'), $final_name9);
-
-            $setting->bercotool_9=$final_name9;
-            $setting->save();
-        }
-
-        if (isset($request['bercotool_10']))
-        {
-            $ext = $request->file('bercotool_10')->extension();
-            $randomNumber = rand(10000, 99999); // generate random 5-digit number
-            $final_name10 = time().$randomNumber.'.'.$ext;
-            $request->file('bercotool_10')->move(public_path('uploads/'), $final_name10);
-
-            $setting->bercotool_10=$final_name10;
-            $setting->save();
-        }
-
-        if (isset($request['bercotool_11']))
-        {
-            $ext = $request->file('bercotool_11')->extension();
-            $randomNumber = rand(10000, 99999); // generate random 5-digit number
-            $final_name10 = time().$randomNumber.'.'.$ext;
-            $request->file('bercotool_11')->move(public_path('uploads/'), $final_name10);
-
-            $setting->bercotool_11=$final_name10;
-            $setting->save();
-        }
-
-        if (isset($request['bercotool_12']))
-        {
-            $ext = $request->file('bercotool_12')->extension();
-            $randomNumber = rand(10000, 99999); // generate random 5-digit number
-            $final_name10 = time().$randomNumber.'.'.$ext;
-            $request->file('bercotool_12')->move(public_path('uploads/'), $final_name10);
-
-            $setting->bercotool_12=$final_name10;
-            $setting->save();
-        }
-
-        if (isset($request['bercotool_13']))
-        {
-            $ext = $request->file('bercotool_13')->extension();
-            $randomNumber = rand(10000, 99999);
-            $filename = time().$randomNumber . '.' . $ext;
-            $request->file('bercotool_13')->move(public_path('uploads/'), $filename);
-
-            $setting->bercotool_13 = $filename;
-            $setting->save();
-        }
-
-        if (isset($request['bercotool_14']))
-        {
-            $ext = $request->file('bercotool_14')->extension();
-            $randomNumber = rand(10000, 99999);
-            $filename = time().$randomNumber . '.' . $ext;
-            $request->file('bercotool_14')->move(public_path('uploads/'), $filename);
-
-            $setting->bercotool_14 = $filename;
-            $setting->save();
-        }
-
-        if (isset($request['bercotool_15']))
-        {
-            $ext = $request->file('bercotool_15')->extension();
-            $randomNumber = rand(10000, 99999);
-            $filename = time().$randomNumber . '.' . $ext;
-            $request->file('bercotool_15')->move(public_path('uploads/'), $filename);
-
-            $setting->bercotool_15 = $filename;
-            $setting->save();
-        }
-
-        if (isset($request['bercotool_16']))
-        {
-            $ext = $request->file('bercotool_16')->extension();
-            $randomNumber = rand(10000, 99999);
-            $filename = time().$randomNumber . '.' . $ext;
-            $request->file('bercotool_16')->move(public_path('uploads/'), $filename);
-
-            $setting->bercotool_16 = $filename;
-            $setting->save();
-        }
-
-        if (isset($request['bercotool_17']))
-        {
-            $ext = $request->file('bercotool_17')->extension();
-            $randomNumber = rand(10000, 99999);
-            $filename = time().$randomNumber . '.' . $ext;
-            $request->file('bercotool_17')->move(public_path('uploads/'), $filename);
-
-            $setting->bercotool_17 = $filename;
-            $setting->save();
-        }
-
-        if (isset($request['bercotool_18']))
-        {
-            $ext = $request->file('bercotool_18')->extension();
-            $randomNumber = rand(10000, 99999);
-            $filename = time().$randomNumber . '.' . $ext;
-            $request->file('bercotool_18')->move(public_path('uploads/'), $filename);
-
-            $setting->bercotool_18 = $filename;
-            $setting->save();
-        }
-        if (isset($request['bercotool_19']))
-        {
-            $ext = $request->file('bercotool_19')->extension();
-            $randomNumber = rand(10000, 99999);
-            $filename = time().$randomNumber . '.' . $ext;
-            $request->file('bercotool_19')->move(public_path('uploads/'), $filename);
-
-            $setting->bercotool_19 = $filename;
-            $setting->save();
-        }
-        if (isset($request['bercotool_20']))
-        {
-            $ext = $request->file('bercotool_20')->extension();
-            $randomNumber = rand(10000, 99999);
-            $filename = time().$randomNumber . '.' . $ext;
-            $request->file('bercotool_20')->move(public_path('uploads/'), $filename);
-
-            $setting->bercotool_20 = $filename;
-            $setting->save();
-        }
+        
+        $setting->save();
 
         if(isset($request->codes))
         {

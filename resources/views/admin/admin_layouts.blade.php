@@ -135,6 +135,21 @@
 
                     $conName[1] = 'invoices';
                 }
+                if(Request::path()=='get_subscribers')
+                {
+
+                    $conName[1] = 'get_subscribers';
+                }
+                if(Request::path()=='landing_page_emails')
+                {
+
+                    $conName[1] = 'landing_page_emails';
+                }
+                if(Request::path()=='import_excel_contacts_emailer')
+                {
+
+                    $conName[1] = 'import_excel_contacts_emailer';
+                }
         @endphp
 
 

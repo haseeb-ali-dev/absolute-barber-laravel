@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\Admin\Subscriber;
 use App\Models\ExcelContact;
 use App\Models\LandingPageContact;
 use Illuminate\Http\Request;
@@ -53,11 +54,39 @@ class CustomerController extends Controller
         return view('admin.customer.landing', compact('customers'));
     }
 
+    public function landing_page_emails()
+    {
+        // dd('1');
+        $customers = LandingPageContact::all();
+        return view('admin.emailer.landing_emails', compact('customers'));
+    }
+
+
     public function import_excel_contacts(){
 
         $customers = ExcelContact::all();
         return view('admin.excel.excel_import', compact('customers'));
     }
+
+
+    public function import_excel_contacts_emailer(){
+
+        $customers = ExcelContact::all();
+        return view('admin.emailer.excel_import', compact('customers'));
+    }
+
+    public function get_subscribers(){
+        $subscribers = Subscriber::where('subs_active', 1)->get();
+        return view('admin.emailer.subscriber_emailer', compact('subscribers'));
+    }
+
+    public function subscriber_delete($id)
+    {
+        Subscriber::find($id)->delete();
+
+        return back()->with('success', 'Subscriber deleted successfully');
+    }
+
 
     public function excel_import(Request $request){
         $data = $request->validate([
@@ -210,5 +239,10 @@ class CustomerController extends Controller
 
         return back()->with('success', 'Excel Contact deleted successfully');
     }
+
+    
+
+
+
 
 }

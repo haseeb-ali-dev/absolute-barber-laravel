@@ -155,6 +155,47 @@ class SubscriberController extends Controller
             
     }
 
+    public function send_subscriber_email(Request $request)
+    {
+        
+       
+        
+        $count=0;
+            $data = $request->validate([
+                'customer_ids' => 'required',
+                'subject' => 'required',
+                'message' => 'required',
+            ]);
+            $customersIds = explode(",", $data['customer_ids']);
+            if (count($customersIds) <= 0) {
+                return back()->with('error', 'No Subscriber selected to send message!');
+            } else {
+
+                
+                $customers = Subscriber::whereIn('id', $customersIds)->get();
+                
+                
+                $subject = $request->subject;
+                $message = $request->message;
+
+                // $all_subscribers = Subscriber::where('subs_active', 1)->get();
+                foreach($customers as $row)
+                {
+                    $subs_email = $row->subs_email;
+                    
+                    Mail::to($subs_email)->send(new MailToAllSubscribers($subject,$message));
+                    $count++;
+                }
+
+                return back()->with('success', $count.' '.'Promotion Emails are sent successfully!');
+
+            }
+            
+    }
+
+
+
+
     public function send_customers_email_action_landing(Request $request)
     {
        

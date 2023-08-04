@@ -841,3 +841,14 @@ Route::get('admin/video/conference/delete/{id}', [VideoConferenceController::cla
 Route::get('admin/video/conference/create', [VideoConferenceController::class,'video_conference_create'])->name('admin.video_conference_create');
 Route::post('admin/video/conference/store', [VideoConferenceController::class,'video_conference_store'])->name('admin.video_conference_store');
 Route::get('admin/video/conference/start/{id}', [VideoConferenceController::class,'video_conference_start'])->name('admin.video_conference_start');
+
+
+
+/* --------------------------------------- */
+/* Emailer Tool */
+/* --------------------------------------- */
+Route::get('get_subscribers', [CustomerController::class,'get_subscribers'])->name('admin.get_subscribers');
+Route::delete('subscriber_delete/{id}', [CustomerController::class, 'subscriber_delete']);
+Route::post('admin/subscriber/send-email', [SubscriberController::class,'send_subscriber_email'])->name('admin.subscriber.send_email');
+Route::get('landing_page_emails', [CustomerController::class,'landing_page_emails'])->name('admin.landing_page_emails');
+Route::get('import_excel_contacts_emailer', [CustomerController::class,'import_excel_contacts_emailer'])->name('admin.excel.import.emailer');

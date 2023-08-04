@@ -38,6 +38,7 @@
             ['route' => route('admin.order.grid'), 'img' => $general_settings_global->bercotool_18 ? asset("public/uploads/$general_settings_global->bercotool_18") : 'https://placehold.co/1600x400?text=Display+Orders', 'icon' => 'fas fa-cog', 'code' => 18],
             ['route' => route('admin.messages.index'), 'img' => $general_settings_global->bercotool_19 ? asset("public/uploads/$general_settings_global->bercotool_19") : 'https://placehold.co/1600x400?text=Contact+Form+information', 'icon' => 'fas fa-cog', 'code' => 19],
             ['route' => route('admin.video_conference.index'), 'img' => $general_settings_global->bercotool_20 ? asset("public/uploads/$general_settings_global->bercotool_20") : 'https://placehold.co/1600x400?text=Video+Conference', 'icon' => 'fas fa-cog', 'code' => 20], 
+            ['key' => 'emailer', 'img' => asset("public/uploads/$general_settings_global->bercotool_21"), 'name' => 'Emailer', 'icon' => 'fas fa-cog', 'code' => 21], 
             // ['route' => route('admin.plan_payment'), 'name' => 'My Plan & Payments', 'icon' => 'fas fa-fw fa-cog'],
         ];
         $bercoweb = [
@@ -127,6 +128,11 @@
             ['route' => route('admin.job.index'), 'name' => 'Jobs', 'icon' => 'fas fa-user-secret'],
             ['route' => route('admin.job.view_application'), 'name' => 'Job Applications', 'icon' => 'fas fa-user-secret'],
         ];
+        $emailer = [
+            ['route' => route('admin.get_subscribers'), 'name' => 'Subscribers', 'icon' => 'fas fa-share-alt-square'],
+            ['route' => route('admin.landing_page_emails'), 'name' => 'Landing Page', 'icon' => 'fas fa-share-alt-square'],
+            ['route' => route('admin.excel.import.emailer'), 'name' => 'External Data', 'icon' => 'fas fa-share-alt-square'],
+        ];
         $sections = [
             ['title' => 'Dashboard', 'key' => 'dashboard', 'items' => $dashboard_section],
             ['title' => 'Bercoweb', 'key' => 'bercoweb', 'back' => 'dashboard', 'items' => $bercoweb],
@@ -137,7 +143,9 @@
             ['title' => 'Page Settings', 'key' => 'page', 'back' => 'bercoweb', 'items' => $page_settings],
             ['title' => 'Blog Section', 'key' => 'blogsection', 'back' => 'dashboard', 'items' => $blog_section],
             ['title' => 'Career Section', 'key' => 'career', 'back' => 'bercoweb', 'items' => $career_section],
+            ['title' => 'Emailer', 'key' => 'emailer', 'back' => 'dashboard', 'items' => $emailer],
         ];
+        
     @endphp
 
     @foreach ($sections as $section)
@@ -223,7 +231,7 @@
     @endforeach
 
     <script>
-        const keys = ['dashboard', 'bercoweb', 'bercostore', 'subscriber', 'administration', 'general', 'page', 'blog', 'career','blogsection']
+        const keys = ['dashboard', 'bercoweb', 'bercostore', 'subscriber', 'administration', 'general', 'page', 'blog', 'career','blogsection','emailer']
         function toggleSection(key, back = false)
         {
             const audio = new Audio("{{ asset('public/backend/ping-1.mp3') }}")
