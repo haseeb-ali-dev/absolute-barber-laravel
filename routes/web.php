@@ -856,6 +856,6 @@ Route::get('import_excel_contacts_emailer', [CustomerController::class,'import_e
 
 
 /* --------------------------------------- */
-/* Projects Tool */
+/* Stats Tool */
 /* --------------------------------------- */
-// Route::get('admin/projects', [ProjectController::class,'index'])->name('admin.projects.index');
+Route::get('admin/stats', [DashboardControllerForAdmin::class,'admin_stats'])->name('admin.stats');

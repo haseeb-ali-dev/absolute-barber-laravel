@@ -21,6 +21,14 @@ class DashboardController extends Controller
     {
         return view('admin.home');
     }
+
+    public function admin_stats()
+    {
+        $all_products = DB::table('products')->select('id','product_stock')->get();  
+          
+        return view('admin.stats', compact('all_products'));
+    }
+
     public function tools()
     {
         $transactions=AdminMonthlyPayment::get()->last();
