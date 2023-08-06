@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Project;
+use App\Models\Admin\Admin;
 use App\Models\Admin\ProjectPhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -14,18 +15,22 @@ class ProjectController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('admin');
+        // $this->middleware('admin');
     }
 
     public function index()
     {
         $project = Project::all();
+        $admin_data = Admin::where('id',session('id'))->first();
+        
         return view('admin.project.index', compact('project'));
     }
 
     public function create()
     {
-        return view('admin.project.create');
+        $employees = Admin::where('role_id', '!=', 1)->get();
+    
+        return view('admin.project.create', compact('employees'));
     }
 
     public function store(Request $request)
@@ -39,6 +44,7 @@ class ProjectController extends Controller
 
         $request->validate([
             'project_name' => 'required|unique:projects',
+            'emp_id' => 'required',
             'project_slug' => 'unique:projects',
             'project_featured_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
@@ -53,6 +59,7 @@ class ProjectController extends Controller
         $final_name = time().'.'.$ext;
         $request->file('project_featured_photo')->move(public_path('uploads/'), $final_name);
         $data['project_featured_photo'] = $final_name;
+        
 
         $project->fill($data)->save();
         return redirect()->route('admin.project.index')->with('success', 'Project is added successfully!');
@@ -61,7 +68,8 @@ class ProjectController extends Controller
     public function edit($id)
     {
         $project = Project::findOrFail($id);
-        return view('admin.project.edit', compact('project'));
+        $employees = Admin::where('role_id', '!=', 1)->get();
+        return view('admin.project.edit', compact('project','employees'));
     }
 
     public function update(Request $request, $id)
@@ -82,7 +90,8 @@ class ProjectController extends Controller
                 'project_slug'   =>  [
                     Rule::unique('projects')->ignore($id),
                 ],
-                'project_featured_photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+                'project_featured_photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                'emp_id' => 'required'
             ]);
             // unlink(public_path('uploads/'.$project->project_featured_photo));
             $ext = $request->file('project_featured_photo')->extension();
@@ -143,7 +152,11 @@ class ProjectController extends Controller
         $data = $request->only($project_photo->getFillable());
 
         $request->validate([
-            'project_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'project_photo' => 'required|mimes:pdf|max:2048',
+        ], [
+            'project_photo.required' => 'Please upload a PDF file.',
+            'project_photo.mimes' => 'Please upload a PDF file only.',
+            'project_photo.max' => 'The PDF file size should not exceed 2MB (2048 KB).',
         ]);
         $statement = DB::select("SHOW TABLE STATUS LIKE 'project_photos'");
         $ai_id = $statement[0]->Auto_increment;
@@ -153,7 +166,7 @@ class ProjectController extends Controller
         $data['project_photo'] = $final_name;
         $data['project_id'] = $request->project_id;
         $project_photo->fill($data)->save();
-        return redirect()->back()->with('success', 'Project Photo is added successfully!');
+        return redirect()->back()->with('success', 'Project PDF is added successfully!');
     }
 
     public function gallerydelete($id)

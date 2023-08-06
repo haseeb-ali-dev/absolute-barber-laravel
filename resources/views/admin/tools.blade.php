@@ -39,6 +39,7 @@
             ['route' => route('admin.messages.index'), 'img' => $general_settings_global->bercotool_19 ? asset("public/uploads/$general_settings_global->bercotool_19") : 'https://placehold.co/1600x400?text=Contact+Form+information', 'icon' => 'fas fa-cog', 'code' => 19],
             ['route' => route('admin.video_conference.index'), 'img' => $general_settings_global->bercotool_20 ? asset("public/uploads/$general_settings_global->bercotool_20") : 'https://placehold.co/1600x400?text=Video+Conference', 'icon' => 'fas fa-cog', 'code' => 20], 
             ['key' => 'emailer', 'img' => asset("public/uploads/$general_settings_global->bercotool_21"), 'name' => 'Emailer', 'icon' => 'fas fa-cog', 'code' => 21], 
+            ['route' => route('admin.project.index'), 'img' => $general_settings_global->bercotool_22 ? asset("public/uploads/$general_settings_global->bercotool_22") : 'https://placehold.co/1600x400?text=Projects', 'icon' => 'fas fa-cog', 'code' => 22],
             // ['route' => route('admin.plan_payment'), 'name' => 'My Plan & Payments', 'icon' => 'fas fa-fw fa-cog'],
         ];
         $bercoweb = [
@@ -51,7 +52,7 @@
             ['route' => route('admin.slider.index'), 'name' => 'Sliders', 'icon' => 'fas fa-sliders-h'],
             ['route' => route('admin.dynamic_page.index'), 'name' => 'Dynamic Pages', 'icon' => 'fas fa-cube'],
             ['route' => route('admin.menu.index'), 'name' => 'Menu Manage', 'icon' => 'fas fa-bars'],
-            ['route' => route('admin.project.index'), 'name' => 'Project', 'icon' => 'fas fa-umbrella'],
+            // ['route' => route('admin.project.index'), 'name' => 'Project', 'icon' => 'fas fa-umbrella'],
             ['route' => route('admin.photo.index'), 'name' => 'Photo Gallery', 'icon' => 'fas fa-camera'],
             ['route' => route('admin.video.index'), 'name' => 'Video Gallery', 'icon' => 'fas fa-video'],
             ['route' => route('admin.customer.index'), 'name' => 'Customer Section', 'icon' => 'fas fa-users'],

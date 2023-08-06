@@ -19,7 +19,8 @@ class Project extends Model
         'project_video',
         'project_featured_photo',
         'seo_title',
-        'seo_meta_description'
+        'seo_meta_description',
+        'emp_id'
     ];
 
 }

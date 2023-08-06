@@ -852,3 +852,10 @@ Route::delete('subscriber_delete/{id}', [CustomerController::class, 'subscriber_
 Route::post('admin/subscriber/send-email', [SubscriberController::class,'send_subscriber_email'])->name('admin.subscriber.send_email');
 Route::get('landing_page_emails', [CustomerController::class,'landing_page_emails'])->name('admin.landing_page_emails');
 Route::get('import_excel_contacts_emailer', [CustomerController::class,'import_excel_contacts_emailer'])->name('admin.excel.import.emailer');
+
+
+
+/* --------------------------------------- */
+/* Projects Tool */
+/* --------------------------------------- */
+// Route::get('admin/projects', [ProjectController::class,'index'])->name('admin.projects.index');

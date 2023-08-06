@@ -1029,12 +1029,13 @@ class GeneralSettingController extends Controller
             'bercotool_19' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
             'bercotool_20' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
             'bercotool_21' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
+            'bercotool_22' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
 
         ]);
 
         $setting = GeneralSetting::where('id',1)->first();
 
-        for ($i = 1; $i <= 21; $i++) {
+        for ($i = 1; $i <= 22; $i++) {
             $inputName = 'bercotool_' . $i;
         
             if ($request->hasFile($inputName)) {
