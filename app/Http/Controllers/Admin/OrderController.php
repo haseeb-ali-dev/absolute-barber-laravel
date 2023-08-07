@@ -31,7 +31,7 @@ class OrderController extends Controller
         $status = Status::active()->withCount('orders')->get();
 
         $active = isset($request->status_id) ? Status::find($request->status_id) : collect(['hex' => '36b9cc' , 'title' => 'All']);
-
+        
         return view('admin.order.grid', compact('data', 'status', 'active'));
     }
 

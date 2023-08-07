@@ -57,7 +57,22 @@
                                         {{ $row->created_at->format('M d, Y') }}
                                     </span>
                                 </div>
+                                @if ($row->table_id!=null)
+                                    <div class="d-flex justify-content-between mt-1">
+                                        <b>Table</b>
+                                        <span>
+                                            @php
+                                                $table_name = DB::table('tables')
+                                                ->where('id', $row->table_id)
+                                                ->fIrst();
+                                            @endphp
+                                            <b>{{$table_name->name}}</b>
+                                        </span>
+                                    </div>
+                                @endif
+                                
                             </div>
+                            
                             <div  class="card-body py-2 px-3 text-dark">
                                 <p  class="card-text d-flex flex-column align-items-center">
                                 <p>Products:</p>

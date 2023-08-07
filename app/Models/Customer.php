@@ -17,6 +17,7 @@ class Customer extends Model
         'customer_zip',
         'customer_password',
         'customer_token',
-        'customer_stauts'
+        'customer_stauts',
+        'is_waiter'
     ];
 }

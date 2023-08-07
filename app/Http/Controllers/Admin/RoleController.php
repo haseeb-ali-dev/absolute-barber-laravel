@@ -91,6 +91,7 @@ class RoleController extends Controller
            
             $data['customer_name'] = $request->name;
             $data['customer_email'] = $request->email;
+            $data['is_waiter'] = '1';
             $data['customer_password'] = Hash::make($request->password);
             $data['customer_phone'] = $request->phone;
             $data['customer_country'] = '';

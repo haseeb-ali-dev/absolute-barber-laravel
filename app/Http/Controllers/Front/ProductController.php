@@ -19,6 +19,7 @@ class ProductController extends Controller
         return view('pages.shop', compact('shop','g_setting','products', 'categories'));
     }
 
+
     public function detail($slug)
     {
         $g_setting = DB::table('general_settings')->where('id', 1)->first();
@@ -190,7 +191,7 @@ class ProductController extends Controller
             session()->put('coupon_code', '');
             session()->put('coupon_amount', '0');
         }
-
+        
         return view('pages.checkout', compact('g_setting', 'shipping_data'));
     }
 

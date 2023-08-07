@@ -23,6 +23,26 @@ class ProductController extends Controller
         $product = Product::all();
         return view('admin.product.index', compact('product'));
     }
+    
+    public function tables(){
+        $tables=DB::table('tables')->get();
+     
+        return view('admin.product.tables', compact('tables'));
+    }
+
+    public function table_store(Request $request){
+        DB::table('tables')->insert([
+            'name' => $request->name,
+        ]);
+        return redirect()->back()->with('success', 'Table added successfully!');
+    }
+    
+    public function table_destroy($id){
+        DB::table('tables')->where('id', $id)->delete();
+        return redirect()->back()->with('success', 'Table deleted successfully!');
+    }
+
+
 
     public function create()
     {

@@ -281,6 +281,18 @@
                     @if(session()->get('customer_id'))
                     <div class="existing-customer-container">
                         <h4>Existing Customer</h4>
+                        @php
+                            $customerEmail = session()->get('customer_email');
+
+                            $customer_data = DB::table('customers')
+                                ->where('customer_email', $customerEmail)
+                                ->fIrst();
+
+
+                            $tables = DB::table('tables')
+                            ->get();    
+                                // dd($customer_data->is_waiter);
+                        @endphp
                         <div class="row mb_30">
                             <div class="col">
                                 <input type="text" class="form-control first_field" value="{{ session()->get('customer_name') }}" disabled>
@@ -294,8 +306,24 @@
 
                     @php $temp_var = '';  @endphp
                     <form action="{{ route('customer.billing_shipping_submit') }}" method="post">
+                        <input type="hidden" class="form-control first_field" name="existing_customer_email" value="{{ session()->get('customer_email') }}" >
                         @csrf
                         <h4>Billing Information</h4>
+                        
+                        @if ($customer_data->is_waiter==1)
+                            <div class="row mb_10">
+                                <div class="col">
+                                    <select name="table_id" class="form-control" required>
+                                        <option value="">Select Table</option>
+                                        @foreach ($tables as $table)
+                                            <option value="{{$table->id}}">{{$table->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        @endif
+                        
+                        
                         <div class="row mb_10">
                             <div class="col">
                                 @if(session()->get('billing_name'))
@@ -321,6 +349,9 @@
                                 @elseif(session()->get('customer_id'))
                                 @php $temp_var = session()->get('customer_phone') @endphp
                                 @endif
+                                @if ($customer_data->is_waiter==1)
+                                  @php $temp_var = 'In Restaurent'; @endphp
+                                @endif
                                 <input type="text" class="form-control" placeholder="Phone Number" name="billing_phone" value="{{ $temp_var }}">
                             </div>
                             <div class="col">
@@ -328,6 +359,10 @@
                                 @php $temp_var = session()->get('billing_country') @endphp
                                 @elseif(session()->get('customer_id'))
                                 @php $temp_var = session()->get('customer_country') @endphp
+                                @endif
+
+                                @if ($customer_data->is_waiter==1)
+                                  @php $temp_var = 'In Restaurent'; @endphp
                                 @endif
                                 <input type="text" class="form-control" placeholder="Country Name" name="billing_country" value="{{ $temp_var }}">
                             </div>
@@ -339,6 +374,9 @@
                                 @elseif(session()->get('customer_id'))
                                 @php $temp_var = session()->get('customer_address') @endphp
                                 @endif
+                                @if ($customer_data->is_waiter==1)
+                                  @php $temp_var = 'In Restaurent'; @endphp
+                                @endif
                                 <input type="text" class="form-control" placeholder="Address" name="billing_address" value="{{ $temp_var }}">
                             </div>
                             <div class="col">
@@ -346,6 +384,9 @@
                                 @php $temp_var = session()->get('billing_state') @endphp
                                 @elseif(session()->get('customer_id'))
                                 @php $temp_var = session()->get('customer_state') @endphp
+                                @endif
+                                @if ($customer_data->is_waiter==1)
+                                  @php $temp_var = 'In Restaurent'; @endphp
                                 @endif
                                 <input type="text" class="form-control" placeholder="State" name="billing_state" value="{{ $temp_var }}">
                             </div>
@@ -357,6 +398,9 @@
                                 @elseif(session()->get('customer_id'))
                                 @php $temp_var = session()->get('customer_city') @endphp
                                 @endif
+                                @if ($customer_data->is_waiter==1)
+                                  @php $temp_var = 'In Restaurent'; @endphp
+                                @endif
                                 <input type="text" class="form-control" placeholder="City" name="billing_city" value="{{ $temp_var }}">
                             </div>
                             <div class="col">
@@ -364,6 +408,9 @@
                                 @php $temp_var = session()->get('billing_zip') @endphp
                                 @elseif(session()->get('customer_id'))
                                 @php $temp_var = session()->get('customer_zip') @endphp
+                                @endif
+                                @if ($customer_data->is_waiter==1)
+                                  @php $temp_var = 'In Restaurent'; @endphp
                                 @endif
                                 <input type="text" class="form-control" placeholder="Zip Code" name="billing_zip" value="{{ $temp_var }}">
                             </div>

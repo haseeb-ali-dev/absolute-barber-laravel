@@ -76,7 +76,9 @@ class CheckoutController extends Controller
 
 
     public function billing_shipping(Request $request)
+    
     {
+        // dd($request->all());
         if(!session()->get('cart_product_id'))
         {
             return redirect()->to('/');
@@ -95,6 +97,7 @@ class CheckoutController extends Controller
         );
 
         session()->put('billing_name',$request->billing_name);
+        session()->put('table_id',$request->table_id);
         session()->put('billing_email',$request->billing_email);
         session()->put('billing_phone',$request->billing_phone);
         session()->put('billing_country',$request->billing_country);
@@ -234,6 +237,7 @@ class CheckoutController extends Controller
                 $data['customer_id'] = session()->get('customer_id');
                 $data['customer_name'] = session()->get('customer_name');
                 $data['customer_email'] = session()->get('customer_email');
+                $data['table_id'] = session()->get('table_id');
                 $data['customer_type'] = 'Returning Customer';
             }
             else
