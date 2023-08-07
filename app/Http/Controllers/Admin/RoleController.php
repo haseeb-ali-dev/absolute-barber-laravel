@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Admin;
+use App\Models\Customer;
 use App\Models\Admin\Role;
 use App\Models\Admin\Role_permission;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class RoleController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('admin');
+        // $this->middleware('admin');
     }
 
     public function user()
@@ -38,10 +39,14 @@ class RoleController extends Controller
 
     public function user_store(Request $request)
     {
+
+        
+
+
         if(env('PROJECT_MODE') == 0) {
             return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
         }
-
+        
         $admin = new Admin();
         $data = $request->only($admin->getFillable());
 
@@ -73,6 +78,34 @@ class RoleController extends Controller
         $data['token'] = '';
 
         $admin->fill($data)->save();
+
+
+
+        //register waiter as customer 
+        $selected_role=Role::where('id',$request->role_id)->first();
+        if ($selected_role->role_name=='Waiter' || $selected_role->role_name=='waiter') {
+            $g_setting = DB::table('general_settings')->where('id', 1)->first();
+            $token = hash('sha256',time());
+    
+            $customer = new Customer();
+           
+            $data['customer_name'] = $request->name;
+            $data['customer_email'] = $request->email;
+            $data['customer_password'] = Hash::make($request->password);
+            $data['customer_phone'] = $request->phone;
+            $data['customer_country'] = '';
+            $data['customer_address'] = '';
+            $data['customer_state'] = '';
+            $data['customer_city'] = '';
+            $data['customer_zip'] = '';
+            $data['customer_token'] = $token;
+            $data['customer_status'] = 'Pending';
+
+            $customer->fill($data)->save();
+
+        }
+
+
         return (isset($request->from) && $request->from == 'website')
             ? back()->with('success', 'Employee registered successfully')
             : redirect()->route('admin.role.user')->with('success', 'Admin User is added successfully!');
