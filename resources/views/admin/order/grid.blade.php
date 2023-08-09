@@ -18,26 +18,27 @@
                     </a>
                 @endforeach
             </div>
+        
             <div class="row">
                 @forelse ($data as $row)
                     <div class="col-md-3 my-2">
-                        <div class="card order_card" @if ($row->status==null) style="border-color:red;" @endif>
-                            <div class="card-header p-2 d-flex flex-column order_header">
+                        <div class="card order_card" style="border-color: #6D6E71" >
+                            <div class="card-header p-2 d-flex flex-column order_header" @if ($row->status==null) style="background-color: #FF155D;" @endif  >
                                 <div class="d-flex justify-content-between">
-                                    @if ($row->created_at->diffInMinutes(now()) < 14400)
+                                    @if ($row->created_at->diffInMinutes(now()) < 1440 && $row->status==null)
                                         <span class="d-flex w-50 align-items-center justify-content-start">
                                             <img src="{{ asset('public/frontend/images/new_order.gif') }}" alt="gif"
                                                 width="35" height="35">
-                                            <span @if ($row->status==null) style="color:red;" @endif  class="customer_name">{{ $row->customer_name }}</span>
+                                            <span @if ($row->status==null) style="color: white;" @endif  class="customer_name">{{ $row->customer_name }}</span>
                                         </span>
                                     @else
-                                        <span @if ($row->status==null) style="color:red;" @endif class="customer_name">{{ $row->customer_name }}</span>
+                                        <span  @if ($row->status==null) style="color: white;" @endif class="customer_name">{{ $row->customer_name }}</span>
                                     @endif
                                     <span>
                                         <form action="{{ route('admin.order.status_change', ['id' => $row->id]) }}"
                                             method="post">
                                             @csrf
-                                            <select @if ($row->status==null) style="color:red;" @endif name="status_id" class="form-control form-control-sm"
+                                            <select  name="status_id" class="form-control form-control-sm"
                                                 onchange="$(form).submit()">
                                                 <option value=''>Choose status</option>
                                                 @foreach ($status as $item)
@@ -50,17 +51,17 @@
                                     </span>
                                 </div>
                                 <div class="d-flex justify-content-between mt-1">
-                                    <a @if ($row->status==null) style="color:red;" @endif href="{{ URL::to('admin/order/detail/' . $row->id) }}" class="order_no">
+                                    <a  href="{{ URL::to('admin/order/detail/' . $row->id) }}" class="order_no" @if ($row->status==null) style="color: white;" @endif>
                                         #{{ $row->order_no }}
                                     </a>
-                                    <span>
+                                    <span @if ($row->status==null) style="color: white;" @endif>
                                         {{ $row->created_at->format('M d, Y') }}
                                     </span>
                                 </div>
                                 @if ($row->table_id!=null)
                                     <div class="d-flex justify-content-between mt-1">
-                                        <b>Table</b>
-                                        <span>
+                                        <b @if ($row->status==null) style="color: white;" @endif >Table</b>
+                                        <span @if ($row->status==null) style="color: white;" @endif>
                                             @php
                                                 $table_name = DB::table('tables')
                                                 ->where('id', $row->table_id)
@@ -90,24 +91,24 @@
                                 @endforelse
                                 </p>
                             </div>
-                            <div class="p-2 border-top border-dark d-flex justify-content-between align-items-center">
+                            <div class="p-2 border-top border-dark d-flex justify-content-between align-items-center" style="background-color: #6D6E71">
                                 <div class="d-inline-block">
-                                    <a class="btn btn-sm border-success text-success rounded-pill m-1"
+                                    <a style="color: black; background-color:white;" class="btn btn-sm border-white  rounded-pill m-1"
                                         href="{{ URL::to('admin/order/detail/' . $row->id) }}">
                                         Detail
                                     </a>
-                                    <a href="{{ URL::to('admin/order/invoice/' . $row->id) }}"
-                                        class="btn border-info text-info btn-sm rounded-pill m-1"
+                                    <a style="color: black; background-color:white;" href="{{ URL::to('admin/order/invoice/' . $row->id) }}"
+                                        class="btn border-white  btn-sm rounded-pill m-1"
                                         target="_blank">Invoice</a>
-                                    <a href="{{ URL::to('admin/order/invoice/thermal/' . $row->id) }}"
-                                        class="btn border-secondary text-secondary btn-sm rounded-pill m-1"
+                                    <a style="color: black; background-color:white;" href="{{ URL::to('admin/order/invoice/thermal/' . $row->id) }}"
+                                        class="btn border-white btn-sm rounded-pill m-1"
                                         target="_blank">Thermal
                                         Print</a>
-                                    <a href="{{ URL::to('admin/order/delete/' . $row->id) }}"
-                                        class="btn border-danger text-danger btn-sm rounded-pill m-1"
+                                    <a style="color: black; background-color:white;" href="{{ URL::to('admin/order/delete/' . $row->id) }}"
+                                        class="btn border-white btn-sm rounded-pill m-1"
                                         onClick="return confirm('Are you sure?');">Delete</a>
                                 </div>
-                                <span class="text-dark px-2 py-1 clock-wrapper-{{ $row->id }}"></span>
+                                <span class="text-white px-2 py-1 clock-wrapper-{{ $row->id }}"></span>
                                 <script>
                                     $(document).ready(function() {
                                         var createdAt = "{{ $row->created_at }}";

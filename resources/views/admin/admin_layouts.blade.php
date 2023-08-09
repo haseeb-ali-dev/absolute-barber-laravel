@@ -53,13 +53,13 @@
       </style>
 </head>
 
-<body id="page-top">
+<body id="page-top" >
 
 <!-- Page Wrapper -->
 <div id="wrapper">
 
     <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion " id="accordionSidebar">
 
          <!-- Sidebar - Brand -->
          <img class="img-profile" id="main_logo_mobile"  src="{{ asset("public/uploads/$general_settings_global->admin_logo") }}">
@@ -373,5 +373,21 @@
         }
     });
 </script>
+<script>
+    function toggleClassOnMobile() {
+       var divElement = document.getElementById('accordionSidebar');
+       if (window.innerWidth <= 768) { // Adjust the breakpoint as needed
+          divElement.classList.add('toggled');
+       } else {
+          divElement.classList.remove('toggled');
+       }
+    }
+ 
+    // Initial check on page load
+    toggleClassOnMobile();
+ 
+    // Listen for window resize events
+    window.addEventListener('resize', toggleClassOnMobile);
+ </script>
 </body>
 </html>
