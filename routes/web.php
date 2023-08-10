@@ -160,6 +160,8 @@ Route::post('customer/payment/stripe1', [CheckoutController::class,'stripe1'])->
 Route::get('customer/execute-payment', [CheckoutController::class,'paypal']);
 Route::get('employee/register', [RegistrationController::class,'registerEmployee'])->name('employee.registration');
 Route::get('customer/chat', [ChatController::class,'customer_chat'])->name('customer.chat')->middleware('customer');
+Route::get('customer/order/{id}/chat', [OrderControllerForCustomer::class, 'order_chat'])->name('customer.order.chat')->middleware('customer');
+Route::post('customer/order/chat', [OrderControllerForCustomer::class, 'store_order_chat'])->middleware('customer');
 
 /* --------------------------------------- */
 /* Admin Login and profile management */
