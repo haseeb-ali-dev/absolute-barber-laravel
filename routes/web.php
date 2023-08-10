@@ -678,6 +678,8 @@ Route::get('admin/order/invoice/{id}', [OrderControllerForAdmin::class,'invoice'
 Route::get('admin/order/invoice/thermal/{id}', [OrderControllerForAdmin::class,'invoice_thermal']);
 Route::get('admin/order/delete/{id}', [OrderControllerForAdmin::class,'destroy']);
 Route::post('admin/order/status/{id}/change', [OrderControllerForAdmin::class,'status_change'])->name('admin.order.status_change');
+Route::get('admin/order/{id}/chat', [OrderControllerForAdmin::class,'order_chat'])->name('admin.order.chat');
+Route::post('admin/order/chat', [OrderControllerForAdmin::class,'store_order_chat'])->name('admin.order.chat.store');
 
 
 /* --------------------------------------- */

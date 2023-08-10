@@ -31,7 +31,7 @@ class OrderController extends Controller
         $status = Status::active()->withCount('orders')->get();
 
         $active = isset($request->status_id) ? Status::find($request->status_id) : collect(['hex' => '36b9cc' , 'title' => 'All']);
-        
+
         return view('admin.order.grid', compact('data', 'status', 'active'));
     }
 
@@ -87,5 +87,42 @@ class OrderController extends Controller
         $order->update(['status_id' => $request->get('status_id')]);
 
         return back()->with('success', 'Status updated successfully!');
+    }
+
+    public function order_chat($id)
+    {
+        $data = DB::table('orders_chat')->where('order_id', $id)->get();
+
+        $order = Order::findOrFail($id);
+        if (!isset($order))
+        {
+            return back()->with('error', 'No order found');
+        }
+        $order_number = $order->order_no;
+
+        return view('admin.order.chat', compact('data', 'order_number', 'id'));
+    }
+
+    public function store_order_chat(Request $request)
+    {
+        try {
+
+            $data = $request->validate([
+                'order_id' => 'required',
+                'msg' => 'required'
+            ]);
+
+            $data['username'] = session()->get('name', 'Guest Admin');
+            $data['from'] = 'admin';
+            $data['order_id'] = decrypt($request->get('order_id'));
+
+            DB::table('orders_chat')->insert($data);
+
+            return back()->with('success', 'Message is sent successfully');
+
+        } catch (\Exception $e) {
+
+            return back()->with('error', 'There is an error in sending message like '. $e->getMessage());
+        }
     }
 }
