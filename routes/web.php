@@ -161,6 +161,8 @@ Route::post('customer/payment/stripe1', [CheckoutController::class,'stripe1'])->
 Route::get('customer/execute-payment', [CheckoutController::class,'paypal']);
 Route::get('employee/register', [RegistrationController::class,'registerEmployee'])->name('employee.registration');
 Route::get('customer/chat', [ChatController::class,'customer_chat'])->name('customer.chat')->middleware('customer');
+Route::get('customer/order/{id}/chat', [OrderControllerForCustomer::class, 'order_chat'])->name('customer.order.chat')->middleware('customer');
+Route::post('customer/order/chat', [OrderControllerForCustomer::class, 'store_order_chat'])->middleware('customer');
 
 /* --------------------------------------- */
 /* Admin Login and profile management */
@@ -677,6 +679,8 @@ Route::get('admin/order/invoice/{id}', [OrderControllerForAdmin::class,'invoice'
 Route::get('admin/order/invoice/thermal/{id}', [OrderControllerForAdmin::class,'invoice_thermal']);
 Route::get('admin/order/delete/{id}', [OrderControllerForAdmin::class,'destroy']);
 Route::post('admin/order/status/{id}/change', [OrderControllerForAdmin::class,'status_change'])->name('admin.order.status_change');
+Route::get('admin/order/{id}/chat', [OrderControllerForAdmin::class,'order_chat'])->name('admin.order.chat');
+Route::post('admin/order/chat', [OrderControllerForAdmin::class,'store_order_chat'])->name('admin.order.chat.store');
 
 
 /* --------------------------------------- */

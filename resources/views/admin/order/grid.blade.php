@@ -18,7 +18,7 @@
                     </a>
                 @endforeach
             </div>
-        
+
             <div class="row">
                 @forelse ($data as $row)
                     <div class="col-md-3 my-2">
@@ -71,9 +71,9 @@
                                         </span>
                                     </div>
                                 @endif
-                                
+
                             </div>
-                            
+
                             <div  class="card-body py-2 px-3 text-dark">
                                 <p  class="card-text d-flex flex-column align-items-center">
                                 <p>Products:</p>
@@ -107,6 +107,18 @@
                                     <a style="color: black; background-color:white;" href="{{ URL::to('admin/order/delete/' . $row->id) }}"
                                         class="btn border-white btn-sm rounded-pill m-1"
                                         onClick="return confirm('Are you sure?');">Delete</a>
+
+                                    @php
+                                        $query = DB::table('customers')->find($row->customer_id);
+                                        $is_waiter = isset($query) && $query->is_waiter == '1';
+                                    @endphp
+                                    @if ($is_waiter)
+                                        <a style="color: black; background-color:white;" href="{{ route('admin.order.chat', ['id' => $row->id]) }}"
+                                            class="btn border-white btn-sm rounded-pill m-1">
+                                            Chat
+                                        </a>
+                                    @endif
+
                                 </div>
                                 <span class="text-white px-2 py-1 clock-wrapper-{{ $row->id }}"></span>
                                 <script>

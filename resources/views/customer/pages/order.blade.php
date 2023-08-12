@@ -18,13 +18,13 @@
         <div class="container">
             <div class="row">
 
-                <div class="col-md-3">				
+                <div class="col-md-3">
                     <div class="user-sidebar">
                         @include('layouts.sidebar_customer')
                     </div>
                 </div>
 
-                <div class="col-md-9">                   
+                <div class="col-md-9">
                     <div class="table-responsive-md">
                         <table class="table table-bordered" id="example">
                             <thead>
@@ -40,6 +40,7 @@
                             </thead>
                             <tbody>
                                 @php
+                                    $is_waiter = session('is_waiter') == "1";
                                     $order_data = DB::table('orders')->orderBy('id','desc')->where('customer_id', session()->get('customer_id'))->get();
                                     $i=0;
                                 @endphp
@@ -72,7 +73,10 @@
 </button>
 <div class="dropdown-menu dropdown-menu-right">
     <a href="" class="dropdown-item" data-toggle="modal" data-target="#modd{{ $i }}"><i class="fa fa-eye"></i> Details</a>
-</div>										
+    @if ($is_waiter)
+        <a href="{{ route('customer.order.chat', ['id' => $row->id]) }}" class="dropdown-item"><i class="fa fa-comment"></i> Chat</a>
+    @endif
+</div>
 <div class="modal fade" id="modd{{ $i }}">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -255,7 +259,7 @@
                             $order_detail_data = DB::table('order_details')->where('order_id', $row->id)->get();
                             $j=0;
                         @endphp
-                        
+
                         @foreach ($order_detail_data as $row1)
                             @php
                                 $j++;

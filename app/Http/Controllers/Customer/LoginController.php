@@ -83,6 +83,7 @@ class LoginController extends Controller
         session(['customer_zip' => $check_email->customer_zip]);
         session(['customer_password' => $check_email->customer_password]);
         session(['customer_status' => $check_email->customer_status]);
+        session(['is_waiter' => $check_email->is_waiter]);
 
         return redirect()->route('customer.dashboard');
     }
