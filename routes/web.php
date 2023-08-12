@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\VideoConferenceController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\CouponToolController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController as DashboardControllerForAdmin;
 use App\Http\Controllers\Admin\DynamicPageController;
@@ -861,3 +862,17 @@ Route::get('import_excel_contacts_emailer', [CustomerController::class,'import_e
 /* Stats Tool */
 /* --------------------------------------- */
 Route::get('admin/stats', [DashboardControllerForAdmin::class,'admin_stats'])->name('admin.stats');
+
+
+
+/* --------------------------------------- */
+/* Coupons Tool */
+/* --------------------------------------- */
+Route::middleware('admin')->prefix('admin')->group(function () {
+    Route::get('coupon/index', [CouponToolController::class, 'index'])->name('coupon.tool.index');
+    Route::post('coupon/store', [CouponToolController::class, 'store'])->name('coupon.tool.store');
+    Route::delete('/coupon/tool/{coupon}', [CouponToolController::class, 'destroy'])->name('admin.coupon.tool.destroy');
+    Route::put('/coupon/tool/update/{coupon}', [CouponToolController::class, 'update'])->name('admin.coupon.tool.update');
+});
+
+Route::get('/coupon/tool/view/{secret}', [CouponToolController::class, 'view'])->name('coupon.tool.view');

@@ -96,6 +96,55 @@
             </div>
         </div>
     </div>
+    <div class="row">
+      <div class="col-md-12">
+          <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                  <h6 class="m-0 mt-2 font-weight-bold text-primary">View Coupon Links to copy</h6>
+              </div>
+              <div class="card-body">
+                  <div class="table-responsive">
+                      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                          <thead>
+                              <tr>
+                                  <th>Title</th>
+                                  <th>Validity</th>
+                                  <th>Status</th>
+                                  <th>Link</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              @foreach ($coupons as $coupon)
+                                  <tr>
+                                      <td>{{ $coupon->title }}</td>
+                                      <td>{{ Carbon\Carbon::createFromFormat('Y-m-d', $coupon->valid_till)->format('d F Y') }}</td>
+                                      <td>
+                                          @if (Carbon\Carbon::createFromFormat('Y-m-d', $coupon->valid_till)->isPast())
+                                              <span class="text-danger">Expired</span>
+                                          @elseif (Carbon\Carbon::createFromFormat('Y-m-d', $coupon->valid_till)->isToday())
+                                              <span class="text-warning">Expires Today</span>
+                                          @else
+                                              <span class="text-success">Valid</span>
+                                          @endif
+                                      </td>
+                                      <td>
+                                          <a id="copyCouponLink{{ $coupon->id }}"
+                                             href="javascript:void(0)"
+                                             data-clipboard-text="{{ URL::to('coupon/tool/view/'.$coupon->secret) }}"
+                                             class="copy-link">
+                                             Click to copy Coupon Link
+                                          </a>
+                                      </td>
+                                  </tr>
+                              @endforeach
+
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
 
 
     <!-- Modal -->
@@ -351,6 +400,28 @@ $.fn.TableCheckAll = function (options) {
         });
     </script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
 
+<script>
+    // Initialize Clipboard.js
+    var clipboard = new ClipboardJS('.copy-link');
+
+    clipboard.on('success', function (e) {
+        // Show a confirmation or feedback that the link has been copied
+        e.trigger.innerHTML = 'Link Copied!';
+        setTimeout(function () {
+            e.trigger.innerHTML = 'Click to copy Coupon Link';
+        }, 1500); // Reset back to the original text after 1.5 seconds
+        e.clearSelection();
+        
+        // Prevent the default link behavior
+        e.preventDefault();
+    });
+
+    clipboard.on('error', function (e) {
+        // Handle any errors that may occur during copying
+        console.error('Error copying text:', e);
+    });
+</script>
 
 @endsection

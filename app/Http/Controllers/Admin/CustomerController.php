@@ -10,6 +10,7 @@ use App\Models\LandingPageContact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use App\Models\Admin\CouponTool;
 use DB;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -50,8 +51,9 @@ class CustomerController extends Controller
     public function landing_page_messages()
     {
         // dd('1');
+        $coupons = CouponTool::all();
         $customers = LandingPageContact::all();
-        return view('admin.customer.landing', compact('customers'));
+        return view('admin.customer.landing', compact('customers','coupons'));
     }
 
     public function landing_page_emails()
@@ -65,7 +67,8 @@ class CustomerController extends Controller
     public function import_excel_contacts(){
 
         $customers = ExcelContact::all();
-        return view('admin.excel.excel_import', compact('customers'));
+        $coupons = CouponTool::all();
+        return view('admin.excel.excel_import', compact('customers','coupons'));
     }
 
 

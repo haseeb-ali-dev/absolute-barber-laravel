@@ -39,7 +39,7 @@
             <div class="slider--item__inner">
                 <div class="container">
                     <div class="row"
-                        style="display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-align: center;-ms-flex-align: center;align-items: center;-webkit-box-pack: center;-ms-flex-pack: center;justify-content: center;">
+                        style="display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-align: center;-ms-flex-align: center;align-items: center;-webkit-box-pack: center;-ms-flex-pack: center;justify-content: center; margin-top: -13%;">
                         <div class="col-md-9 col-sm-12">
                             <div class="slider-table">
                                 <div class="slider-text" @if($row->centered) style="text-align: center;" @endif>
@@ -72,7 +72,7 @@
             <div class="slider--item__inner">
                 <div class="container">
                     <div class="row"
-                        style="display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-align: center;-ms-flex-align: center;align-items: center;-webkit-box-pack: center;-ms-flex-pack: center;justify-content: center;">
+                        style="display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-align: center;-ms-flex-align: center;align-items: center;-webkit-box-pack: center;-ms-flex-pack: center;justify-content: center; margin-top: -13%;">
                         <div class="col-md-9 col-sm-12">
                             <div class="slider-table">
                                 <div class="slider-text" @if($row->centered) style="text-align: center;" @endif>
@@ -104,7 +104,7 @@
             <div class="slider--item__inner">
                 <div class="container">
                     <div class="row"
-                        style="display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-align: center;-ms-flex-align: center;align-items: center;-webkit-box-pack: center;-ms-flex-pack: center;justify-content: center;">
+                        style="display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-align: center;-ms-flex-align: center;align-items: center;-webkit-box-pack: center;-ms-flex-pack: center;justify-content: center; margin-top: -13%;">
                         <div class="col-md-9 col-sm-12">
                             <div class="slider-table">
                                 <div class="slider-text" @if($row->centered) style="text-align: center;" @endif>
@@ -141,7 +141,7 @@
             <div class="slider--item__inner">
                 <div class="container">
                     <div class="row"
-                        style="display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-align: center;-ms-flex-align: center;align-items: center;-webkit-box-pack: center;-ms-flex-pack: center;justify-content: center;">
+                        style="display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-align: center;-ms-flex-align: center;align-items: center;-webkit-box-pack: center;-ms-flex-pack: center;justify-content: center; margin-top: -13%;">
                         <div class="col-md-9 col-sm-12">
                             <div class="slider-table">
                                 <div class="slider-text" @if($row->centered) style="text-align: center;" @endif>
@@ -174,7 +174,7 @@
             <div class="slider--item__inner">
                 <div class="container">
                     <div class="row"
-                        style="display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-align: center;-ms-flex-align: center;align-items: center;-webkit-box-pack: center;-ms-flex-pack: center;justify-content: center;">
+                        style="display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-align: center;-ms-flex-align: center;align-items: center;-webkit-box-pack: center;-ms-flex-pack: center;justify-content: center; margin-top: -13%;">
                         <div class="col-md-9 col-sm-12">
                             <div class="slider-table">
                                 <div class="slider-text" @if($row->centered) style="text-align: center;" @endif>
@@ -206,7 +206,7 @@
             <div class="slider-bg"></div>
             <div class="container">
                 <div class="row"
-                    style="display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-align: center;-ms-flex-align: center;align-items: center;-webkit-box-pack: center;-ms-flex-pack: center;justify-content: center;">
+                    style="display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-align: center;-ms-flex-align: center;align-items: center;-webkit-box-pack: center;-ms-flex-pack: center;justify-content: center; margin-top: -13%;">
                     <div class="col-md-9 col-sm-12">
                         <div class="slider-table">
                             <div class="slider-text">
@@ -241,7 +241,7 @@
             <div class="slider--item__inner">
                 <div class="container">
                     <div class="row"
-                        style="display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-align: center;-ms-flex-align: center;align-items: center;-webkit-box-pack: center;-ms-flex-pack: center;justify-content: center;">
+                        style="display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-align: center;-ms-flex-align: center;align-items: center;-webkit-box-pack: center;-ms-flex-pack: center;justify-content: center; margin-top: -13%;">
                         <div class="col-md-9 col-sm-12">
                             <div class="slider-table">
                                 <div class="slider-text">
@@ -276,7 +276,7 @@
             <div class="slider--item__inner">
                 <div class="container">
                     <div class="row"
-                        style="display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-align: center;-ms-flex-align: center;align-items: center;-webkit-box-pack: center;-ms-flex-pack: center;justify-content: center;">
+                        style="display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-align: center;-ms-flex-align: center;align-items: center;-webkit-box-pack: center;-ms-flex-pack: center;justify-content: center; margin-top: -13%;">
                         <div class="col-md-9 col-sm-12">
                             <div class="slider-table">
                                 <div class="slider-text">

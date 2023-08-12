@@ -472,6 +472,27 @@
                         src="{{ isset($general_settings_global->bercotool_23) ? asset("public/uploads/$general_settings_global->bercotool_23") : 'https://placehold.co/640x360?text=Stats' }}"
                         alt="">
                 </div>
+
+
+
+                <div class="form-group d-flex flex-column col-md-2">
+                    <input type="file" name="bercotool_24" accept="image/*">
+                    <span>Coupons</span>
+                </div>
+                <div class="col-md-2">
+                    <input type="checkbox" name="codes[]" value="24"
+                        @if (in_array(24, $enabled_tools)) checked @endif>
+                    @if (in_array(24, $enabled_tools))
+                        Uncheck to Enable
+                    @else
+                        Check to Disable
+                    @endif
+                </div>
+                <div class="col-md-2">
+                    <img style="width:230px; height:100px;"
+                        src="{{ isset($general_settings_global->bercotool_24) ? asset("public/uploads/$general_settings_global->bercotool_24") : 'https://placehold.co/640x360?text=Coupons' }}"
+                        alt="">
+                </div>
                 
             </div>
 
