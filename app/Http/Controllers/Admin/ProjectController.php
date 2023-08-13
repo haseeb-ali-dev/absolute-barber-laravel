@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\Project;
 use App\Models\Admin\Admin;
 use App\Models\Admin\ProjectPhoto;
+use App\Models\Admin\ProjectTask;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -22,14 +23,14 @@ class ProjectController extends Controller
     {
         $project = Project::all();
         $admin_data = Admin::where('id',session('id'))->first();
-        
+
         return view('admin.project.index', compact('project'));
     }
 
     public function create()
     {
         $employees = Admin::where('role_id', '!=', 1)->get();
-    
+
         return view('admin.project.create', compact('employees'));
     }
 
@@ -59,7 +60,7 @@ class ProjectController extends Controller
         $final_name = time().'.'.$ext;
         $request->file('project_featured_photo')->move(public_path('uploads/'), $final_name);
         $data['project_featured_photo'] = $final_name;
-        
+
 
         $project->fill($data)->save();
         return redirect()->route('admin.project.index')->with('success', 'Project is added successfully!');
@@ -179,5 +180,59 @@ class ProjectController extends Controller
         // unlink(public_path('uploads/'.$project_photo->project_photo));
         $project_photo->delete();
         return Redirect()->back()->with('success', 'Project Photo is deleted successfully!');
+    }
+    public function project_tasks($id)
+    {
+        $tasks = ProjectTask::where('project_id', $id)->orderBy('updated_at', 'DESC')->get();
+
+        $project = DB::table('projects')->where('id', $id)->first();
+
+        return view('admin.project.tasks', compact('tasks', 'project'));
+    }
+
+    public function store_project_task(Request $request)
+    {
+        if(env('PROJECT_MODE') == 0) {
+            return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
+        }
+
+        $data = $request->validate([
+            'detail' => 'required',
+            'date' => 'required',
+            'status' => 'required|in:pending,canceled,completed',
+            'project_id' => 'required'
+        ]);
+
+        $data['created_by'] = session()->get('name');
+
+        ProjectTask::create($data);
+
+        return redirect()->back()->with('success', 'Project task is added successfully!');
+    }
+
+    public function delete_project_task(ProjectTask $projectTask)
+    {
+        if(env('PROJECT_MODE') == 0) {
+            return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
+        }
+
+        $projectTask->delete();
+
+        return Redirect()->back()->with('success', 'Project task is deleted successfully!');
+    }
+
+    public function update_project_task_status(Request $request, ProjectTask $projectTask)
+    {
+        if(env('PROJECT_MODE') == 0) {
+            return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
+        }
+
+        $data = $request->validate([
+            'status' => 'required|in:pending,canceled,completed',
+        ]);
+
+        $projectTask->update($data);
+
+        return back()->with('success', 'Project task status is changed successfully!');
     }
 }

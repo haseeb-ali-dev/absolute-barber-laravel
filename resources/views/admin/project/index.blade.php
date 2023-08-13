@@ -20,6 +20,7 @@
                         <th>Featured Photo</th>
                         <th>Project Name</th>
                         <th>Manage PDF</th>
+                        <th>Manage Tasks</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -33,13 +34,18 @@
                                 <a href="{{ URL::to('admin/project/gallery/'.$row->id) }}" class="btn btn-success btn-sm">Manage PDF</a>
                             </td>
                             <td>
+                                <a href="{{ URL::to('admin/project/tasks/'.$row->id) }}" class="btn btn-info btn-sm rounded-pill text-center">
+                                    Go to Tasks <i class="far fa-arrow-alt-circle-right"></i>
+                                </a>
+                            </td>
+                            <td>
                                 @if (session('id')==1)
                                     <a href="{{ URL::to('admin/project/edit/'.$row->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
                                     <a href="{{ URL::to('admin/project/delete/'.$row->id) }}" class="btn btn-danger btn-sm" onClick="return confirm('Are you sure?');"><i class="fas fa-trash-alt"></i></a>
                                 @else
                                      <a href="{{ URL::to('admin/project/edit/'.$row->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-eye"></i></a>
                                 @endif
-                                
+
                             </td>
                         </tr>
                         @endforeach

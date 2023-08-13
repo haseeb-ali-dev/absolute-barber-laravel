@@ -438,6 +438,10 @@ Route::post('admin/project/update/{id}', [ProjectControllerForAdmin::class,'upda
 Route::get('admin/project/gallery/{id}', [ProjectControllerForAdmin::class,'gallerysection']);
 Route::get('admin/project/gallery-delete/{id}', [ProjectControllerForAdmin::class,'gallerydelete']);
 Route::post('admin/project/gallery-store', [ProjectControllerForAdmin::class,'gallerystore'])->name('admin.project.gallery-store');
+Route::get('admin/project/tasks/{id}', [ProjectControllerForAdmin::class, 'project_tasks'])->name('admin.project.tasks');
+Route::get('admin/project/task/{projectTask}/delete', [ProjectControllerForAdmin::class, 'delete_project_task'])->name('admin.project.task-delete');
+Route::post('admin/project/task/store', [ProjectControllerForAdmin::class, 'store_project_task'])->name('admin.project.task-store');
+Route::put('admin/project/task/status/{projectTask}', [ProjectControllerForAdmin::class, 'update_project_task_status'])->name('admin.project.task.status.update');
 
 
 /* --------------------------------------- */
