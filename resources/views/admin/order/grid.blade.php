@@ -1,5 +1,22 @@
 @extends('admin.admin_layouts')
 @section('admin_content')
+<style>
+    @keyframes blinking {
+        0% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .blinking {
+        animation: blinking 1s infinite;
+    }
+</style>
 
     @includeIf('admin.order.grid_css', ['color' => $active['hex']])
 
@@ -111,11 +128,17 @@
                                     @php
                                         $query = DB::table('customers')->find($row->customer_id);
                                         $is_waiter = isset($query) && $query->is_waiter == '1';
+
+
+
+                                        $messages = DB::table('orders_chat')->where('order_id',$row->id)->count();
+                                        
                                     @endphp
                                     @if ($is_waiter)
                                         <a style="color: black; background-color:white;" href="{{ route('admin.order.chat', ['id' => $row->id]) }}"
                                             class="btn border-white btn-sm rounded-pill m-1">
-                                            Chat
+                                            Chat Messages <span @if ($messages>0) class="blinking" @endif  style="color: red; font-size: 20px;"><b>{{$messages}}</b></span>
+
                                         </a>
                                     @endif
 
