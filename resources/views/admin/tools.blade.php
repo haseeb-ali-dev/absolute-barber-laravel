@@ -190,14 +190,65 @@
                         @if (in_array($item['code'], $enabled_tools))
                             @continue
                         @endif
+                        
                         <div class="col-xl-3 col-md-6 mb-4" @if(isset($item['key'])) onclick="toggleSection('{{ $item['key'] }}')" @endif>
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
+                                    <div class="row no-gutters align-items-center" style="margin-left: 26%;">
                                         <div class="col mr-2">
                                             <a href="{{ isset($item['route']) ? $item['route'] : 'javascript:;' }}">
                                                 @if (isset($item['img']))
-                                                    <img src="{{ asset($item['img']) }}" alt="" class="image">
+                                                    <img src="{{ asset($item['img']) }}" alt="" class="image"
+                                                    
+                                                    @if ($item['code']==2)
+                                                        style="margin-left: 2%;"
+                                                    @endif
+                                                    @if ($item['code']==4)
+                                                        style="margin-left: -6%;"
+                                                    @endif
+                                                    @if ($item['code']==5)
+                                                        style="margin-left: 5%;"
+                                                    @endif 
+                                                    @if ($item['code']==6)
+                                                        style="margin-left: 4%;"
+                                                    @endif 
+                                                    @if ($item['code']==7)
+                                                        style="margin-left: 4%;"
+                                                    @endif 
+                                                    @if ($item['code']==8)
+                                                        style="margin-left: -9%;"
+                                                    @endif
+                                                    @if ($item['code']==13)
+                                                        style="margin-left: 4%;"
+                                                    @endif
+                                                    @if ($item['code']==14)
+                                                        style="margin-left: -5%;"
+                                                    @endif
+                                                    @if ($item['code']==15)
+                                                        style="margin-left: -14%;"
+                                                    @endif
+                                                    @if ($item['code']==16)
+                                                        style="margin-left: -4%;"
+                                                    @endif
+                                                    @if ($item['code']==17)
+                                                        style="margin-left: -15%;"
+                                                    @endif
+                                                    @if ($item['code']==18)
+                                                        style="margin-left: -16%;"
+                                                    @endif
+                                                    @if ($item['code']==21)
+                                                        style="margin-left: 3%;"
+                                                    @endif
+                                                    @if ($item['code']==22)
+                                                        style="margin-left: 3%;"
+                                                    @endif
+                                                   
+                                                    @if ($item['code']==24)
+                                                        style="margin-left: 4%;"
+                                                    @endif
+                                                    
+                                                    
+                                                    >
                                                 @else
                                                     <h3>{{ $item['name'] ?? 'No Name' }}</h3>
                                                 @endif

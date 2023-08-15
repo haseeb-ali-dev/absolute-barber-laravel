@@ -61,7 +61,8 @@ $menus = \App\Models\Admin\Menu::whereNull('parent_id')->get();
                                             @if($row->menu_key=='Home')
                                                 <a style="color: #{{$settings['items_color']}}; border-top:none;" href="{{ route($row->route, ['menu' => 1]) }}" class="nav-link">{{ $row->menu_name }}</a>
                                             @else
-                                                <a style="color: #{{$settings['items_color']}};" href="{{ $row->fixed ? route($row->route) : url($row->route) }}" class="nav-link" @if ($row->menu_key == 'Shop') target='_blank' @endif>{{ $row->menu_name }}</a>
+                                            
+                                                <a style="color: #{{$settings['items_color']}};" href="{{ $row->fixed ? route($row->route) : route($row->route) }}" class="nav-link" @if ($row->menu_key == 'Shop') target='_blank' @endif>{{ $row->menu_name }}</a>
                                             @endif
                                     @endif
 
