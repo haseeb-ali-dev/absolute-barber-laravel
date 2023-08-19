@@ -54,7 +54,7 @@
                                             data-name="{{ $row->name }}" data-email="{{ $row->email }}"
                                             data-phone="{{ $row->phone }}">
                                             <i class="fas fa-pencil-alt"></i> Edit
-                                        </button>
+                                        </button> --}}
                                         <form action="{{ route('admin.booking.delete', ['booking' => $row]) }}"
                                             method="post">
                                             @csrf
@@ -63,7 +63,7 @@
                                                 onclick="if(confirm('Are you sure') == true){$(form).submit()}">
                                                 <i class="far fa-trash-alt"></i> Delete
                                             </button>
-                                        </form> --}}
+                                        </form>
                                         <form action="{{ route('admin.booking.status.update', ['booking' => $row]) }}"
                                             method="post">
                                             @csrf

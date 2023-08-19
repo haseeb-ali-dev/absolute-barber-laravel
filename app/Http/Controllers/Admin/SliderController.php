@@ -29,6 +29,8 @@ class SliderController extends Controller
 
     public function store(Request $request)
     {
+        
+        
         if(env('PROJECT_MODE') == 0) {
             return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
         }
@@ -43,6 +45,7 @@ class SliderController extends Controller
         ]);
         $slider = new Slider();
         $request['centered'] = isset($request['centered']) ? 1 : 0;
+        
         $data = $request->only($slider->getFillable());
 
         if ($request['slider_type'] == 'photo')
@@ -93,6 +96,7 @@ class SliderController extends Controller
 
         $slider = Slider::findOrFail($id);
         $request['centered'] = isset($request['centered']) ? 1 : 0;
+        
         $data = $request->only($slider->getFillable());
 
         if ($request->hasFile('slider_photo')) {

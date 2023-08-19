@@ -11,19 +11,16 @@
             margin-top: 13%;
         }
     }
+    .slider-item__backdrop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6); /* Change the opacity value to adjust the darkness of the backdrop */
+    }
 </style>
-{{-- <div class="page-banner" style="background-image: url({{ asset('public/uploads/'.$g_setting->banner_product) }})">
-    <div class="bg-page"></div>
-    <div class="text">
-        <h1>{{ $shop->name }}</h1>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb justify-content-center">
-                <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ $shop->name }}</li>
-            </ol>
-        </nav>
-    </div>
-</div> --}}
+@include('sliders')
 
 <div class="container pt_60">
     <div class="row">

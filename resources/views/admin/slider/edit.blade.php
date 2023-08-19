@@ -39,7 +39,17 @@
                 </div>
 
                 @include('admin.slider.centered', ['centered' => $slider->centered])
-
+                <div class="form-group">
+                    <select  class="form-control" required name="page">
+                        <option value="">Select Page</option>
+                        <option value="home" {{ $slider->page === 'home' ? 'selected' : '' }}>Home</option>
+                        <option value="about_us" {{ $slider->page === 'about_us' ? 'selected' : '' }}>About Us</option>
+                        <option value="services" {{ $slider->page === 'services' ? 'selected' : '' }}>Services</option>
+                        <option value="shop" {{ $slider->page === 'shop' ? 'selected' : '' }}>Shop</option>
+                        <option value="blog" {{ $slider->page === 'blog' ? 'selected' : '' }}>Blog</option>
+                        <option value="project" {{ $slider->page === 'project' ? 'selected' : '' }}>Project</option>
+                    </select>
+                </div>
                 @if (isset($slider->slider_photo))
                     <div class="form-group">
                         <label for="">Existing Slider Photo</label>

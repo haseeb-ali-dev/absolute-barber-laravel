@@ -103,13 +103,9 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
         @php
             $item_row = DB::table('blogs')->where('blog_slug',$conName[1])->first();
         @endphp
-        <meta name="description" content="{{ $item_row->seo_meta_description }}">
-        <title>{{ $item_row->seo_title }}</title>
+        
 
-        <meta property="og:title" content="{{ $item_row->blog_title }}">
-        <meta property="og:image" content="{{ asset('public/uploads/'.$item_row->blog_photo) }}">
-        <meta property="og:description" content="{{ $item_row->blog_content_short }}">
-        <meta property="og:url" content="{{ url('blog/'.$item_row->blog_slug) }}">
+      
 
     @endif
 
@@ -704,14 +700,14 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
                     <p>{{ $g_setting->footer_copyright }}</p>
                 </div>
             </div>
-            <div class="col-md-6">
+            {{-- <div class="col-md-6">
                 <div class="footer-pages">
                     <ul>
                         <li><a href="{{ route('front.term') }}">Terms and Conditions</a></li>
                         <li><a href="{{ route('front.privacy') }}">Privacy Policy</a></li>
                     </ul>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>

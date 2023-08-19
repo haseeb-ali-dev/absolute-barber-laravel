@@ -39,6 +39,18 @@
             </div>
 
             @include('admin.slider.centered')
+            
+            <div class="form-group">
+                <select  class="form-control" required name="page">
+                    <option value="">Select Page</option>
+                    <option value="home">Home</option>
+                    <option value="about_us">About Us</option>
+                    <option value="services">Services</option>
+                    <option value="shop">Shop</option>
+                    <option value="blog">Blog</option>
+                    <option value="project">Project</option>
+                </select>
+            </div>
 
             <div class="form-group">
                 <select id="slider-type-box" class="form-control" required name="slider_type">

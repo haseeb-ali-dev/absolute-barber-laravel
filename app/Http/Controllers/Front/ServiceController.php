@@ -12,8 +12,9 @@ class ServiceController extends Controller
         $g_setting = DB::table('general_settings')->where('id', 1)->first();
         $service = DB::table('page_service_items')->where('id', 1)->first();
         $service_items = DB::table('services')->paginate(9);
+        $sliders = DB::table('sliders')->where('page','services')->get();
 
-        return view('pages.services', compact('service','g_setting','service_items'));
+        return view('pages.services', compact('service','g_setting','service_items','sliders'));
     }
 
     public function detail($slug)

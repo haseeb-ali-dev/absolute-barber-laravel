@@ -18,6 +18,7 @@ class Slider extends Model
         'slider_color',
         'centered',
         'overlay',
+        'page',
     ];
 
 }

@@ -12,12 +12,13 @@ class BlogController extends Controller
 {
     public function index()
     {
+        $sliders = DB::table('sliders')->where('page','blog')->get();
         $g_setting = DB::table('general_settings')->where('id', 1)->first();
         $blog = DB::table('page_blog_items')->where('id', 1)->first();
         $blog_items = DB::table('blogs')->orderby('id', 'desc')->paginate(4);
         $blog_items_no_pagi = DB::table('blogs')->orderby('id', 'desc')->get();
         $categories = DB::table('categories')->get();
-        return view('pages.blogs', compact('blog','g_setting','blog_items','categories','blog_items_no_pagi'));
+        return view('pages.blogs', compact('blog','g_setting','blog_items','categories','blog_items_no_pagi','sliders'));
     }
 
     public function detail($slug)

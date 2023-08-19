@@ -62,3 +62,5 @@
     </label>
     <span class="mx-2 p-1 mt-1 text-bold">Check if you want to align the items to the center of slider?</span>
 </div>
+
+

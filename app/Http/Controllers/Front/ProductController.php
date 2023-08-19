@@ -11,12 +11,13 @@ class ProductController extends Controller
 {
     public function index()
     {
+        $sliders = DB::table('sliders')->where('page','shop')->get();
         $g_setting = DB::table('general_settings')->where('id', 1)->first();
         $shop = DB::table('page_shop_items')->where('id', 1)->first();
         $products = DB::table('products')->orderBy('product_order', 'asc')->where('product_status', 'Show')->paginate(12);
         $categories = ProductCategory::all();
 
-        return view('pages.shop', compact('shop','g_setting','products', 'categories'));
+        return view('pages.shop', compact('shop','g_setting','products', 'categories', 'sliders'));
     }
 
 
