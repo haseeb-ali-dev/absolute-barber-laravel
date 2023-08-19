@@ -252,4 +252,18 @@ class PageHomeController extends Controller
         return redirect()->back()->with('success', 'Newsletter Section is updated successfully!');
     }
 
+    public function update11(Request $request)
+    {
+        if(env('PROJECT_MODE') == 0) {
+            return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
+        }
+
+        $data['pricing_title'] = $request->input('pricing_title');
+        $data['pricing_subtitle'] = $request->input('pricing_subtitle');
+        $data['pricing_status'] = $request->input('pricing_status');
+
+        PageHomeItem::where('id', 1)->update($data);
+        return redirect()->back()->with('success', 'Pricing Section is updated successfully!');
+    }
+
 }

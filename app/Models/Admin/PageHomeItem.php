@@ -57,7 +57,10 @@ class PageHomeItem extends Model
         'newsletter_title',
         'newsletter_text',
         'newsletter_bg',
-        'newsletter_status'
+        'newsletter_status',
+        'pricing_title',
+        'pricing_subtitle',
+        'pricing_status',
     ];
 
 }

@@ -1,7 +1,7 @@
 @extends('admin.admin_layouts')
 @section('admin_content')
     <h1 class="h3 mb-3 text-gray-800">Edit Home Page Information</h1>
-    
+
     <div class="card shadow mb-4 t-left">
         <div class="card-body">
             <div class="row">
@@ -12,6 +12,7 @@
                         <a class="nav-link" id="v-pills-3-tab" data-toggle="pill" href="#v-pills-3" role="tab" aria-controls="v-pills-3" aria-selected="false">Special Section</a>
                         <a class="nav-link" id="v-pills-4-tab" data-toggle="pill" href="#v-pills-4" role="tab" aria-controls="v-pills-4" aria-selected="false">Service Section</a>
                         <a class="nav-link" id="v-pills-5-tab" data-toggle="pill" href="#v-pills-5" role="tab" aria-controls="v-pills-5" aria-selected="false">Testimonial Section</a>
+                        <a class="nav-link" id="v-pills-11-tab" data-toggle="pill" href="#v-pills-11" role="tab" aria-controls="v-pills-11" aria-selected="false">Pricing Section</a>
                         <a class="nav-link" id="v-pills-6-tab" data-toggle="pill" href="#v-pills-6" role="tab" aria-controls="v-pills-6" aria-selected="false">Project Section</a>
                         <a class="nav-link" id="v-pills-7-tab" data-toggle="pill" href="#v-pills-7" role="tab" aria-controls="v-pills-7" aria-selected="false">Team Member Section</a>
                         <a class="nav-link" id="v-pills-8-tab" data-toggle="pill" href="#v-pills-8" role="tab" aria-controls="v-pills-8" aria-selected="false">Appointment Section</a>
@@ -178,7 +179,7 @@
                                 <div class="form-group">
                                     <label for="">Subtitle</label>
                                     <input type="text" name="testimonial_subtitle" class="form-control" value="{{ $page_home->testimonial_subtitle }}">
-                                </div>                               
+                                </div>
                                 <div class="form-group">
                                     <label for="">Existing Background</label>
                                     <div><img src="{{ asset('public/uploads/'.$page_home->testimonial_bg) }}" alt="" class="w_200"></div>
@@ -186,7 +187,7 @@
                                 <div class="form-group">
                                     <label for="">Change Background</label>
                                     <div><input type="file" name="testimonial_bg"></div>
-                                </div>                                
+                                </div>
                                 <div class="form-group">
                                     <label for="">Status</label>
                                     <div>
@@ -374,6 +375,35 @@
                                 <button type="submit" class="btn btn-success">Update</button>
                             </form>
                             <!-- // Tab 10 -->
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-11" role="tabpanel" aria-labelledby="v-pills-11-tab">
+                            <!-- Tab 11 -->
+                            <form action="{{ url('admin/page/home/11') }}" method="post">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="">Title</label>
+                                    <input type="text" name="pricing_title" class="form-control" value="{{ $page_home->pricing_title }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Subtitle</label>
+                                    <input type="text" name="pricing_subtitle" class="form-control" value="{{ $page_home->pricing_subtitle }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Status</label>
+                                    <div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="pricing_status" id="rr1" value="Show" @if($page_home->pricing_status == 'Show') checked @endif>
+                                            <label class="form-check-label font-weight-normal" for="rr1">Show</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="pricing_status" id="rr2" value="Hide" @if($page_home->pricing_status == 'Hide') checked @endif>
+                                            <label class="form-check-label font-weight-normal" for="rr2">Hide</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-success">Update</button>
+                            </form>
+                            <!-- // Tab 11 -->
                         </div>
                     </div>
                 </div>
