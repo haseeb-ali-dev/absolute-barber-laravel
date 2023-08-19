@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Pricing;
 use Illuminate\Http\Request;
 use DB;
 
@@ -18,6 +19,7 @@ class HomeController extends Controller
     	$team_members = DB::table('team_members')->get();
     	$blogs = DB::table('blogs')->get();
 		$theme_color = DB::table('general_settings')->first();
+        $pricing_options = Pricing::all();
 
         if(isset($request['menu']))
         {
@@ -27,7 +29,7 @@ class HomeController extends Controller
         {
             if($theme_color->default_homepage == 'website')
             {
-                return view('pages.index', compact('sliders','page_home','why_choose_items','services', 'testimonials','projects','team_members','blogs','theme_color'));
+                return view('pages.index', compact('sliders','page_home','why_choose_items','services', 'testimonials','projects','team_members','blogs','theme_color', 'pricing_options'));
             }
             else
             {

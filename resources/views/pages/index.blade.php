@@ -491,7 +491,7 @@
 </div>
 @endif
 
-
+@include('pages.pricing_section')
 
 @if($page_home->appointment_status == 'Show')
 <div class="cta" style="background-image: url({{ asset('public/uploads/'.$page_home->appointment_bg) }});">

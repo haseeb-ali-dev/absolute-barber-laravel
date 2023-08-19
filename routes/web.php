@@ -57,6 +57,7 @@ use App\Http\Controllers\Admin\OrderController as OrderControllerForAdmin;
 use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\OrderShippingController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\PricingController;
 
 use App\Http\Controllers\Customer\CheckoutController;
 use App\Http\Controllers\Customer\DashboardController as DashboardControllerForCustomer;
@@ -90,6 +91,7 @@ use App\Http\Controllers\Front\VideoGalleryController;
 use App\Http\Controllers\TwillioController;
 use App\Http\Controllers\FileManagerController;
 use Illuminate\Support\Facades\Route;
+
 
 /* --------------------------------------- */
 /* Front End */
@@ -885,3 +887,10 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 });
 
 Route::get('/coupon/tool/view/{secret}', [CouponToolController::class, 'view'])->name('coupon.tool.view');
+
+/* --------------------------------------- */
+/* Pricings */
+/* --------------------------------------- */
+Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], function () {
+    Route::resource('pricing', PricingController::class)->except('show');
+});

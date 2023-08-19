@@ -37,8 +37,8 @@
             ['route' => route('admin.customer.index'), 'img' => $general_settings_global->bercotool_17 ? asset("public/uploads/$general_settings_global->bercotool_17") : 'https://placehold.co/1600x400?text=Registered+Customers', 'icon' => 'fas fa-cog', 'code' => 17],
             ['route' => route('admin.order.grid'), 'img' => $general_settings_global->bercotool_18 ? asset("public/uploads/$general_settings_global->bercotool_18") : 'https://placehold.co/1600x400?text=Display+Orders', 'icon' => 'fas fa-cog', 'code' => 18],
             ['route' => route('admin.messages.index'), 'img' => $general_settings_global->bercotool_19 ? asset("public/uploads/$general_settings_global->bercotool_19") : 'https://placehold.co/1600x400?text=Contact+Form+information', 'icon' => 'fas fa-cog', 'code' => 19],
-            ['route' => route('admin.video_conference.index'), 'img' => $general_settings_global->bercotool_20 ? asset("public/uploads/$general_settings_global->bercotool_20") : 'https://placehold.co/1600x400?text=Video+Conference', 'icon' => 'fas fa-cog', 'code' => 20], 
-            ['key' => 'emailer', 'img' => asset("public/uploads/$general_settings_global->bercotool_21"), 'name' => 'Emailer', 'icon' => 'fas fa-cog', 'code' => 21], 
+            ['route' => route('admin.video_conference.index'), 'img' => $general_settings_global->bercotool_20 ? asset("public/uploads/$general_settings_global->bercotool_20") : 'https://placehold.co/1600x400?text=Video+Conference', 'icon' => 'fas fa-cog', 'code' => 20],
+            ['key' => 'emailer', 'img' => asset("public/uploads/$general_settings_global->bercotool_21"), 'name' => 'Emailer', 'icon' => 'fas fa-cog', 'code' => 21],
             ['route' => route('admin.project.index'), 'img' => $general_settings_global->bercotool_22 ? asset("public/uploads/$general_settings_global->bercotool_22") : 'https://placehold.co/1600x400?text=Projects', 'icon' => 'fas fa-cog', 'code' => 22],
             ['route' => route('admin.stats'), 'img' => $general_settings_global->bercotool_23 ? asset("public/uploads/$general_settings_global->bercotool_23") : 'https://placehold.co/1600x400?text=Stats', 'icon' => 'fas fa-cog', 'code' => 23],
             ['route' => route('coupon.tool.index'), 'img' => $general_settings_global->bercotool_24 ? asset("public/uploads/$general_settings_global->bercotool_24") : 'https://placehold.co/1600x400?text=Coupons', 'icon' => 'fas fa-cog', 'code' => 24],
@@ -68,6 +68,7 @@
             ['route' => route('admin.social_media.index'), 'name' => 'Social Media', 'icon' => 'fas fa-basketball-ball'],
             ['route' => route('admin.messages.index'), 'name' => 'Messages', 'icon' => 'fab fa-facebook-messenger'],
             ['route' => route('admin.general_setting.default_homepage'), 'name' => 'Default Homepage', 'icon' => 'fab fa-facebook-messenger'],
+            ['route' => route('admin.pricing.index'), 'name' => 'Pricing Section', 'icon' => 'fab fa-facebook-messenger'],
         ];
         $bercostore = [
             ['route' => route('admin.product.index'), 'name' => 'Product', 'icon' => 'fas fa-shopping-cart'],
@@ -149,7 +150,7 @@
             ['title' => 'Career Section', 'key' => 'career', 'back' => 'bercoweb', 'items' => $career_section],
             ['title' => 'Emailer', 'key' => 'emailer', 'back' => 'dashboard', 'items' => $emailer],
         ];
-        
+
     @endphp
 
     @foreach ($sections as $section)
@@ -190,7 +191,7 @@
                         @if (in_array($item['code'], $enabled_tools))
                             @continue
                         @endif
-                        
+
                         <div class="col-xl-3 col-md-6 mb-4" @if(isset($item['key'])) onclick="toggleSection('{{ $item['key'] }}')" @endif>
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
@@ -199,7 +200,7 @@
                                             <a href="{{ isset($item['route']) ? $item['route'] : 'javascript:;' }}">
                                                 @if (isset($item['img']))
                                                     <img src="{{ asset($item['img']) }}" alt="" class="image"
-                                                    
+
                                                     @if ($item['code']==2)
                                                         style="margin-left: 2%;"
                                                     @endif
@@ -208,13 +209,13 @@
                                                     @endif
                                                     @if ($item['code']==5)
                                                         style="margin-left: 5%;"
-                                                    @endif 
+                                                    @endif
                                                     @if ($item['code']==6)
                                                         style="margin-left: 4%;"
-                                                    @endif 
+                                                    @endif
                                                     @if ($item['code']==7)
                                                         style="margin-left: 4%;"
-                                                    @endif 
+                                                    @endif
                                                     @if ($item['code']==8)
                                                         style="margin-left: -9%;"
                                                     @endif
@@ -242,12 +243,12 @@
                                                     @if ($item['code']==22)
                                                         style="margin-left: 3%;"
                                                     @endif
-                                                   
+
                                                     @if ($item['code']==24)
                                                         style="margin-left: 4%;"
                                                     @endif
-                                                    
-                                                    
+
+
                                                     >
                                                 @else
                                                     <h3>{{ $item['name'] ?? 'No Name' }}</h3>
