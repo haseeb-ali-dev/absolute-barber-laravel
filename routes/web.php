@@ -134,6 +134,7 @@ Route::post('subscription', [SubscriptionController::class,'index'])->name('fron
 Route::get('subscriber/verify/{token}/{email}', [SubscriptionController::class,'verify']);
 Route::get('terms-and-conditions', [TermController::class,'index'])->name('front.term');
 Route::get('privacy-policy', [PrivacyController::class,'index'])->name('front.privacy');
+Route::get('pricing', [HomeController::class,'pricing'])->name('front.pricing');
 
 
 /* --------------------------------------- */

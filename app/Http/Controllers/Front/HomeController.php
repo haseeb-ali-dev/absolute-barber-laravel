@@ -37,4 +37,13 @@ class HomeController extends Controller
             }
         }
     }
+    public function pricing()
+    {
+        $theme_color = DB::table('general_settings')->where('id', 1)->first();
+        $page_home = DB::table('page_home_items')->where('id',1)->first();
+        $pricing_options = Pricing::all();
+
+        return view('pages.pricing', compact('theme_color','page_home','pricing_options'));
+    }
+
 }
