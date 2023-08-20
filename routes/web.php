@@ -363,6 +363,7 @@ Route::group(['prefix'=>'admin/page/home'], function() {
     Route::post('/9', [PageHomeController::class,'update9']);
     Route::post('/10', [PageHomeController::class,'update10']);
     Route::post('/11', [PageHomeController::class,'update11']);
+    Route::post('/12', [PageHomeController::class,'update12']);
 });
 
 Route::group(['prefix'=>'admin/page'], function() {

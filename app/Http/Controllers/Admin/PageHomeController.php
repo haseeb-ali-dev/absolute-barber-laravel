@@ -18,7 +18,9 @@ class PageHomeController extends Controller
     public function edit()
     {
         $page_home = PageHomeItem::where('id',1)->first();
-        return view('admin.page_setting.page_home', compact('page_home'));
+        $record = DB::table('general_settings')->where('id', 1)->first();
+        $assigned = isset($record) ? explode(',', $record->home_tools) : [];
+        return view('admin.page_setting.page_home', compact('page_home', 'assigned'));
     }
 
     public function update1(Request $request)
@@ -264,6 +266,22 @@ class PageHomeController extends Controller
 
         PageHomeItem::where('id', 1)->update($data);
         return redirect()->back()->with('success', 'Pricing Section is updated successfully!');
+    }
+    public function update12(Request $request)
+    {
+        if(env('PROJECT_MODE') == 0) {
+            return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
+        }
+
+        $data['tools_status'] = $request->input('tools_status');
+        $data['tools_title'] = $request->input('tools_title');
+        $data['tools_subtitle'] = $request->input('tools_subtitle');
+        $tools['home_tools'] = isset($request['home_tools']) ? implode(',', $request->input('home_tools')) : '';
+
+        PageHomeItem::where('id', 1)->update($data);
+        DB::table('general_settings')->where('id', 1)->update($tools);
+
+        return redirect()->back()->with('success', 'Tools Section is updated successfully!');
     }
 
 }
