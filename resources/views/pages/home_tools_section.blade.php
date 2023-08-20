@@ -2,9 +2,8 @@
 
 <style>
     .team-photo {
-        width: 250px; /* Adjust the width and height as needed */
-        height: 250px;
-        border-radius: 50%; /* Make the container circular */
+        width: 200px; /* Adjust the width and height as needed */
+        height: 200px;
         overflow: hidden;
     }
 
@@ -12,11 +11,16 @@
         display: block;
         width: 100%;
         height: 100%;
-        padding: 10px;
-        border-radius: 50%; /* Make the container circular */
+        padding: 15px;
         overflow: hidden;
-        border: 1px gray solid;
+        transition: transform 0.3s ease-in-out;
     }
+
+
+    .team-photo .tool_img:hover {
+        transform: scale(1.2); /* Apply zoom-in effect on hover */
+    }
+
 
     .team-photo .tool_img img {
         width: 100%;
@@ -71,11 +75,11 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div class="team-carousel owl-carousel">
+                    <div class="row">
 
                         @foreach ($tools as $row)
                             @if (in_array($row['code'], $enabled_codes))
-                                <div class="team-item wow fadeInUp border-0">
+                                <div class="team-item wow fadeInDown border-0 col-md-3">
                                     <div class="team-photo">
                                         <a href="#" class="tool_img">
                                             <img src="{{ $row['img'] }}" alt="Tools Photo">
