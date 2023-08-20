@@ -232,16 +232,25 @@
                                                         style="margin-left: -4%;"
                                                     @endif
                                                     @if ($item['code']==17)
-                                                        style="margin-left: -15%;"
+                                                        style="margin-left: -13%;"
                                                     @endif
                                                     @if ($item['code']==18)
                                                         style="margin-left: -16%;"
+                                                    @endif
+                                                    @if ($item['code']==19)
+                                                        style="margin-left: -2%;"
+                                                    @endif
+                                                    @if ($item['code']==20)
+                                                        style="margin-left: -3%;"
                                                     @endif
                                                     @if ($item['code']==21)
                                                         style="margin-left: 3%;"
                                                     @endif
                                                     @if ($item['code']==22)
                                                         style="margin-left: 3%;"
+                                                    @endif
+                                                    @if ($item['code']==23)
+                                                        style="margin-left: -4%;"
                                                     @endif
 
                                                     @if ($item['code']==24)

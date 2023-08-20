@@ -214,7 +214,7 @@
         <li class="nav-item active">
             <a class="nav-link" href="{{ url('/clear-cache') }}">
                 <i class="fas fa-circle-notch"></i>
-                <span>Clear Cache</span>
+                <span id="menu_text3">Clear Cache</span>
             </a>
         </li>
 
