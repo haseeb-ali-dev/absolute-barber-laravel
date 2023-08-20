@@ -45,5 +45,14 @@ class HomeController extends Controller
 
         return view('pages.pricing', compact('theme_color','page_home','pricing_options'));
     }
+    public function home_tools()
+    {
+        $theme_color = DB::table('general_settings')->where('id', 1)->first();
+        $page_home = DB::table('page_home_items')->where('id',1)->first();
+
+        return view('pages.home_tools', compact('theme_color','page_home'));
+    }
+
+
 
 }

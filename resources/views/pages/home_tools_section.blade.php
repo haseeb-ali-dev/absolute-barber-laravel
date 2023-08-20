@@ -1,33 +1,39 @@
 @if ($page_home->team_member_status == 'Show')
 
-<style>
-    .team-photo {
-        width: 200px; /* Adjust the width and height as needed */
-        height: 200px;
-        overflow: hidden;
-    }
+    <style>
+        .team-photoo {
+            position: relative;
+            width: 200px;
+            /* Adjust the width and height as needed */
+            height: 200px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+        }
 
-    .team-photo .tool_img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        padding: 15px;
-        overflow: hidden;
-        transition: transform 0.3s ease-in-out;
-    }
+        .team-photoo .tool_img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            padding: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+            border-radius: 10px;
+        }
 
+        .team-photoo .tool_img:hover {
+            transform: scale(1.1);
+            /* Apply zoom-in effect on hover */
+        }
 
-    .team-photo .tool_img:hover {
-        transform: scale(1.2); /* Apply zoom-in effect on hover */
-    }
-
-
-    .team-photo .tool_img img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain; /* Ensure the image fits while maintaining aspect ratio */
-    }
-</style>
+        .team-photoo .tool_img img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            /* Ensure the image covers the container while maintaining aspect ratio */
+            border-radius: 10px;
+        }
+    </style>
 
     @php
         $tools = [
@@ -80,7 +86,7 @@
                         @foreach ($tools as $row)
                             @if (in_array($row['code'], $enabled_codes))
                                 <div class="team-item wow fadeInDown border-0 col-md-3">
-                                    <div class="team-photo">
+                                    <div class="team-photoo">
                                         <a href="#" class="tool_img">
                                             <img src="{{ $row['img'] }}" alt="Tools Photo">
                                         </a>

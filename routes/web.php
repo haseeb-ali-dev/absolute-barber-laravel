@@ -135,6 +135,7 @@ Route::get('subscriber/verify/{token}/{email}', [SubscriptionController::class,'
 Route::get('terms-and-conditions', [TermController::class,'index'])->name('front.term');
 Route::get('privacy-policy', [PrivacyController::class,'index'])->name('front.privacy');
 Route::get('pricing', [HomeController::class,'pricing'])->name('front.pricing');
+Route::get('home_tools', [HomeController::class,'home_tools'])->name('front.home_tools');
 
 
 /* --------------------------------------- */
