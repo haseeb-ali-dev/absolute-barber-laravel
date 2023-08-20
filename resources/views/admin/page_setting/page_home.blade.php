@@ -1,5 +1,59 @@
 @extends('admin.admin_layouts')
 @section('admin_content')
+
+    <style>
+        .col {
+            /* Set the width of the parent div */
+            width: 200px;
+            /* Set the height of the parent div */
+            height: 45px;
+        }
+
+        .image {
+            /* Set the maximum width and height to 100% of the parent div's dimensions */
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .checkboxx {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+
+    @php
+        $tools = [
+            ['key' => 'bercoweb', 'img' => asset("public/uploads/$general_settings_global->bercotool_1"), 'name' => 'Bercoweb', 'icon' => 'fas fa-cog', 'code' => 1],
+            ['key' => 'bercostore', 'img' => asset("public/uploads/$general_settings_global->bercotool_2"), 'name' => 'Bercostore', 'icon' => 'fas fa-shopping-cart', 'code' => 2],
+            [
+                'key' => 'subscriber',
+                'img' => asset("public/uploads/$general_settings_global->bercotool_3"),
+                'name' => 'Subscriber Section',
+                'icon' => 'fas fa-share-alt-square',
+                'code' => 3,
+            ],
+            ['key' => 'administration', 'img' => asset("public/uploads/$general_settings_global->bercotool_4"), 'name' => 'Administration Users', 'icon' => 'fas fa-user-secret', 'code' => 4],
+            ['route' => route('admin.landing_page_contact_setting'), 'img' => asset("public/uploads/$general_settings_global->bercotool_5"), 'icon' => 'fa fa-users', 'code' => 5],
+            ['route' => route('admin.excel.import'), 'img' => asset("public/uploads/$general_settings_global->bercotool_6"), 'icon' => 'fas fa-users', 'code' => 6],
+            ['route' => route('signature-pad.draw'), 'img' => asset("public/uploads/$general_settings_global->bercotool_7"), 'icon' => 'fa fa-sticky-note', 'code' => 7],
+            ['route' => route('admin.landing_page_messages'), 'img' => asset("public/uploads/$general_settings_global->bercotool_8"), 'icon' => 'fas fa-users', 'code' => 8],
+            ['route' => route('admin.compose_document'), 'img' => asset("public/uploads/$general_settings_global->bercotool_9"), 'icon' => 'fas fa-file', 'code' => 9],
+            ['route' => route('file-manager.index'), 'img' => asset("public/uploads/$general_settings_global->bercotool_10"), 'icon' => 'fas fa-archive', 'code' => 10],
+            ['key' => 'blogsection', 'img' => asset("public/uploads/$general_settings_global->bercotool_11"), 'name' => 'BercoBlog', 'icon' => 'fas fa-cog', 'code' => 11],
+            ['route' => route('invoice-builder.index'), 'img' => asset("public/uploads/$general_settings_global->bercotool_12"), 'icon' => 'fas fa-cog', 'code' => 12],
+            ['route' => route('admin.employees.chat'), 'img' => $general_settings_global->bercotool_13 ? asset("public/uploads/$general_settings_global->bercotool_13") : 'https://placehold.co/1600x400?text=Chat+with+Employees', 'icon' => 'fas fa-cog', 'code' => 13],
+            ['route' => route('admin.customers.chat'), 'img' => $general_settings_global->bercotool_14 ? asset("public/uploads/$general_settings_global->bercotool_14") : 'https://placehold.co/1600x400?text=Chat+with+Customers', 'icon' => 'fas fa-cog', 'code' => 14],
+            ['route' => route('admin.reservations'), 'img' => $general_settings_global->bercotool_15 ? asset("public/uploads/$general_settings_global->bercotool_15") : 'https://placehold.co/1600x400?text=Reservations', 'icon' => 'fas fa-cog', 'code' => 15],
+            ['route' => route('admin.appointments'), 'img' => $general_settings_global->bercotool_16 ? asset("public/uploads/$general_settings_global->bercotool_16") : 'https://placehold.co/1600x400?text=Appointments', 'icon' => 'fas fa-cog', 'code' => 16],
+            ['route' => route('admin.customer.index'), 'img' => $general_settings_global->bercotool_17 ? asset("public/uploads/$general_settings_global->bercotool_17") : 'https://placehold.co/1600x400?text=Registered+Customers', 'icon' => 'fas fa-cog', 'code' => 17],
+            ['route' => route('admin.order.index'), 'img' => $general_settings_global->bercotool_18 ? asset("public/uploads/$general_settings_global->bercotool_18") : 'https://placehold.co/1600x400?text=Display+Orders', 'icon' => 'fas fa-cog', 'code' => 18],
+            ['route' => route('admin.order.index'), 'img' => $general_settings_global->bercotool_19 ? asset("public/uploads/$general_settings_global->bercotool_19") : 'https://placehold.co/1600x400?text=Contact+Form+informaton', 'icon' => 'fas fa-cog', 'code' => 19],
+            ['route' => route('admin.video_conference.index'), 'img' => $general_settings_global->bercotool_20 ? asset("public/uploads/$general_settings_global->bercotool_20") : 'https://placehold.co/1600x400?text=Video+Conference', 'icon' => 'fas fa-cog', 'code' => 20],
+            ['key' => 'emailer', 'img' => asset("public/uploads/$general_settings_global->bercotool_21"), 'name' => 'Emailer', 'icon' => 'fas fa-cog', 'code' => 21],
+            ['route' => route('admin.project.index'), 'img' => $general_settings_global->bercotool_22 ? asset("public/uploads/$general_settings_global->bercotool_22") : 'https://placehold.co/1600x400?text=Projects', 'icon' => 'fas fa-cog', 'code' => 22],
+        ];
+    @endphp
+
     <h1 class="h3 mb-3 text-gray-800">Edit Home Page Information</h1>
 
     <div class="card shadow mb-4 t-left">
@@ -13,6 +67,7 @@
                         <a class="nav-link" id="v-pills-4-tab" data-toggle="pill" href="#v-pills-4" role="tab" aria-controls="v-pills-4" aria-selected="false">Service Section</a>
                         <a class="nav-link" id="v-pills-5-tab" data-toggle="pill" href="#v-pills-5" role="tab" aria-controls="v-pills-5" aria-selected="false">Testimonial Section</a>
                         <a class="nav-link" id="v-pills-11-tab" data-toggle="pill" href="#v-pills-11" role="tab" aria-controls="v-pills-11" aria-selected="false">Pricing Section</a>
+                        <a class="nav-link" id="v-pills-12-tab" data-toggle="pill" href="#v-pills-12" role="tab" aria-controls="v-pills-12" aria-selected="false">Tools Section</a>
                         <a class="nav-link" id="v-pills-6-tab" data-toggle="pill" href="#v-pills-6" role="tab" aria-controls="v-pills-6" aria-selected="false">Project Section</a>
                         <a class="nav-link" id="v-pills-7-tab" data-toggle="pill" href="#v-pills-7" role="tab" aria-controls="v-pills-7" aria-selected="false">Team Member Section</a>
                         <a class="nav-link" id="v-pills-8-tab" data-toggle="pill" href="#v-pills-8" role="tab" aria-controls="v-pills-8" aria-selected="false">Appointment Section</a>
@@ -404,6 +459,59 @@
                                 <button type="submit" class="btn btn-success">Update</button>
                             </form>
                             <!-- // Tab 11 -->
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-12" role="tabpanel" aria-labelledby="v-pills-12-tab">
+                            <!-- Tab 12 -->
+                            <form action="{{ url('admin/page/home/12') }}" method="post">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="">Title</label>
+                                    <input type="text" name="tools_title" class="form-control" value="{{ $page_home->tools_title }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Subtitle</label>
+                                    <input type="text" name="tools_subtitle" class="form-control" value="{{ $page_home->tools_subtitle }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Status</label>
+                                    <div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="tools_status" id="rr1" value="Show" @if($page_home->tools_status == 'Show') checked @endif>
+                                            <label class="form-check-label font-weight-normal" for="rr1">Show</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="tools_status" id="rr2" value="Hide" @if($page_home->tools_status == 'Hide') checked @endif>
+                                            <label class="form-check-label font-weight-normal" for="rr2">Hide</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="card-header">Tools to asssign</div>
+                                    <div class="row">
+                                        @foreach ($tools as $row)
+                                            <div class="col-md-4">
+
+                                                <div class="d-flex align-items-center border my-2 py-2 px-3">
+
+                                                    <input type="checkbox" name="home_tools[]" value="{{ $row['code'] }}"
+                                                        @if (in_array($row['code'], $assigned)) checked @endif class="checkboxx">
+
+                                                    <div class="col">
+                                                        @if (isset($row['img']))
+                                                            <img src="{{ asset($row['img']) }}" alt="" class="image">
+                                                        @else
+                                                            <h3>{{ $row['name'] ?? 'No Name' }}</h3>
+                                                        @endif
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-success">Update</button>
+                            </form>
+                            <!-- // Tab 12 -->
                         </div>
                     </div>
                 </div>

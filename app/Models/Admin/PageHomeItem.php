@@ -61,6 +61,9 @@ class PageHomeItem extends Model
         'pricing_title',
         'pricing_subtitle',
         'pricing_status',
+        'tools_title',
+        'tools_subtitle',
+        'tools_status',
     ];
 
 }

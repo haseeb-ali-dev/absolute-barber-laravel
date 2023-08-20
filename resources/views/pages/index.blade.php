@@ -550,6 +550,8 @@
 </div>
 @endif
 
+@include('pages.home_tools_section')
+
 
 @if($page_home->latest_blog_status == 'Show')
 <div class="blog-area">
