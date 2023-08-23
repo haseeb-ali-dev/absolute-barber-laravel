@@ -39,9 +39,19 @@
                                     </div>
                                 </div>
                                 <div class="d-flex flex-column p-4">
-                                    @forelse ($row->features as $item)
+                                    @forelse ($row->features as $key=> $item)
                                         <div class="d-flex align-items-center mb-3">
-                                            <i class="fas fa-check-circle" style="font-size: 20px;color: #4D0101 !important;"></i>
+                                            @foreach ($row->tick_cross as $key1=> $item1)
+                                                @if ($key==$key1)
+                                                    @if ($item1=='tick')
+                                                        <i class="fas fa-check-circle" style="font-size: 20px;color: green;"></i>
+                                                    @endif
+                                                    @if ($item1=='cross')
+                                                        <i class="fas fa-times-circle" style="font-size: 20px;color: red;"></i>
+                                                    @endif
+                                                @endif
+                                            @endforeach
+                                            {{-- <i class="fas fa-check-circle" style="font-size: 20px;color: #4D0101 !important;"></i> --}}
                                             <span class="ml-2">{{ $item }}</span>
                                         </div>
                                     @empty

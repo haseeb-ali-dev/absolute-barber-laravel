@@ -35,6 +35,16 @@
                 /* Ensure the image covers the container while maintaining aspect ratio */
                 border-radius: 10px;
             }
+            .center-content {
+                display: flex;
+                justify-content: center; /* Horizontal centering */
+                align-items: center; /* Vertical centering */
+            }
+            @media (max-width: 767px) {
+                #faizan {
+                    margin-top: 13%;
+                }
+            }
         </style>
         <div class="container-fluid">
             @php
@@ -66,6 +76,8 @@
                     ['route' => route('admin.video_conference.index'), 'img' => $general_settings_global->bercotool_20 ? asset("public/uploads/$general_settings_global->bercotool_20") : 'https://placehold.co/1600x400?text=Video+Conference', 'code' => 20],
                     ['key' => 'emailer', 'img' => asset("public/uploads/$general_settings_global->bercotool_21"), 'name' => 'Emailer', 'code' => 21],
                     ['route' => route('admin.project.index'), 'img' => $general_settings_global->bercotool_22 ? asset("public/uploads/$general_settings_global->bercotool_22") : 'https://placehold.co/1600x400?text=Projects', 'code' => 22],
+                    ['route' => route('admin.stats'), 'img' => $general_settings_global->bercotool_23 ? asset("public/uploads/$general_settings_global->bercotool_23") : 'https://placehold.co/1600x400?text=Stats', 'icon' => 'fas fa-cog', 'code' => 23],
+            ['route' => route('coupon.tool.index'), 'img' => $general_settings_global->bercotool_24 ? asset("public/uploads/$general_settings_global->bercotool_24") : 'https://placehold.co/1600x400?text=Coupons', 'icon' => 'fas fa-cog', 'code' => 24],
                 ];
 
                 $enabled_codes = isset($theme_color->home_tools) ? explode(',', $theme_color->home_tools) : [];
@@ -73,7 +85,7 @@
 
             <div class="team bg-lightblue">
                 <div class="container">
-                    <div class="row">
+                    <div class="row" id="faizan">
                         <div class="col-md-12">
                             <div class="heading wow fadeInUp">
                                 <h2>{{ $page_home->tools_title }}</h2>
@@ -87,8 +99,8 @@
 
                                 @foreach ($tools as $row)
                                     @if (in_array($row['code'], $enabled_codes))
-                                        <div class="team-item wow fadeInDown border-0 col-md-3">
-                                            <div class="team-photo">
+                                        <div class="team-item wow fadeInDown border-0 col-md-3 center-content">
+                                            <div class="team-photo "> <!-- Add the center-content class here -->
                                                 <a href="#" class="tool_img">
                                                     <img src="{{ $row['img'] }}" alt="Tools Photo">
                                                 </a>

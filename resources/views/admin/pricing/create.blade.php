@@ -44,6 +44,10 @@
                     <button type="button" id="add-field" class="btn btn-info mb-2">Add Feature</button>
                     <div id="input-fields">
                         <div class="input-field d-flex">
+                            <select class="form-control" name="tick_cross[]">
+                                <option value="tick" selected>&#10004; Tick</option>
+                                <option value="cross">&#10060; Cross</option>
+                            </select>
                             <input type="text" name="features[]" placeholder="Enter features" class="form-control">
                             <button type="button" class="remove-field btn btn-danger mx-2">Remove</button>
                         </div>
@@ -61,6 +65,10 @@
             $('#add-field').on('click', function() {
                 $('#input-fields').append(`
                     <div class="input-field d-flex my-1">
+                        <select class="form-control" name="tick_cross[]">
+                            <option value="tick" selected>&#10004; Tick</option>
+                            <option value="cross">&#10060; Cross</option>
+                        </select>
                         <input type="text" name="features[]" placeholder="Enter data" class="form-control">
                         <button type="button" class="remove-field btn btn-danger mx-2">Remove</button>
                     </div>

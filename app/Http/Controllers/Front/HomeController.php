@@ -23,7 +23,7 @@ class HomeController extends Controller
 
         if(isset($request['menu']))
         {
-            return view('pages.index', compact('sliders','page_home','why_choose_items','services', 'testimonials','projects','team_members','blogs','theme_color'));
+            return view('pages.index', compact('sliders','page_home','why_choose_items','services', 'testimonials','projects','team_members','blogs','theme_color', 'pricing_options'));
         }
         else
         {

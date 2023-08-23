@@ -10,10 +10,12 @@
             <div class="card-header">
                 <h6 class="m-0 mt-2 font-weight-bold text-primary">Add Project Task</h6>
                 <div class="float-right d-inline">
-                    <a href="{{ route('admin.project.index') }}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>
-                        Back to Projects</a>
+                    <button type="button" class="btn btn-primary btn-sm" id="openCalendarModal"><i class="fa fa-calendar"></i> See Calendar</button>
+                    <a href="{{ route('admin.project.index') }}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Back to Projects</a>
                 </div>
             </div>
+            
+            
             <div class="card-body">
                 <div class="form-group">
                     <label for="">Task Detail</label>
@@ -101,5 +103,29 @@
             </div>
         </div>
     </div>
-    @includeIf('admin.project.tasks_calendar')
+    <!-- Modal -->
+    <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="calendarModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="calendarModalLabel">Project Calendar</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @includeIf('admin.project.tasks_calendar')
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#openCalendarModal').on('click', function () {
+                $('#calendarModal').modal('show');
+            });
+        });
+    </script>
+    
 @endsection

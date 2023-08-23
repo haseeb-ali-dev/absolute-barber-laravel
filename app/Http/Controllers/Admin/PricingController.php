@@ -28,7 +28,9 @@ class PricingController extends Controller
             'price' => 'required|numeric',
             'format' => 'required|in:monthly,yearly,hourly,weekly',
             'features' => 'required|array',
-            'features.*' => 'required|max:100'
+            'features.*' => 'required|max:100',
+            'tick_cross' => 'required|array',
+            'tick_cross.*' => 'required|max:100'
         ]);
 
         Pricing::create($data);
@@ -49,7 +51,9 @@ class PricingController extends Controller
             'price' => 'required|numeric',
             'format' => 'required|in:monthly,yearly,hourly,weekly',
             'features' => 'required|array',
-            'features.*' => 'required|max:100'
+            'features.*' => 'required|max:100',
+            'tick_cross' => 'required|array',
+            'tick_cross.*' => 'required|max:100'
         ]);
 
         $pricing->update($data);

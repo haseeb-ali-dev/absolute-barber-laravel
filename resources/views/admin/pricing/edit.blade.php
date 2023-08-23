@@ -45,8 +45,16 @@
                     <div class="form-group">
                         <button type="button" id="add-field" class="btn btn-info mb-2">Add Feature</button>
                         <div id="input-fields">
-                            @foreach ($pricing->features as $row)
+                            @foreach ($pricing->features as $key=> $row)
                                 <div class="input-field d-flex my-1">
+                                    @foreach ($pricing->tick_cross as $key1=> $row1)
+                                        @if ($key==$key1)
+                                            <select class="form-control" name="tick_cross[]">
+                                                <option value="tick" @if ($row1 == 'tick') selected @endif> &#10004; Tick </option>
+                                                <option value="cross" @if ($row1 == 'cross') selected @endif >&#10060; Cross</option>
+                                            </select>
+                                        @endif
+                                    @endforeach
                                     <input type="text" name="features[]" placeholder="Enter features"
                                         class="form-control" value="{{ $row }}">
                                     <button type="button" class="remove-field btn btn-danger mx-2">Remove</button>
@@ -67,6 +75,10 @@
             $('#add-field').on('click', function() {
                 $('#input-fields').append(`
                     <div class="input-field d-flex my-1">
+                        <select class="form-control" name="tick_cross[]">
+                            <option value="tick" selected>&#10004; Tick</option>
+                            <option value="cross">&#10060; Cross</option>
+                        </select>
                         <input type="text" name="features[]" placeholder="Enter data" class="form-control">
                         <button type="button" class="remove-field btn btn-danger mx-2">Remove</button>
                     </div>

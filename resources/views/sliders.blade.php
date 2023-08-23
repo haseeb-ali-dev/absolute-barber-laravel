@@ -14,11 +14,6 @@
             @endphp
             <iframe class="slider-item_video" width="100%" height="800" src="{{ $row->slider_video }}?autoplay=1&mute=1&loop=1&playlist={{ $video_id }}" frameborder="0" autoplay allowfullscreen></iframe>
 
-            {{-- <video class="slider-item_video" width="100%" height="auto" playsinline="playsinline" muted="muted"
-                preload="yes" autoplay="autoplay" loop="loop" id="vjs_video_739_html5_api" class="video-js"
-                data-setup='{"autoplay":"any"}' controls>
-                <source src="{{ $row->slider_video }}" type="video/mp4" />
-            </video> --}}
 
             <div class="slider-item_video2" style="background:#{{ $theme_color->theme_color }};height: 800px;">
             </div>

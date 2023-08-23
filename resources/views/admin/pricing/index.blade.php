@@ -36,9 +36,19 @@
                                     <span class="badge badge-pill badge-success p-2">{{ $row->format }}</span>
                                 </td>
                                 <td>
-                                    @forelse ($row->features as $item)
+                                    @forelse ($row->features as $key=> $item)
                                         <div class="d-flex align-items-center mb-2">
-                                            <i class="fas fa-check-circle" style="font-size: 20px"></i>
+                                            @foreach ($row->tick_cross as $key1=> $item1)
+                                                @if ($key==$key1)
+                                                    @if ($item1=='tick')
+                                                        <i class="fas fa-check-circle" style="font-size: 20px;color: green;"></i>
+                                                    @endif
+                                                    @if ($item1=='cross')
+                                                        <i class="fas fa-times-circle" style="font-size: 20px;color: red;"></i>
+                                                    @endif
+                                                @endif
+                                            @endforeach
+                                            
                                             <span class="ml-1">{{ $item }}</span>
                                         </div>
                                     @empty
