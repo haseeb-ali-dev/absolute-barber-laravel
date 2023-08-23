@@ -1007,37 +1007,20 @@ class GeneralSettingController extends Controller
 
     public function store_post_bercotool_images(Request $request){
 
-        $request->validate([
-            'bercotool_1' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
-            'bercotool_2' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
-            'bercotool_3' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
-            'bercotool_4' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
-            'bercotool_5' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
-            'bercotool_6' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
-            'bercotool_7' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
-            'bercotool_8' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
-            'bercotool_9' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
-            'bercotool_10' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
-            'bercotool_11' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
-            'bercotool_12' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
-            'bercotool_13' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
-            'bercotool_14' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
-            'bercotool_15' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
-            'bercotool_16' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
-            'bercotool_17' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
-            'bercotool_18' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
-            'bercotool_19' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
-            'bercotool_20' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
-            'bercotool_21' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
-            'bercotool_22' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
-            'bercotool_23' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
-            'bercotool_24' => 'image|mimes:jpeg,png,jpg,gif|max:5048',
+        $validationRules = [];
+        $maxFileSize = 5048; // Maximum file size in kilobytes
+        $allowedImageTypes = 'jpeg,png,jpg,gif'; // Allowed image MIME types
 
-        ]);
+        for ($i = 1; $i <= 26; $i++) {
+            $validationRules["bercotool_{$i}"] = "image|mimes:{$allowedImageTypes}|max:{$maxFileSize}";
+        }
+
+        $request->validate($validationRules);
+
 
         $setting = GeneralSetting::where('id',1)->first();
 
-        for ($i = 1; $i <= 24; $i++) {
+        for ($i = 1; $i <= 26; $i++) {
             $inputName = 'bercotool_' . $i;
         
             if ($request->hasFile($inputName)) {
