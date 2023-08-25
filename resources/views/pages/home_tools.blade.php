@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @if ($page_home->team_member_status == 'Show')
+    @if ($page_home->tools_status == 'Show')
         <style>
             .team-photo {
                 position: relative;

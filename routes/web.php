@@ -43,6 +43,7 @@ use App\Http\Controllers\Admin\ServiceController as ServiceControllerForAdmin;
 use App\Http\Controllers\Admin\ShippingController;
 use App\Http\Controllers\Admin\SocialMediaItemController;
 use App\Http\Controllers\Admin\StatusController;
+use App\Http\Controllers\Admin\UserChatStatusController;
 use App\Http\Controllers\Admin\SubscriberController;
 use App\Http\Controllers\Admin\TeamMemberController as TeamMemberControllerForAdmin;
 use App\Http\Controllers\Admin\SliderController;
@@ -582,6 +583,7 @@ Route::post('admin/customers/send-sms-action-excel', [TwillioController::class,'
 Route::post('admin/customers/send-whatsapp-action', [TwillioController::class,'send_customers_whatsapp_action'])->name('admin.customers.send_whatsapp_action');
 Route::post('admin/customers/send-whatsapp-action-landing', [TwillioController::class,'send_customers_whatsapp_action_landing'])->name('admin.customers.send_whatsapp_action_landing');
 Route::post('admin/customers/send-whatsapp-action-excel', [TwillioController::class,'send_customers_whatsapp_action_excel'])->name('admin.customers.send_whatsapp_action.excel');
+Route::post('admin/customers/chnage_customer_call_status', [TwillioController::class,'chnage_customer_call_status'])->name('admin.chnage_customer_call_status');
 
 
 /* --------------------------------------- */
@@ -697,12 +699,17 @@ Route::post('admin/order/chat', [OrderControllerForAdmin::class,'store_order_cha
 /* Status - Admin */
 /* --------------------------------------- */
 Route::resource('admin/status', StatusController::class)->except(['show', 'create', 'edit'])->names('admin.status');
+Route::resource('admin/user_chat_status', UserChatStatusController::class)->except(['show', 'create', 'edit'])->names('admin.user_chat_status');
 
 /* --------------------------------------- */
 /* Customer - Admin */
 /* --------------------------------------- */
 Route::get('admin/customer/view', [CustomerController::class,'index'])->name('admin.customer.index');
 Route::get('landing_page_messages', [CustomerController::class,'landing_page_messages'])->name('admin.landing_page_messages');
+
+Route::get('follow_up_customer', [CustomerController::class,'follow_up_customer'])->name('admin.follow_up_customer'); //new route
+Route::get('follow_up_customer_comment', [CustomerController::class,'follow_up_customer_comment'])->name('admin.follow_up_customer_comment'); //new route
+
 Route::get('admin/customer/detail/{id}', [CustomerController::class,'detail']);
 Route::get('admin/customer/make-active/{id}', [CustomerController::class,'make_active']);
 Route::get('admin/customer/make-pending/{id}', [CustomerController::class,'make_pending']);

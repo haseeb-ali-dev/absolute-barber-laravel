@@ -15,10 +15,15 @@
             <span class="font-weight-bold" style="font-size: 18px">({{ $whatsappSent . ' / ' . $whatsappLimit }})</span>
         </a><br>
         <a href="{{ URL::to('admin/landing_contacts/delete') }}" class="btn btn-danger btn-sm btn-block" onClick="return confirm('You are deleting all Contacts. Are you sure?');">Delete All Contacts</a>
-        <div class="card-body">
+        <div class="card-body"> 
             <button class="btn btn-info rounded-pill float-right mb-2" onclick="exportToExcel('customers-table')">
                 <i class="fas fa-file-export ml-1 mr-2"></i>Export to Excel
             </button>
+            
+            <a href="{{ URL::to('admin/user_chat_status') }}" class="btn btn-info rounded-pill float-right mb-2">
+                <i class="fas fa-file-export ml-1 mr-2"></i>Manage Call Status
+            </a>
+            
             <div class="table-responsive">
                 <table class="table table-bordered" id="customers-table" width="100%" cellspacing="0">
                     <thead>
@@ -161,7 +166,7 @@
               <form action="{{ route('admin.customers.send_sms_action_landing') }}" method="post">
                   @csrf
                   <input type="hidden" name="customer_ids" class="customer_ids">
-                 <div class="form-group">
+                  <div class="form-group">
                      <textarea class="form-control" name="message" placeholder="Compose SMS"></textarea>
                  </div>
                  <span class="text-danger">{{$smsLimit -$smsSent}} SMS remaining</span>
@@ -366,6 +371,23 @@ $.fn.TableCheckAll = function (options) {
     clipboard.on('error', function (e) {
         // Handle any errors that may occur during copying
         console.error('Error copying text:', e);
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get all the status select elements
+        const statusSelects = document.querySelectorAll(".status-select");
+
+        // Attach onchange event handler to each select element
+        statusSelects.forEach(select => {
+            select.addEventListener("change", function() {
+                // Find the closest form element (status-form)
+                const form = this.closest(".status-form");
+
+                // Submit the form
+                form.submit();
+            });
+        });
     });
 </script>
 

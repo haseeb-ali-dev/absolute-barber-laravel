@@ -1011,7 +1011,7 @@ class GeneralSettingController extends Controller
         $maxFileSize = 5048; // Maximum file size in kilobytes
         $allowedImageTypes = 'jpeg,png,jpg,gif'; // Allowed image MIME types
 
-        for ($i = 1; $i <= 26; $i++) {
+        for ($i = 1; $i <= 27; $i++) {
             $validationRules["bercotool_{$i}"] = "image|mimes:{$allowedImageTypes}|max:{$maxFileSize}";
         }
 
@@ -1020,7 +1020,7 @@ class GeneralSettingController extends Controller
 
         $setting = GeneralSetting::where('id',1)->first();
 
-        for ($i = 1; $i <= 26; $i++) {
+        for ($i = 1; $i <= 27; $i++) {
             $inputName = 'bercotool_' . $i;
         
             if ($request->hasFile($inputName)) {

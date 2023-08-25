@@ -13,6 +13,7 @@ use Illuminate\Validation\Rule;
 use App\Models\Admin\CouponTool;
 use DB;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\UserChatStatus;
 
 class CustomerController extends Controller
 {
@@ -24,7 +25,8 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customer::all();
-        return view('admin.customer.index', compact('customers'));
+        $user_chat_statuses=UserChatStatus::all();
+        return view('admin.customer.index', compact('customers','user_chat_statuses'));
     }
 
     public function compose_document(){
@@ -52,9 +54,50 @@ class CustomerController extends Controller
     {
         // dd('1');
         $coupons = CouponTool::all();
+        $user_chat_statuses = UserChatStatus::all();
+        
         $customers = LandingPageContact::all();
-        return view('admin.customer.landing', compact('customers','coupons'));
+        return view('admin.customer.landing', compact('customers','coupons','user_chat_statuses'));
     }
+
+    public function follow_up_customer()
+    {
+
+        $customers = Customer::all();
+        $landingPageContacts = LandingPageContact::all();
+        foreach ($customers as $key0 => $customer) {
+            foreach ($landingPageContacts as $key1 => $landingPageContact) {
+                if($customer->customer_email==$landingPageContact->email){
+                    unset($customers[$key0]);
+                }
+            }
+        }
+
+        $user_chat_statuses = UserChatStatus::all();
+        
+        // $customers = LandingPageContact::all();
+        return view('admin.customer.follow_up_customer', compact('landingPageContacts','customers','user_chat_statuses'));
+    }
+
+    public function follow_up_customer_comment(Request $request){
+        if($request->table=='landing_page_contacts'){
+            $to_update=LandingPageContact::where('id',$request->customer_id)->first();
+            $to_update->comment=$request->comment;
+            $to_update->save();
+
+            // return back()->with('success','Status updated successfully!');
+        }
+
+        if($request->table=='customers'){
+            $to_update=Customer::where('id',$request->customer_id)->first();
+            $to_update->comment=$request->comment;
+            $to_update->save();
+
+            // return back()->with('success','Status updated successfully!');
+        }
+    }
+
+
 
     public function landing_page_emails()
     {

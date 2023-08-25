@@ -20,4 +20,9 @@ class Customer extends Model
         'customer_stauts',
         'is_waiter'
     ];
+
+    public function userChatStatus()
+    {
+        return $this->belongsTo(UserChatStatus::class, 'user_chat_status_id');
+    }
 }

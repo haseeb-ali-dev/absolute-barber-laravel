@@ -16,6 +16,9 @@
             <span class="font-weight-bold" style="font-size: 18px">({{ $whatsappSent . ' / ' . $whatsappLimit }})</span>
         </a>
         <div class="card-body">
+          <a href="{{ URL::to('admin/user_chat_status') }}" class="btn btn-info rounded-pill float-right mb-2">
+              <i class="fas fa-file-export ml-1 mr-2"></i>Manage Call Status
+          </a>
             <div class="table-responsive">
                 <table class="table table-bordered" id="customers-table" width="100%" cellspacing="0">
                     <thead>

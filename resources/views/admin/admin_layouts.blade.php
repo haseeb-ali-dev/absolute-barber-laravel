@@ -150,6 +150,11 @@
 
                     $conName[1] = 'import_excel_contacts_emailer';
                 }
+                if(Request::path()=='follow_up_customer')
+                {
+
+                    $conName[1] = 'follow_up_customer';
+                }
         @endphp
 
 

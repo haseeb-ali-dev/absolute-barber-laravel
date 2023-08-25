@@ -34,7 +34,6 @@ class TwillioController extends Controller
                 $message1 = $request->message;
                 foreach($customers as $row)
                 {
-
                     // Your Account SID and Auth Token from twilio.com/console
                     $account_sid = env('TWILIO_ACCOUNT_SID');
                     $auth_token = env('TWILIO_AUTH_TOKEN');
@@ -70,7 +69,7 @@ class TwillioController extends Controller
     public function send_customers_sms_action_landing(Request $request)
     {
 
-
+        
         $count=0;
             $data = $request->validate([
                 'customer_ids' => 'required',
@@ -86,7 +85,7 @@ class TwillioController extends Controller
                 $message1 = $request->message;
                 foreach($customers as $row)
                 {
-
+                    
                     // Your Account SID and Auth Token from twilio.com/console
                     $account_sid = env('TWILIO_ACCOUNT_SID');
                     $auth_token = env('TWILIO_AUTH_TOKEN');
@@ -215,6 +214,34 @@ class TwillioController extends Controller
 
     }
 
+    public function chnage_customer_call_status(Request $request){
+       
+        if($request->table=='landing_page_contacts'){
+            $to_update=LandingPageContact::where('id',$request->customer_id)->first();
+            $to_update->user_chat_status_id=$request->user_chat_status_id;
+            $to_update->save();
+
+            $response = [
+                'message' => 'Status updated successfully'
+            ];
+            
+            return response()->json($response);
+        }
+
+        if($request->table=='customers'){
+            $to_update=Customer::where('id',$request->customer_id)->first();
+            $to_update->user_chat_status_id=$request->user_chat_status_id;
+            $to_update->save();
+
+            $response = [
+                'message' => 'Status updated successfully'
+            ];
+            
+            return response()->json($response);
+        }
+
+        
+    }
 
     public function send_customers_whatsapp_action(Request $request)
     {
@@ -235,7 +262,6 @@ class TwillioController extends Controller
                 $message1 = $request->message;
                 foreach($customers as $row)
                 {
-
                     $sid    = env('TWILIO_ACCOUNT_SID');
                     $token  = env('TWILIO_AUTH_TOKEN');
                     $twilio = new Client($sid, $token);
@@ -279,7 +305,6 @@ class TwillioController extends Controller
                 $message1 = $request->message;
                 foreach($customers as $row)
                 {
-
                     $sid    = env('TWILIO_ACCOUNT_SID');
                     $token  = env('TWILIO_AUTH_TOKEN');
                     $twilio = new Client($sid, $token);

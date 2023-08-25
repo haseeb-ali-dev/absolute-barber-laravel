@@ -9,4 +9,10 @@ class LandingPageContact extends Model
 {
     use HasFactory;
     protected $table = 'landing_page_contacts';
+
+    public function userChatStatus()
+    {
+        return $this->belongsTo(UserChatStatus::class, 'user_chat_status_id');
+    }
+    
 }

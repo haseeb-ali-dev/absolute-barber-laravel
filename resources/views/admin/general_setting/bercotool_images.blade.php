@@ -541,6 +541,28 @@
                 
             </div>
 
+            <div class="row card-body d-flex align-items-baseline">
+                <div class="form-group d-flex flex-column col-md-2">
+                    <input type="file" name="bercotool_27" accept="image/*">
+                    <span>Facebook</span>
+                </div>
+                <div class="col-md-2">
+                    <input type="checkbox" name="codes[]" value="27"
+                        @if (in_array(27, $enabled_tools)) checked @endif>
+                    @if (in_array(27, $enabled_tools))
+                        Uncheck to Enable
+                    @else
+                        Check to Disable
+                    @endif
+                </div>
+                <div class="col-md-2">
+                    <img style="width:230px; height:100px;"
+                        src="{{ isset($general_settings_global->bercotool_27) ? asset("public/uploads/$general_settings_global->bercotool_27") : 'https://placehold.co/640x360?text=Follow Up Customer' }}"
+                        alt="">
+                </div>
+                
+            </div>
+
 
             <br>
             <div class="row justify-content-center">
