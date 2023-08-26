@@ -15,15 +15,15 @@
             <span class="font-weight-bold" style="font-size: 18px">({{ $whatsappSent . ' / ' . $whatsappLimit }})</span>
         </a><br>
         <a href="{{ URL::to('admin/landing_contacts/delete') }}" class="btn btn-danger btn-sm btn-block" onClick="return confirm('You are deleting all Contacts. Are you sure?');">Delete All Contacts</a>
-        <div class="card-body"> 
+        <div class="card-body">
             <button class="btn btn-info rounded-pill float-right mb-2" onclick="exportToExcel('customers-table')">
                 <i class="fas fa-file-export ml-1 mr-2"></i>Export to Excel
             </button>
-            
+
             <a href="{{ URL::to('admin/user_chat_status') }}" class="btn btn-info rounded-pill float-right mb-2">
                 <i class="fas fa-file-export ml-1 mr-2"></i>Manage Call Status
             </a>
-            
+
             <div class="table-responsive">
                 <table class="table table-bordered" id="customers-table" width="100%" cellspacing="0">
                     <thead>
@@ -43,7 +43,7 @@
                             <th scope="row">
                                 <input type="checkbox" class="check" data-id="{{$row->id}}">
                                 {{ $row->id }}
-                            </th> 
+                            </th>
                             <td>{{ $row->name }}</td>
                             <td>{{ $row->email }}</td>
                             <td>{{ $row->phone }}</td>
@@ -57,14 +57,14 @@
                                     @else
                                     <p>No Message sent yet &nbsp;&nbsp;&nbsp;</p>
                                     @endif
-                                    
+
 
                                     <button class="btn btn-sm text-success py-0 edit-contact-btn"
                                         data-url="{{ url('landing_page_messages/contact/'. $row->id) }}"
                                         data-name="{{ $row->name }}" data-email="{{ $row->email }}" data-phone="{{ $row->phone }}">
                                         <i class="fas fa-pencil-alt"></i> Edit
                                     </button>
-                                    
+
                                     <form action="{{ url('landing_page_messages/contact/'. $row->id .'/delete') }}" method="post">
                                         @csrf
                                         @method('DELETE')
@@ -178,9 +178,19 @@
                   <div class="form-group">
                      <textarea class="form-control" name="message" placeholder="Compose SMS"></textarea>
                  </div>
+                 <div class="d-flex flex-column">
+                    <label for="scheduled" class="p-1 d-flex align-items-center">
+                        <input type="checkbox" name="scheduled" id="scheduled" style="width: 20px;height: 20px;">
+                        <span class="mx-2">I want to schedule this message?</span>
+                    </label>
+                    <div class="form-group p-1 row scheduled_at_wrapper" style="display: none">
+                        <label for="scheduled_at" class="col-md-2">Select date and time</label>
+                        <input type="datetime-local" name="scheduled_at" id="scheduled_at" class="form-control col-md-4" min="{{ now() }}">
+                    </div>
+                 </div>
                  <span class="text-danger">{{$smsLimit -$smsSent}} SMS remaining</span>
                   <div class="form-group">
-                      <button type="submit" class="btn btn-primary pull-right float-right">Send</button>
+                      <button type="submit" class="btn btn-primary pull-right float-right send_btn">Send</button>
                   </div>
               </form>
             </div>
@@ -404,7 +414,7 @@ $.fn.TableCheckAll = function (options) {
             e.trigger.innerHTML = 'Click to copy Coupon Link';
         }, 1500); // Reset back to the original text after 1.5 seconds
         e.clearSelection();
-        
+
         // Prevent the default link behavior
         e.preventDefault();
     });
@@ -432,4 +442,18 @@ $.fn.TableCheckAll = function (options) {
     });
 </script>
 
+    <script>
+        $(document).ready(function() {
+            $('#scheduled').change(function (e) {
+                const checked = e.target.checked
+                if (checked) {
+                    $('.scheduled_at_wrapper').show();
+                    $('.send_btn').text('Schedule');
+                } else {
+                    $('.scheduled_at_wrapper').hide();
+                    $('.send_btn').text('Sent');
+                }
+            });
+        });
+    </script>
 @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin\ScheduleMessages;
 use DB;
 use Illuminate\Http\Request;
 use App\Models\Customer;
@@ -38,7 +39,7 @@ class TwillioController extends Controller
                     $row->last_message=$request->message.' '.'(SMS)';
                     $row->save();
 
-                    
+
                     // Your Account SID and Auth Token from twilio.com/console
                     $account_sid = env('TWILIO_ACCOUNT_SID');
                     $auth_token = env('TWILIO_AUTH_TOKEN');
@@ -74,7 +75,6 @@ class TwillioController extends Controller
     public function send_customers_sms_action_landing(Request $request)
     {
 
-        
         $count=0;
             $data = $request->validate([
                 'customer_ids' => 'required',
@@ -85,6 +85,22 @@ class TwillioController extends Controller
                 return back()->with('error', 'No customer selected to send message!');
             } else {
 
+                if (isset($request->scheduled) && $request->scheduled == 'on') {
+                    if(!isset($request->scheduled_at)) {
+                        return back()->with('error', 'Please select date and time to schedule message!');
+                    }
+                    
+                    ScheduleMessages::create([
+                        'msg' => $data['message'],
+                        'scheduled_at' => $request->get('scheduled_at'),
+                        'user_ids' => $data['customer_ids'],
+                        'type' => 'sms',
+                        'module' => 'landing_page_contacts',
+                        'status' => 'pending',
+                    ]);
+
+                    return back()->with('success', 'Promotion SMS are scheduled successfully!');
+                }
 
                 $customers = LandingPageContact::whereIn('id', $customersIds)->get();
                 $message1 = $request->message;
@@ -222,7 +238,7 @@ class TwillioController extends Controller
     }
 
     public function chnage_customer_call_status(Request $request){
-       
+
         if($request->table=='landing_page_contacts'){
             $to_update=LandingPageContact::where('id',$request->customer_id)->first();
             $to_update->user_chat_status_id=$request->user_chat_status_id;
@@ -231,7 +247,7 @@ class TwillioController extends Controller
             $response = [
                 'message' => 'Status updated successfully'
             ];
-            
+
             return response()->json($response);
         }
 
@@ -243,11 +259,11 @@ class TwillioController extends Controller
             $response = [
                 'message' => 'Status updated successfully'
             ];
-            
+
             return response()->json($response);
         }
 
-        
+
     }
 
     public function send_customers_whatsapp_action(Request $request)
@@ -334,7 +350,7 @@ class TwillioController extends Controller
                         )
                     );
 
-                    
+
                     $count++;
                 }
 
