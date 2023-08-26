@@ -30,6 +30,26 @@ class TwillioController extends Controller
                 return back()->with('error', 'No customer selected to send message!');
             } else {
 
+                if (isset($request->scheduled) && $request->scheduled == 'on') {
+                    if(!isset($request->scheduled_at)) {
+                        return back()->with('error', 'Please select date and time to schedule message!');
+                    }
+                    if($request->scheduled_at > now()) {
+                        return back()->with('error', 'Please select future date and time');
+                    }
+
+                    ScheduleMessages::create([
+                        'msg' => $data['message'],
+                        'scheduled_at' => $request->get('scheduled_at'),
+                        'user_ids' => $data['customer_ids'],
+                        'type' => 'sms',
+                        'module' => 'registered_customers',
+                        'status' => 'pending',
+                    ]);
+
+                    return back()->with('success', 'Promotion SMS are scheduled successfully!');
+                }
+
 
                 $customers = Customer::whereIn('id', $customersIds)->get();
                 $message1 = $request->message;
@@ -89,7 +109,10 @@ class TwillioController extends Controller
                     if(!isset($request->scheduled_at)) {
                         return back()->with('error', 'Please select date and time to schedule message!');
                     }
-                    
+                    if($request->scheduled_at > now()) {
+                        return back()->with('error', 'Please select future date and time');
+                    }
+
                     ScheduleMessages::create([
                         'msg' => $data['message'],
                         'scheduled_at' => $request->get('scheduled_at'),

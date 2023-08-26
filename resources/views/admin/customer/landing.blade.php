@@ -185,7 +185,7 @@
                     </label>
                     <div class="form-group p-1 row scheduled_at_wrapper" style="display: none">
                         <label for="scheduled_at" class="col-md-2">Select date and time</label>
-                        <input type="datetime-local" name="scheduled_at" id="scheduled_at" class="form-control col-md-4" min="{{ now() }}">
+                        <input type="datetime-local" name="scheduled_at" id="scheduled_at" class="form-control col-md-4" min="{{ now()->format('Y-m-d H:i') }}">
                     </div>
                  </div>
                  <span class="text-danger">{{$smsLimit -$smsSent}} SMS remaining</span>

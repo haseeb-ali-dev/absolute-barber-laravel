@@ -66,7 +66,7 @@
                                 @if ($row->last_message!=null)
                                 <a href="#" onclick="setId1('{{$row->last_message}}')" data-toggle="modal" class="btn btn-dark btn-sm btn-block" data-target="#exampleModal1">View Last Message</a>
                                 @endif
-                                
+
                             </td>
                         </tr>
                     @endforeach
@@ -167,9 +167,19 @@
                  <div class="form-group">
                      <textarea class="form-control" name="message" placeholder="Compose SMS"></textarea>
                  </div>
+                 <div class="d-flex flex-column">
+                    <label for="scheduled" class="p-1 d-flex align-items-center">
+                        <input type="checkbox" name="scheduled" id="scheduled" style="width: 20px;height: 20px;">
+                        <span class="mx-2">I want to schedule this message?</span>
+                    </label>
+                    <div class="form-group p-1 row scheduled_at_wrapper" style="display: none">
+                        <label for="scheduled_at" class="col-md-5">Select date and time</label>
+                        <input type="datetime-local" name="scheduled_at" id="scheduled_at" class="form-control col-md-6" min="{{ now()->format('Y-m-d H:i') }}">
+                    </div>
+                 </div>
                  <span class="text-danger">{{$smsLimit -$smsSent}} SMS remaining</span>
                   <div class="form-group">
-                      <button type="submit" class="btn btn-primary pull-right float-right">Send</button>
+                      <button type="submit" class="btn btn-primary pull-right float-right send_btn">Send</button>
                   </div>
               </form>
             </div>
@@ -304,7 +314,20 @@ $.fn.TableCheckAll = function (options) {
 };
 </script>
 
-
+    <script>
+        $(document).ready(function() {
+            $('#scheduled').change(function (e) {
+                const checked = e.target.checked
+                if (checked) {
+                    $('.scheduled_at_wrapper').show();
+                    $('.send_btn').text('Schedule');
+                } else {
+                    $('.scheduled_at_wrapper').hide();
+                    $('.send_btn').text('Sent');
+                }
+            });
+        });
+    </script>
 
 
 
