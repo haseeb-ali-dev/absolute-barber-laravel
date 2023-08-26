@@ -564,7 +564,7 @@ class TwillioController extends Controller
 
             } catch (\Exception $th) {
                 $record->update(['status' => 'failed']);
-                \Log::error('Messages is not sent due to ' . $e->getMessage());
+                \Log::error('Messages is not sent due to ' . $th->getMessage());
                 continue;
             }
         }
