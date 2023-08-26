@@ -63,6 +63,10 @@
                                 @endif
                                 <a href="{{ URL::to('admin/customer/delete/'.$row->id) }}" class="btn btn-danger btn-sm btn-block" onClick="return confirm('Are you sure?');">Delete</a>
                                 <a href="#" onclick="setId('{{$row->id}}')" data-toggle="modal" class="btn btn-primary btn-sm btn-block" data-target="#exampleModal">Send Message</a>
+                                @if ($row->last_message!=null)
+                                <a href="#" onclick="setId1('{{$row->last_message}}')" data-toggle="modal" class="btn btn-dark btn-sm btn-block" data-target="#exampleModal1">View Last Message</a>
+                                @endif
+                                
                             </td>
                         </tr>
                     @endforeach
@@ -94,6 +98,24 @@
                     <button type="submit" class="btn btn-primary pull-right float-right">Send</button>
                 </div>
             </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--last message Modal -->
+    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModal1Label" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModal1Label">Last Message</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+                {{-- <input type="text" name="id1" id="id1"/> --}}
+                <p id="id1"></p>
           </div>
         </div>
       </div>
@@ -194,6 +216,11 @@
             document.getElementById('id').value = id;
         }
     </script>
+    <script>
+      function setId1(id){
+          $("#id1").text(id);
+      }
+  </script>
     <script>
         let phone;
         $(document).ready(function() {

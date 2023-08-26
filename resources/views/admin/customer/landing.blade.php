@@ -31,7 +31,6 @@
                         @if (count($customers) > 0)
                             <th scope="col"><input type="checkbox" class="check-all"></th>
                         @endif
-                        {{-- <th>SL</th> --}}
                         <th>Customer Name</th>
                         <th>Customer Email</th>
                         <th>Customer Phone</th>
@@ -44,18 +43,28 @@
                             <th scope="row">
                                 <input type="checkbox" class="check" data-id="{{$row->id}}">
                                 {{ $row->id }}
-                            </th>
-                            {{-- <td>{{ $loop->iteration }}</td> --}}
+                            </th> 
                             <td>{{ $row->name }}</td>
                             <td>{{ $row->email }}</td>
                             <td>{{ $row->phone }}</td>
                             <td>
                                <div class="d-flex">
+                                    @if ($row->last_message!=null)
+                                        <button class="btn btn-sm text-success py-0 edit-contact-btn1"
+                                            data-message="{{ $row->last_message }}">
+                                            <i class="fas fa-eye"></i> View Last Message
+                                        </button>
+                                    @else
+                                    <p>No Message sent yet &nbsp;&nbsp;&nbsp;</p>
+                                    @endif
+                                    
+
                                     <button class="btn btn-sm text-success py-0 edit-contact-btn"
                                         data-url="{{ url('landing_page_messages/contact/'. $row->id) }}"
                                         data-name="{{ $row->name }}" data-email="{{ $row->email }}" data-phone="{{ $row->phone }}">
                                         <i class="fas fa-pencil-alt"></i> Edit
                                     </button>
+                                    
                                     <form action="{{ url('landing_page_messages/contact/'. $row->id .'/delete') }}" method="post">
                                         @csrf
                                         @method('DELETE')
@@ -248,6 +257,23 @@
         </div>
     </div>
 
+    <div class="modal fade" id="edit_contact1" tabindex="-1" role="dialog" aria-labelledby="edit_contact1Label"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="edit_contactLabel">Last Message Sent</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="message_paragraph"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
     <script>
@@ -349,6 +375,21 @@ $.fn.TableCheckAll = function (options) {
             $("#edit_contact").modal('show');
         });
     </script>
+
+<script>
+    $('.edit-contact-btn1').click(function () {
+         // Get the value of the 'message' data attribute
+         var messageValue = $(this).data('message');
+
+        // Set values to form and its inputs
+        $("#edit_contact1 input[name='message']").val(messageValue);
+
+        // Set the value to the <p> element
+        $("#message_paragraph").text(messageValue);
+        // Show modal
+        $("#edit_contact1").modal('show');
+    });
+</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
 

@@ -7,6 +7,7 @@
         border-radius: 50%;
         margin: 0 auto; /* Center the circle horizontally */
     }
+        
 </style>
     <h1 class="h3 mb-3 text-gray-800">Follow Up Customers</h1>
 
@@ -44,7 +45,7 @@
                                         {{-- @csrf --}}
                                         <input type="hidden" name="customer_id" value="{{$row->id}}">
                                         <input type="hidden" name="table" value="landing_page_contacts">
-                                        <select name="user_chat_status_id" class="form-control status-select" required data-customer-id="{{$row->id}}" data-table-name="landing_page_contacts">
+                                        <select style="width: auto;" name="user_chat_status_id" class="form-control status-select" required data-customer-id="{{$row->id}}" data-table-name="landing_page_contacts">
                                             <option value="">Select Status</option>
                                             @foreach ($user_chat_statuses as $user_chat_status)
                                             
@@ -59,7 +60,7 @@
                                         <input type="hidden" name="customer_id" value="{{$row->id}}">
                                         <input type="hidden" name="table" value="landing_page_contacts">
                                         
-                                        <select name="user_chat_status_id" class="form-control status-select" required data-customer-id="{{$row->id}}" data-table-name="landing_page_contacts">
+                                        <select style="width: auto;" name="user_chat_status_id" class="form-control status-select" required data-customer-id="{{$row->id}}" data-table-name="landing_page_contacts">
                                             <option value="">Select Status</option>
                                             @foreach ($user_chat_statuses as $user_chat_status)
                                             
@@ -94,7 +95,7 @@
                                         @csrf
                                         <input type="hidden" name="customer_id" value="{{$row->id}}">
                                         <input type="hidden" name="table" value="customers">
-                                        <select name="user_chat_status_id" class="form-control status-select" required data-customer-id="{{$row->id}}" data-table-name="customers">
+                                        <select style="width: auto;" name="user_chat_status_id" class="form-control status-select" required data-customer-id="{{$row->id}}" data-table-name="customers">
                                             <option value="">Select Status</option>
                                             @foreach ($user_chat_statuses as $user_chat_status)
                                             
@@ -105,7 +106,7 @@
                                 @else
                                         <input type="hidden" name="customer_id" value="{{$row->id}}">
                                         <input type="hidden" name="table" value="customers">
-                                        <select name="user_chat_status_id" class="form-control status-select" required data-customer-id="{{$row->id}}" data-table-name="customers">
+                                        <select style="width: auto;" name="user_chat_status_id" class="form-control status-select" required data-customer-id="{{$row->id}}" data-table-name="customers">
                                             <option value="">Select Status</option>
                                             @foreach ($user_chat_statuses as $user_chat_status)
                                             

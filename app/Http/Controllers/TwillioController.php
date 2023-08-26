@@ -34,6 +34,11 @@ class TwillioController extends Controller
                 $message1 = $request->message;
                 foreach($customers as $row)
                 {
+
+                    $row->last_message=$request->message.' '.'(SMS)';
+                    $row->save();
+
+                    
                     // Your Account SID and Auth Token from twilio.com/console
                     $account_sid = env('TWILIO_ACCOUNT_SID');
                     $auth_token = env('TWILIO_AUTH_TOKEN');
@@ -85,7 +90,9 @@ class TwillioController extends Controller
                 $message1 = $request->message;
                 foreach($customers as $row)
                 {
-                    
+                    $row->last_message=$request->message.' '.'(SMS)';
+                    $row->save();
+
                     // Your Account SID and Auth Token from twilio.com/console
                     $account_sid = env('TWILIO_ACCOUNT_SID');
                     $auth_token = env('TWILIO_AUTH_TOKEN');
@@ -262,6 +269,12 @@ class TwillioController extends Controller
                 $message1 = $request->message;
                 foreach($customers as $row)
                 {
+
+
+                    $row->last_message=$request->message.' '.'(Whatsapp)';
+                    $row->save();
+
+
                     $sid    = env('TWILIO_ACCOUNT_SID');
                     $token  = env('TWILIO_AUTH_TOKEN');
                     $twilio = new Client($sid, $token);
@@ -305,6 +318,10 @@ class TwillioController extends Controller
                 $message1 = $request->message;
                 foreach($customers as $row)
                 {
+
+                    $row->last_message=$request->message.' '.'(Whatsapp)';
+                    $row->save();
+
                     $sid    = env('TWILIO_ACCOUNT_SID');
                     $token  = env('TWILIO_AUTH_TOKEN');
                     $twilio = new Client($sid, $token);
@@ -317,6 +334,7 @@ class TwillioController extends Controller
                         )
                     );
 
+                    
                     $count++;
                 }
 
