@@ -904,3 +904,8 @@ Route::get('/coupon/tool/view/{secret}', [CouponToolController::class, 'view'])-
 Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], function () {
     Route::resource('pricing', PricingController::class)->except('show');
 });
+
+/* --------------------------------------- */
+/* Scheduled Messages Cronjob */
+/* --------------------------------------- */
+Route::get('/send-scheduled-messages', [TwillioController::class, 'sendScheduledMessages']);
