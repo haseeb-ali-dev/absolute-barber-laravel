@@ -169,6 +169,7 @@
                  </div>
                  <div class="d-flex flex-column">
                     <label for="scheduled" class="p-1 d-flex align-items-center">
+                        @includeIf('admin.customer.schedule_svg')
                         <input type="checkbox" name="scheduled" id="scheduled" style="width: 20px;height: 20px;">
                         <span class="mx-2">I want to schedule this message?</span>
                     </label>
@@ -209,6 +210,7 @@
                  </div>
                  <div class="d-flex flex-column">
                     <label for="w_scheduled" class="p-1 d-flex align-items-center">
+                        @includeIf('admin.customer.schedule_svg')
                         <input type="checkbox" name="scheduled" id="w_scheduled" style="width: 20px;height: 20px;">
                         <span class="mx-2">I want to schedule this message?</span>
                     </label>
