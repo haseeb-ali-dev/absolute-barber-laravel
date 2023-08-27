@@ -35,7 +35,7 @@ class TwillioController extends Controller
                     if(!isset($request->scheduled_at)) {
                         return back()->with('error', 'Please select date and time to schedule message!');
                     }
-                    if($request->scheduled_at > now()) {
+                    if(Carbon::parse($request->scheduled_at) > now()) {
                         return back()->with('error', 'Please select future date and time');
                     }
 
@@ -110,7 +110,7 @@ class TwillioController extends Controller
                     if(!isset($request->scheduled_at)) {
                         return back()->with('error', 'Please select date and time to schedule message!');
                     }
-                    if($request->scheduled_at > now()) {
+                    if(Carbon::parse($request->scheduled_at) > now()) {
                         return back()->with('error', 'Please select future date and time');
                     }
 
