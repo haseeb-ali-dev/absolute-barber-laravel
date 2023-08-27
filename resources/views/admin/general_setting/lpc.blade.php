@@ -359,12 +359,14 @@
                 <br>
                 <br>
 
-                <div class="container-fluid p-1">
+                <a  href="#" class="container-fluid p-1" data-toggle="modal" data-target="#landing_page_guide">
                     <img src="{{ asset('public/frontend/images/dummy-landing-page.jpg') }}" alt="Dummy Landing Image" class="w-100">
-                </div>
+                </a>
             </div>
         </div>
     </form>
+
+    @includeIf('admin.general_setting.landing_page_guide')
 
     <script src="{{ asset('public/frontend/js/qurcode.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
