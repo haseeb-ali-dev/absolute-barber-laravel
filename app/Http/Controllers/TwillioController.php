@@ -35,7 +35,7 @@ class TwillioController extends Controller
                     if(!isset($request->scheduled_at)) {
                         return back()->with('error', 'Please select date and time to schedule message!');
                     }
-                    if(Carbon::parse($request->scheduled_at) > now()) {
+                    if(Carbon::parse($request->scheduled_at) < now()) {
                         return back()->with('error', 'Please select future date and time');
                     }
 
@@ -110,7 +110,7 @@ class TwillioController extends Controller
                     if(!isset($request->scheduled_at)) {
                         return back()->with('error', 'Please select date and time to schedule message!');
                     }
-                    if(Carbon::parse($request->scheduled_at) > now()) {
+                    if(Carbon::parse($request->scheduled_at) < now()) {
                         return back()->with('error', 'Please select future date and time');
                     }
 
@@ -352,6 +352,26 @@ class TwillioController extends Controller
             if (count($customersIds) <= 0) {
                 return back()->with('error', 'No customer selected to send message!');
             } else {
+
+                if (isset($request->scheduled) && $request->scheduled == 'on') {
+                    if(!isset($request->scheduled_at)) {
+                        return back()->with('error', 'Please select date and time to schedule message!');
+                    }
+                    if(Carbon::parse($request->scheduled_at) < now()) {
+                        return back()->with('error', 'Please select future date and time');
+                    }
+
+                    ScheduleMessages::create([
+                        'msg' => $data['message'],
+                        'scheduled_at' => $request->get('scheduled_at'),
+                        'user_ids' => $data['customer_ids'],
+                        'type' => 'whatsapp',
+                        'module' => 'landing_page_contacts',
+                        'status' => 'pending',
+                    ]);
+
+                    return back()->with('success', 'Promotion Whatsapps are scheduled successfully!');
+                }
 
 
                 $customers = LandingPageContact::whereIn('id', $customersIds)->get();
