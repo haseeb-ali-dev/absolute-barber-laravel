@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\ScheduleMessages;
 use App\Models\Customer;
 use App\Models\Admin\Subscriber;
 use App\Models\ExcelContact;
@@ -26,7 +27,8 @@ class CustomerController extends Controller
     {
         $customers = Customer::all();
         $user_chat_statuses=UserChatStatus::all();
-        return view('admin.customer.index', compact('customers','user_chat_statuses'));
+        $scheduled_messages = ScheduleMessages::where('module', 'registered_customers')->orderBy('scheduled_at', 'DESC')->get();
+        return view('admin.customer.index', compact('customers','user_chat_statuses', 'scheduled_messages'));
     }
 
     public function compose_document(){
@@ -55,9 +57,10 @@ class CustomerController extends Controller
         // dd('1');
         $coupons = CouponTool::all();
         $user_chat_statuses = UserChatStatus::all();
-        
+
         $customers = LandingPageContact::all();
-        return view('admin.customer.landing', compact('customers','coupons','user_chat_statuses'));
+        $scheduled_messages = ScheduleMessages::where('module', 'landing_page_contacts')->orderBy('scheduled_at', 'DESC')->get();
+        return view('admin.customer.landing', compact('customers','coupons','user_chat_statuses', 'scheduled_messages'));
     }
 
     public function follow_up_customer()
@@ -74,7 +77,7 @@ class CustomerController extends Controller
         }
 
         $user_chat_statuses = UserChatStatus::all();
-        
+
         // $customers = LandingPageContact::all();
         return view('admin.customer.follow_up_customer', compact('landingPageContacts','customers','user_chat_statuses'));
     }
@@ -286,7 +289,7 @@ class CustomerController extends Controller
         return back()->with('success', 'Excel Contact deleted successfully');
     }
 
-    
+
 
 
 

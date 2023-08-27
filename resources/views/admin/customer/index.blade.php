@@ -76,6 +76,10 @@
         </div>
     </div>
 
+    @if (isset($scheduled_messages) && sizeof($scheduled_messages) > 0)
+        @include('admin.customer.scheduled_messages', ['data' => $scheduled_messages])
+    @endif
+
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -132,6 +132,10 @@
       </div>
   </div>
 
+  @if (isset($scheduled_messages) && sizeof($scheduled_messages) > 0)
+    @include('admin.customer.scheduled_messages', ['data' => $scheduled_messages])
+  @endif
+
 
     <!--Email Modal -->
     <div class="modal fade" id="send_email" tabindex="-1" role="dialog" aria-labelledby="send_emailLabel" aria-hidden="true">
