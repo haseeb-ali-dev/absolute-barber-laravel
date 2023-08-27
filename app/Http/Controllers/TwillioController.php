@@ -524,29 +524,51 @@ class TwillioController extends Controller
 
                         $customers = Customer::whereIn('id', $customersIds)->get();
 
-                        foreach ($customers as $row) {
+                        if ($record['type'] == 'sms') {
+                            foreach ($customers as $row) {
 
-                            $row->last_message = $message1 . ' ' . '(SMS)';
-                            $row->save();
+                                $row->last_message = $message1 . ' ' . '(SMS)';
+                                $row->save();
 
-                            $account_sid = env('TWILIO_ACCOUNT_SID');
-                            $auth_token = env('TWILIO_AUTH_TOKEN');
-                            $twilio_number = env('TWILIO_PHONE_NUMBER');
+                                $account_sid = env('TWILIO_ACCOUNT_SID');
+                                $auth_token = env('TWILIO_AUTH_TOKEN');
+                                $twilio_number = env('TWILIO_PHONE_NUMBER');
 
-                            $recipient_number = $row->customer_phone;
-                            $message_body = $message1;
+                                $recipient_number = $row->customer_phone;
+                                $message_body = $message1;
 
-                            $twilio = new Client($account_sid, $auth_token);
+                                $twilio = new Client($account_sid, $auth_token);
 
-                            $twilio->messages->create(
-                                $recipient_number,
-                                array(
-                                    'from' => $twilio_number,
-                                    'body' => $message_body
-                                )
-                            );
+                                $twilio->messages->create(
+                                    $recipient_number,
+                                    array(
+                                        'from' => $twilio_number,
+                                        'body' => $message_body
+                                    )
+                                );
 
-                            $count1++;
+                                $count1++;
+                            }
+                        } else {
+                            foreach($customers as $row) {
+
+                                $row->last_message = $message1.' '.'(Whatsapp)';
+                                $row->save();
+
+                                $sid    = env('TWILIO_ACCOUNT_SID');
+                                $token  = env('TWILIO_AUTH_TOKEN');
+                                $twilio = new Client($sid, $token);
+
+                                $twilio->messages
+                                ->create("whatsapp:".$row->customer_phone, // to
+                                    array(
+                                    "from" => "whatsapp:".env('TWILIO_WHATSAPP_FROM'),
+                                    "body" => $message1
+                                    )
+                                );
+
+                                $count1++;
+                            }
                         }
 
                     } catch (\Exception $e) {
@@ -555,7 +577,11 @@ class TwillioController extends Controller
                     }
 
                     if ($count1 > 0) {
-                        DB::table('sent_messages')->updateOrInsert(['month' => now()->month], ['sms' => DB::raw('sms +' . $count1)]);
+                        if ($record['type'] == 'sms') {
+                            DB::table('sent_messages')->updateOrInsert(['month' => now()->month], ['sms' => DB::raw('sms +' . $count1)]);
+                        } else {
+                            DB::table('sent_messages')->updateOrInsert(['month' => now()->month], ['whatsapp' => DB::raw('whatsapp +' . $count1)]);
+                        }
                     }
                 }
 
@@ -564,38 +590,64 @@ class TwillioController extends Controller
                     try {
                         $customers = LandingPageContact::whereIn('id', $customersIds)->get();
 
-                        foreach ($customers as $row) {
+                        if ($record['type'] == 'sms') {
+                            foreach ($customers as $row) {
 
-                            $row->last_message = $message1 . ' ' . '(SMS)';
-                            $row->save();
+                                $row->last_message = $message1 . ' ' . '(SMS)';
+                                $row->save();
 
 
-                            $account_sid = env('TWILIO_ACCOUNT_SID');
-                            $auth_token = env('TWILIO_AUTH_TOKEN');
-                            $twilio_number = env('TWILIO_PHONE_NUMBER');
+                                $account_sid = env('TWILIO_ACCOUNT_SID');
+                                $auth_token = env('TWILIO_AUTH_TOKEN');
+                                $twilio_number = env('TWILIO_PHONE_NUMBER');
 
-                            $recipient_number = $row->phone;
-                            $message_body = $message1;
+                                $recipient_number = $row->phone;
+                                $message_body = $message1;
 
-                            $twilio = new Client($account_sid, $auth_token);
+                                $twilio = new Client($account_sid, $auth_token);
 
-                            $twilio->messages->create(
-                                $recipient_number,
-                                array(
-                                    'from' => $twilio_number,
-                                    'body' => $message_body // message body
-                                )
-                            );
+                                $twilio->messages->create(
+                                    $recipient_number,
+                                    array(
+                                        'from' => $twilio_number,
+                                        'body' => $message_body // message body
+                                    )
+                                );
 
-                            $count2++;
+                                $count2++;
+                            }
+                        } else {
+                            foreach($customers as $row){
+
+                                $row->last_message = $message1.' '.'(Whatsapp)';
+                                $row->save();
+
+                                $sid    = env('TWILIO_ACCOUNT_SID');
+                                $token  = env('TWILIO_AUTH_TOKEN');
+                                $twilio = new Client($sid, $token);
+
+                                $twilio->messages
+                                ->create("whatsapp:".$row->phone, // to
+                                    array(
+                                    "from" => "whatsapp:".env('TWILIO_WHATSAPP_FROM'),
+                                    "body" => $message1
+                                    )
+                                );
+                                $count2++;
+                            }
                         }
+
                     } catch (\Throwable $th) {
                         \Log::error('Message is not sent due to ' . $e->getMessage());
                         continue;
                     }
 
                     if ($count2 > 0) {
-                        DB::table('sent_messages')->updateOrInsert(['month' => now()->month], ['sms' => DB::raw('sms +' . $count2)]);
+                        if ($record['type'] == 'sms') {
+                            DB::table('sent_messages')->updateOrInsert(['month' => now()->month], ['sms' => DB::raw('sms +' . $count2)]);
+                        } else {
+                            DB::table('sent_messages')->updateOrInsert(['month' => now()->month], ['whatsapp' => DB::raw('whatsapp +' . $count2)]);
+                        }
                     }
                 }
 
