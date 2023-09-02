@@ -45,7 +45,7 @@
                                         {{-- @csrf --}}
                                         <input type="hidden" name="customer_id" value="{{$row->id}}">
                                         <input type="hidden" name="table" value="landing_page_contacts">
-                                        <select style="width: auto;" name="user_chat_status_id" class="form-control status-select" required data-customer-id="{{$row->id}}" data-table-name="landing_page_contacts">
+                                        <select style="width: auto;"  name="user_chat_status_id" class="form-control status-select" required data-customer-id="{{$row->id}}" data-table-name="landing_page_contacts" data-color="landing{{$row->id}}">
                                             <option value="">Select Status</option>
                                             @foreach ($user_chat_statuses as $user_chat_status)
                                             
@@ -60,7 +60,7 @@
                                         <input type="hidden" name="customer_id" value="{{$row->id}}">
                                         <input type="hidden" name="table" value="landing_page_contacts">
                                         
-                                        <select style="width: auto;" name="user_chat_status_id" class="form-control status-select" required data-customer-id="{{$row->id}}" data-table-name="landing_page_contacts">
+                                        <select style="width: auto;" name="user_chat_status_id" class="form-control status-select" required data-customer-id="{{$row->id}}" data-table-name="landing_page_contacts" data-color="landing{{$row->id}}">
                                             <option value="">Select Status</option>
                                             @foreach ($user_chat_statuses as $user_chat_status)
                                             
@@ -74,7 +74,9 @@
                             </td>
                             <td>
                                 @if (isset($row->userChatStatus->hex))
-                                    <div class="color-circle" style="background-color: #{{ $row->userChatStatus->hex }}"></div>
+                                    <div class="color-circle" id="landing{{$row->id}}" style="background-color: #{{ $row->userChatStatus->hex }}"></div>
+                                @else
+                                   <div class="color-circle" id="landing{{$row->id}}" style="background-color: #000000"></div>
                                 @endif
                             </td>
                             <td>
@@ -95,7 +97,7 @@
                                         @csrf
                                         <input type="hidden" name="customer_id" value="{{$row->id}}">
                                         <input type="hidden" name="table" value="customers">
-                                        <select style="width: auto;" name="user_chat_status_id" class="form-control status-select" required data-customer-id="{{$row->id}}" data-table-name="customers">
+                                        <select style="width: auto;" name="user_chat_status_id" class="form-control status-select" required data-customer-id="{{$row->id}}" data-table-name="customers"  data-table-name="landing_page_contacts" data-color="landing{{$row->id}}">
                                             <option value="">Select Status</option>
                                             @foreach ($user_chat_statuses as $user_chat_status)
                                             
@@ -106,7 +108,7 @@
                                 @else
                                         <input type="hidden" name="customer_id" value="{{$row->id}}">
                                         <input type="hidden" name="table" value="customers">
-                                        <select style="width: auto;" name="user_chat_status_id" class="form-control status-select" required data-customer-id="{{$row->id}}" data-table-name="customers">
+                                        <select style="width: auto;" name="user_chat_status_id" class="form-control status-select" required data-customer-id="{{$row->id}}" data-table-name="customers"  data-table-name="landing_page_contacts" data-color="landing{{$row->id}}">
                                             <option value="">Select Status</option>
                                             @foreach ($user_chat_statuses as $user_chat_status)
                                             
@@ -118,7 +120,9 @@
                             </td>
                             <td>
                                 @if (isset($row->userChatStatus->hex))
-                                    <div class="color-circle" style="background-color: #{{ $row->userChatStatus->hex }}"></div>
+                                    <div class="color-circle" id="landing{{$row->id}}" style="background-color: #{{ $row->userChatStatus->hex }}"></div>
+                                @else
+                                   <div class="color-circle" id="landing{{$row->id}}" style="background-color: #000000"></div>
                                 @endif
                             </td>
                             <td>
@@ -266,7 +270,21 @@ $.fn.TableCheckAll = function (options) {
             var customerId = $(this).data('customer-id'); // Get the customer ID from data attribute
             var table_name = $(this).data('table-name');
             var statusForm = $(this).closest('.status-form'); // Find the closest form element
+            var color = $(this).data('color');
+            var color='#'+color;
             
+
+            var selectedOption = $(this).find('option:selected');
+
+            // Get the background color of the selected option
+            var backgroundColor = selectedOption.css('background-color');
+
+            // Convert the background color to hexadecimal format
+            var hexColor = rgbToHex(backgroundColor);
+
+           
+
+            $(color).css("background-color", hexColor);
             $.ajax({
                 url: "{{ route('admin.chnage_customer_call_status') }}", // Replace with your route URL
                 method: "POST",
@@ -286,6 +304,13 @@ $.fn.TableCheckAll = function (options) {
                 }
             });
         });
+
+        function rgbToHex(rgbColor) {
+            var rgbArray = rgbColor.match(/\d+/g);
+            return "#" + rgbArray.map(function (value) {
+                return ('0' + parseInt(value).toString(16)).slice(-2);
+            }).join('');
+        }
     });
 </script>
 <script>
