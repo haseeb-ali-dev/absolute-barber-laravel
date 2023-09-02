@@ -22,11 +22,6 @@ class CampaignController extends Controller
         //
     }
 
-    public function show(Campaign $campaign)
-    {
-        //
-    }
-
     public function edit(Campaign $campaign)
     {
         //

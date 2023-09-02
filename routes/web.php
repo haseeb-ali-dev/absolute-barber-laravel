@@ -56,6 +56,7 @@ use App\Http\Controllers\Admin\ProductController as ProductControllerForAdmin;
 use App\Http\Controllers\Admin\ProductCategoryController as ProductCategoryControllerForAdmin;
 use App\Http\Controllers\Admin\OrderController as OrderControllerForAdmin;
 use App\Http\Controllers\Admin\InvoiceController;
+use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\OrderShippingController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\PricingController;
@@ -89,6 +90,8 @@ use App\Http\Controllers\Front\SubscriptionController;
 use App\Http\Controllers\Front\TeamMemberController as TeamMemberControllerForFront;
 use App\Http\Controllers\Front\TermController;
 use App\Http\Controllers\Front\VideoGalleryController;
+use App\Http\Controllers\RecipientController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\TwillioController;
 use App\Http\Controllers\FileManagerController;
 use Illuminate\Support\Facades\Route;
@@ -909,3 +912,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], fu
 /* Scheduled Messages Cronjob */
 /* --------------------------------------- */
 Route::get('/send-scheduled-messages', [TwillioController::class, 'sendScheduledMessages']);
+
+/* --------------------------------------- */
+/* Recipients, Tags & Campaigns - Admin */
+/* --------------------------------------- */
+Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], function () {
+    Route::resource('tag', TagController::class)->except('show');
+    Route::resource('recipient', RecipientController::class)->except('show');
+    Route::resource('campaign', CampaignController::class)->except('show');
+});

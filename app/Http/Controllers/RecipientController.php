@@ -23,11 +23,6 @@ class RecipientController extends Controller
         //
     }
 
-    public function show(Recipient $recipient)
-    {
-        //
-    }
-
     public function edit(Recipient $recipient)
     {
         //

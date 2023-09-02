@@ -22,11 +22,6 @@ class TagController extends Controller
         //
     }
 
-    public function show(Tag $tag)
-    {
-        //
-    }
-
     public function edit(Tag $tag)
     {
         //
