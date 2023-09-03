@@ -10,9 +10,9 @@ use Illuminate\Http\Request;
 
 class CampaignController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = Campaign::all();
+        $data = isset($request->status) ? Campaign::where('status', $request->status)->get() : Campaign::all();
 
         return view('admin.campaigns.index', compact('data'));
     }
@@ -28,7 +28,7 @@ class CampaignController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|max:500',
-            'status' => 'required|max:500|in:draft,sent,pending',
+            'status' => 'required|max:500|in:draft,sent',
             'recipients_id' => 'required'
         ]);
 
@@ -50,7 +50,7 @@ class CampaignController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|max:500',
-            'status' => 'required|max:500|in:draft,sent,pending',
+            'status' => 'required|max:500|in:draft,sent',
             'recipients_id' => 'required'
         ]);
 

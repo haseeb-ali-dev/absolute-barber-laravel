@@ -1,7 +1,7 @@
 @extends('admin.admin_layouts')
 @section('admin_content')
     @php
-        $status = ['draft' => 'Draft', 'sent' => 'Sent', 'pending' => 'Pending'];
+        $status = ['draft' => 'Draft', 'sent' => 'Sent'];
         $selected_recipients = $data->recipients->modelKeys();
     @endphp
     <h1 class="h3 mb-3 text-gray-800">Add Campaign</h1>
