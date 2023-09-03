@@ -24,6 +24,17 @@
                         autofocus>
                 </div>
                 <div class="form-group">
+                    <label for="">Email Template *</label>
+                    <select name="template_id" class="form-control select2" required>
+                        <option value=""></option>
+                        @foreach ($templates as $row)
+                            <option value="{{ $row['id'] }}" @if ($data->template_id == $row['id']) selected @endif>
+                                {{ $row['et_name'] . ' ==> ' . $row['et_subject'] }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="">Campaign Status *</label>
                     <select name="status" class="form-control select2" required>
                         @foreach ($status as $key => $value)

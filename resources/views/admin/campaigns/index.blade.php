@@ -17,6 +17,7 @@
                         <tr>
                             <th>SL</th>
                             <th>Campaign Name</th>
+                            <th>Campaign Template</th>
                             <th>Campaign Status</th>
                             <th>Campaign Recipients</th>
                             <th>Actions</th>
@@ -27,6 +28,9 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $row->name }}</td>
+                                <td style="font-style: italic;">
+                                    {{ isset($row->template) ? $row->template->et_name . ' (Subject: ' . $row->template->et_subject . ')' : '--' }}
+                                </td>
                                 <td> <span class="badge badge-pill badge-info px-2 py-1">{{ $row->status }}</span></td>
                                 <td>
                                     @forelse ($row->recipients as $recipient)

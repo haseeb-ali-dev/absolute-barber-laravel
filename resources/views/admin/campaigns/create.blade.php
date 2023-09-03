@@ -30,6 +30,17 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label for="">Email Template *</label>
+                    <select name="template_id" class="form-control select2" required>
+                        <option value=""></option>
+                        @foreach ($templates as $row)
+                            <option value="{{ $row['id'] }}">
+                                {{ $row['et_name'] . ' ==> ' . $row['et_subject'] }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="">Campaign Description</label>
                     <select name="recipients_id[]" class="form-control select3" required multiple>
                         @foreach ($recipients as $key => $value)

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Models\Admin\Campaign;
+use App\Models\Admin\EmailTemplate;
 use App\Models\Admin\Recipient;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,9 @@ class CampaignController extends Controller
     {
         $recipients = Recipient::pluck('name', 'id')->toArray();
 
-        return view('admin.campaigns.create', compact('recipients'));
+        $templates = EmailTemplate::select('et_name', 'et_subject', 'id')->where('et_type', 'emailer')->get()->toArray();
+
+        return view('admin.campaigns.create', compact('recipients', 'templates'));
     }
 
     public function store(Request $request)
@@ -29,7 +32,8 @@ class CampaignController extends Controller
         $data = $request->validate([
             'name' => 'required|max:500',
             'status' => 'required|max:500|in:draft,sent',
-            'recipients_id' => 'required'
+            'recipients_id' => 'required',
+            'template_id' => 'required'
         ]);
 
         $campaign = Campaign::create($data);
@@ -43,7 +47,9 @@ class CampaignController extends Controller
     {
         $recipients = Recipient::pluck('name', 'id')->toArray();
 
-        return view('admin.campaigns.edit')->with('data', $campaign)->with('recipients', $recipients);
+        $templates = EmailTemplate::select('et_name', 'et_subject', 'id')->where('et_type', 'emailer')->get()->toArray();
+
+        return view('admin.campaigns.edit')->with('data', $campaign)->with('recipients', $recipients)->with('templates', $templates);
     }
 
     public function update(Request $request, Campaign $campaign)
@@ -51,7 +57,8 @@ class CampaignController extends Controller
         $data = $request->validate([
             'name' => 'required|max:500',
             'status' => 'required|max:500|in:draft,sent',
-            'recipients_id' => 'required'
+            'recipients_id' => 'required',
+            'template_id' => 'required'
         ]);
 
         $campaign->update($data);
