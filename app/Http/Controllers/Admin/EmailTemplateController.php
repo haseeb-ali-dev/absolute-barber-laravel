@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 use App\Models\Admin\EmailTemplate;
 use Illuminate\Http\Request;
@@ -14,9 +15,12 @@ class EmailTemplateController extends Controller
         $this->middleware('admin');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $email_template = EmailTemplate::orderBy('id')->get();
+        $query = EmailTemplate::orderBy('id');
+
+        $email_template = isset($request->et_type) ? $query->where('et_type', 'emailer')->get() : $query->where('et_type', null)->get();
+
         return view('admin.email_template.index', compact('email_template'));
     }
 
@@ -29,10 +33,10 @@ class EmailTemplateController extends Controller
 
     public function update(Request $request, $id)
     {
-        if(env('PROJECT_MODE') == 0) {
+        if (env('PROJECT_MODE') == 0) {
             return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
         }
-        
+
         $email_template = EmailTemplate::findOrFail($id);
         $data = $request->only($email_template->getFillable());
 
@@ -42,6 +46,9 @@ class EmailTemplateController extends Controller
         ]);
 
         $email_template->fill($data)->save();
-        return redirect()->route('admin.email_template.index')->with('success', 'Email Template is updated successfully!');
+
+        $params = isset($email_template->et_type) ? ['et_type' => $email_template->et_type] : null;
+
+        return redirect()->route('admin.email_template.index', $params)->with('success', 'Email Template is updated successfully!');
     }
 }

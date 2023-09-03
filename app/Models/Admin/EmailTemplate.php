@@ -9,7 +9,8 @@ class EmailTemplate extends Model
     protected $fillable = [
         'et_subject',
         'et_content',
-        'et_name'
+        'et_name',
+        'et_type'
     ];
 
 }

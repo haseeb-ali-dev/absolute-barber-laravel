@@ -8,7 +8,7 @@
             <div class="card-header py-3">
                 <h6 class="m-0 mt-2 font-weight-bold text-primary">Edit Email Template</h6>
                 <div class="float-right d-inline">
-                    <a href="{{ route('admin.email_template.index') }}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> View All</a>
+                    <a href="{{ isset($email_template->et_type) ? route('admin.email_template.index', ['et_type' => $email_template->et_type]) : route('admin.email_template.index') }}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> View All</a>
                 </div>
             </div>
             <div class="card-body">
@@ -20,10 +20,10 @@
                         </div>
                         <div class="form-group">
                             <label for="">Contact Page Message *</label>
-                            <textarea name="et_content" class="form-control editor" cols="30" rows="10">{{ $email_template->et_content }}</textarea>
+                            <textarea name="et_content" class="form-control editor" cols="30" rows="10" id="et_content">{{ $email_template->et_content }}</textarea>
 
                             <div class="font-weight-bold mt_20 text-danger">Parameters You Can Use: </div>
-                            
+
                             @if($id == 1)
                             <div>[[visitor_name]] = Visitor Name</div>
                             <div>[[visitor_email]] = Visitor Email</div>
@@ -38,19 +38,19 @@
 
                             @elseif($id == 3)
                             <div>[[verification_link]] = Subscriber Verification Link</div>
- 
+
                             @elseif($id == 4)
                             <div>[[post_link]] = News View Link</div>
-  
+
                             @elseif($id == 5)
                             <div>[[reset_link]] = Reset Password Page Link</div>
-  
+
                             @elseif($id == 6)
                             <div>[[verification_link]] = Customer Registration Verification Link</div>
- 
+
                             @elseif($id == 7)
                             <div>[[reset_link]] = Reset Password Page Link</div>
- 
+
                             @elseif($id == 8)
                             <div>[[customer_name]] = Customer Name</div>
                             <div>[[order_number]] = Order Number</div>
@@ -79,7 +79,11 @@
                             <div>[[shipping_city]] = Shipping City</div>
                             <div>[[shipping_zip]] = Shipping Zip Code</div>
                             <div>[[product_detail]] = All Product Name, Price and Quantity</div>
-                            
+
+                            @else
+                            <div><button class="btn btn-sm btn-secondary my-1" type="button" onclick="addTag('[[recipient_name]]')">[[recipient_name]]</button> = Recipient Name</div>
+                            <div><button class="btn btn-sm btn-secondary my-1" type="button" onclick="addTag('[[recipient_name]]')">[[recipient_email]]</button> = Recipient Email</div>
+
                             @endif
                         </div>
                     </div>
@@ -88,5 +92,14 @@
             </div>
         </div>
     </form>
+
+    <script>
+        function addTag(tag_name) {
+            $("#et_content").summernote('editor.saveRange');
+            $("#et_content").summernote('editor.restoreRange');
+            $("#et_content").summernote('editor.focus');
+            $("#et_content").summernote('editor.insertText', tag_name);
+        }
+    </script>
 
 @endsection

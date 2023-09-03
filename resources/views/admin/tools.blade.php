@@ -142,6 +142,7 @@
             ['route' => route('admin.excel.import.emailer'), 'name' => 'External Data', 'icon' => 'fas fa-share-alt-square'],
             ['key' => 'recipients', 'name' => 'Recipients List', 'icon' => 'fas fa-cog'],
             ['key' => 'campaigns', 'name' => 'Campaigns', 'icon' => 'fas fa-cog'],
+            ['key' => 'emaillayouts', 'name' => 'Email Layouts', 'icon' => 'fas fa-paste'],
             ['key' => 'smtpsetting', 'name' => 'Settings', 'icon' => 'fas fa-paste'],
         ];
         $recipients = [
@@ -152,6 +153,9 @@
         ];
         $smtpsetting = [
             ['route' => route('admin.smtp-config.edit'), 'name' => 'SMTP Configuration', 'icon' => 'fas fa-share-alt-square'],
+        ];
+        $emaillayouts = [
+            ['route' => route('admin.email_template.index', ['et_type' => 'emailer']), 'name' => 'Templates List', 'icon' => 'fas fa-share-alt-square'],
         ];
         $campaigns = [
             ['route' => route('admin.campaign.create'), 'name' => 'Prepare new Campaign', 'icon' => 'fas fa-share-alt-square'],
@@ -172,6 +176,7 @@
             ['title' => 'Emailer', 'key' => 'emailer', 'back' => 'dashboard', 'items' => $emailer],
             ['title' => 'Recipients List', 'key' => 'recipients', 'back' => 'emailer', 'items' => $recipients],
             ['title' => 'Campaigns', 'key' => 'campaigns', 'back' => 'emailer', 'items' => $campaigns],
+            ['title' => 'Eamil Layouts', 'key' => 'emaillayouts', 'back' => 'emailer', 'items' => $emaillayouts],
             ['title' => 'Page Settings', 'key' => 'smtpsetting', 'back' => 'emailer', 'items' => $smtpsetting],
         ];
 
@@ -320,7 +325,7 @@
     @endforeach
 
     <script>
-        const keys = ['dashboard', 'bercoweb', 'bercostore', 'subscriber', 'administration', 'general', 'page', 'blog', 'career','blogsection','emailer', 'recipients', 'smtpsetting', 'campaigns']
+        const keys = ['dashboard', 'bercoweb', 'bercostore', 'subscriber', 'administration', 'general', 'page', 'blog', 'career','blogsection','emailer', 'recipients', 'smtpsetting', 'campaigns', 'emaillayouts']
         function toggleSection(key, back = false)
         {
             const audio = new Audio("{{ asset('public/backend/ping-1.mp3') }}")
