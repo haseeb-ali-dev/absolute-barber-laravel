@@ -551,6 +551,8 @@ Route::post('admin/faq/update/{id}', [FaqControllerForAdmin::class,'update']);
 Route::get('admin/email-template/view', [EmailTemplateController::class,'index'])->name('admin.email_template.index');
 Route::get('admin/email-template/edit/{id}', [EmailTemplateController::class,'edit']);
 Route::post('admin/email-template/update/{id}', [EmailTemplateController::class,'update']);
+Route::get('admin/email-template/create', [EmailTemplateController::class, 'create']);
+Route::post('admin/email-template/store', [EmailTemplateController::class, 'store']);
 
 
 /* --------------------------------------- */

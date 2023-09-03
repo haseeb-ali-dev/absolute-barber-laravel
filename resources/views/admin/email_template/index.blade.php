@@ -5,26 +5,34 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 mt-2 font-weight-bold text-primary">View Email Templates</h6>
+            @if (request()->get('et_type') == 'emailer')
+                <div class="float-right d-inline">
+                    <a href="{{ url('admin/email-template/create') }}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>
+                        Add
+                        New</a>
+                </div>
+            @endif
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="" width="100%" cellspacing="0">
                     <thead>
-                    <tr>
-                        <th>SL</th>
-                        <th>Email Template Name</th>
-                        <th>Action</th>
-                    </tr>
+                        <tr>
+                            <th>SL</th>
+                            <th>Email Template Name</th>
+                            <th>Action</th>
+                        </tr>
                     </thead>
                     <tbody>
-                        @foreach($email_template as $row)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $row->et_name }}</td>
-                            <td>
-                                <a href="{{ URL::to('admin/email-template/edit/'.$row->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                            </td>
-                        </tr>
+                        @foreach ($email_template as $row)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $row->et_name }}</td>
+                                <td>
+                                    <a href="{{ URL::to('admin/email-template/edit/' . $row->id) }}"
+                                        class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>

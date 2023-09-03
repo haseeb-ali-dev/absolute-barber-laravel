@@ -51,4 +51,31 @@ class EmailTemplateController extends Controller
 
         return redirect()->route('admin.email_template.index', $params)->with('success', 'Email Template is updated successfully!');
     }
+
+    public function create()
+    {
+        return view('admin.email_template.create');
+    }
+
+    public function store(Request $request)
+    {
+        if (env('PROJECT_MODE') == 0) {
+            return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
+        }
+
+        $email_template = new EmailTemplate;
+        $data = $request->only($email_template->getFillable());
+
+        $request->validate([
+            'et_subject' => 'required',
+            'et_content' => 'required',
+            'et_name' => 'required',
+        ]);
+
+        $data['et_type'] = 'emailer';
+
+        $email_template->fill($data)->save();
+
+        return redirect()->route('admin.email_template.index',  ['et_type' => 'emailer'])->with('success', 'Email Template is created successfully!');
+    }
 }
