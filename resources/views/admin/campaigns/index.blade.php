@@ -52,6 +52,27 @@
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </form>
+                                    @if ($row->status == 'sent')
+                                        <span class="p-2 border border-success text-success">
+                                            <i class="fas fa-check"></i> Already Sent
+                                        </span>
+                                    @else
+                                        @if (isset($row->template))
+                                            <form action="{{ route('admin.campaign.send', ['campaign' => $row]) }}"
+                                                method="POST" class="d-inline-flex">
+                                                @csrf
+                                                <button type="button" class="btn btn-info btn-sm"
+                                                    onclick="if(confirm('Are you sure to start this Campaign?')){$(form).submit();}">
+                                                    <i class="fas fa-paper-plane"></i>
+                                                    Send
+                                                </button>
+                                            </form>
+                                        @else
+                                            <small class="p-2 border">
+                                                <i class="fas fa-exclamation-circle"></i> First Set Template
+                                            </small>
+                                        @endif
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

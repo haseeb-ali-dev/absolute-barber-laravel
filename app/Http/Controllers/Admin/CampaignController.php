@@ -8,6 +8,8 @@ use App\Models\Admin\Campaign;
 use App\Models\Admin\EmailTemplate;
 use App\Models\Admin\Recipient;
 use Illuminate\Http\Request;
+use App\Mail\SendToRecipients;
+use Illuminate\Support\Facades\Mail;
 
 class CampaignController extends Controller
 {
@@ -70,11 +72,41 @@ class CampaignController extends Controller
 
     public function destroy(Campaign $campaign)
     {
-
         $campaign->recipients()->detach();
 
         $campaign->delete();
 
         return redirect()->route('admin.campaign.index')->with('success', 'Campaign is deleted successfully');
     }
+
+    public function send(Request $request, Campaign $campaign)
+    {
+        try {
+
+            $template = EmailTemplate::find($campaign->template_id);
+            $subject = $template->et_subject;
+            $message = $template->et_content;
+
+            if (sizeof($campaign->recipients) > 0) {
+
+                foreach ($campaign->recipients as $row) {
+
+                    $message = str_replace('[[recipient_name]]', $row->name, $message);
+                    $message = str_replace('[[recipient_email]]', $row->email, $message);
+
+                    Mail::to($row->email)->send(new SendToRecipients($subject, $message));
+                }
+
+                $campaign->update(['status' => 'sent']);
+            }
+
+            return redirect()->back()->with('success', 'Campaign is started sending successfully');
+
+        } catch (\Exception $e) {
+
+            return redirect()->back()->with('error', 'Campaign is not working due to error ' . $e->getMessage());
+        }
+
+    }
+
 }

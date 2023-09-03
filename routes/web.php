@@ -922,6 +922,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], fu
     Route::resource('recipient', RecipientController::class)->except('show');
     Route::resource('campaign', CampaignController::class)->except('show');
 
+    Route::post('campaign/send/{campaign}', [CampaignController::class, 'send'])->name('campaign.send');
+
     Route::get('smtp-config', [EnvController::class, 'edit'])->name('smtp-config.edit');
     Route::post('smtp-config', [EnvController::class, 'update'])->name('smtp-config.update');
 
