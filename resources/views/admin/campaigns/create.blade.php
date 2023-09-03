@@ -35,7 +35,7 @@
                         <option value=""></option>
                         @foreach ($templates as $row)
                             <option value="{{ $row['id'] }}">
-                                {{ $row['et_name'] . ' ==> ' . $row['et_subject'] }}
+                                {{ $row['et_name'] . ' (Subject: ' . $row['et_subject'] . ')' }}
                             </option>
                         @endforeach
                     </select>
