@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\ChatController;
+use App\Http\Controllers\Admin\EnvController;
 use App\Http\Controllers\Admin\VideoConferenceController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\CouponController;
@@ -914,10 +915,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], fu
 Route::get('/send-scheduled-messages', [TwillioController::class, 'sendScheduledMessages']);
 
 /* --------------------------------------- */
-/* Recipients, Tags & Campaigns - Admin */
+/* Recipients, Tags, Campaigns & SMTP - Admin */
 /* --------------------------------------- */
 Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], function () {
     Route::resource('tag', TagController::class)->except('show');
     Route::resource('recipient', RecipientController::class)->except('show');
     Route::resource('campaign', CampaignController::class)->except('show');
+
+    Route::get('smtp-config', [EnvController::class, 'edit'])->name('smtp-config.edit');
+    Route::post('smtp-config', [EnvController::class, 'update'])->name('smtp-config.update');
+
 });
