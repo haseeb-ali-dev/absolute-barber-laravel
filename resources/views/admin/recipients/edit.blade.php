@@ -40,4 +40,14 @@
             </div>
         </div>
     </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $('.select2').select2({
+            placeholder: 'Please select tags',
+            multiple: true,
+            allowClear: true,
+            minimumResultsForSearch: 5
+        });
+    </script>
 @endsection

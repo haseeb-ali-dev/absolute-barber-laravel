@@ -35,7 +35,7 @@
                 </div>
                 <div class="form-group">
                     <label for="">Campaign Description</label>
-                    <select name="recipients_id[]" class="form-control select2" required multiple>
+                    <select name="recipients_id[]" class="form-control select3" required multiple>
                         @foreach ($recipients as $key => $value)
                             <option value="{{ $key }}" @if (in_array($key, $selected_recipients)) selected @endif>
                                 {{ $value }}
@@ -47,4 +47,17 @@
             </div>
         </div>
     </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $('.select2').select2({
+            placeholder: 'Please Choose Status',
+        });
+        $('.select3').select2({
+            placeholder: 'Please select recipients',
+            multiple: true,
+            allowClear: true,
+            minimumResultsForSearch: 5
+        });
+    </script>
 @endsection
