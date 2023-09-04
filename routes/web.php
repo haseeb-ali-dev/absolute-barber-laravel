@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\ChatController;
+use App\Http\Controllers\Admin\EnvController;
 use App\Http\Controllers\Admin\VideoConferenceController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\CouponController;
@@ -56,6 +57,7 @@ use App\Http\Controllers\Admin\ProductController as ProductControllerForAdmin;
 use App\Http\Controllers\Admin\ProductCategoryController as ProductCategoryControllerForAdmin;
 use App\Http\Controllers\Admin\OrderController as OrderControllerForAdmin;
 use App\Http\Controllers\Admin\InvoiceController;
+use App\Http\Controllers\Admin\CampaignController;
 use App\Http\Controllers\OrderShippingController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\PricingController;
@@ -89,6 +91,8 @@ use App\Http\Controllers\Front\SubscriptionController;
 use App\Http\Controllers\Front\TeamMemberController as TeamMemberControllerForFront;
 use App\Http\Controllers\Front\TermController;
 use App\Http\Controllers\Front\VideoGalleryController;
+use App\Http\Controllers\Admin\RecipientController;
+use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\TwillioController;
 use App\Http\Controllers\FileManagerController;
 use Illuminate\Support\Facades\Route;
@@ -547,6 +551,8 @@ Route::post('admin/faq/update/{id}', [FaqControllerForAdmin::class,'update']);
 Route::get('admin/email-template/view', [EmailTemplateController::class,'index'])->name('admin.email_template.index');
 Route::get('admin/email-template/edit/{id}', [EmailTemplateController::class,'edit']);
 Route::post('admin/email-template/update/{id}', [EmailTemplateController::class,'update']);
+Route::get('admin/email-template/create', [EmailTemplateController::class, 'create']);
+Route::post('admin/email-template/store', [EmailTemplateController::class, 'store']);
 
 
 /* --------------------------------------- */
@@ -909,3 +915,18 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], fu
 /* Scheduled Messages Cronjob */
 /* --------------------------------------- */
 Route::get('/send-scheduled-messages', [TwillioController::class, 'sendScheduledMessages']);
+
+/* --------------------------------------- */
+/* Recipients, Tags, Campaigns & SMTP - Admin */
+/* --------------------------------------- */
+Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], function () {
+    Route::resource('tag', TagController::class)->except('show');
+    Route::resource('recipient', RecipientController::class)->except('show');
+    Route::resource('campaign', CampaignController::class)->except('show');
+
+    Route::post('campaign/send/{campaign}', [CampaignController::class, 'send'])->name('campaign.send');
+
+    Route::get('smtp-config', [EnvController::class, 'edit'])->name('smtp-config.edit');
+    Route::post('smtp-config', [EnvController::class, 'update'])->name('smtp-config.update');
+
+});
