@@ -25,6 +25,11 @@
                     </thead>
                     <tbody>
                         @foreach ($data as $row)
+                            @php
+                                $groups=DB::table('campaigns_recipients')
+                                            ->where('campaigns_id', $row->id)
+                                            ->get();
+                            @endphp
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $row->name }}</td>
@@ -33,9 +38,10 @@
                                 </td>
                                 <td> <span class="badge badge-pill badge-info px-2 py-1">{{ $row->status }}</span></td>
                                 <td>
-                                    @forelse ($row->recipients as $recipient)
+                                    @forelse ($groups as $group)
+                                        
                                         <span class="badge badge-primary p-2"
-                                            style="font-size: 14px;letter-spacing: 1px;">{{ $recipient->name . '  (' . $recipient->email . ')' }}</span>
+                                            style="font-size: 14px;letter-spacing: 1px;">{{ $group->recipients_id }}</span>
                                     @empty
                                         <span>-</span>
                                     @endforelse

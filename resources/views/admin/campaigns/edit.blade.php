@@ -44,7 +44,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="">Campaign Description</label>
                     <select name="recipients_id[]" class="form-control select3" required multiple>
                         @foreach ($recipients as $key => $value)
@@ -53,7 +53,7 @@
                             </option>
                         @endforeach
                     </select>
-                </div>
+                </div> --}}
                 <button type="submit" class="btn btn-success">Submit</button>
             </div>
         </div>

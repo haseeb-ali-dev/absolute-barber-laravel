@@ -43,9 +43,13 @@
                 <div class="form-group">
                     <label for="">Campaign Description</label>
                     <select name="recipients_id[]" class="form-control select3" required multiple>
-                        @foreach ($recipients as $key => $value)
+                        {{-- @foreach ($recipients as $key => $value)
                             <option value="{{ $key }}">{{ $value }}</option>
-                        @endforeach
+                        @endforeach --}}
+                        <option value="recipients">Recipients</option>
+                        <option value="subscribers">Subscribers</option>
+                        <option value="landing_page">Landingpage Contacts</option>
+                        <option value="external_data">External Data</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-success">Submit</button>

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Recipient extends Model
 {
-    protected $fillable = ['name', 'email'];
+    protected $fillable = ['name', 'email', 'source'];
 
     public function campaigns()
     {

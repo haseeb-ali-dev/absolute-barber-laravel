@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\GeneralSetting;
+use App\Models\ToolText;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -1006,7 +1007,8 @@ class GeneralSettingController extends Controller
 
 
     public function store_post_bercotool_images(Request $request){
-
+        
+       
         $validationRules = [];
         $maxFileSize = 5048; // Maximum file size in kilobytes
         $allowedImageTypes = 'jpeg,png,jpg,gif'; // Allowed image MIME types
@@ -1019,7 +1021,7 @@ class GeneralSettingController extends Controller
 
 
         $setting = GeneralSetting::where('id',1)->first();
-
+        $setting->too_font_size=$request['too_font_size'];
         for ($i = 1; $i <= 27; $i++) {
             $inputName = 'bercotool_' . $i;
         
@@ -1033,6 +1035,8 @@ class GeneralSettingController extends Controller
                 $setting->$inputName = $finalName;
             }
         }
+
+        
         
         $setting->save();
 
@@ -1044,6 +1048,15 @@ class GeneralSettingController extends Controller
         {
             DB::table('admin_tools')->where('user_id', 0)->delete();
         }
+
+
+        for ($i = 1; $i <= 27; $i++) {
+            $to_replace=ToolText::where('id',$i)->first();
+            $to_replace->text=$request[$i];
+            $to_replace->width=$request[$i.'_width'];
+            $to_replace->save();
+        }
+
 
         return redirect()->back()->with('success', 'Tools Updated successfully!');
     }
