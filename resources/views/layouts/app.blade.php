@@ -712,13 +712,6 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
     </div>
 </div>
 
-@if (isset($g_setting->bg_music))
-<audio id="background-audio" loop>
-    <source src="{{ asset('public/uploads/' . $g_setting->bg_music) }}" type="audio/mpeg">
-    Your browser does not support the audio element.
-</audio>
-@endif
-
 <div class="scroll-top">
     <i class="fa fa-angle-up"></i>
 </div>
