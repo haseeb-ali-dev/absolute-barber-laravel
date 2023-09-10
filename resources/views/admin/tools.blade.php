@@ -42,8 +42,8 @@
             ['route' => route('admin.project.index'), 'img' => $general_settings_global->bercotool_22 ? asset("public/uploads/$general_settings_global->bercotool_22") : 'https://placehold.co/1600x400?text=Projects', 'icon' => 'fas fa-cog', 'code' => 22],
             ['route' => route('admin.stats'), 'img' => $general_settings_global->bercotool_23 ? asset("public/uploads/$general_settings_global->bercotool_23") : 'https://placehold.co/1600x400?text=Stats', 'icon' => 'fas fa-cog', 'code' => 23],
             ['route' => route('coupon.tool.index'), 'img' => $general_settings_global->bercotool_24 ? asset("public/uploads/$general_settings_global->bercotool_24") : 'https://placehold.co/1600x400?text=Coupons', 'icon' => 'fas fa-cog', 'code' => 24],
-            ['route' => route('coupon.tool.index'), 'img' => $general_settings_global->bercotool_25 ? asset("public/uploads/$general_settings_global->bercotool_25") : 'https://placehold.co/1600x400?text=Facebook', 'icon' => 'fas fa-cog', 'code' => 25],
-            ['route' => route('coupon.tool.index'), 'img' => $general_settings_global->bercotool_26 ? asset("public/uploads/$general_settings_global->bercotool_26") : 'https://placehold.co/1600x400?text=Instagram', 'icon' => 'fas fa-cog', 'code' => 26],
+            ['route' => '#', 'img' => $general_settings_global->bercotool_25 ? asset("public/uploads/$general_settings_global->bercotool_25") : 'https://placehold.co/1600x400?text=Facebook', 'icon' => 'fas fa-cog', 'code' => 25],
+            ['route' => '#', 'img' => $general_settings_global->bercotool_26 ? asset("public/uploads/$general_settings_global->bercotool_26") : 'https://placehold.co/1600x400?text=Instagram', 'icon' => 'fas fa-cog', 'code' => 26],
             ['route' => route('admin.follow_up_customer'), 'img' => $general_settings_global->bercotool_27 ? asset("public/uploads/$general_settings_global->bercotool_27") : 'https://placehold.co/1600x400?text=Follow Up Customer', 'icon' => 'fas fa-cog', 'code' => 27],
             // ['route' => route('admin.plan_payment'), 'name' => 'My Plan & Payments', 'icon' => 'fas fa-fw fa-cog'],
         ];
@@ -183,7 +183,7 @@
     @endphp
     @php
         $generalSetting = App\Models\Admin\GeneralSetting::where('id', 1)->select('too_font_size')->first();
-        
+
     @endphp
     @foreach ($sections as $section)
         <div class="row dashboard-page" id="{{ $section['key'] }}" style="display: @if($loop->iteration > 1) none @endif">
@@ -203,7 +203,7 @@
                         @if(in_array($item['code'], $assigned))
                             @php
                                 $text=App\Models\ToolText::where('id',$item['code'])->first();
-                                
+
                             @endphp
                         <div class="col-xl-3 col-md-6 mb-4" @if(isset($item['key'])) onclick="toggleSection('{{ $item['key'] }}')" @endif  style="height: 150px;">
                             <div class="card border-left-primary shadow h-100 py-2">
@@ -213,14 +213,14 @@
                                             <a href="{{ isset($item['route']) ? $item['route'] : 'javascript:;' }}">
                                                 @if (isset($item['img']))
                                                     <img src="{{ asset($item['img']) }}" alt="" class="image" style="height: 100%; width: {{$text->width}}%">
-                                                   
+
                                                     <p style="font-size: {{$generalSetting->too_font_size}}; margin-top:5px;" ><b>{{$text->text}}</b></p>
                                                 @else
                                                     <h3>{{ $item['name'] ?? 'No Name' }}</h3>
                                                 @endif
                                             </a>
                                         </div>
-                                        
+
                                         {{-- <div class="col-auto">
                                             <i class="{{ $item['icon'] }} fa-2x text-gray-300"></i>
                                         </div> --}}
@@ -233,7 +233,7 @@
                         @if (in_array($item['code'], $enabled_tools))
                             @continue
                         @endif
-                        
+
                         @php
                             $text=App\Models\ToolText::where('id',$item['code'])->first();
                         @endphp
@@ -245,14 +245,14 @@
                                             <a href="{{ isset($item['route']) ? $item['route'] : 'javascript:;' }}">
                                                 @if (isset($item['img']))
                                                     <img src="{{ asset($item['img']) }}" alt="" class="image" style="height: 100%; width: {{$text->width}}%">
-                                                    
+
                                                     <p style="font-size: {{$generalSetting->too_font_size}}; margin-top:5px;" ><b>{{$text->text}}</b></p>
                                                 @else
                                                     <h3>{{ $item['name'] ?? 'No Name' }}</h3>
                                                 @endif
                                             </a>
                                         </div>
-                                        
+
                                         {{-- <div class="col-auto">
                                             <i class="{{ $item['icon'] }} fa-2x text-gray-300"></i>
                                         </div> --}}
@@ -262,7 +262,7 @@
                         </div>
                     @endif
                 @else
-                
+
                 <div class="col-xl-3 col-md-6 mb-4" @if(isset($item['key'])) onclick="toggleSection('{{ $item['key'] }}')" @endif  style="height: 150px;">
                     <div class="card border-left-primary shadow h-100 py-2">
                         <div class="card-body">
@@ -280,7 +280,7 @@
                                         @endif
                                     </a>
                                 </div>
-                                
+
                                 {{-- <div class="col-auto">
                                     <i class="{{ $item['icon'] }} fa-2x text-gray-300"></i>
                                 </div> --}}
