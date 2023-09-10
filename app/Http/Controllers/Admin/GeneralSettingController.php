@@ -1007,8 +1007,8 @@ class GeneralSettingController extends Controller
 
 
     public function store_post_bercotool_images(Request $request){
-        
-       
+
+
         $validationRules = [];
         $maxFileSize = 5048; // Maximum file size in kilobytes
         $allowedImageTypes = 'jpeg,png,jpg,gif'; // Allowed image MIME types
@@ -1024,20 +1024,20 @@ class GeneralSettingController extends Controller
         $setting->too_font_size=$request['too_font_size'];
         for ($i = 1; $i <= 27; $i++) {
             $inputName = 'bercotool_' . $i;
-        
+
             if ($request->hasFile($inputName)) {
                 $file = $request->file($inputName);
                 $ext = $file->getClientOriginalExtension();
                 $randomNumber = rand(10000, 99999);
                 $finalName = time() . $randomNumber . '.' . $ext;
                 $file->move(public_path('uploads/'), $finalName);
-        
+
                 $setting->$inputName = $finalName;
             }
         }
 
-        
-        
+
+
         $setting->save();
 
         if(isset($request->codes))
@@ -1141,6 +1141,40 @@ class GeneralSettingController extends Controller
         $fp = fopen($envFile, 'w');
         fwrite($fp, $str);
         fclose($fp);
+    }
+
+    public function bg_music_edit()
+    {
+        $general_setting = GeneralSetting::where('id',1)->first();
+        return view('admin.general_setting.bg_music', compact('general_setting'));
+    }
+
+    public function bg_music_update(Request $request)
+    {
+        if(env('PROJECT_MODE') == 0) {
+            return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
+        }
+
+        if($request->file('bg_music'))
+        {
+            $request->validate([
+                'bg_music' => 'required|mimes:mp3,wav|max:5120'
+            ]);
+
+            // Unlink old music
+            if (isset($request->current_music) && file_exists(public_path('uploads/'.$request->current_music))) {
+                unlink(public_path('uploads/'.$request->current_music));
+            }
+
+            $ext = $request->file('bg_music')->extension();
+            $final_name = time().'.'.$ext;
+            $request->file('bg_music')->move(public_path('uploads/'), $final_name);
+
+            $data['bg_music'] = $final_name;
+
+            GeneralSetting::where('id',1)->update($data);
+        }
+        return redirect()->back()->with('success', 'Background Music is updated successfully!');
     }
 
 

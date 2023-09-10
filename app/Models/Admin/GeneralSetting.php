@@ -97,9 +97,9 @@ class GeneralSetting extends Model
         'lpc_logo_pc_height',
 
         'sub_items_bg_color',
-        'sub_items_hover_bg_color'
+        'sub_items_hover_bg_color',
 
-
+        'bg_music',
     ];
 
 }

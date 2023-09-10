@@ -103,9 +103,9 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
         @php
             $item_row = DB::table('blogs')->where('blog_slug',$conName[1])->first();
         @endphp
-        
 
-      
+
+
 
     @endif
 
@@ -279,9 +279,9 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
         <title>Create Appointment</title>
     @endif
 
-    
+
     @include('layouts.styles')
-    
+
     <!-- Favicon -->
     <link href="{{ asset('public/uploads/'.$g_setting->favicon) }}" rel="shortcut icon" type="image/png">
 
@@ -289,7 +289,7 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
     <link href="https://fonts.googleapis.com/css2?family=Sen:wght@400;700&display=swap" rel="stylesheet">
 
     @include('layouts.scripts')
-    
+
     <style>
         .top,
         .main-nav nav .navbar-nav .nav-item .dropdown-menu,
@@ -588,7 +588,7 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
                         <div class="top-profile">
                             <ul>
                                 @if(!session()->get('customer_id'))
-                                    
+
                                     @if(request()->is('*shop*') || request()->is('*product*') || request()->is('*cart*') || request()->is('*checkout*') || request()->is('*payment*'))
                                         @if($g_setting->top_bar_login_status == 'Show')
                                         <li class="login_top_menu">
@@ -604,7 +604,7 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
                                         </li>
                                         @endif
                                     @endif
-                                    
+
                                     @if(request()->is('*shop*') || request()->is('*product*') || request()->is('*cart*') || request()->is('*checkout*') || request()->is('*payment*'))
                                         @if($g_setting->top_bar_registration_status == 'Show')
                                         <li class="registration_top_menu">
@@ -617,7 +617,7 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
                                             <a href="{{ route('employee.registration') }}">Register as Employee</a>
                                         </li>
                                     @endif
-                                
+
                                     @if(request()->is('*shop*') || request()->is('*product*') || request()->is('*cart*') || request()->is('*checkout*') || request()->is('*payment*'))
                                         @if (!in_array(15, $enabled_tools))
                                         <li class="registration_top_menu">
@@ -639,7 +639,7 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
                                     <a href="{{ route('customer.dashboard') }}">Dashboard</a>
                                 </li>
                                 @endif
-                                @if(request()->is('*shop*') || request()->is('*product*') || request()->is('*cart*') || request()->is('*checkout*') || request()->is('*payment*'))     
+                                @if(request()->is('*shop*') || request()->is('*product*') || request()->is('*cart*') || request()->is('*checkout*') || request()->is('*payment*'))
                                     @if($g_setting->top_bar_cart_status == 'Show')
                                     <li class="cart">
                                         <a href="{{ route('front.cart') }}">Cart </a>

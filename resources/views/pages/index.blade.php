@@ -627,4 +627,40 @@
 </div>
 @endif
 
+{{-- @if (isset($theme_color->bg_music))
+    <audio id="background-audio" muted loop>
+        <source src="{{ asset('public/uploads/' . $theme_color->bg_music) }}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+@endif
+
+@if (isset($theme_color->bg_music))
+    <script>
+         $(document).ready(function () {
+            $('html, body').click(function () {
+                const audio = document.getElementById('background-audio');
+                audio.muted = false
+                audio.play();
+            });
+        });
+    </script>
+@endif --}}
+
+@if (isset($theme_color->bg_music))
+    <script type="text/javascript">
+        window.onload = function() {
+            var audio = document.createElement("AUDIO")
+            document.body.appendChild(audio);
+            audio.src = "{{ asset('public/uploads/' . $theme_color->bg_music) }}"
+
+
+            document.body.addEventListener("mousemove", function () {
+                audio.play()
+            });
+
+        }
+    </script>
+@endif
+
+
 @endsection
