@@ -71,3 +71,13 @@
 {!! $g_setting->tawk_live_chat_code !!}
 <!--End of Tawk.to Script-->
 @endif
+
+
+@if (isset($g_setting->bg_music))
+    <script>
+        $(document).ready(function () {
+            const audio = document.getElementById('background-audio');
+            audio.play();
+        });
+    </script>
+@endif

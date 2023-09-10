@@ -339,6 +339,12 @@ Route::post('admin/setting/general/cookieconsent/update', [GeneralSettingControl
 
 
 /* --------------------------------------- */
+/* Backgound Music - Admin */
+/* --------------------------------------- */
+Route::get('admin/setting/general/bg_music/edit', [GeneralSettingController::class,'bg_music_edit'])->name('admin.general_setting.bg_music');
+Route::post('admin/setting/general/bg_music/update', [GeneralSettingController::class,'bg_music_update']);
+
+/* --------------------------------------- */
 /* Messages - Admin */
 /* --------------------------------------- */
 Route::get('admin/message', [ContactController::class,'messages'])->name('admin.messages.index');

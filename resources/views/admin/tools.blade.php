@@ -108,6 +108,7 @@
             ['route' => route('admin.general_setting.googlerecaptcha'), 'name' => 'Google Recaptcha', 'icon' => 'fas fa-cog'],
             ['route' => route('admin.general_setting.tawklivechat'), 'name' => 'Tawk Live Chat', 'icon' => 'fas fa-cog'],
             ['route' => route('admin.general_setting.cookieconsent'), 'name' => 'Cookie Consent', 'icon' => 'fas fa-cog'],
+            ['route' => route('admin.general_setting.bg_music'), 'name' => 'Background Music', 'icon' => 'fas fa-cog'],
         ];
         $page_settings = [
             ['route' => route('admin.page_home.edit'), 'name' => 'Home', 'icon' => 'fas fa-paste'],
