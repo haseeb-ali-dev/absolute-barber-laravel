@@ -88,8 +88,8 @@ class SliderController extends Controller
 
         $request->validate([
             'slider_type' => 'required',
-            'slider_video' => 'required_if:slider_type,video',
-            'slider_mp4' => 'required_if:slider_type,mp4|max:15360|mimes:mp4',
+            // 'slider_video' => 'required_if:slider_type,video',
+            // 'slider_mp4' => 'required_if:slider_type,mp4|max:15360|mimes:mp4',
             'slider_color' => 'required_if:slider_type,color|max:100',
             'overlay' => 'required|numeric|max:1|min:0.1',
         ]);
@@ -115,15 +115,17 @@ class SliderController extends Controller
             unset($data['slider_photo']);
             $data['slider_photo'] = $final_name;
         }
-
-        if ($request['slider_type'] == 'mp4')
-        {
-            $ext = $request->file('slider_mp4')->extension();
-            $final_name = time().'.'.$ext;
-            $request->file('slider_mp4')->move(public_path('uploads'), $final_name);
-            unset($data['slider_mp4']);
-            $data['slider_mp4'] = $final_name;
+        if($request->file('slider_mp4')){
+            if ($request['slider_type'] == 'mp4')
+            {
+                $ext = $request->file('slider_mp4')->extension();
+                $final_name = time().'.'.$ext;
+                $request->file('slider_mp4')->move(public_path('uploads'), $final_name);
+                unset($data['slider_mp4']);
+                $data['slider_mp4'] = $final_name;
+            }
         }
+        
 
         $slider->fill($data)->save();
 
