@@ -56,9 +56,26 @@
                             </div>
                         </div>
                         <button type="submit" class="btn btn-success">Update</button>
+                        <a href="{{ route('admin.general_setting.bg_music.delete') }}" class="btn btn-primary mt-30" onclick="return confirmDelete();">
+                            <i class="fas fa-trash"></i> Delete Sound
+                        </a>                         
                     </div>
                 </div>
             </div>
         </div>
     </form>
+    <script>
+        function confirmDelete() {
+            // Display a confirmation dialog
+            var confirmation = confirm("Are you sure you want to delete?");
+            
+            // If the user confirms, proceed with the link
+            if (confirmation) {
+                return true;
+            }
+            
+            // If the user cancels, prevent the link from navigating
+            return false;
+        }
+    </script>
 @endsection

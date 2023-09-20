@@ -1177,6 +1177,21 @@ class GeneralSettingController extends Controller
         return redirect()->back()->with('success', 'Background Music is updated successfully!');
     }
 
+    public function bg_music_delete()
+    {
+        
+        if(env('PROJECT_MODE') == 0) {
+            return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
+        }
+
+        $data=GeneralSetting::where('id',1)->first();
+        $data->bg_music=null;
+        $data->save();
+
+
+        return redirect()->back()->with('success', 'Background Music deleted successfully!');
+    }
+
 
 
 }
