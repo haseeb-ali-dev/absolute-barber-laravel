@@ -40,6 +40,17 @@
                 justify-content: center; /* Horizontal centering */
                 align-items: center; /* Vertical centering */
             }
+            .border-left-primary {
+                border-left: .25rem solid #4e73df!important
+            }
+            .card-body {
+                flex: 1 1 auto;
+                min-height: 1px;
+                padding: 1.25rem
+            }
+            .h-100 {
+                height: 100%!important;
+            }
             @media (max-width: 767px) {
                 #faizan {
                     margin-top: 13%;
@@ -97,17 +108,44 @@
                         <div class="col-md-12">
                             <div class="row">
 
-                                @foreach ($tools as $row)
-                                    @if (in_array($row['code'], $enabled_codes))
-                                        <div class="team-item wow fadeInDown border-0 col-md-3 center-content">
-                                            <div class="team-photo "> <!-- Add the center-content class here -->
-                                                <a href="#" class="tool_img">
-                                                    <img src="{{ $row['img'] }}" alt="Tools Photo">
-                                                </a>
+                                @foreach ($tools as $item)
+                                @if (in_array($item['code'], $enabled_codes))
+                                    {{-- <div class="team-item wow fadeInDown border-0 col-md-3 center-content">
+                                        <div class="team-photoo">
+                                            <a href="#" class="tool_img">
+                                                <img src="{{ $item['img'] }}" alt="Tools Photo">
+                                            </a>
+                                        </div>
+                                    </div> --}}
+
+
+                                    @php
+                                    $text=App\Models\ToolText::where('id',$item['code'])->first();
+                                    $generalSetting=App\Models\Admin\GeneralSetting::where('id',1)->first();
+
+                                    @endphp
+                                    <div class="col-xl-3 col-md-6 mb-4"  style="height: 150px;">
+                                        <div class="card border-left-primary shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center" >
+                                                    <div class="col mr-2 text-center">
+                                                        <a href="javascript:void(0)">
+                                                            @if (isset($item['img']))
+                                                                <img src="{{ asset($item['img']) }}" alt="" class="image" style="height: 68%; width: {{$text->width}}%">
+
+                                                                <p style="font-size: {{$generalSetting->too_font_size}}; margin-top:5px;" ><b>{{$text->text}}</b></p>
+                                                            @else
+                                                                <h3>{{ $item['name'] ?? 'No Name' }}</h3>
+                                                            @endif
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    @endif
-                                @endforeach
+                                    </div>
+                                @endif
+                                
+                            @endforeach
 
                             </div>
                         </div>

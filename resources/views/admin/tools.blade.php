@@ -213,13 +213,8 @@
                                         <div class="col mr-2 text-center">
                                             <a href="{{ isset($item['route']) ? $item['route'] : 'javascript:;' }}">
                                                 @if (isset($item['img']))
-<<<<<<< HEAD
                                                     <img src="{{ asset($item['img']) }}" alt="" class="image" style="height: 68%; width: {{$text->width}}%">
-                                                   
-=======
-                                                    <img src="{{ asset($item['img']) }}" alt="" class="image" style="height: 100%; width: {{$text->width}}%">
 
->>>>>>> 5247ccc5f641fb4c3b1fa39df6b6cd547fd8d8a9
                                                     <p style="font-size: {{$generalSetting->too_font_size}}; margin-top:5px;" ><b>{{$text->text}}</b></p>
                                                 @else
                                                     <h3>{{ $item['name'] ?? 'No Name' }}</h3>
@@ -250,7 +245,7 @@
                                         <div class="col mr-2 text-center">
                                             <a href="{{ isset($item['route']) ? $item['route'] : 'javascript:;' }}">
                                                 @if (isset($item['img']))
-                                                    <img src="{{ asset($item['img']) }}" alt="" class="image" style="height: 100%; width: {{$text->width}}%">
+                                                    <img src="{{ asset($item['img']) }}" alt="" class="image" style="height: 68%; width: {{$text->width}}%">
 
                                                     <p style="font-size: {{$generalSetting->too_font_size}}; margin-top:5px;" ><b>{{$text->text}}</b></p>
                                                 @else
