@@ -63,6 +63,7 @@
             ['route' => route('admin.customer.index'), 'name' => 'Customer Section', 'icon' => 'fas fa-users'],
             ['route' => route('admin.manual.messages'), 'name' => 'Manual Messages/Email', 'icon' => 'fas fa-users'],
             ['route' => route('admin.why_choose.index'), 'name' => 'Why Choose Us', 'icon' => 'fas fa-arrows-alt'],
+            ['route' => route('admin.music.index'), 'name' => 'Manage Sound Files', 'icon' => 'fas fa-arrows-alt'],
             ['route' => route('admin.service.index'), 'name' => 'Service', 'icon' => 'fas fa-certificate'],
             ['route' => route('admin.testimonial.index'), 'name' => 'Testimonial', 'icon' => 'fas fa-award'],
             ['route' => route('admin.team_member.index'), 'name' => 'Team Member', 'icon' => 'fas fa-user-plus'],

@@ -284,4 +284,18 @@ class PageHomeController extends Controller
         return redirect()->back()->with('success', 'Tools Section is updated successfully!');
     }
 
+    public function update13(Request $request)
+    {
+        if(env('PROJECT_MODE') == 0) {
+            return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
+        }
+
+        $data['audio_title'] = $request->input('audio_title');
+        $data['audio_subtitle'] = $request->input('audio_subtitle');
+        $data['audio_status'] = $request->input('audio_status');
+
+        PageHomeItem::where('id',1)->update($data);
+        return redirect()->back()->with('success', 'Audio Section is updated successfully!');
+    }
+
 }

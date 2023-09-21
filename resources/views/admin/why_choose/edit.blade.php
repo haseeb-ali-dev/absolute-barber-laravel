@@ -21,6 +21,10 @@
                     <textarea name="description" class="form-control h_100" cols="30" rows="10">{{ $why_choose->description }}</textarea>
                 </div>
                 <div class="form-group">
+                    <label for="">link *</label>
+                    <input type="text" name="link" class="form-control" value="{{ $why_choose->link }}" autofocus>
+                </div>
+                <div class="form-group">
                     <label for="">Existing Photo</label>
                     <div>
                         <img src="{{ asset('public/uploads/'.$why_choose->photo) }}" alt="" class="w_100">

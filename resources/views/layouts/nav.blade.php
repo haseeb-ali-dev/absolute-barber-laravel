@@ -75,6 +75,7 @@ $menus = \App\Models\Admin\Menu::whereNull('parent_id')->get();
 
                                 @php
                                 $dynamic_pages = DB::table('dynamic_pages')->get();
+                               
                                 @endphp
 
                                 @if ($dynamic_pages)
@@ -89,6 +90,7 @@ $menus = \App\Models\Admin\Menu::whereNull('parent_id')->get();
                                         @endforeach
 
                                 @endif
+                               
                                 <li class="nav-item">
                                     <a style="color: #{{$settings['items_color']}};" href="{{ route('customer.registration') }}" class="nav-link">Register</a>
                                 </li>

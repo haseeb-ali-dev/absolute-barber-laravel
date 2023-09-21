@@ -21,6 +21,10 @@
                     <textarea name="description" class="form-control h_100" cols="30" rows="10">{{ old('description') }}</textarea>
                 </div>
                 <div class="form-group">
+                    <label for="">Link</label>
+                    <input type="text" name="link" class="form-control" value="{{ old('link') }}" autofocus>
+                </div>
+                <div class="form-group">
                     <label for="">Photo *</label>
                     <div>
                         <input type="file" name="photo">

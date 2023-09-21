@@ -9,7 +9,8 @@ class WhyChooseItem extends Model
     protected $fillable = [
         'name',
         'description',
-        'photo'
+        'photo',
+        'link'
     ];
 
 }
