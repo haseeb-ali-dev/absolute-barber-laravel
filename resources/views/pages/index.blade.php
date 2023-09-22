@@ -404,7 +404,7 @@
 @endif
 
 @if($page_home->audio_status == 'Show')
-<div class="feature">
+<div class="feature faizan_sound">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -416,7 +416,7 @@
         </div>
         <div class="row">
             @foreach($music as $row)
-            <div class="col-md-4" >
+            <div class="col-md-4">
                 @if ($row->upload_type=='embed')
                     {!! $row->link !!}
                 @endif
@@ -448,9 +448,13 @@
             </div>
             @endforeach
         </div>
-        
+        <div class="container mt-3 text-center"> <!-- Center align the button -->
+            <button class="btn btn-danger" onclick="toggleBackgroundMusic()">Toggle Background Music</button>
+        </div>
     </div>
 </div>
+
+
 @endif
 
 
@@ -760,20 +764,30 @@
 @endif --}}
 
 @if (isset($theme_color->bg_music))
-    <script type="text/javascript">
-        window.onload = function() {
-            var audio = document.createElement("AUDIO")
+        <script type="text/javascript">
+            var audio = document.createElement("audio");
             document.body.appendChild(audio);
-            audio.src = "{{ asset('public/uploads/' . $theme_color->bg_music) }}"
+            audio.src = "{{ asset('public/uploads/' . $theme_color->bg_music) }}";
 
+            var isMusicPlaying = true;
 
             document.body.addEventListener("mousemove", function () {
-                audio.play()
+                if (isMusicPlaying) {
+                    audio.play();
+                }
             });
 
-        }
-    </script>
-@endif
+            function toggleBackgroundMusic() {
+                if (isMusicPlaying) {
+                    audio.pause();
+                    isMusicPlaying = false;
+                } else {
+                    audio.play();
+                    isMusicPlaying = true;
+                }
+            }
+        </script>
+    @endif
 
 
 @endsection
