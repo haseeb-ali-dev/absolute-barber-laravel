@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use DB;
+use Twilio\Rest\Client;
 
 class GeneralSettingController extends Controller
 {
@@ -866,6 +867,7 @@ class GeneralSettingController extends Controller
         $data['lpc_logo_mobile_height'] = $request['lpc_logo_mobile_height'];
         $data['lpc_logo_pc_width'] = $request['lpc_logo_pc_width'];
         $data['lpc_logo_pc_height'] = $request['lpc_logo_pc_height'];
+        $data['lpc_message_text'] = $request['lpc_message_text'];
 
         $data['lpc_centered']= isset($request['lpc_centered']) ? 1 : 0;;
         // dd($request->all());
@@ -900,7 +902,30 @@ class GeneralSettingController extends Controller
         ]);
 
         $data['phone'] = $data['code'].$data['phone'];
+
+        $data['phone']=$data['phone'] = str_replace([' ', '(', ')', '-'], '', $data['phone']);
+
         unset($data['code']);
+
+        
+        $message = GeneralSetting::where('id',1)->first();
+      
+        $account_sid = env('TWILIO_ACCOUNT_SID');
+        $auth_token = env('TWILIO_AUTH_TOKEN');
+        $twilio_number = env('TWILIO_PHONE_NUMBER');
+
+        $recipient_number = $data['phone'];
+        $message_body = $message->lpc_message_text;
+
+        $twilio = new Client($account_sid, $auth_token);
+
+        $twilio->messages->create(
+            $recipient_number,
+            array(
+                'from' => $twilio_number,
+                'body' => $message_body
+            )
+        );
 
         DB::table('landing_page_contacts')->insert($data);
 

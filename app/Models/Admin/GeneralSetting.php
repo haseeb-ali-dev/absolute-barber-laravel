@@ -100,6 +100,7 @@ class GeneralSetting extends Model
         'sub_items_hover_bg_color',
 
         'bg_music',
+        'lpc_message_text',
     ];
 
 }

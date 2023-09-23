@@ -121,6 +121,12 @@
                 </div>
 
                 <div class="form-group d-flex align-items-center">
+                    <label for="text">On Submit Text Message to send</label>
+                    <textarea name="lpc_message_text"  class="form-control form-control-sm mx-3">{{ $general_setting->lpc_message_text }}
+                </textarea>
+                </div>
+
+                <div class="form-group d-flex align-items-center">
                     <label for="lpc_overlay">Background Overlay Intensity</label>
                     <input type="number" min="0.1" max="1" step="0.1" name="lpc_overlay" id="lpc_overlay"
                         class="form-control form-control-sm mx-3" value="{{ $general_setting->lpc_overlay }}">
