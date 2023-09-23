@@ -453,9 +453,62 @@
         </div>
     </div>
 </div>
-
-
 @endif
+
+
+@if($page_home->podcast_status == 'Show')
+<div class="feature faizan_sound">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="heading wow fadeInUp">
+                    <h2>{{ $page_home->podcast_title }}</h2>
+                    <h3>{{ $page_home->podcast_subtitle }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @foreach($podcasts as $row)
+            <div class="col-md-4">
+                @if ($row->upload_type=='embed')
+                    {!! $row->link !!}
+                @endif
+        
+                @if ($row->upload_type=='upload')
+                    <!-- Content -->
+                    <div id="mobile-box">
+                        <!-- Card -->
+                        <div class="card">
+                            <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                                <img style="height: 300px;" class="card-img-top" src="{{ asset('public/uploads/' . $row->image) }}"
+                                    alt="Card image cap">
+                                <a href="#!">
+                                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                                </a>
+                            </div>
+                            <div class="card-body text-center">
+                                <p class="mb-0">{{$row->title}}</p>
+                                <audio controls>
+                                    <source src="{{ asset('public/uploads/' . $row->sound) }}" type="audio/mpeg">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
+                        </div>
+                        <!-- Card -->
+                    </div>
+                    <!-- Content -->
+                @endif
+            </div>
+            @endforeach
+        </div>
+        <div class="container mt-3 text-center"> <!-- Center align the button -->
+            <button class="btn btn-danger" onclick="toggleBackgroundMusic()">Toggle Background Music</button>
+        </div>
+    </div>
+</div>
+@endif
+
+
 
 
 

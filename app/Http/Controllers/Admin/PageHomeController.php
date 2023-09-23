@@ -298,4 +298,18 @@ class PageHomeController extends Controller
         return redirect()->back()->with('success', 'Audio Section is updated successfully!');
     }
 
+    public function update14(Request $request)
+    {
+        if(env('PROJECT_MODE') == 0) {
+            return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
+        }
+
+        $data['podcast_title'] = $request->input('podcast_title');
+        $data['podcast_subtitle'] = $request->input('podcast_subtitle');
+        $data['podcast_status'] = $request->input('podcast_status');
+
+        PageHomeItem::where('id',1)->update($data);
+        return redirect()->back()->with('success', 'Podcast Section is updated successfully!');
+    }
+
 }

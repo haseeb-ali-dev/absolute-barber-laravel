@@ -14,6 +14,7 @@ class HomeController extends Controller
     	$page_home = DB::table('page_home_items')->where('id',1)->first();
     	$why_choose_items = DB::table('why_choose_items')->get();
         $music = DB::table('musics')->get();
+        $podcasts = DB::table('podcasts')->get();
     	$services = DB::table('services')->get();
     	$testimonials = DB::table('testimonials')->get();
     	$projects = DB::table('projects')->get();
@@ -24,13 +25,13 @@ class HomeController extends Controller
 
         if(isset($request['menu']))
         {
-            return view('pages.index', compact('sliders','page_home','why_choose_items','services', 'testimonials','projects','team_members','blogs','theme_color', 'pricing_options','music'));
+            return view('pages.index', compact('sliders','page_home','why_choose_items','services', 'testimonials','projects','team_members','blogs','theme_color', 'pricing_options','music','podcasts'));
         }
         else
         {
             if($theme_color->default_homepage == 'website')
             {
-                return view('pages.index', compact('sliders','page_home','why_choose_items','services', 'testimonials','projects','team_members','blogs','theme_color', 'pricing_options','music'));
+                return view('pages.index', compact('sliders','page_home','why_choose_items','services', 'testimonials','projects','team_members','blogs','theme_color', 'pricing_options','music','podcasts'));
             }
             else
             {
@@ -61,6 +62,15 @@ class HomeController extends Controller
         $page_home = DB::table('page_home_items')->where('id',1)->first();
 
         return view('pages.music', compact('theme_color','music','page_home'));
+    }
+
+    public function home_podcasts()
+    {
+        $theme_color = DB::table('general_settings')->where('id', 1)->first();
+        $music = DB::table('podcasts')->get();
+        $page_home = DB::table('page_home_items')->where('id',1)->first();
+
+        return view('pages.podcast', compact('theme_color','music','page_home'));
     }
 
 

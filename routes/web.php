@@ -52,6 +52,7 @@ use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\VideoController;
 use App\Http\Controllers\Admin\WhyChooseController;
 use App\Http\Controllers\Admin\MusicController;
+use App\Http\Controllers\Admin\PodcastController;
 use App\Http\Controllers\Admin\JobController as JobControllerForAdmin;
 use App\Http\Controllers\Admin\FaqController as FaqControllerForAdmin;
 use App\Http\Controllers\Admin\ProductController as ProductControllerForAdmin;
@@ -143,6 +144,7 @@ Route::get('privacy-policy', [PrivacyController::class,'index'])->name('front.pr
 Route::get('pricing', [HomeController::class,'pricing'])->name('front.pricing');
 Route::get('home_tools', [HomeController::class,'home_tools'])->name('front.home_tools');
 Route::get('home_sounds', [HomeController::class,'home_sounds'])->name('front.home_sounds');
+Route::get('home_podcasts', [HomeController::class,'home_podcasts'])->name('front.home_podcasts');
 
 
 /* --------------------------------------- */
@@ -380,6 +382,7 @@ Route::group(['prefix'=>'admin/page/home'], function() {
     Route::post('/11', [PageHomeController::class,'update11']);
     Route::post('/12', [PageHomeController::class,'update12']);
     Route::post('/13', [PageHomeController::class,'update13']);
+    Route::post('/14', [PageHomeController::class,'update14']);
 });
 
 Route::group(['prefix'=>'admin/page'], function() {
@@ -498,7 +501,7 @@ Route::get('admin/why-choose/edit/{id}', [WhyChooseController::class,'edit']);
 Route::post('admin/why-choose/update/{id}', [WhyChooseController::class,'update']);
 
 /* --------------------------------------- */
-/* Why Choose Us - Admin */
+/* music - Admin */
 /* --------------------------------------- */
 Route::get('admin/music/view', [MusicController::class,'index'])->name('admin.music.index');
 Route::get('admin/music/create', [MusicController::class,'create'])->name('admin.music.create');
@@ -506,6 +509,18 @@ Route::post('admin/music/store', [MusicController::class,'store'])->name('admin.
 Route::get('admin/music/delete/{id}', [MusicController::class,'destroy']);
 Route::get('admin/music/edit/{id}', [MusicController::class,'edit']);
 Route::post('admin/music/update/{id}', [MusicController::class,'update']);
+
+
+
+/* --------------------------------------- */
+/* Podcast - Admin */
+/* --------------------------------------- */
+Route::get('admin/podcast/view', [PodcastController::class,'index'])->name('admin.podcast.index');
+Route::get('admin/podcast/create', [PodcastController::class,'create'])->name('admin.podcast.create');
+Route::post('admin/podcast/store', [PodcastController::class,'store'])->name('admin.podcast.store');
+Route::get('admin/podcast/delete/{id}', [PodcastController::class,'destroy']);
+Route::get('admin/podcast/edit/{id}', [PodcastController::class,'edit']);
+Route::post('admin/podcast/update/{id}', [PodcastController::class,'update']);
 
 
 /* --------------------------------------- */
