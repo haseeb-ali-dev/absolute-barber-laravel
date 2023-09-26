@@ -28,15 +28,15 @@
                         @foreach($blog_items as $row)
                             <div class="blog-item">
                                 <div class="featured-photo">
-                                    <a href="{{ url('blog/'.$row->blog_slug) }}"><img src="{{ asset('public/uploads/'.$row->blog_photo) }}"></a>
+                                    <a href="{{ url('blog/'.$row->id) }}"><img src="{{ asset('public/uploads/'.$row->blog_photo) }}"></a>
                                 </div>
                                 <div class="text">
-                                    <h2><a href="{{ url('blog/'.$row->blog_slug) }}">{{ $row->blog_title }}</a></h2>
+                                    <h2><a href="{{ url('blog/'.$row->id) }}">{{ $row->blog_title }}</a></h2>
                                     <p>
                                         {!! nl2br(e($row->blog_content_short)) !!}
                                     </p>
                                     <div class="read-more">
-                                        <a href="{{ url('blog/'.$row->blog_slug) }}">Read More</a>
+                                        <a href="{{ url('blog/'.$row->id) }}">Read More</a>
                                     </div>
                                 </div>
                             </div>

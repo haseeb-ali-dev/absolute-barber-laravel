@@ -34,7 +34,7 @@
                     @endif
                     <li>
                         <img src="{{ asset('public/uploads/'.$row->blog_photo) }}">
-                        <a href="{{ url('blog/'.$row->blog_slug) }}">{{ $row->blog_title }}</a>
+                        <a href="{{ url('blog/'.$row->id) }}">{{ $row->blog_title }}</a>
                     </li>
                 @endforeach
             </ul>

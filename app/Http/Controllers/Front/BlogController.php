@@ -24,7 +24,7 @@ class BlogController extends Controller
     public function detail($slug)
     {
         $g_setting = DB::table('general_settings')->where('id', 1)->first();
-        $blog_detail = DB::table('blogs')->where('blog_slug', $slug)->first();
+        $blog_detail = DB::table('blogs')->where('id', $slug)->first();
         $blog_items = DB::table('blogs')->get();
         $blog_items_no_pagi = DB::table('blogs')->orderby('id', 'desc')->get();
         $categories = DB::table('categories')->get();

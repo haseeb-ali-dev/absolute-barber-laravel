@@ -742,7 +742,7 @@
 
                     @foreach($blogs as $row)
                     <div class="blog-item wow fadeInUp">
-                        <a href="{{ url('blog/'.$row->blog_slug) }}">
+                        <a href="{{ url('blog/'.$row->id) }}">
                             <div class="blog-image">
                                 <img src="{{ asset('public/uploads/'.$row->blog_photo) }}" alt="Blog Image">
                                 <div class="date">
@@ -752,12 +752,12 @@
                             </div>
                         </a>
                         <div class="blog-text">
-                            <h3><a href="{{ url('blog/'.$row->blog_slug) }}">{{ $row->blog_title }}</a></h3>
+                            <h3><a href="{{ url('blog/'.$row->id) }}">{{ $row->blog_title }}</a></h3>
                             <p>
                                 {!! nl2br(e($row->blog_content_short)) !!}
                             </p>
                             <div class="read-more">
-                                <a href="{{ url('blog/'.$row->blog_slug) }}">Read More</a>
+                                <a href="{{ url('blog/'.$row->id) }}">Read More</a>
                             </div>
                         </div>
                     </div>
