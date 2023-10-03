@@ -16,7 +16,7 @@
                     <tr>
                         <th>SL</th>
                         <th>Landing Page Name</th>
-                        <th>Leads</th>
+                        <th>Leads for SMS Marketing</th>
                         <th>Action</th>
                     </tr>
                     </thead>
