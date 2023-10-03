@@ -13,6 +13,7 @@ class Menu extends Model
         'parent_id',
         'route',
         'fixed',
+        'link',
     ];
 
     public function sub_menu()

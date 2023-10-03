@@ -20,9 +20,9 @@
                 <i class="fas fa-file-export ml-1 mr-2"></i>Export to Excel
             </button>
 
-            <a href="{{ URL::to('admin/user_chat_status') }}" class="btn btn-info rounded-pill float-right mb-2">
+            {{-- <a href="{{ URL::to('admin/user_chat_status') }}" class="btn btn-info rounded-pill float-right mb-2">
                 <i class="fas fa-file-export ml-1 mr-2"></i>Manage Call Status
-            </a>
+            </a> --}}
 
             <div class="table-responsive">
                 <table class="table table-bordered" id="customers-table" width="100%" cellspacing="0">
@@ -34,11 +34,13 @@
                         <th>Customer Name</th>
                         <th>Customer Email</th>
                         <th>Customer Phone</th>
+                        <th>Lead from (Landing Page)</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($customers as $row)
+                    
                         <tr>
                             <th scope="row">
                                 <input type="checkbox" class="check" data-id="{{$row->id}}">
@@ -47,6 +49,13 @@
                             <td>{{ $row->name }}</td>
                             <td>{{ $row->email }}</td>
                             <td>{{ $row->phone }}</td>
+                            <td>
+                                @php
+                                    $lead_from = DB::table('general_settings')->select('lpc_name')->where('id', $row->landing_page_id)->first();
+                                    
+                                @endphp
+                                {{$lead_from->lpc_name}}
+                            </td>
                             <td>
                                <div class="d-flex">
                                     @if ($row->last_message!=null)

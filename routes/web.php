@@ -648,6 +648,20 @@ Route::post('admin/landing_page_contact/setting', [GeneralSettingController::cla
 
 
 /* --------------------------------------- */
+/* Landing Pages - Admin */
+/* --------------------------------------- */
+Route::get('landingpages_index', [GeneralSettingController::class,'landingpages_index'])->name('landingpages.index');
+Route::get('landingpages_view/{id}', [GeneralSettingController::class,'landingpages_view'])->name('landingpages.view');
+Route::get('landingpages_create', [GeneralSettingController::class,'landingpages_create'])->name('landingpages.create');
+Route::post('landingpages_save', [GeneralSettingController::class,'landingpages_save'])->name('landingpages.save');
+Route::get('landingpages_edit/{id}', [GeneralSettingController::class,'landingpages_edit'])->name('landingpages.edit');
+Route::post('landingpages_update', [GeneralSettingController::class,'landingpages_update'])->name('landingpages.update');
+Route::get('landingpages_delete/{id}', [GeneralSettingController::class, 'landingpages_delete']);
+
+
+
+
+/* --------------------------------------- */
 /* Landing Page Contacts - Super Admin */
 /* --------------------------------------- */
 Route::get('superadmin/landing_page_images', [GeneralSettingController::class,'landing_page_images'])->name('superadmin.landing_page_images');
@@ -747,6 +761,7 @@ Route::resource('admin/user_chat_status', UserChatStatusController::class)->exce
 /* --------------------------------------- */
 Route::get('admin/customer/view', [CustomerController::class,'index'])->name('admin.customer.index');
 Route::get('landing_page_messages', [CustomerController::class,'landing_page_messages'])->name('admin.landing_page_messages');
+Route::get('landing_page_messages_by_page/{id}', [CustomerController::class,'landing_page_messages_by_page'])->name('admin.landing_page_messages_by_page');
 
 Route::get('follow_up_customer', [CustomerController::class,'follow_up_customer'])->name('admin.follow_up_customer'); //new route
 Route::get('follow_up_customer_comment', [CustomerController::class,'follow_up_customer_comment'])->name('admin.follow_up_customer_comment'); //new route

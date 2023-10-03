@@ -101,6 +101,7 @@ class GeneralSetting extends Model
 
         'bg_music',
         'lpc_message_text',
+        'lpc_name',
     ];
 
 }

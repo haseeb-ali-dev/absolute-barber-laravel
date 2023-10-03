@@ -106,7 +106,7 @@
                     <img src="{{ asset('public/uploads/'.$coupon->logo) }}" alt="logo" style="width: 300px ;height: 90px ;" class="logo">
                 @endif
                 
-                <h3>{{$coupon->title}}</h3>
+                <h3>{!!$coupon->title!!}</h3>
                 @if ($coupon->image!=null)
                      <img src="{{ asset('public/uploads/'.$coupon->image) }}"  style="width: 300px;" >
                 @endif

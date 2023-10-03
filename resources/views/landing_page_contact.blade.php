@@ -208,6 +208,7 @@ margin-top: 20px;
                             <div class="p-4 rounded" style="background-color: {{ $setting->lpc_form_bg_color }};width:580px;height:500px;">
                                 <form action="{{ route('landing_page_contact.save') }}" method="post" class="space-y">
                                     @csrf
+                                    <input type="hidden"  name="landing_page_id"  value="{{$setting->id}}"  >
                                     <div class="form-group">
                                         <label class="form_label" for="name">Name</label>
                                         <input required type="text" name="name" class="form-control" id="name" placeholder="Enter your name">
@@ -501,6 +502,8 @@ margin-top: 20px;
                             <div class="p-4 rounded" style="background-color: {{ $setting->lpc_form_bg_color }};width:580px;height:500px;">
                                 <form action="{{ route('landing_page_contact.save') }}" method="post" class="space-y">
                                     @csrf
+
+                                    <input type="hidden"  name="landing_page_id"  value="{{$setting->id}}"  >
                                     <div class="form-group">
                                         <label class="form_label" for="name">Name</label>
                                         <input required type="text" name="name" class="form-control" id="name" placeholder="Enter your name">

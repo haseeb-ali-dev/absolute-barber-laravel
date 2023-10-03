@@ -155,6 +155,16 @@
 
                     $conName[1] = 'follow_up_customer';
                 }
+                if(Request::path()=='landingpages_create')
+                {
+
+                    $conName[1] = 'landingpages_create';
+                }
+                if(Request::path()=='landingpages_index')
+                {
+
+                    $conName[1] = 'landingpages_index';
+                }
         @endphp
 
 

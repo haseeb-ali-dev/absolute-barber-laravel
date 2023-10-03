@@ -25,7 +25,7 @@
                             <tbody>
                                 @foreach ($coupons as $coupon)
                                     <tr>
-                                        <td>{{ $coupon->title }}</td>
+                                        <td>{!! $coupon->title !!}</td>
                                         <td>{{ Carbon::createFromFormat('Y-m-d', $coupon->valid_till)->format('d F Y') }}</td>
                                         <td>
                                             @if (Carbon::createFromFormat('Y-m-d', $coupon->valid_till)->isPast())
@@ -79,7 +79,7 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="">Coupon Title</label>
-                            <input required type="text" name="title" class="form-control" value="{{ old('title') }}">
+                            <textarea name="title" class="form-control editor" cols="30" rows="10">{{ old('title') }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="">Background Color</label>

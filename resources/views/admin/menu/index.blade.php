@@ -90,7 +90,7 @@
                         <div class="form-group">
                             <label for="">Menu Key</label>
                             <input type="text" name="menu_key" class="form-control" value="{{ old('menu_key') }}">
-                            <small>Menu Keys cannot be edited. You have to enter key(s) carefully|</small>
+                            <small>Menu Keys cannot be edited. You have to enter key(s) carefully</small>
                         </div>
                         <div class="form-group">
                             <label for="">Menu Name</label>
@@ -104,14 +104,28 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="">Menu Route</label>
-                            <input type="text" name="route" class="form-control" value="{{ old('route') }}">
+                            <label for="">Is External Link</label>
+                            <input type="checkbox" name="link" id="is-link-checkbox">
                         </div>
+                        <div class="form-group">
+                            <label for="">Menu Route</label>
+                            <input type="text" name="route" class="form-control" value="{{ old('route') }}" id="menu-route-input">
+                        </div>
+                        <script>
+                            // JavaScript code to toggle the "Menu Route" text based on the checkbox
+                            const isLinkCheckbox = document.getElementById("is-link-checkbox");
+                            const menuRouteInput = document.getElementById("menu-route-input");
+        
+                            isLinkCheckbox.addEventListener("change", function () {
+                                menuRouteInput.placeholder = this.checked ? "Enter Link here" : "";
+                            });
+                        </script>
                         <button type="submit" class="btn btn-sm btn-success btn-block">Add</button>
                     </div>
                 </div>
             </form>
         </div>
+        
     </div>
 
     {{-- Menu Delete Form --}}

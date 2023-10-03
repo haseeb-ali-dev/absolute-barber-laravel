@@ -91,6 +91,7 @@ class MenuController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->link);
         if(env('PROJECT_MODE') == 0) {
             return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
         }
@@ -104,6 +105,10 @@ class MenuController extends Controller
                 'route' => 'required',
             ]);
 
+            if($request->link=='on'){
+                $data['link']=1;
+            }
+            
             Menu::create($data);
 
             return back()->with('success', 'Menu is added successfully!');

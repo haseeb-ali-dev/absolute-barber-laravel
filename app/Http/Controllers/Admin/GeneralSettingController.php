@@ -877,6 +877,113 @@ class GeneralSettingController extends Controller
 
     }
 
+
+    public function landingpages_update(Request $request)
+    {
+
+       
+        if(env('PROJECT_MODE') == 0) {
+            return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
+        }
+
+        $request->validate([
+            'lpc_logo' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'lpc_text' => 'sometimes|max:225|string',
+            'lpc_title' => 'sometimes|max:50|string',
+            'lpc_btn_color' => 'sometimes|starts_with:#',
+            'lpc_nav_color' => 'sometimes|starts_with:#',
+            'lpc_overlay' => 'sometimes|numeric|min:0.1|max:1',
+            'lpc_form_bg_color' => 'sometimes|starts_with:#',
+            'lpc_bg_type' => 'required|in:color,image',
+            'lpc_background_color' => 'sometimes|starts_with:#',
+            'lpc_background_image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'background_id' => 'sometimes',
+            'lpc_left_bg' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'left_bg_id' => 'sometimes',
+        ]);
+
+        if (isset($request['lpc_logo']))
+        {
+            $ext = $request->file('lpc_logo')->extension();
+            $final_name = time().'.'.$ext;
+            $request->file('lpc_logo')->move(public_path('uploads/'), $final_name);
+            $data['lpc_logo'] = $final_name;
+        }
+
+        if ($request['lpc_bg_type'] == 'image')
+        {
+            if($request->file('lpc_background_image'))
+            {
+                $ext = $request->file('lpc_background_image')->extension();
+                $final_name = time().'.'.$ext;
+                $request->file('lpc_background_image')->move(public_path('uploads/'), $final_name);
+                $data['lpc_background'] = $final_name;
+            }
+            else
+            {
+                if ($request['background_id'] != null) {
+                    $background = DB::table('landing_page_images')->find($request['background_id']);
+                    $data['lpc_background'] = $background->file;
+                }
+            }
+        }
+        else
+        {
+            $data['lpc_background'] = $request['lpc_background_color'];
+        }
+
+        if ($request['lpc_left_bg'] != null) {
+            $ext = $request->file('lpc_left_bg')->extension();
+            $final_name = time().'.'.$ext;
+            $request->file('lpc_left_bg')->move(public_path('uploads/'), $final_name);
+            $data['lpc_left_bg'] = $final_name;
+        }
+        else
+        {
+            if ($request['left_bg_id'] != null) {
+                $background = DB::table('landing_page_images')->find($request['left_bg_id']);
+                $data['lpc_left_bg'] = $background->file;
+            }
+        }
+
+        $data['lpc_text'] = $request['lpc_text'];
+        $data['lpc_title'] = $request['lpc_title'];
+        $data['lpc_btn_color'] = $request['lpc_btn_color'];
+        $data['lpc_nav_color'] = $request['lpc_nav_color'];
+        $data['lpc_overlay'] = $request['lpc_overlay'];
+        $data['lpc_form_bg_color'] = $request['lpc_form_bg_color'];
+
+        $data['lpc_title_color'] = $request['lpc_title_color'];
+        $data['lpc_title_font_size'] = $request['lpc_title_font_size'];
+        $data['lpc_title_font_family'] = $request['lpc_title_font_family'];
+
+        $data['lpc_title_text_color'] = $request['lpc_title_text_color'];
+        $data['lpc_title_text_font_size'] = $request['lpc_title_text_font_size'];
+        $data['lpc_title_text_font_family'] = $request['lpc_title_text_font_family'];
+
+        $data['lpc_form_text_color'] = $request['lpc_form_text_color'];
+        $data['lpc_form_text_font_size'] = $request['lpc_form_text_font_size'];
+        $data['lpc_form_text_font_family'] = $request['lpc_form_text_font_family'];
+
+        $data['lpc_submit_text_color'] = $request['lpc_submit_text_color'];
+        $data['lpc_submit_text_font_size'] = $request['lpc_submit_text_font_size'];
+        $data['lpc_submit_text_font_family'] = $request['lpc_submit_text_font_family'];
+
+        $data['lpc_logo_mobile_width'] = $request['lpc_logo_mobile_width'];
+        $data['lpc_logo_mobile_height'] = $request['lpc_logo_mobile_height'];
+        $data['lpc_logo_pc_width'] = $request['lpc_logo_pc_width'];
+        $data['lpc_logo_pc_height'] = $request['lpc_logo_pc_height'];
+        $data['lpc_message_text'] = $request['lpc_message_text'];
+        $data['lpc_name'] = $request['lpc_name'];
+
+        $data['lpc_centered']= isset($request['lpc_centered']) ? 1 : 0;;
+        // dd($request->all());
+        GeneralSetting::where('id',$request['id'])->update($data);
+
+        return redirect('landingpages_index')->with('success', 'Landing page setting is updated successfully!');
+
+    }
+
     public function landing_page_contact()
     {
 
@@ -891,14 +998,165 @@ class GeneralSettingController extends Controller
         return view('landing_page_contact', compact('setting','type'));
     }
 
-    public function landing_page_contact_save(Request $request)
+
+    public function landingpages_index()
     {
 
+        $pages = GeneralSetting::select('id', 'lpc_name', 'lpc_logo')->get();
+
+        return view('admin.landingpages.index', compact('pages'));
+    }
+
+    public function landingpages_edit($id)
+    {
+        
+
+        $general_setting = GeneralSetting::where('id',$id)->first();
+        $backgrounds = DB::table('landing_page_images')->where('is_left', 0)->get();
+        $left_backgrounds = DB::table('landing_page_images')->where('is_left', 1)->get();
+        return view('admin.landingpages.edit', compact('general_setting', 'backgrounds', 'left_backgrounds'));
+    }
+
+
+    public function landingpages_create(){
+        $general_setting = GeneralSetting::where('id',1)->first();
+        $backgrounds = DB::table('landing_page_images')->where('is_left', 0)->get();
+        $left_backgrounds = DB::table('landing_page_images')->where('is_left', 1)->get();
+        return view('admin.landingpages.create', compact('general_setting', 'backgrounds', 'left_backgrounds'));
+    }
+
+    public function landingpages_save(Request $request){
+        
+        if(env('PROJECT_MODE') == 0) {
+            return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
+        }
+
+        $request->validate([
+            'lpc_logo' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'lpc_text' => 'sometimes|max:225|string',
+            'lpc_title' => 'sometimes|max:50|string',
+            'lpc_btn_color' => 'sometimes|starts_with:#',
+            'lpc_nav_color' => 'sometimes|starts_with:#',
+            'lpc_overlay' => 'sometimes|numeric|min:0.1|max:1',
+            'lpc_form_bg_color' => 'sometimes|starts_with:#',
+            'lpc_bg_type' => 'required|in:color,image',
+            'lpc_background_color' => 'sometimes|starts_with:#',
+            'lpc_background_image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'background_id' => 'sometimes',
+            'lpc_left_bg' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'left_bg_id' => 'sometimes',
+        ]);
+
+        if (isset($request['lpc_logo']))
+        {
+            $ext = $request->file('lpc_logo')->extension();
+            $final_name = time().'.'.$ext;
+            $request->file('lpc_logo')->move(public_path('uploads/'), $final_name);
+            $data['lpc_logo'] = $final_name;
+        }
+
+        if ($request['lpc_bg_type'] == 'image')
+        {
+            if($request->file('lpc_background_image'))
+            {
+                $ext = $request->file('lpc_background_image')->extension();
+                $final_name = time().'.'.$ext;
+                $request->file('lpc_background_image')->move(public_path('uploads/'), $final_name);
+                $data['lpc_background'] = $final_name;
+            }
+            else
+            {
+                if ($request['background_id'] != null) {
+                    $background = DB::table('landing_page_images')->find($request['background_id']);
+                    $data['lpc_background'] = $background->file;
+                }
+            }
+        }
+        else
+        {
+            $data['lpc_background'] = $request['lpc_background_color'];
+        }
+
+        if ($request['lpc_left_bg'] != null) {
+            $ext = $request->file('lpc_left_bg')->extension();
+            $final_name = time().'.'.$ext;
+            $request->file('lpc_left_bg')->move(public_path('uploads/'), $final_name);
+            $data['lpc_left_bg'] = $final_name;
+        }
+        else
+        {
+            if ($request['left_bg_id'] != null) {
+                $background = DB::table('landing_page_images')->find($request['left_bg_id']);
+                $data['lpc_left_bg'] = $background->file;
+            }
+        }
+
+        $data['lpc_name'] = $request['lpc_name'];
+        $data['lpc_text'] = $request['lpc_text'];
+        $data['lpc_title'] = $request['lpc_title'];
+        $data['lpc_btn_color'] = $request['lpc_btn_color'];
+        $data['lpc_nav_color'] = $request['lpc_nav_color'];
+        $data['lpc_overlay'] = $request['lpc_overlay'];
+        $data['lpc_form_bg_color'] = $request['lpc_form_bg_color'];
+
+        $data['lpc_title_color'] = $request['lpc_title_color'];
+        $data['lpc_title_font_size'] = $request['lpc_title_font_size'];
+        $data['lpc_title_font_family'] = $request['lpc_title_font_family'];
+
+        $data['lpc_title_text_color'] = $request['lpc_title_text_color'];
+        $data['lpc_title_text_font_size'] = $request['lpc_title_text_font_size'];
+        $data['lpc_title_text_font_family'] = $request['lpc_title_text_font_family'];
+
+        $data['lpc_form_text_color'] = $request['lpc_form_text_color'];
+        $data['lpc_form_text_font_size'] = $request['lpc_form_text_font_size'];
+        $data['lpc_form_text_font_family'] = $request['lpc_form_text_font_family'];
+
+        $data['lpc_submit_text_color'] = $request['lpc_submit_text_color'];
+        $data['lpc_submit_text_font_size'] = $request['lpc_submit_text_font_size'];
+        $data['lpc_submit_text_font_family'] = $request['lpc_submit_text_font_family'];
+
+        $data['lpc_logo_mobile_width'] = $request['lpc_logo_mobile_width'];
+        $data['lpc_logo_mobile_height'] = $request['lpc_logo_mobile_height'];
+        $data['lpc_logo_pc_width'] = $request['lpc_logo_pc_width'];
+        $data['lpc_logo_pc_height'] = $request['lpc_logo_pc_height'];
+        $data['lpc_message_text'] = $request['lpc_message_text'];
+
+        $data['lpc_centered']= isset($request['lpc_centered']) ? 1 : 0;;
+        // dd($request->all());
+        GeneralSetting::insert($data);
+
+        // return redirect()->back()->with('success', 'Landing page setting saved successfully!');
+        return redirect()->route('landingpages.index')->with('success', 'Landing page setting saved successfully!');
+
+    }
+
+    public function landingpages_view($id){
+        $setting = GeneralSetting::where('id',$id)->first();
+        $type=null;
+        if(substr($setting->lpc_background, 0, 1) == "#") {
+            $type='color';
+          } else {
+            $type='image';
+          }
+
+        return view('landing_page_contact', compact('setting','type'));
+    }
+
+    public function landingpages_delete($id){
+        GeneralSetting::find($id)->delete();
+
+        return back()->with('success', 'Landing Page deleted successfully');
+    }
+
+    public function landing_page_contact_save(Request $request)
+    {
+        
         $data = $request->validate([
             'email' => 'required|email',
             'phone' => 'required|max:25',
             'code' => 'required',
             'name' => 'required|max:224',
+            'landing_page_id' => 'required',
         ]);
 
         $data['phone'] = $data['code'].$data['phone'];
@@ -906,30 +1164,38 @@ class GeneralSettingController extends Controller
         $data['phone']=$data['phone'] = str_replace([' ', '(', ')', '-'], '', $data['phone']);
 
         unset($data['code']);
-
+        // $data['id']
         
-        $message = GeneralSetting::where('id',1)->first();
-      
+        $message = GeneralSetting::where('id', 1)->first();
+
         $account_sid = env('TWILIO_ACCOUNT_SID');
         $auth_token = env('TWILIO_AUTH_TOKEN');
         $twilio_number = env('TWILIO_PHONE_NUMBER');
 
         $recipient_number = $data['phone'];
         $message_body = $message->lpc_message_text;
-
-        $twilio = new Client($account_sid, $auth_token);
-
-        $twilio->messages->create(
-            $recipient_number,
-            array(
-                'from' => $twilio_number,
-                'body' => $message_body
-            )
-        );
-
+       
         DB::table('landing_page_contacts')->insert($data);
+        
+        try {
+            $twilio = new Client($account_sid, $auth_token);
 
-        return redirect()->back()->with('success', 'Landing page contact is saved successfully!');
+            $twilio->messages->create(
+                $recipient_number,
+                array(
+                    'from' => $twilio_number,
+                    'body' => $message_body
+                )
+            );
+
+            
+
+            return redirect()->back()->with('success', 'Landing page contact is saved successfully!');
+        } catch (\Exception $e) {
+            // Handle Twilio exception
+            return redirect()->back()->with('error', 'Failed to send message via Twilio: ' . $e->getMessage());
+        }
+
 
     }
 

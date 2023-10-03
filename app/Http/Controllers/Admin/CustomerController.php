@@ -63,6 +63,17 @@ class CustomerController extends Controller
         return view('admin.customer.landing', compact('customers','coupons','user_chat_statuses', 'scheduled_messages'));
     }
 
+    public function landing_page_messages_by_page($id)
+    {
+        
+        $coupons = CouponTool::all();
+        $user_chat_statuses = UserChatStatus::all();
+
+        $customers = LandingPageContact::where('landing_page_id',$id)->get();
+        $scheduled_messages = ScheduleMessages::where('module', 'landing_page_contacts')->orderBy('scheduled_at', 'DESC')->get();
+        return view('admin.customer.landing', compact('customers','coupons','user_chat_statuses', 'scheduled_messages'));
+    }
+
     public function follow_up_customer()
     {
 
