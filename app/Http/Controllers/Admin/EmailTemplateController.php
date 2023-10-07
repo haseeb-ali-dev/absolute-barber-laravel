@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\EmailTemplate;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 use DB;
+use App\Mail\SendToRecipients;
+use Illuminate\Support\Facades\Mail;
 
 class EmailTemplateController extends Controller
 {
@@ -42,8 +42,16 @@ class EmailTemplateController extends Controller
 
         $request->validate([
             'et_subject' => 'required',
-            'et_content' => 'required'
+            'et_content' => 'required',
+            'thumbnail' => 'sometimes|mimes:jpg,jpeg,png|max:5000'
         ]);
+
+        if ($request->hasFile('thumbnail')) {
+            $ext = $request->file('thumbnail')->extension();
+            $final_name = 'thumbnail_' . time() . '.' . $ext;
+            $request->file('thumbnail')->move(public_path('uploads'), $final_name);
+            $data['thumbnail'] = $final_name;
+        }
 
         $email_template->fill($data)->save();
 
@@ -70,7 +78,7 @@ class EmailTemplateController extends Controller
             'et_subject' => 'required',
             'et_content' => 'required',
             'et_name' => 'required',
-            'thumbnail' => 'sometimes|image|max:5000'
+            'thumbnail' => 'sometimes|mimes:jpg,jpeg,png|max:5000'
         ]);
 
         $data['et_type'] = 'emailer';
@@ -84,6 +92,87 @@ class EmailTemplateController extends Controller
 
         $email_template->fill($data)->save();
 
-        return redirect()->route('admin.email_template.index',  ['et_type' => 'emailer'])->with('success', 'Email Template is created successfully!');
+        return redirect()->route('admin.email_template.index', ['et_type' => 'emailer'])->with('success', 'Email Template is created successfully!');
     }
+
+    public function gallery()
+    {
+        $templates = EmailTemplate::where('et_type', 'emailer')->orderBy('id')->get();
+        return view('admin.email_template.gallery', compact('templates'));
+    }
+
+    public function select($template_id)
+    {
+        $template = EmailTemplate::findOrFail($template_id);
+        return view('admin.email_template.select', compact('template'));
+    }
+
+    public function send(Request $request)
+    {
+
+        $request->validate([
+            'et_subject' => 'required',
+            'et_content' => 'required',
+            'recipients_id' => 'required|array'
+        ]);
+
+        $subject = $request->et_subject;
+        $message = $request->et_content;
+        $groups = $request->recipients_id;
+
+        dd($groups);
+
+
+        foreach ($groups as $group) {
+
+            if ($group->recipients_id == 'recipients') {
+                $emails = DB::table('recipients')
+                    ->get();
+                if (sizeof($emails) > 0) {
+
+                    foreach ($emails as $row) {
+                        $message = str_replace('[[recipient_name]]', $row->name, $message);
+                        $message = str_replace('[[recipient_email]]', $row->email, $message);
+                        Mail::to($row->email)->send(new SendToRecipients($subject, $message));
+                    }
+                }
+            }
+            if ($group->recipients_id == 'subscribers') {
+                $emails = DB::table('subscribers')
+                    ->get();
+                if (sizeof($emails) > 0) {
+
+                    foreach ($emails as $row) {
+                        $message = str_replace('[[recipient_email]]', $row->subs_email, $message);
+                        Mail::to($row->subs_email)->send(new SendToRecipients($subject, $message));
+                    }
+                }
+            }
+            if ($group->recipients_id == 'landing_page') {
+
+                $emails = DB::table('landing_page_contacts')
+                    ->get();
+                if (sizeof($emails) > 0) {
+                    foreach ($emails as $row) {
+                        $message = str_replace('[[recipient_name]]', $row->name, $message);
+                        $message = str_replace('[[recipient_email]]', $row->email, $message);
+                        Mail::to($row->email)->send(new SendToRecipients($subject, $message));
+                    }
+                }
+            }
+            if ($group->recipients_id == 'external_data') {
+                $emails = DB::table('excel_contacts')
+                    ->get();
+                if (sizeof($emails) > 0) {
+                    foreach ($emails as $row) {
+                        $message = str_replace('[[recipient_name]]', $row->name, $message);
+                        $message = str_replace('[[recipient_email]]', $row->email, $message);
+                        Mail::to($row->email)->send(new SendToRecipients($subject, $message));
+                    }
+                }
+            }
+        }
+        return redirect()->back()->with('success', 'Campaign is started sending successfully');
+    }
+
 }

@@ -45,8 +45,8 @@
             ['route' => route('signature-pad.draw'), 'img' => asset("public/uploads/$general_settings_global->bercotool_7"), 'icon' => 'fa fa-sticky-note', 'code' => 7],
             ['route' => route('admin.compose_document'), 'img' => asset("public/uploads/$general_settings_global->bercotool_9"), 'icon' => 'fas fa-file', 'code' => 9],
             ['route' => route('file-manager.index'), 'img' => asset("public/uploads/$general_settings_global->bercotool_10"), 'icon' => 'fas fa-archive', 'code' => 10],
-            
-          
+
+
         ];
         $bercoweb = [
             ['route' => route('admin.dashboard'), 'name' => 'Dashboard', 'icon' => 'fas fa-fw fa-home'],
@@ -160,6 +160,7 @@
         ];
         $emaillayouts = [
             ['route' => route('admin.email_template.index', ['et_type' => 'emailer']), 'name' => 'Templates List', 'icon' => 'fas fa-share-alt-square'],
+            ['route' => route('admin.email_template.gallery'), 'name' => 'Email Templates Gallery', 'icon' => 'fas fa-share-alt-square'],
         ];
         $campaigns = [
             ['route' => route('admin.campaign.create'), 'name' => 'Prepare new Campaign', 'icon' => 'fas fa-share-alt-square'],

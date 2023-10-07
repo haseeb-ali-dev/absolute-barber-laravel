@@ -589,6 +589,13 @@ Route::post('admin/email-template/update/{id}', [EmailTemplateController::class,
 Route::get('admin/email-template/create', [EmailTemplateController::class, 'create']);
 Route::post('admin/email-template/store', [EmailTemplateController::class, 'store']);
 
+/* --------------------------------------- */
+/* Email Template Gallery - Admin */
+/* --------------------------------------- */
+Route::get('admin/email-template/gallery', [EmailTemplateController::class, 'gallery'])->name('admin.email_template.gallery');
+Route::get('admin/email-template/gallery/{template_id}/select', [EmailTemplateController::class, 'select'])->name('admin.email_template.select');
+Route::post('admin/email-template/gallery/send', [EmailTemplateController::class, 'send'])->name('admin.email_template.send');
+
 
 /* --------------------------------------- */
 /* Social Media - Admin */
