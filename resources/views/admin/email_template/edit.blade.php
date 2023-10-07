@@ -1,5 +1,24 @@
 @extends('admin.admin_layouts')
 @section('admin_content')
+    <style>
+        .custom-file-upload {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #36b9cc;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .custom-file-upload input[type="file"] {
+            display: none;
+        }
+
+        .custom-file-upload:hover {
+            background-color: #36b9cc;
+        }
+    </style>
     <h1 class="h3 mb-3 text-gray-800">Edit Email Template</h1>
 
     <form action="{{ url('admin/email-template/update/'.$email_template->id) }}" method="post">
@@ -81,8 +100,31 @@
                             <div>[[product_detail]] = All Product Name, Price and Quantity</div>
 
                             @else
-                            <div><button class="btn btn-sm btn-secondary my-1" type="button" onclick="addTag('[[recipient_name]]')">[[recipient_name]]</button> = Recipient Name</div>
-                            <div><button class="btn btn-sm btn-secondary my-1" type="button" onclick="addTag('[[recipient_name]]')">[[recipient_email]]</button> = Recipient Email</div>
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <div><button class="btn btn-sm btn-secondary my-1" type="button"
+                                            onclick="addTag('[[recipient_name]]')">[[recipient_name]]</button> = Recipient
+                                        Name
+                                    </div>
+                                    <div><button class="btn btn-sm btn-secondary my-1" type="button"
+                                            onclick="addTag('[[recipient_name]]')">[[recipient_email]]</button> = Recipient
+                                        Email
+                                    </div>
+                                </div>
+                                <div class="form-group d-flex flex-column">
+                                    <label for="fileInput" class="custom-file-upload text-center">
+                                        <input type="file" id="fileInput" name="thumbnail" accept=".png, .jpg, .jpeg">
+                                        Upload Gallery Image as thumbnail <i class="fa fa-file mx-3"></i>
+                                    </label>
+                                    @if (isset($email_template->thumbnail))
+                                        <label class="d-flex align-items-center justify-content-between">
+                                            Uploaded Image:
+                                            <img src="{{ asset('public/uploads/' . $email_template->thumbnail) }}" alt="Thumbnail" width="150" height="150">
+                                        </label>
+                                    @endif
+                                </div>
+                            </div>
+
 
                             @endif
                         </div>

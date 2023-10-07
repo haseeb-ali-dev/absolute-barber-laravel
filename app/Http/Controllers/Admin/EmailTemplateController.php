@@ -70,9 +70,17 @@ class EmailTemplateController extends Controller
             'et_subject' => 'required',
             'et_content' => 'required',
             'et_name' => 'required',
+            'thumbnail' => 'sometimes|image|max:5000'
         ]);
 
         $data['et_type'] = 'emailer';
+
+        if ($request->hasFile('thumbnail')) {
+            $ext = $request->file('thumbnail')->extension();
+            $final_name = 'thumbnail_' . time() . '.' . $ext;
+            $request->file('thumbnail')->move(public_path('uploads'), $final_name);
+            $data['thumbnail'] = $final_name;
+        }
 
         $email_template->fill($data)->save();
 

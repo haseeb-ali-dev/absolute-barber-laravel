@@ -13,7 +13,8 @@ class EmailTemplate extends Model
         'et_subject',
         'et_content',
         'et_name',
-        'et_type'
+        'et_type',
+        'thumbnail'
     ];
 
 }

@@ -1,8 +1,27 @@
 @extends('admin.admin_layouts')
 @section('admin_content')
+    <style>
+        .custom-file-upload {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #36b9cc;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .custom-file-upload input[type="file"] {
+            display: none;
+        }
+
+        .custom-file-upload:hover {
+            background-color: #36b9cc;
+        }
+    </style>
     <h1 class="h3 mb-3 text-gray-800">Add Email Template</h1>
 
-    <form action="{{ url('admin/email-template/store') }}" method="post">
+    <form action="{{ url('admin/email-template/store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -20,6 +39,7 @@
                             <input type="text" name="et_name" class="form-control" value="{{ old('et_name') }}"
                                 autofocus>
                         </div>
+
                         <div class="form-group">
                             <label for="">Subject *</label>
                             <input type="text" name="et_subject" class="form-control" value="{{ old('et_subject') }}"
@@ -29,12 +49,24 @@
                             <label for="">Message *</label>
                             <textarea name="et_content" class="form-control editor" cols="30" rows="10" id="et_content">{{ old('et_content') }}</textarea>
 
-                            <div class="font-weight-bold mt_20 text-danger">Parameters You Can Use: </div>
-                            <div><button class="btn btn-sm btn-secondary my-1" type="button"
-                                    onclick="addTag('[[recipient_name]]')">[[recipient_name]]</button> = Recipient Name
-                            </div>
-                            <div><button class="btn btn-sm btn-secondary my-1" type="button"
-                                    onclick="addTag('[[recipient_name]]')">[[recipient_email]]</button> = Recipient Email
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <div class="font-weight-bold mt_20 text-danger">Parameters You Can Use: </div>
+                                    <div><button class="btn btn-sm btn-secondary my-1" type="button"
+                                            onclick="addTag('[[recipient_name]]')">[[recipient_name]]</button> = Recipient
+                                        Name
+                                    </div>
+                                    <div><button class="btn btn-sm btn-secondary my-1" type="button"
+                                            onclick="addTag('[[recipient_name]]')">[[recipient_email]]</button> = Recipient
+                                        Email
+                                    </div>
+                                </div>
+                                <div class="form-group text-center mt_20">
+                                    <label for="fileInput" class="custom-file-upload">
+                                        <input type="file" id="fileInput" name="thumbnail" accept=".png, .jpg, .jpeg">
+                                        Upload Gallery Image as thumbnail <i class="fa fa-file mx-3"></i>
+                                    </label>
+                                </div>
                             </div>
 
                         </div>
