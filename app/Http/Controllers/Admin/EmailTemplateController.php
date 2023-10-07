@@ -112,58 +112,102 @@ class EmailTemplateController extends Controller
         $request->validate([
             'et_subject' => 'required',
             'et_content' => 'required',
-            'recipients_id' => 'required|array'
+            'recipients_id' => 'required|array',
+            'ref_template_id' => 'required'
         ]);
+
         $subject = $request->et_subject;
         $message = $request->et_content;
         $groups = $request->recipients_id;
+        $errors = [];
+        $total = 0;
 
         foreach ($groups as $group) {
-            if ($group == 'recipients') {
-                $emails = DB::table('recipients')->get();
+            try {
+                if ($group == 'recipients') {
+                    $emails = DB::table('recipients')->get();
 
-                if (sizeof($emails) > 0) {
-                    foreach ($emails as $row) {
-                        $message = str_replace('[[recipient_name]]', $row->name, $message);
-                        $message = str_replace('[[recipient_email]]', $row->email, $message);
-                        Mail::to($row->email)->send(new SendToRecipients($subject, $message));
+                    if (sizeof($emails) > 0) {
+                        foreach ($emails as $row) {
+                            try {
+                                $message = str_replace('[[recipient_name]]', $row->name, $message);
+                                $message = str_replace('[[recipient_email]]', $row->email, $message);
+                                Mail::to($row->email)->send(new SendToRecipients($subject, $message));
+                                $total++;
+                            } catch (\Exception $e) {
+                                $errors[] = "Error sending email to recipient {$row->email}: " . $e->getMessage();
+                            }
+                        }
                     }
                 }
-            }
-            if ($group == 'subscribers') {
-                $emails = DB::table('subscribers')->get();
+                if ($group == 'subscribers') {
+                    $emails = DB::table('subscribers')->get();
 
-                if (sizeof($emails) > 0) {
-                    foreach ($emails as $row) {
-                        $message = str_replace('[[recipient_email]]', $row->subs_email, $message);
-                        Mail::to($row->subs_email)->send(new SendToRecipients($subject, $message));
+                    if (sizeof($emails) > 0) {
+                        foreach ($emails as $row) {
+                            try {
+                                $message = str_replace('[[recipient_email]]', $row->subs_email, $message);
+                                Mail::to($row->subs_email)->send(new SendToRecipients($subject, $message));
+                                $total++;
+                            } catch (\Exception $e) {
+                                $errors[] = "Error sending email to recipient {$row->subs_email}: " . $e->getMessage();
+                            }
+                        }
                     }
                 }
-            }
-            if ($group == 'landing_page') {
-                $emails = DB::table('landing_page_contacts')->get();
+                if ($group == 'landing_page') {
+                    $emails = DB::table('landing_page_contacts')->get();
 
-                if (sizeof($emails) > 0) {
-                    foreach ($emails as $row) {
-                        $message = str_replace('[[recipient_name]]', $row->name, $message);
-                        $message = str_replace('[[recipient_email]]', $row->email, $message);
-                        Mail::to($row->email)->send(new SendToRecipients($subject, $message));
+                    if (sizeof($emails) > 0) {
+                        foreach ($emails as $row) {
+                            try {
+                                $message = str_replace('[[recipient_name]]', $row->name, $message);
+                                $message = str_replace('[[recipient_email]]', $row->email, $message);
+                                Mail::to($row->email)->send(new SendToRecipients($subject, $message));
+                                $total++;
+                            } catch (\Exception $e) {
+                                $errors[] = "Error sending email to recipient {$row->email}: " . $e->getMessage();
+                            }
+                        }
                     }
                 }
-            }
-            if ($group == 'external_data') {
-                $emails = DB::table('excel_contacts')->get();
+                if ($group == 'external_data') {
+                    $emails = DB::table('excel_contacts')->get();
 
-                if (sizeof($emails) > 0) {
-                    foreach ($emails as $row) {
-                        $message = str_replace('[[recipient_name]]', $row->name, $message);
-                        $message = str_replace('[[recipient_email]]', $row->email, $message);
-                        Mail::to($row->email)->send(new SendToRecipients($subject, $message));
+                    if (sizeof($emails) > 0) {
+                        foreach ($emails as $row) {
+                            try {
+                                $message = str_replace('[[recipient_name]]', $row->name, $message);
+                                $message = str_replace('[[recipient_email]]', $row->email, $message);
+                                Mail::to($row->email)->send(new SendToRecipients($subject, $message));
+                                $total++;
+                            } catch (\Exception $e) {
+                                $errors[] = "Error sending email to recipient {$row->email}: " . $e->getMessage();
+                            }
+                        }
                     }
                 }
+            } catch (\Exception $e) {
+                $errors[] = "Error processing group {$group}: " . $e->getMessage();
             }
         }
-        return redirect()->route('admin.email_template.gallery')->with('success', 'Emails are started sending successfully.......');
+        try {
+            DB::table('sent_emails')->insert([
+                'subject' => $subject,
+                'message' => $message,
+                'groups' => implode(",", $groups),
+                'ref_template_id' => $request->ref_template_id,
+                'total_sent' => $total
+            ]);
+        } catch (\Exception $e) {
+            $errors[] = "Error saving record in database: " . $e->getMessage();
+        }
+
+        if (!empty($errors)) {
+            return redirect()->route('admin.email_template.gallery')->with('error', "After sending {$total} emails, these are some errors enlisted as: " . implode("<br>", $errors));
+        }
+
+        return redirect()->route('admin.email_template.gallery')->with('success', "{$total} Emails are sent successfully");
     }
 
 }

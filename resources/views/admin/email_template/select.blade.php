@@ -5,13 +5,14 @@
             height: 40px;
         }
     </style>
-    <h1 class="h3 mb-3 text-gray-800">Send Email</h1>
+    <h1 class="h3 mb-3 text-gray-800">Sending Email.....</h1>
 
     <form action="{{ route('admin.email_template.send') }}" method="post">
         @csrf
+        <input type="hidden" name="ref_template_id" value="{{ $template->id }}">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 mt-2 font-weight-bold text-primary">Email Template</h6>
+                <h6 class="m-0 mt-2 font-weight-bold text-primary">Compose Email</h6>
                 <div class="float-right d-inline">
                     <a href="{{ route('admin.email_template.gallery') }}" class="btn btn-primary btn-sm rounded-pill px-3">
                         <i class="fa fa-arrow-left"></i> Back To Gallery</a>
@@ -21,7 +22,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="">Subject *</label>
+                            <label for="">Email Subject *</label>
                             <input type="text" name="et_subject" class="form-control" value="{{ $template->et_subject }}"
                                 autofocus>
                         </div>
@@ -36,7 +37,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="">Contact Page Message *</label>
+                            <label for="">Email Message *</label>
                             <textarea name="et_content" class="form-control editor" cols="30" rows="10" id="et_content">{{ $template->et_content }}</textarea>
 
                             <div class="d-flex align-items-center mt_20">
