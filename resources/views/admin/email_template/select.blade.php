@@ -15,7 +15,7 @@
                 <h6 class="m-0 mt-2 font-weight-bold text-primary">Compose Email</h6>
                 <div class="float-right d-inline">
                     <a href="{{ route('admin.email_template.gallery') }}" class="btn btn-primary btn-sm rounded-pill px-3">
-                        <i class="fa fa-arrow-left"></i> Back To Gallery</a>
+                        <i class="fa fa-arrow-left mr-2"></i> Back To Gallery</a>
                 </div>
             </div>
             <div class="card-body">

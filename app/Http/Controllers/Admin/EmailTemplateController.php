@@ -41,6 +41,7 @@ class EmailTemplateController extends Controller
         $data = $request->only($email_template->getFillable());
 
         $request->validate([
+            'et_name' => 'required',
             'et_subject' => 'required',
             'et_content' => 'required',
             'thumbnail' => 'sometimes|mimes:jpg,jpeg,png|max:5000'
@@ -55,9 +56,14 @@ class EmailTemplateController extends Controller
 
         $email_template->fill($data)->save();
 
-        $params = isset($email_template->et_type) ? ['et_type' => $email_template->et_type] : null;
+        if (session('is_super') == 1) {
+            return redirect()->route('admin.email_template.gallery')->with('success', 'Email Template is created successfully!');
 
-        return redirect()->route('admin.email_template.index', $params)->with('success', 'Email Template is updated successfully!');
+        } else {
+            $params = isset($email_template->et_type) ? ['et_type' => $email_template->et_type] : null;
+
+            return redirect()->route('admin.email_template.index', $params)->with('success', 'Email Template is updated successfully!');
+        }
     }
 
     public function create()
@@ -92,7 +98,11 @@ class EmailTemplateController extends Controller
 
         $email_template->fill($data)->save();
 
-        return redirect()->route('admin.email_template.index', ['et_type' => 'emailer'])->with('success', 'Email Template is created successfully!');
+        if (session('is_super') == 1) {
+            return redirect()->route('admin.email_template.gallery')->with('success', 'Email Template is created successfully!');
+        } else {
+            return redirect()->route('admin.email_template.index', ['et_type' => 'emailer'])->with('success', 'Email Template is created successfully!');
+        }
     }
 
     public function gallery()
@@ -215,7 +225,7 @@ class EmailTemplateController extends Controller
             return redirect()->back()->with('error', "You are not authorized to perform this action");
         }
         $email_template = EmailTemplate::findOrFail($id);
-        
+
         if ($email_template) {
             $email_template->delete();
         }

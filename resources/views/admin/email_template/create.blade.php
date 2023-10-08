@@ -27,8 +27,14 @@
             <div class="card-header py-3">
                 <h6 class="m-0 mt-2 font-weight-bold text-primary">Add Email Template</h6>
                 <div class="float-right d-inline">
-                    <a href="{{ route('admin.email_template.index', ['et_type' => 'emailer']) }}"
-                        class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> View All</a>
+                    @if (session('is_super') == 1)
+                        <a href="{{ route('admin.email_template.gallery') }}"
+                            class="btn btn-primary btn-sm rounded-pill px-3">
+                            <i class="fa fa-arrow-left mr-2"></i> Back To Gallery</a>
+                    @else
+                        <a href="{{ route('admin.email_template.index', ['et_type' => 'emailer']) }}"
+                            class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> View All</a>
+                    @endif
                 </div>
             </div>
             <div class="card-body">
