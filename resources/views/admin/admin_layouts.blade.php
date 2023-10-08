@@ -288,6 +288,13 @@
         </li>
 
         <li class="nav-item active">
+            <a class="nav-link" href="{{ route('admin.email_template.gallery') }}">
+                <i class="fas fa-th-large"></i>
+                <span>Template Gallery</span>
+            </a>
+        </li>
+
+        <li class="nav-item active">
             <a class="nav-link" href="{{ url('/clear-cache') }}">
                 <i class="fas fa-circle-notch"></i>
                 <span>Clear Cache</span>
@@ -397,10 +404,10 @@
           divElement.classList.remove('toggled');
        }
     }
- 
+
     // Initial check on page load
     toggleClassOnMobile();
- 
+
     // Listen for window resize events
     window.addEventListener('resize', toggleClassOnMobile);
  </script>

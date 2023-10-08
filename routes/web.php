@@ -588,6 +588,7 @@ Route::get('admin/email-template/edit/{id}', [EmailTemplateController::class,'ed
 Route::post('admin/email-template/update/{id}', [EmailTemplateController::class,'update']);
 Route::get('admin/email-template/create', [EmailTemplateController::class, 'create']);
 Route::post('admin/email-template/store', [EmailTemplateController::class, 'store']);
+Route::get('admin/email-template/{id}/delete', [EmailTemplateController::class, 'delete'])->name('admin.email_template.delete');
 
 /* --------------------------------------- */
 /* Email Template Gallery - Admin */

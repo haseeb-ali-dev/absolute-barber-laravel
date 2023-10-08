@@ -159,7 +159,7 @@
             ['route' => route('admin.smtp-config.edit'), 'name' => 'SMTP Configuration', 'icon' => 'fas fa-share-alt-square'],
         ];
         $emaillayouts = [
-            ['route' => route('admin.email_template.index', ['et_type' => 'emailer']), 'name' => 'Templates List', 'icon' => 'fas fa-share-alt-square'],
+            // ['route' => route('admin.email_template.index', ['et_type' => 'emailer']), 'name' => 'Templates List', 'icon' => 'fas fa-share-alt-square'],
             ['route' => route('admin.email_template.gallery'), 'name' => 'Email Templates Gallery', 'icon' => 'fas fa-share-alt-square'],
         ];
         $campaigns = [

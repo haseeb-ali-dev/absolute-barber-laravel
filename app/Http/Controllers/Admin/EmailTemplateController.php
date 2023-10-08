@@ -191,23 +191,35 @@ class EmailTemplateController extends Controller
                 $errors[] = "Error processing group {$group}: " . $e->getMessage();
             }
         }
-        // try {
-        //     DB::table('sent_emails')->insert([
-        //         'subject' => $subject,
-        //         'message' => $message,
-        //         'groups' => implode(",", $groups),
-        //         'ref_template_id' => $request->ref_template_id,
-        //         'total_sent' => $total
-        //     ]);
-        // } catch (\Exception $e) {
-        //     $errors[] = "Error saving record in database: " . $e->getMessage();
-        // }
+        try {
+            DB::table('sent_emails')->insert([
+                'subject' => $subject,
+                'message' => $message,
+                'groups' => implode(",", $groups),
+                'ref_template_id' => $request->ref_template_id,
+                'total_sent' => $total
+            ]);
+        } catch (\Exception $e) {
+            $errors[] = "Error saving record in database: " . $e->getMessage();
+        }
 
         if (!empty($errors)) {
             return redirect()->route('admin.email_template.gallery')->with('error', "After sending {$total} emails, these are some errors enlisted as: " . implode("<br>", $errors));
         }
 
         return redirect()->route('admin.email_template.gallery')->with('success', "{$total} Emails are sent successfully");
+    }
+    public function delete($id)
+    {
+        if (session('is_super') != 1) {
+            return redirect()->back()->with('error', "You are not authorized to perform this action");
+        }
+        $email_template = EmailTemplate::findOrFail($id);
+        
+        if ($email_template) {
+            $email_template->delete();
+        }
+        return redirect()->route('admin.email_template.gallery')->with('info', "Template is deleted successfully");
     }
 
 }
