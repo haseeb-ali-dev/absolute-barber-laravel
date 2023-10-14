@@ -141,7 +141,7 @@
             ['route' => route('admin.job.view_application'), 'name' => 'Job Applications', 'icon' => 'fas fa-user-secret'],
         ];
         $emailer = [
-            ['key' => 'defaultgroups', 'name' => 'Added Groups', 'icon' => 'fas fa-cog'],
+            ['route' => route('admin.group.index'), 'name' => 'Added Groups', 'icon' => 'fas fa-cog'],
             ['key' => 'defaultgroups', 'name' => 'Default Groups', 'icon' => 'fas fa-cog'],
             ['key' => 'campaigns', 'name' => 'Campaigns', 'icon' => 'fas fa-cog'],
             ['route' => route('admin.excel.import.emailer'), 'name' => 'Upload Excel Leads', 'icon' => 'fas fa-share-alt-square'],

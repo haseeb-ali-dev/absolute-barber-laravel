@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\EnvController;
+use App\Http\Controllers\Admin\GroupController;
 use App\Http\Controllers\Admin\VideoConferenceController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\CouponController;
@@ -987,4 +988,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], fu
     Route::get('smtp-config', [EnvController::class, 'edit'])->name('smtp-config.edit');
     Route::post('smtp-config', [EnvController::class, 'update'])->name('smtp-config.update');
 
+});
+
+/* --------------------------------------- */
+/* Groups & their Contacts - Admin */
+/* --------------------------------------- */
+Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], function () {
+    Route::resource('group', GroupController::class)->except(['show', 'create', 'edit']);
 });
