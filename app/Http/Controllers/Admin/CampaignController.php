@@ -27,7 +27,7 @@ class CampaignController extends Controller
     {
         $recipients = Recipient::pluck('name', 'id')->toArray();
 
-        $templates = EmailTemplate::select('et_name', 'et_subject', 'id')->where('et_type', 'emailer')->get()->toArray();
+        $templates = EmailTemplate::select('et_name', 'et_subject', 'id', 'thumbnail')->where('et_type', 'emailer')->get()->toArray();
 
         return view('admin.campaigns.create', compact('recipients', 'templates'));
     }
@@ -41,7 +41,7 @@ class CampaignController extends Controller
             'template_id' => 'required'
         ]);
 
-        
+
         $campaign = Campaign::create($data);
 
         $campaign->recipients()->attach($data['recipients_id']);
@@ -50,16 +50,16 @@ class CampaignController extends Controller
     }
 
     public function edit(Campaign $campaign)
-    {   
-        
+    {
+
         $recipients = Recipient::pluck('name', 'id')->toArray();
 
         $templates = EmailTemplate::select('et_name', 'et_subject', 'id')->where('et_type', 'emailer')->get()->toArray();
         $groups=DB::table('campaigns_recipients')
                     ->where('campaigns_id', $campaign->id)
-                    ->get();    
+                    ->get();
 
-        
+
         return view('admin.campaigns.edit')->with('data', $campaign)->with('recipients', $recipients)->with('templates', $templates)->with('groups', $groups);
     }
 
@@ -95,15 +95,15 @@ class CampaignController extends Controller
             $template = EmailTemplate::find($campaign->template_id);
             $subject = $template->et_subject;
             $message = $template->et_content;
-           
+
 
             $groups=DB::table('campaigns_recipients')
             ->where('campaigns_id', $campaign->id)
-            ->get();    
-            
+            ->get();
+
             foreach ($groups as  $group) {
 
-                
+
 
                 if($group->recipients_id=='recipients'){
 
@@ -113,76 +113,76 @@ class CampaignController extends Controller
                     if (sizeof($emails) > 0) {
 
                         foreach ($emails as $row) {
-        
+
                             $message = str_replace('[[recipient_name]]', $row->name, $message);
                             $message = str_replace('[[recipient_email]]', $row->email, $message);
-                         
+
                             Mail::to($row->email)->send(new SendToRecipients($subject, $message));
                         }
-        
-                        
-                    }                
-                              
+
+
+                    }
+
                 }
 
 
                 if($group->recipients_id=='subscribers'){
-                    
+
                     $emails=DB::table('subscribers')
                                 ->get();
-                  
+
                     if (sizeof($emails) > 0) {
 
                         foreach ($emails as $row) {
                             $message = str_replace('[[recipient_email]]', $row->subs_email, $message);
                             Mail::to($row->subs_email)->send(new SendToRecipients($subject, $message));
                         }
-        
-                       
-                    }                
-                              
+
+
+                    }
+
                 }
-               
+
 
 
                 if($group->recipients_id=='landing_page'){
 
                     $emails=DB::table('landing_page_contacts')
                                 ->get();
-                    
+
 
                     if (sizeof($emails) > 0) {
 
                         foreach ($emails as $row) {
                             $message = str_replace('[[recipient_name]]', $row->name, $message);
                             $message = str_replace('[[recipient_email]]', $row->email, $message);
-                         
+
                             Mail::to($row->email)->send(new SendToRecipients($subject, $message));
                         }
-        
-                        
-                    }                
-                              
+
+
+                    }
+
                 }
 
                 if($group->recipients_id=='external_data'){
 
                     $emails=DB::table('excel_contacts')
                                 ->get();
-                    
+
 
                     if (sizeof($emails) > 0) {
 
                         foreach ($emails as $row) {
                             $message = str_replace('[[recipient_name]]', $row->name, $message);
                             $message = str_replace('[[recipient_email]]', $row->email, $message);
-                         
+
                             Mail::to($row->email)->send(new SendToRecipients($subject, $message));
                         }
-        
-                        
-                    }                
-                              
+
+
+                    }
+
                 }
 
 
