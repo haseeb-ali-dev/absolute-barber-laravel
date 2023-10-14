@@ -60,13 +60,22 @@
                                 <div class="form-group">
                                     <label for="">Campaign Description</label>
                                     <select name="recipients_id[]" class="form-control select3" required multiple>
-                                        {{-- @foreach ($recipients as $key => $value)
-                                            <option value="{{ $key }}">{{ $value }}</option>
-                                        @endforeach --}}
-                                        <option value="recipients">Recipients</option>
-                                        <option value="subscribers">Subscribers</option>
-                                        <option value="landing_page">Landingpage Contacts</option>
-                                        <option value="external_data">External Data</option>
+                                        <optgroup label="Default Groups">
+                                            {{-- @foreach ($recipients as $key => $value)
+                                                <option value="{{ $key }}">{{ $value }}</option>
+                                                @endforeach --}}
+                                            <option value="recipients">Recipients</option>
+                                            <option value="subscribers">Subscribers</option>
+                                            <option value="landing_page">Landingpage Contacts</option>
+                                            <option value="external_data">External Data</option>
+                                        </optgroup>
+                                        @if (sizeOf($custom_groups) > 0)
+                                            <optgroup label="Added Groups">
+                                                @foreach ($custom_groups as $key => $value)
+                                                    <option value="{{ $key }}">{{ $value }}</option>
+                                                @endforeach
+                                            </optgroup>
+                                        @endif
                                     </select>
                                 </div>
                             </div>
@@ -75,9 +84,8 @@
                     <div class="card">
                         <div class="card-header" id="headingThree">
                             <h2 class="mb-0">
-                                <button class="btn btn-block text-left collapsed" type="button"
-                                    data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
-                                    aria-controls="collapseThree">
+                                <button class="btn btn-block text-left collapsed" type="button" data-toggle="collapse"
+                                    data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                     Choose Templates
                                 </button>
                             </h2>

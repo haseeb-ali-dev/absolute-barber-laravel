@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Admin\Campaign;
 use App\Models\Admin\EmailTemplate;
+use App\Models\Admin\Group;
 use App\Models\Admin\Recipient;
 use Illuminate\Http\Request;
 use App\Mail\SendToRecipients;
@@ -27,9 +28,11 @@ class CampaignController extends Controller
     {
         $recipients = Recipient::pluck('name', 'id')->toArray();
 
+        $custom_groups = Group::pluck('name', 'id')->toArray();
+
         $templates = EmailTemplate::select('et_name', 'et_subject', 'id', 'thumbnail')->where('et_type', 'emailer')->get()->toArray();
 
-        return view('admin.campaigns.create', compact('recipients', 'templates'));
+        return view('admin.campaigns.create', compact('recipients', 'templates', 'custom_groups'));
     }
 
     public function store(Request $request)
