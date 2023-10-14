@@ -141,11 +141,11 @@
             ['route' => route('admin.job.view_application'), 'name' => 'Job Applications', 'icon' => 'fas fa-user-secret'],
         ];
         $emailer = [
-            ['route' => route('admin.get_subscribers'), 'name' => 'Subscribers', 'icon' => 'fas fa-share-alt-square'],
-            ['route' => route('admin.landing_page_emails'), 'name' => 'Landing Page', 'icon' => 'fas fa-share-alt-square'],
-            ['route' => route('admin.excel.import.emailer'), 'name' => 'External Data', 'icon' => 'fas fa-share-alt-square'],
-            ['key' => 'recipients', 'name' => 'Recipients List', 'icon' => 'fas fa-cog'],
+            ['key' => 'defaultgroups', 'name' => 'Added Groups', 'icon' => 'fas fa-cog'],
+            ['key' => 'defaultgroups', 'name' => 'Default Groups', 'icon' => 'fas fa-cog'],
             ['key' => 'campaigns', 'name' => 'Campaigns', 'icon' => 'fas fa-cog'],
+            ['route' => route('admin.excel.import.emailer'), 'name' => 'Upload Excel Leads', 'icon' => 'fas fa-share-alt-square'],
+            ['key' => 'defaultgroups', 'name' => 'Assign leads to new groups', 'icon' => 'fas fa-cog'],
             // ['key' => 'emaillayouts', 'name' => 'Email Layouts', 'icon' => 'fas fa-paste'],
             ['route' => route('admin.email_template.gallery'), 'name' => 'Send Emails', 'icon' => 'fas fa-share-alt-square'],
             ['key' => 'smtpsetting', 'name' => 'Settings', 'icon' => 'fas fa-paste'],
@@ -169,6 +169,11 @@
             ['route' => route('admin.campaign.index', ['status' => 'draft']), 'name' => 'Waiting List Campaigns', 'icon' => 'fas fa-share-alt-square'],
             ['route' => route('admin.campaign.index', ['status' => 'sent']), 'name' => 'Sent Campaigns', 'icon' => 'fas fa-share-alt-square'],
         ];
+        $defaultgroups = [
+            ['key' => 'recipients', 'name' => 'Recipients List', 'icon' => 'fas fa-cog'],
+            ['route' => route('admin.get_subscribers'), 'name' => 'Subscribers', 'icon' => 'fas fa-share-alt-square'],
+            ['route' => route('admin.landing_page_emails'), 'name' => 'Landing Page', 'icon' => 'fas fa-share-alt-square'],
+        ];
         $sections = [
             ['title' => 'Dashboard', 'key' => 'dashboard', 'items' => $dashboard_section],
             ['title' => 'Bercoweb', 'key' => 'bercoweb', 'back' => 'dashboard', 'items' => $bercoweb],
@@ -180,7 +185,8 @@
             ['title' => 'Blog Section', 'key' => 'blogsection', 'back' => 'dashboard', 'items' => $blog_section],
             ['title' => 'Career Section', 'key' => 'career', 'back' => 'bercoweb', 'items' => $career_section],
             ['title' => 'Emailer', 'key' => 'emailer', 'back' => 'dashboard', 'items' => $emailer],
-            ['title' => 'Recipients List', 'key' => 'recipients', 'back' => 'emailer', 'items' => $recipients],
+            ['title' => 'Default Groups', 'key' => 'defaultgroups', 'back' => 'emailer', 'items' => $defaultgroups],
+            ['title' => 'Recipients List', 'key' => 'recipients', 'back' => 'defaultgroups', 'items' => $recipients],
             ['title' => 'Campaigns', 'key' => 'campaigns', 'back' => 'emailer', 'items' => $campaigns],
             // ['title' => 'Eamil Layouts', 'key' => 'emaillayouts', 'back' => 'emailer', 'items' => $emaillayouts],
             ['title' => 'Page Settings', 'key' => 'smtpsetting', 'back' => 'emailer', 'items' => $smtpsetting],
@@ -300,7 +306,7 @@
     @endforeach
 
     <script>
-        const keys = ['dashboard', 'bercoweb', 'bercostore', 'subscriber', 'administration', 'general', 'page', 'blog', 'career','blogsection','emailer', 'recipients', 'smtpsetting', 'campaigns', 'emaillayouts']
+        const keys = ['dashboard', 'bercoweb', 'bercostore', 'subscriber', 'administration', 'general', 'page', 'blog', 'career','blogsection','emailer', 'recipients', 'smtpsetting', 'campaigns', 'emaillayouts', 'defaultgroups']
         function toggleSection(key, back = false)
         {
             const audio = new Audio("{{ asset('public/backend/ping-1.mp3') }}")
