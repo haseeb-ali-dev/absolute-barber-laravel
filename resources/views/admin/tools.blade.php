@@ -145,7 +145,7 @@
             ['key' => 'defaultgroups', 'name' => 'Default Groups', 'icon' => 'fas fa-cog'],
             ['key' => 'campaigns', 'name' => 'Campaigns', 'icon' => 'fas fa-cog'],
             ['route' => route('admin.excel.import.emailer'), 'name' => 'Upload Excel Leads', 'icon' => 'fas fa-share-alt-square'],
-            ['key' => 'defaultgroups', 'name' => 'Assign leads to new groups', 'icon' => 'fas fa-cog'],
+            ['route' => route('admin.group.contacts'), 'name' => 'Assign leads to new groups', 'icon' => 'fas fa-cog'],
             // ['key' => 'emaillayouts', 'name' => 'Email Layouts', 'icon' => 'fas fa-paste'],
             ['route' => route('admin.email_template.gallery'), 'name' => 'Send Emails', 'icon' => 'fas fa-share-alt-square'],
             ['key' => 'smtpsetting', 'name' => 'Settings', 'icon' => 'fas fa-paste'],

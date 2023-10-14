@@ -995,4 +995,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], fu
 /* --------------------------------------- */
 Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], function () {
     Route::resource('group', GroupController::class)->except(['show', 'create', 'edit']);
+
+    Route::get('group-contacts', [GroupController::class, 'contacts'])->name('group.contacts');
+    Route::post('import/group-contacts', [GroupController::class, 'import_contacts'])->name('group.contacts.import');
 });
