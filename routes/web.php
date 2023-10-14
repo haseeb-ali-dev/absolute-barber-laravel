@@ -998,4 +998,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], fu
 
     Route::get('group-contacts', [GroupController::class, 'contacts'])->name('group.contacts');
     Route::post('import/group-contacts', [GroupController::class, 'import_contacts'])->name('group.contacts.import');
+    Route::put('group-contacts/{contact}', [GroupController::class, 'update_contact'])->name('group.contacts.update');
+    Route::delete('group-contacts/{contact}', [GroupController::class, 'delete_contact'])->name('group.contacts.destroy');
 });

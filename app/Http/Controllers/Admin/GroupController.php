@@ -57,7 +57,9 @@ class GroupController extends Controller
             $data = Excel::toArray(null, $file)[0];
 
             if (!empty($data)) {
-                $this->validateAndRemoveHeader($data[0]);
+                $this->validateHeader($data[0]);
+                unset($data[0]); // Remove the header row
+
                 $validatedData = $this->filterValidData($data, $request);
 
                 if (count($validatedData) > 0) {
@@ -74,12 +76,11 @@ class GroupController extends Controller
         }
     }
 
-    private function validateAndRemoveHeader(array $header)
+    private function validateHeader(array $header)
     {
         if (count($header) < 3 || $header[0] !== 'Name' || $header[1] !== 'Email' || $header[2] !== 'Number') {
             throw new \Exception('Invalid file format. Please make sure the file has the correct headers.');
         }
-        unset($header); // Remove the header row
     }
 
     private function filterValidData(array $data, Request $request)
@@ -103,5 +104,25 @@ class GroupController extends Controller
             $contact->phone = $row[2];
             $contact->save();
         }
+    }
+
+    public function update_contact(Request $request, GroupContact $contact)
+    {
+        $data = $request->validate([
+            'email' => 'required|email',
+            'phone' => 'required|max:25',
+            'name' => 'required|max:224',
+        ]);
+
+        $contact->update($data);
+
+        return back()->with('success', 'Group Contact updated successfully!');
+    }
+
+    public function delete_contact(GroupContact $contact)
+    {
+        $contact->delete();
+
+        return back()->with('success', 'Group Contact deleted successfully');
     }
 }

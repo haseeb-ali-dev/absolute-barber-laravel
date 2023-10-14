@@ -46,13 +46,14 @@
                                                             <div class="d-flex">
                                                                 <button
                                                                     class="btn btn-sm text-success py-0 edit-contact-btn"
-                                                                    data-url="{{ url('excel_contact/' . $item->id) }}"
+                                                                    data-url="{{ route('admin.group.contacts.update', ['contact' => $item]) }}"
                                                                     data-name="{{ $item->name }}"
                                                                     data-email="{{ $item->email }}"
                                                                     data-phone="{{ $item->phone }}">
                                                                     <i class="fas fa-pencil-alt"></i> Edit
                                                                 </button>
-                                                                <form action="{{ url('excel_contact/' . $item->id) }}"
+                                                                <form
+                                                                    action="{{ route('admin.group.contacts.destroy', ['contact' => $item]) }}"
                                                                     method="post">
                                                                     @csrf
                                                                     @method('DELETE')

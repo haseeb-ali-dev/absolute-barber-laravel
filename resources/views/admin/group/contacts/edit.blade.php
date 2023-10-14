@@ -14,15 +14,15 @@
                     @method('PUT')
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" class="form-control" name="name" placeholder="Customer name">
+                        <input type="text" class="form-control" name="name" placeholder="Enter name">
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" name="email" placeholder="Customer email">
+                        <input type="email" class="form-control" name="email" placeholder="Enter email">
                     </div>
                     <div class="form-group">
                         <label for="phone">Phone</label>
-                        <input type="test" class="form-control" name="phone" placeholder="Customer phone">
+                        <input type="test" class="form-control" name="phone" placeholder="Enter phone">
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary pull-right float-right">Update</button>
