@@ -47,6 +47,7 @@ class GroupController extends Controller
 
     public function import_contacts(Request $request)
     {
+        session(['gid' => $request->get('group_id')]);
         try {
             $request->validate([
                 'file' => 'required|mimes:xlsx,xls',
@@ -116,11 +117,15 @@ class GroupController extends Controller
 
         $contact->update($data);
 
+        session(['gid' => $contact->group_id]);
+
         return back()->with('success', 'Group Contact updated successfully!');
     }
 
     public function delete_contact(GroupContact $contact)
     {
+        session(['gid' => $contact->group_id]);
+
         $contact->delete();
 
         return back()->with('success', 'Group Contact deleted successfully');

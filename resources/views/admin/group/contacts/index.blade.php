@@ -18,9 +18,11 @@
                     <div class="col-9">
                         <div class="tab-content" id="myTabContent">
                             @foreach ($groups as $row)
-                                <div class="tab-pane fade{{ $loop->first ? ' show active' : '' }}"
-                                    id="group-{{ $row->id }}" role="tabpanel"
-                                    aria-labelledby="group-{{ $row->id }}-tab">
+                                @php
+                                    $isActive = session('gid') == $row->id || ($loop->first && !session('gid'));
+                                @endphp
+                                <div class="tab-pane fade {{ $isActive ? 'show active' : '' }}" id="group-{{ $row->id }}"
+                                    role="tabpanel" aria-labelledby="group-{{ $row->id }}-tab">
 
                                     @includeIf('admin.group.contacts.import', ['row' => $row])
 
