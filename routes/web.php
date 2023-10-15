@@ -596,6 +596,7 @@ Route::get('admin/email-template/{id}/delete', [EmailTemplateController::class, 
 /* --------------------------------------- */
 Route::get('admin/email-template/gallery', [EmailTemplateController::class, 'gallery'])->name('admin.email_template.gallery');
 Route::get('admin/email-template/gallery/{template_id}/select', [EmailTemplateController::class, 'select'])->name('admin.email_template.select');
+Route::get('admin/email-template/gallery/{template}/preview', [EmailTemplateController::class, 'preview'])->name('admin.email_template.preview');
 Route::post('admin/email-template/gallery/send', [EmailTemplateController::class, 'send'])->name('admin.email_template.send');
 
 

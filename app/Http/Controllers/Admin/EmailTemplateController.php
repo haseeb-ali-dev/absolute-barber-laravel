@@ -250,4 +250,10 @@ class EmailTemplateController extends Controller
         }
     }
 
+    public function preview(EmailTemplate $template)
+    {
+        return view('admin.email_template.preview', compact('template'));
+    }
+
+
 }

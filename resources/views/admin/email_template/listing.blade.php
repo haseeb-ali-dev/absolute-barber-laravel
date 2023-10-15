@@ -15,8 +15,12 @@
                             onclick="return confirm('Are you to delete this template?')">Delete</a>
                     </div>
                 @else
-                    <a href="{{ route('admin.email_template.select', ['template_id' => $row->id]) }}"
-                        class="btn btn-success rounded-pill px-4 edit-button">Select</a>
+                    <div class="edit-button text-center">
+                        <a href="{{ route('admin.email_template.select', ['template_id' => $row->id]) }}"
+                            class="btn btn-sm btn-success rounded-pill px-4">Select</a>
+                        <a href="{{ route('admin.email_template.preview', ['template' => $row]) }}"
+                            class="btn btn-sm mt-2 btn-dark rounded-pill px-4">Preview</a>
+                    </div>
                 @endif
             </div>
             <h6 class="text-center py-3">{{ $row->et_name }}</h6>
