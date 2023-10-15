@@ -15,6 +15,7 @@ use App\Models\Admin\Subscriber;
 use App\Models\LandingPageContact;
 use App\Models\ExcelContact;
 use Illuminate\Support\Facades\DB;
+
 class CampaignController extends Controller
 {
     public function index(Request $request)
@@ -30,9 +31,10 @@ class CampaignController extends Controller
 
         $custom_groups = Group::pluck('name', 'id')->toArray();
 
-        $templates = EmailTemplate::select('et_name', 'et_subject', 'id', 'thumbnail')->where('et_type', 'emailer')->get()->toArray();
+        $templates = EmailTemplate::select('et_name', 'et_subject', 'id', 'thumbnail')->unmodified()->get()->toArray();
+        $modified_templates = EmailTemplate::select('et_name', 'et_subject', 'id', 'thumbnail')->modified()->get()->toArray();
 
-        return view('admin.campaigns.create', compact('recipients', 'templates', 'custom_groups'));
+        return view('admin.campaigns.create', compact('recipients', 'templates', 'custom_groups', 'modified_templates'));
     }
 
     public function store(Request $request)
@@ -57,13 +59,14 @@ class CampaignController extends Controller
 
         $recipients = Recipient::pluck('name', 'id')->toArray();
 
-        $templates = EmailTemplate::select('et_name', 'et_subject', 'id')->where('et_type', 'emailer')->get()->toArray();
-        $groups=DB::table('campaigns_recipients')
-                    ->where('campaigns_id', $campaign->id)
-                    ->get();
+        $templates = EmailTemplate::select('et_name', 'et_subject', 'id', 'thumbnail')->unmodified()->get()->toArray();
+        $modified_templates = EmailTemplate::select('et_name', 'et_subject', 'id', 'thumbnail')->modified()->get()->toArray();
 
+        $groups = DB::table('campaigns_recipients')
+            ->where('campaigns_id', $campaign->id)
+            ->get();
 
-        return view('admin.campaigns.edit')->with('data', $campaign)->with('recipients', $recipients)->with('templates', $templates)->with('groups', $groups);
+        return view('admin.campaigns.edit')->with('data', $campaign)->with('recipients', $recipients)->with('templates', $templates)->with('groups', $groups)->with('modified_templates', $modified_templates);
     }
 
     public function update(Request $request, Campaign $campaign)
@@ -100,20 +103,20 @@ class CampaignController extends Controller
             $message = $template->et_content;
 
 
-            $groups=DB::table('campaigns_recipients')
-            ->where('campaigns_id', $campaign->id)
-            ->get();
+            $groups = DB::table('campaigns_recipients')
+                ->where('campaigns_id', $campaign->id)
+                ->get();
 
 
 
-            foreach ($groups as  $group) {
+            foreach ($groups as $group) {
 
 
 
-                if($group->recipients_id=='recipients'){
+                if ($group->recipients_id == 'recipients') {
 
-                    $emails=DB::table('recipients')
-                                ->get();
+                    $emails = DB::table('recipients')
+                        ->get();
 
                     if (sizeof($emails) > 0) {
 
@@ -131,10 +134,10 @@ class CampaignController extends Controller
                 }
 
 
-                if($group->recipients_id=='subscribers'){
+                if ($group->recipients_id == 'subscribers') {
 
-                    $emails=DB::table('subscribers')
-                                ->get();
+                    $emails = DB::table('subscribers')
+                        ->get();
 
                     if (sizeof($emails) > 0) {
 
@@ -150,10 +153,10 @@ class CampaignController extends Controller
 
 
 
-                if($group->recipients_id=='landing_page'){
+                if ($group->recipients_id == 'landing_page') {
 
-                    $emails=DB::table('landing_page_contacts')
-                                ->get();
+                    $emails = DB::table('landing_page_contacts')
+                        ->get();
 
 
                     if (sizeof($emails) > 0) {
@@ -170,10 +173,10 @@ class CampaignController extends Controller
 
                 }
 
-                if($group->recipients_id=='external_data'){
+                if ($group->recipients_id == 'external_data') {
 
-                    $emails=DB::table('excel_contacts')
-                                ->get();
+                    $emails = DB::table('excel_contacts')
+                        ->get();
 
 
                     if (sizeof($emails) > 0) {

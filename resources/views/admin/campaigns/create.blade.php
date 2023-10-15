@@ -10,6 +10,7 @@
         .template-name {
             word-wrap: break-word;
         }
+
         .w-200 {
             width: 200px;
         }
@@ -93,18 +94,55 @@
                         <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
                             data-parent="#accordionExample">
                             <div class="card-body">
-                                <div class="d-flex flex-wrap">
-                                    @foreach ($templates as $row)
-                                        <label class="d-flex flex-column align-items-center m-2">
-                                            <img src="{{ isset($row['thumbnail']) ? asset('public/uploads/' . $row['thumbnail']) : 'https://dummyimage.com/245x300/e8e8e8/000000.png&text=No+thumbnail+found' }}"
-                                                class="thumbnail" alt="Thumbnail">
-                                            <div class="d-flex align-items-baseline my-2 w-200">
-                                                <input type="radio" name="template_id" value="{{ $row['id'] }}"
-                                                    required>
-                                                <span class="ml-2 template-name">{{ $row['et_name'] }}</span>
-                                            </div>
-                                        </label>
-                                    @endforeach
+                                <ul class="nav nav-pills nav-justified border border-primary rounded-pill w-50"
+                                    id="myTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link active rounded-pill" id="by-super-admin-tab" data-toggle="tab"
+                                            href="#by-super-admin" role="tab" aria-controls="by-super-admin"
+                                            aria-selected="true">By
+                                            Super Admin</a>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link rounded-pill" id="by-yourself-tab" data-toggle="tab"
+                                            href="#by-yourself" role="tab" aria-controls="by-yourself"
+                                            aria-selected="false">By Yourself (Modified)</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="by-super-admin" role="tabpanel"
+                                        aria-labelledby="by-super-admin-tab">
+                                        <div class="d-flex flex-wrap">
+                                            @foreach ($templates as $row)
+                                                <label class="d-flex flex-column align-items-center m-2">
+                                                    <img src="{{ isset($row['thumbnail']) ? asset('public/uploads/' . $row['thumbnail']) : 'https://dummyimage.com/245x300/e8e8e8/000000.png&text=No+thumbnail+found' }}"
+                                                        class="thumbnail" alt="Thumbnail">
+                                                    <div class="d-flex align-items-baseline my-2 w-200">
+                                                        <input type="radio" name="template_id"
+                                                            value="{{ $row['id'] }}" required
+                                                            @if (old('template_id') == $row['id']) checked @endif>
+                                                        <span class="ml-2 template-name">{{ $row['et_name'] }}</span>
+                                                    </div>
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="by-yourself" role="tabpanel"
+                                        aria-labelledby="by-yourself-tab">
+                                        <div class="d-flex flex-wrap">
+                                            @foreach ($modified_templates as $row)
+                                                <label class="d-flex flex-column align-items-center m-2">
+                                                    <img src="{{ isset($row['thumbnail']) ? asset('public/uploads/' . $row['thumbnail']) : 'https://dummyimage.com/245x300/e8e8e8/000000.png&text=No+thumbnail+found' }}"
+                                                        class="thumbnail" alt="Thumbnail">
+                                                    <div class="d-flex align-items-baseline my-2 w-200">
+                                                        <input type="radio" name="template_id"
+                                                            value="{{ $row['id'] }}" required
+                                                            @if (old('template_id') == $row['id']) checked @endif>
+                                                        <span class="ml-2 template-name">{{ $row['et_name'] }}</span>
+                                                    </div>
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
