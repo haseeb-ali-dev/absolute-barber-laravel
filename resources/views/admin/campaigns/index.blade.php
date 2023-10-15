@@ -24,11 +24,26 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @php
+                            $fixed_groups = ['recipients', 'subscribers', 'landing_page', 'external_data'];
+                        @endphp
                         @foreach ($data as $row)
                             @php
-                                $groups=DB::table('campaigns_recipients')
-                                            ->where('campaigns_id', $row->id)
-                                            ->get();
+                                $groups = DB::table('campaigns_recipients')
+                                    ->select('recipients_id')
+                                    ->where('campaigns_id', $row->id)
+                                    ->get();
+                                $default_groups = $groups->filter(function ($item) use ($fixed_groups) {
+                                    return in_array($item->recipients_id, $fixed_groups);
+                                });
+                                $custom_groups_ids = $groups->filter(function ($item) use ($fixed_groups) {
+                                    return !in_array($item->recipients_id, $fixed_groups);
+                                })->pluck('recipients_id')->toArray();
+                                $custom_groups = DB::table('groups')
+                                    ->select('name AS recipients_id')
+                                    ->whereIn('id',  $custom_groups_ids)
+                                    ->get();
+                                $groups = $default_groups->merge($custom_groups);
                             @endphp
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
@@ -39,7 +54,6 @@
                                 <td> <span class="badge badge-pill badge-info px-2 py-1">{{ $row->status }}</span></td>
                                 <td>
                                     @forelse ($groups as $group)
-                                        
                                         <span class="badge badge-primary p-2"
                                             style="font-size: 14px;letter-spacing: 1px;">{{ $group->recipients_id }}</span>
                                     @empty
