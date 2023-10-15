@@ -107,8 +107,9 @@ class EmailTemplateController extends Controller
 
     public function gallery()
     {
-        $templates = EmailTemplate::where('et_type', 'emailer')->orderBy('id')->get();
-        return view('admin.email_template.gallery', compact('templates'));
+        $templates = EmailTemplate::unmodified()->get();
+        $modified_templates = EmailTemplate::modified()->get();
+        return view('admin.email_template.gallery', compact('templates', 'modified_templates'));
     }
 
     public function select($template_id)
