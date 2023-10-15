@@ -93,7 +93,7 @@ class CampaignController extends Controller
 
     public function send(Request $request, Campaign $campaign)
     {
-        // try {
+        try {
 
             $template = EmailTemplate::find($campaign->template_id);
             $subject = $template->et_subject;
@@ -103,6 +103,8 @@ class CampaignController extends Controller
             $groups=DB::table('campaigns_recipients')
             ->where('campaigns_id', $campaign->id)
             ->get();
+
+
 
             foreach ($groups as  $group) {
 
@@ -188,7 +190,19 @@ class CampaignController extends Controller
 
                 }
 
+                if (!in_array($group->recipients_id, ['recipients', 'subscribers', 'landing_page', 'external_data'])) {
+                    $emails = DB::table('group_contacts')->where('group_id', $group->recipients_id)->get();
 
+                    if (sizeof($emails) > 0) {
+                        foreach ($emails as $row) {
+                            $message = str_replace('[[recipient_name]]', $row->name, $message);
+                            $message = str_replace('[[recipient_email]]', $row->email, $message);
+
+                            Mail::to($row->email)->send(new SendToRecipients($subject, $message));
+                        }
+                    }
+
+                }
 
             } //end foreach
 
@@ -210,10 +224,10 @@ class CampaignController extends Controller
 
             // return redirect()->back()->with('success', 'Campaign is started sending successfully');
 
-        // } catch (\Exception $e) {
+        } catch (\Exception $e) {
 
-        //     return redirect()->back()->with('error', 'Campaign is not working due to error ' . $e->getMessage());
-        // }
+            return redirect()->back()->with('error', 'Campaign is not working due to error ' . $e->getMessage());
+        }
 
     }
 
