@@ -123,7 +123,8 @@ class EmailTemplateController extends Controller
             'et_subject' => 'required',
             'et_content' => 'required',
             'recipients_id' => 'required|array',
-            'ref_template_id' => 'required'
+            'ref_template_id' => 'required',
+            'modified' => 'sometimes'
         ]);
 
         $subject = $request->et_subject;
@@ -209,6 +210,11 @@ class EmailTemplateController extends Controller
                 'ref_template_id' => $request->ref_template_id,
                 'total_sent' => $total
             ]);
+
+            if (isset($request['modified']) && $request['modified'] == 'on') {
+                $this->save_as_template($request->get('ref_template_id'), $message);
+            }
+
         } catch (\Exception $e) {
             $errors[] = "Error saving record in database: " . $e->getMessage();
         }
@@ -230,6 +236,17 @@ class EmailTemplateController extends Controller
             $email_template->delete();
         }
         return redirect()->route('admin.email_template.gallery')->with('info', "Template is deleted successfully");
+    }
+
+    private function save_as_template($id, $new_content)
+    {
+        $previous_template = EmailTemplate::find($id);
+        if ($previous_template) {
+            $new_template = $previous_template->replicate();
+            $new_template->et_content = $new_content;
+            $new_template->modified_by = session('id');
+            $new_template->save();
+        }
     }
 
 }

@@ -14,7 +14,8 @@ class EmailTemplate extends Model
         'et_content',
         'et_name',
         'et_type',
-        'thumbnail'
+        'thumbnail',
+        'modified_by'
     ];
 
 }
