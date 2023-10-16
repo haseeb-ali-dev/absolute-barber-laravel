@@ -28,12 +28,20 @@
                         </div>
                         <div class="form-group">
                             <label for="">Select Users Groups</label>
-                            <select name="recipients_id[]" class="form-control select3" required multiple
-                                style="height: 10px !important;">
-                                <option value="recipients">Recipients</option>
-                                <option value="subscribers">Subscribers</option>
-                                <option value="landing_page">Landingpage Contacts</option>
-                                <option value="external_data">External Data</option>
+                            <select name="recipients_id[]" class="form-control select3" required multiple>
+                                <optgroup label="Default Groups">
+                                    <option value="recipients">Recipients</option>
+                                    <option value="subscribers">Subscribers</option>
+                                    <option value="landing_page">Landingpage Contacts</option>
+                                    <option value="external_data">External Data</option>
+                                </optgroup>
+                                @if (sizeOf($custom_groups) > 0)
+                                    <optgroup label="Added Groups">
+                                        @foreach ($custom_groups as $key => $value)
+                                            <option value="{{ $key }}">{{ $value }}</option>
+                                        @endforeach
+                                    </optgroup>
+                                @endif
                             </select>
                         </div>
                         <div class="form-group">
@@ -42,7 +50,8 @@
 
                             <div class="custom-control custom-switch float-right mt-2">
                                 <input type="checkbox" class="custom-control-input" id="customSwitch1" name="modified">
-                                <label class="custom-control-label" for="customSwitch1">Save this changes as template</label>
+                                <label class="custom-control-label" for="customSwitch1">Save this changes as
+                                    template</label>
                             </div>
 
                             <div class="d-flex align-items-center mt_20">
