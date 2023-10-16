@@ -261,7 +261,8 @@ class CampaignController extends Controller
                 'ref_template_id' => $template->id,
                 'total_sent' => $total,
                 'successful' => $successful,
-                'failed' => $failed
+                'failed' => $failed,
+                'module' => 'campaign'
             ]);
 
             $campaign->update(['status' => 'sent']);

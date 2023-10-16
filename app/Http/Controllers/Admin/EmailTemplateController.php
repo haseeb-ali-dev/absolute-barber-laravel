@@ -247,7 +247,8 @@ class EmailTemplateController extends Controller
                 'ref_template_id' => $request->ref_template_id,
                 'total_sent' => $total,
                 'successful' => $successful,
-                'failed' => $failed
+                'failed' => $failed,
+                'module' => 'direct'
             ]);
 
             if (isset($request['modified']) && $request['modified'] == 'on') {
