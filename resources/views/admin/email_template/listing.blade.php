@@ -1,4 +1,4 @@
-<div class="d-flex" style="flex-wrap: wrap;">
+<div class="d-flex" style="flex-wrap: wrap;background: #ACACAC" > 
     @foreach ($templates as $row)
         <div class="card m-2" style="width: 245px;">
             <div class="card-container">

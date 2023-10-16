@@ -108,7 +108,7 @@
                                             aria-selected="false">By Yourself (Modified)</a>
                                     </li>
                                 </ul>
-                                <div class="tab-content" id="myTabContent">
+                                <div class="tab-content" id="myTabContent" style="background: #ACACAC">
                                     <div class="tab-pane fade show active" id="by-super-admin" role="tabpanel"
                                         aria-labelledby="by-super-admin-tab">
                                         <div class="d-flex flex-wrap">
