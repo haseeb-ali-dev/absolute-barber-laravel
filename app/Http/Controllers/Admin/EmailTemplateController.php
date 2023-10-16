@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\EmailTemplate;
+use App\Models\Admin\Group;
 use Illuminate\Http\Request;
 use DB;
 use App\Mail\SendToRecipients;
@@ -115,7 +116,8 @@ class EmailTemplateController extends Controller
     public function select($template_id)
     {
         $template = EmailTemplate::findOrFail($template_id);
-        return view('admin.email_template.select', compact('template'));
+        $custom_groups = Group::pluck('name', 'id')->toArray();
+        return view('admin.email_template.select', compact('template', 'custom_groups'));
     }
 
     public function send(Request $request)
@@ -133,6 +135,7 @@ class EmailTemplateController extends Controller
         $groups = $request->recipients_id;
         $errors = [];
         $total = 0;
+        $fixed_groups = ['recipients', 'subscribers', 'landing_page', 'external_data'];
 
         foreach ($groups as $group) {
             try {
@@ -199,11 +202,35 @@ class EmailTemplateController extends Controller
                         }
                     }
                 }
+                if (!in_array($group, $fixed_groups)) {
+                    $emails = DB::table('group_contacts')->where('group_id', $group)->get();
+
+                    if (sizeof($emails) > 0) {
+                        foreach ($emails as $row) {
+                            try {
+                                $message = str_replace('[[recipient_name]]', $row->name, $message);
+                                $message = str_replace('[[recipient_email]]', $row->email, $message);
+                                Mail::to($row->email)->send(new SendToRecipients($subject, $message));
+                                $total++;
+                            } catch (\Exception $e) {
+                                $errors[] = "Error sending email to recipient {$row->email}: " . $e->getMessage();
+                            }
+                        }
+                    }
+                }
             } catch (\Exception $e) {
                 $errors[] = "Error processing group {$group}: " . $e->getMessage();
             }
         }
         try {
+            $custom_groups = Group::whereIn('id', $groups)->pluck('name')->toArray();
+
+            $default_groups = array_filter($groups, function ($value) use ($fixed_groups) {
+                return in_array($value, $fixed_groups);
+            });
+
+            $groups = array_merge($default_groups, $custom_groups);
+
             DB::table('sent_emails')->insert([
                 'subject' => $subject,
                 'message' => $message,
