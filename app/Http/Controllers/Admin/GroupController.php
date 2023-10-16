@@ -49,10 +49,10 @@ class GroupController extends Controller
     {
         session(['gid' => $request->get('group_id')]);
         try {
-            $request->validate([
-                'file' => 'required|mimes:xlsx,xls',
-                'group_id' => 'required',
-            ]);
+            // $request->validate([
+            //     'file' => 'required|mimes:xlsx,xls',
+            //     'group_id' => 'required',
+            // ]);
 
             $file = $request->file('file');
             $data = Excel::toArray(null, $file)[0];
