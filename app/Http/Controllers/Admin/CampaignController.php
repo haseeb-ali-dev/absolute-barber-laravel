@@ -97,17 +97,16 @@ class CampaignController extends Controller
     public function send(Request $request, Campaign $campaign)
     {
         try {
-
             $template = EmailTemplate::find($campaign->template_id);
             $subject = $template->et_subject;
             $message = $template->et_content;
-
+            $total = 0;
+            $successful = 0;
+            $failed = 0;
 
             $groups = DB::table('campaigns_recipients')
                 ->where('campaigns_id', $campaign->id)
                 ->get();
-
-
 
             foreach ($groups as $group) {
 
@@ -121,11 +120,16 @@ class CampaignController extends Controller
                     if (sizeof($emails) > 0) {
 
                         foreach ($emails as $row) {
+                            try {
+                                $message = str_replace('[[recipient_name]]', $row->name, $message);
+                                $message = str_replace('[[recipient_email]]', $row->email, $message);
 
-                            $message = str_replace('[[recipient_name]]', $row->name, $message);
-                            $message = str_replace('[[recipient_email]]', $row->email, $message);
+                                Mail::to($row->email)->send(new SendToRecipients($subject, $message));
+                                $successful++;
+                            } catch (\Exception $th) {
+                                $failed++;
+                            }
 
-                            Mail::to($row->email)->send(new SendToRecipients($subject, $message));
                         }
 
 
@@ -142,8 +146,14 @@ class CampaignController extends Controller
                     if (sizeof($emails) > 0) {
 
                         foreach ($emails as $row) {
-                            $message = str_replace('[[recipient_email]]', $row->subs_email, $message);
-                            Mail::to($row->subs_email)->send(new SendToRecipients($subject, $message));
+                            try {
+                                $message = str_replace('[[recipient_email]]', $row->subs_email, $message);
+                                Mail::to($row->subs_email)->send(new SendToRecipients($subject, $message));
+                                $successful++;
+                            } catch (\Exception $th) {
+                                $failed++;
+                            }
+
                         }
 
 
@@ -162,10 +172,15 @@ class CampaignController extends Controller
                     if (sizeof($emails) > 0) {
 
                         foreach ($emails as $row) {
-                            $message = str_replace('[[recipient_name]]', $row->name, $message);
-                            $message = str_replace('[[recipient_email]]', $row->email, $message);
+                            try {
+                                $message = str_replace('[[recipient_name]]', $row->name, $message);
+                                $message = str_replace('[[recipient_email]]', $row->email, $message);
 
-                            Mail::to($row->email)->send(new SendToRecipients($subject, $message));
+                                Mail::to($row->email)->send(new SendToRecipients($subject, $message));
+                                $successful++;
+                            } catch (\Exception $th) {
+                                $failed++;
+                            }
                         }
 
 
@@ -182,10 +197,15 @@ class CampaignController extends Controller
                     if (sizeof($emails) > 0) {
 
                         foreach ($emails as $row) {
-                            $message = str_replace('[[recipient_name]]', $row->name, $message);
-                            $message = str_replace('[[recipient_email]]', $row->email, $message);
+                            try {
+                                $message = str_replace('[[recipient_name]]', $row->name, $message);
+                                $message = str_replace('[[recipient_email]]', $row->email, $message);
 
-                            Mail::to($row->email)->send(new SendToRecipients($subject, $message));
+                                Mail::to($row->email)->send(new SendToRecipients($subject, $message));
+                                $successful++;
+                            } catch (\Exception $th) {
+                                $failed++;
+                            }
                         }
 
 
@@ -198,16 +218,51 @@ class CampaignController extends Controller
 
                     if (sizeof($emails) > 0) {
                         foreach ($emails as $row) {
-                            $message = str_replace('[[recipient_name]]', $row->name, $message);
-                            $message = str_replace('[[recipient_email]]', $row->email, $message);
+                            try {
+                                $message = str_replace('[[recipient_name]]', $row->name, $message);
+                                $message = str_replace('[[recipient_email]]', $row->email, $message);
 
-                            Mail::to($row->email)->send(new SendToRecipients($subject, $message));
+                                Mail::to($row->email)->send(new SendToRecipients($subject, $message));
+                                $successful++;
+                            } catch (\Exception $th) {
+                                $failed++;
+                            }
                         }
                     }
 
                 }
 
             } //end foreach
+
+            $fixed_groups = ['recipients', 'subscribers', 'landing_page', 'external_data'];
+
+            $default_groups = $groups->filter(function ($item) use ($fixed_groups) {
+                return in_array($item->recipients_id, $fixed_groups);
+            });
+
+            $custom_groups_ids = $groups->filter(function ($item) use ($fixed_groups) {
+                return !in_array($item->recipients_id, $fixed_groups);
+            })->pluck('recipients_id')->toArray();
+
+            $custom_groups = DB::table('groups')
+                ->select('name AS recipients_id')
+                ->whereIn('id',  $custom_groups_ids)
+                ->get();
+
+            $groups = $default_groups->merge($custom_groups);
+            $groups = $groups->pluck('recipients_id')->toArray();
+
+            $total = $successful + $failed;
+
+            DB::table('sent_emails')->insert([
+                'subject' => $subject,
+                'message' => $message,
+                'groups' => implode(",", $groups),
+                'ref_template_id' => $template->id,
+                'total_sent' => $total,
+                'successful' => $successful,
+                'failed' => $failed
+            ]);
 
             $campaign->update(['status' => 'sent']);
             return redirect()->back()->with('success', 'Campaign is started sending successfully');
