@@ -14,7 +14,18 @@ class EmailTemplate extends Model
         'et_content',
         'et_name',
         'et_type',
-        'thumbnail'
+        'thumbnail',
+        'modified_by'
     ];
+
+    public function scopeUnmodified($query)
+    {
+        return $query->where('et_type', 'emailer')->whereNull('modified_by')->orderBy('id');
+    }
+
+    public function scopeModified($query)
+    {
+        return $query->where('et_type', 'emailer')->where('modified_by', session('id'))->orderBy('id');
+    }
 
 }

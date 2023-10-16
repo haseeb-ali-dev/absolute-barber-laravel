@@ -15,31 +15,31 @@
             @endif
         </div>
         <div class="card-body">
-            <div class="d-flex" style="flex-wrap: wrap;">
-                @foreach ($templates as $row)
-                    <div class="card m-2" style="width: 245px;">
-                        <div class="card-container">
-                            <img src="{{ isset($row->thumbnail) ? asset('public/uploads/' . $row->thumbnail) : 'https://dummyimage.com/245x300/e8e8e8/000000.png&text=No+thumbnail+found' }}"
-                                class="card-img-top" alt="Thumbnail">
-
-                            @if (session('is_super') == 1)
-                                <div class="edit-button text-center">
-                                    <a href="{{ URL::to('admin/email-template/edit/' . $row->id) }}"
-                                        class="btn btn-primary rounded-pill px-4 btn-sm">Edit</a>
-
-                                    <a href="{{ route('admin.email_template.delete', ['id' => $row->id]) }}"
-                                        class="btn btn-danger rounded-pill px-4 btn-sm mt-2"
-                                        onclick="return confirm('Are you to delete this template?')">Delete</a>
-                                </div>
-                            @else
-                                <a href="{{ route('admin.email_template.select', ['template_id' => $row->id]) }}"
-                                    class="btn btn-success rounded-pill px-4 edit-button">Select</a>
-                            @endif
-                        </div>
-                        <h6 class="text-center py-3">{{ $row->et_name }}</h6>
+            @if (session('is_super') == 1)
+                @includeIf('admin.email_template.listing', ['templates' => $templates])
+            @else
+                <ul class="nav nav-pills nav-justified border border-primary rounded-pill w-50" id="myTab"
+                    role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active rounded-pill" id="by-super-admin-tab" data-toggle="tab"
+                            href="#by-super-admin" role="tab" aria-controls="by-super-admin" aria-selected="true">By
+                            Super Admin</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link rounded-pill" id="by-yourself-tab" data-toggle="tab" href="#by-yourself"
+                            role="tab" aria-controls="by-yourself" aria-selected="false">By Yourself (Modified)</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="by-super-admin" role="tabpanel"
+                        aria-labelledby="by-super-admin-tab">
+                        @includeIf('admin.email_template.listing', ['templates' => $templates])
                     </div>
-                @endforeach
-            </div>
+                    <div class="tab-pane fade" id="by-yourself" role="tabpanel" aria-labelledby="by-yourself-tab">
+                        @includeIf('admin.email_template.listing', ['templates' => $modified_templates])
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 @endsection

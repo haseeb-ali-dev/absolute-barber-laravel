@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Admin\Campaign;
 use App\Models\Admin\EmailTemplate;
+use App\Models\Admin\Group;
 use App\Models\Admin\Recipient;
 use Illuminate\Http\Request;
 use App\Mail\SendToRecipients;
@@ -14,6 +15,7 @@ use App\Models\Admin\Subscriber;
 use App\Models\LandingPageContact;
 use App\Models\ExcelContact;
 use Illuminate\Support\Facades\DB;
+
 class CampaignController extends Controller
 {
     public function index(Request $request)
@@ -27,9 +29,12 @@ class CampaignController extends Controller
     {
         $recipients = Recipient::pluck('name', 'id')->toArray();
 
-        $templates = EmailTemplate::select('et_name', 'et_subject', 'id')->where('et_type', 'emailer')->get()->toArray();
+        $custom_groups = Group::pluck('name', 'id')->toArray();
 
-        return view('admin.campaigns.create', compact('recipients', 'templates'));
+        $templates = EmailTemplate::select('et_name', 'et_subject', 'id', 'thumbnail')->unmodified()->get()->toArray();
+        $modified_templates = EmailTemplate::select('et_name', 'et_subject', 'id', 'thumbnail')->modified()->get()->toArray();
+
+        return view('admin.campaigns.create', compact('recipients', 'templates', 'custom_groups', 'modified_templates'));
     }
 
     public function store(Request $request)
@@ -41,7 +46,7 @@ class CampaignController extends Controller
             'template_id' => 'required'
         ]);
 
-        
+
         $campaign = Campaign::create($data);
 
         $campaign->recipients()->attach($data['recipients_id']);
@@ -50,17 +55,18 @@ class CampaignController extends Controller
     }
 
     public function edit(Campaign $campaign)
-    {   
-        
+    {
+
         $recipients = Recipient::pluck('name', 'id')->toArray();
 
-        $templates = EmailTemplate::select('et_name', 'et_subject', 'id')->where('et_type', 'emailer')->get()->toArray();
-        $groups=DB::table('campaigns_recipients')
-                    ->where('campaigns_id', $campaign->id)
-                    ->get();    
+        $templates = EmailTemplate::select('et_name', 'et_subject', 'id', 'thumbnail')->unmodified()->get()->toArray();
+        $modified_templates = EmailTemplate::select('et_name', 'et_subject', 'id', 'thumbnail')->modified()->get()->toArray();
 
-        
-        return view('admin.campaigns.edit')->with('data', $campaign)->with('recipients', $recipients)->with('templates', $templates)->with('groups', $groups);
+        $groups = DB::table('campaigns_recipients')
+            ->where('campaigns_id', $campaign->id)
+            ->get();
+
+        return view('admin.campaigns.edit')->with('data', $campaign)->with('recipients', $recipients)->with('templates', $templates)->with('groups', $groups)->with('modified_templates', $modified_templates);
     }
 
     public function update(Request $request, Campaign $campaign)
@@ -90,102 +96,116 @@ class CampaignController extends Controller
 
     public function send(Request $request, Campaign $campaign)
     {
-        // try {
+        try {
 
             $template = EmailTemplate::find($campaign->template_id);
             $subject = $template->et_subject;
             $message = $template->et_content;
-           
 
-            $groups=DB::table('campaigns_recipients')
-            ->where('campaigns_id', $campaign->id)
-            ->get();    
-            
-            foreach ($groups as  $group) {
 
-                
+            $groups = DB::table('campaigns_recipients')
+                ->where('campaigns_id', $campaign->id)
+                ->get();
 
-                if($group->recipients_id=='recipients'){
 
-                    $emails=DB::table('recipients')
-                                ->get();
+
+            foreach ($groups as $group) {
+
+
+
+                if ($group->recipients_id == 'recipients') {
+
+                    $emails = DB::table('recipients')
+                        ->get();
 
                     if (sizeof($emails) > 0) {
 
                         foreach ($emails as $row) {
-        
+
                             $message = str_replace('[[recipient_name]]', $row->name, $message);
                             $message = str_replace('[[recipient_email]]', $row->email, $message);
-                         
+
                             Mail::to($row->email)->send(new SendToRecipients($subject, $message));
                         }
-        
-                        
-                    }                
-                              
+
+
+                    }
+
                 }
 
 
-                if($group->recipients_id=='subscribers'){
-                    
-                    $emails=DB::table('subscribers')
-                                ->get();
-                  
+                if ($group->recipients_id == 'subscribers') {
+
+                    $emails = DB::table('subscribers')
+                        ->get();
+
                     if (sizeof($emails) > 0) {
 
                         foreach ($emails as $row) {
                             $message = str_replace('[[recipient_email]]', $row->subs_email, $message);
                             Mail::to($row->subs_email)->send(new SendToRecipients($subject, $message));
                         }
-        
-                       
-                    }                
-                              
+
+
+                    }
+
                 }
-               
 
 
-                if($group->recipients_id=='landing_page'){
 
-                    $emails=DB::table('landing_page_contacts')
-                                ->get();
-                    
+                if ($group->recipients_id == 'landing_page') {
+
+                    $emails = DB::table('landing_page_contacts')
+                        ->get();
+
 
                     if (sizeof($emails) > 0) {
 
                         foreach ($emails as $row) {
                             $message = str_replace('[[recipient_name]]', $row->name, $message);
                             $message = str_replace('[[recipient_email]]', $row->email, $message);
-                         
+
                             Mail::to($row->email)->send(new SendToRecipients($subject, $message));
                         }
-        
-                        
-                    }                
-                              
+
+
+                    }
+
                 }
 
-                if($group->recipients_id=='external_data'){
+                if ($group->recipients_id == 'external_data') {
 
-                    $emails=DB::table('excel_contacts')
-                                ->get();
-                    
+                    $emails = DB::table('excel_contacts')
+                        ->get();
+
 
                     if (sizeof($emails) > 0) {
 
                         foreach ($emails as $row) {
                             $message = str_replace('[[recipient_name]]', $row->name, $message);
                             $message = str_replace('[[recipient_email]]', $row->email, $message);
-                         
+
                             Mail::to($row->email)->send(new SendToRecipients($subject, $message));
                         }
-        
-                        
-                    }                
-                              
+
+
+                    }
+
                 }
 
+                if (!in_array($group->recipients_id, ['recipients', 'subscribers', 'landing_page', 'external_data'])) {
+                    $emails = DB::table('group_contacts')->where('group_id', $group->recipients_id)->get();
 
+                    if (sizeof($emails) > 0) {
+                        foreach ($emails as $row) {
+                            $message = str_replace('[[recipient_name]]', $row->name, $message);
+                            $message = str_replace('[[recipient_email]]', $row->email, $message);
+
+                            Mail::to($row->email)->send(new SendToRecipients($subject, $message));
+                        }
+                    }
+
+                }
 
             } //end foreach
 
@@ -207,10 +227,10 @@ class CampaignController extends Controller
 
             // return redirect()->back()->with('success', 'Campaign is started sending successfully');
 
-        // } catch (\Exception $e) {
+        } catch (\Exception $e) {
 
-        //     return redirect()->back()->with('error', 'Campaign is not working due to error ' . $e->getMessage());
-        // }
+            return redirect()->back()->with('error', 'Campaign is not working due to error ' . $e->getMessage());
+        }
 
     }
 

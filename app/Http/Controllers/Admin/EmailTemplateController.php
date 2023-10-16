@@ -107,8 +107,9 @@ class EmailTemplateController extends Controller
 
     public function gallery()
     {
-        $templates = EmailTemplate::where('et_type', 'emailer')->orderBy('id')->get();
-        return view('admin.email_template.gallery', compact('templates'));
+        $templates = EmailTemplate::unmodified()->get();
+        $modified_templates = EmailTemplate::modified()->get();
+        return view('admin.email_template.gallery', compact('templates', 'modified_templates'));
     }
 
     public function select($template_id)
@@ -123,7 +124,8 @@ class EmailTemplateController extends Controller
             'et_subject' => 'required',
             'et_content' => 'required',
             'recipients_id' => 'required|array',
-            'ref_template_id' => 'required'
+            'ref_template_id' => 'required',
+            'modified' => 'sometimes'
         ]);
 
         $subject = $request->et_subject;
@@ -209,6 +211,11 @@ class EmailTemplateController extends Controller
                 'ref_template_id' => $request->ref_template_id,
                 'total_sent' => $total
             ]);
+
+            if (isset($request['modified']) && $request['modified'] == 'on') {
+                $this->save_as_template($request->get('ref_template_id'), $message);
+            }
+
         } catch (\Exception $e) {
             $errors[] = "Error saving record in database: " . $e->getMessage();
         }
@@ -231,5 +238,22 @@ class EmailTemplateController extends Controller
         }
         return redirect()->route('admin.email_template.gallery')->with('info', "Template is deleted successfully");
     }
+
+    private function save_as_template($id, $new_content)
+    {
+        $previous_template = EmailTemplate::find($id);
+        if ($previous_template) {
+            $new_template = $previous_template->replicate();
+            $new_template->et_content = $new_content;
+            $new_template->modified_by = session('id');
+            $new_template->save();
+        }
+    }
+
+    public function preview(EmailTemplate $template)
+    {
+        return view('admin.email_template.preview', compact('template'));
+    }
+
 
 }

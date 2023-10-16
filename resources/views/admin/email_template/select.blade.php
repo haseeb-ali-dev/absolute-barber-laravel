@@ -40,6 +40,11 @@
                             <label for="">Email Message *</label>
                             <textarea name="et_content" class="form-control editor" cols="30" rows="10" id="et_content">{{ $template->et_content }}</textarea>
 
+                            <div class="custom-control custom-switch float-right mt-2">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch1" name="modified">
+                                <label class="custom-control-label" for="customSwitch1">Save this changes as template</label>
+                            </div>
+
                             <div class="d-flex align-items-center mt_20">
 
                                 <div class="font-weight-bold text-danger">Parameters You Can Use: </div>

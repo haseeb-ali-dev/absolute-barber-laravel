@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\EnvController;
+use App\Http\Controllers\Admin\GroupController;
 use App\Http\Controllers\Admin\VideoConferenceController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\CouponController;
@@ -595,6 +596,7 @@ Route::get('admin/email-template/{id}/delete', [EmailTemplateController::class, 
 /* --------------------------------------- */
 Route::get('admin/email-template/gallery', [EmailTemplateController::class, 'gallery'])->name('admin.email_template.gallery');
 Route::get('admin/email-template/gallery/{template_id}/select', [EmailTemplateController::class, 'select'])->name('admin.email_template.select');
+Route::get('admin/email-template/gallery/{template}/preview', [EmailTemplateController::class, 'preview'])->name('admin.email_template.preview');
 Route::post('admin/email-template/gallery/send', [EmailTemplateController::class, 'send'])->name('admin.email_template.send');
 
 
@@ -987,4 +989,16 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], fu
     Route::get('smtp-config', [EnvController::class, 'edit'])->name('smtp-config.edit');
     Route::post('smtp-config', [EnvController::class, 'update'])->name('smtp-config.update');
 
+});
+
+/* --------------------------------------- */
+/* Groups & their Contacts - Admin */
+/* --------------------------------------- */
+Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], function () {
+    Route::resource('group', GroupController::class)->except(['show', 'create', 'edit']);
+
+    Route::get('group-contacts', [GroupController::class, 'contacts'])->name('group.contacts');
+    Route::post('import/group-contacts', [GroupController::class, 'import_contacts'])->name('group.contacts.import');
+    Route::put('group-contacts/{contact}', [GroupController::class, 'update_contact'])->name('group.contacts.update');
+    Route::delete('group-contacts/{contact}', [GroupController::class, 'delete_contact'])->name('group.contacts.destroy');
 });
