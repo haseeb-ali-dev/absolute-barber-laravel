@@ -294,5 +294,18 @@ class EmailTemplateController extends Controller
         return view('admin.email_template.preview', compact('template'));
     }
 
+    public function reports()
+    {
+        $modules_hash = ['campaign' => 'Campaigns', 'direct' => 'Direct Sent Emails'];
+
+        $reports = DB::table('sent_emails')->selectRaw('module, SUM(total_sent) as total, SUM(successful) as successful, SUM(failed) as failed')->groupBy('module')->get();
+
+        $reports = $reports->filter(function ($report) use ($modules_hash) {
+            $report->module = $modules_hash[$report->module];
+            return $report;
+        });
+
+        return view('admin.reports.index', compact('reports'));
+    }
 
 }

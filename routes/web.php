@@ -1002,3 +1002,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], fu
     Route::put('group-contacts/{contact}', [GroupController::class, 'update_contact'])->name('group.contacts.update');
     Route::delete('group-contacts/{contact}', [GroupController::class, 'delete_contact'])->name('group.contacts.destroy');
 });
+
+/* --------------------------------------- */
+/* Reports - Admin */
+/* --------------------------------------- */
+Route::get('admin/reports', [EmailTemplateController::class, 'reports'])->name('admin.reports')->middleware('admin');

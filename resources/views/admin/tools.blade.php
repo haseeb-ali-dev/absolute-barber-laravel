@@ -148,6 +148,7 @@
             ['route' => route('admin.group.contacts'), 'name' => 'Assign leads to new groups', 'icon' => 'fas fa-cog'],
             // ['key' => 'emaillayouts', 'name' => 'Email Layouts', 'icon' => 'fas fa-paste'],
             ['route' => route('admin.email_template.gallery'), 'name' => 'Send Emails', 'icon' => 'fas fa-share-alt-square'],
+            ['route' => route('admin.reports'), 'name' => 'Reports', 'icon' => 'fas fa-share-alt-square'],
             ['key' => 'smtpsetting', 'name' => 'Settings', 'icon' => 'fas fa-paste'],
         ];
         $recipients = [
