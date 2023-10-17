@@ -68,7 +68,7 @@
                                             <option value="recipients">Recipients</option>
                                             <option value="subscribers">Subscribers</option>
                                             <option value="landing_page">Landingpage Contacts</option>
-                                            <option value="external_data">External Data</option>
+                                            {{-- <option value="external_data">External Data</option> --}}
                                         </optgroup>
                                         @if (sizeOf($custom_groups) > 0)
                                             <optgroup label="Added Groups">
