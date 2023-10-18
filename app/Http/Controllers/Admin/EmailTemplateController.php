@@ -135,6 +135,8 @@ class EmailTemplateController extends Controller
         $groups = $request->recipients_id;
         $errors = [];
         $total = 0;
+        $successful = 0;
+        $failed = 0;
         $fixed_groups = ['recipients', 'subscribers', 'landing_page', 'external_data'];
 
         foreach ($groups as $group) {
@@ -148,9 +150,10 @@ class EmailTemplateController extends Controller
                                 $message = str_replace('[[recipient_name]]', $row->name, $message);
                                 $message = str_replace('[[recipient_email]]', $row->email, $message);
                                 Mail::to($row->email)->send(new SendToRecipients($subject, $message));
-                                $total++;
+                                $successful++;
                             } catch (\Exception $e) {
                                 $errors[] = "Error sending email to recipient {$row->email}: " . $e->getMessage();
+                                $failed++;
                             }
                         }
                     }
@@ -163,9 +166,10 @@ class EmailTemplateController extends Controller
                             try {
                                 $message = str_replace('[[recipient_email]]', $row->subs_email, $message);
                                 Mail::to($row->subs_email)->send(new SendToRecipients($subject, $message));
-                                $total++;
+                                $successful++;
                             } catch (\Exception $e) {
                                 $errors[] = "Error sending email to recipient {$row->subs_email}: " . $e->getMessage();
+                                $failed++;
                             }
                         }
                     }
@@ -179,9 +183,10 @@ class EmailTemplateController extends Controller
                                 $message = str_replace('[[recipient_name]]', $row->name, $message);
                                 $message = str_replace('[[recipient_email]]', $row->email, $message);
                                 Mail::to($row->email)->send(new SendToRecipients($subject, $message));
-                                $total++;
+                                $successful++;
                             } catch (\Exception $e) {
                                 $errors[] = "Error sending email to recipient {$row->email}: " . $e->getMessage();
+                                $failed++;
                             }
                         }
                     }
@@ -195,9 +200,10 @@ class EmailTemplateController extends Controller
                                 $message = str_replace('[[recipient_name]]', $row->name, $message);
                                 $message = str_replace('[[recipient_email]]', $row->email, $message);
                                 Mail::to($row->email)->send(new SendToRecipients($subject, $message));
-                                $total++;
+                                $successful++;
                             } catch (\Exception $e) {
                                 $errors[] = "Error sending email to recipient {$row->email}: " . $e->getMessage();
+                                $failed++;
                             }
                         }
                     }
@@ -211,9 +217,10 @@ class EmailTemplateController extends Controller
                                 $message = str_replace('[[recipient_name]]', $row->name, $message);
                                 $message = str_replace('[[recipient_email]]', $row->email, $message);
                                 Mail::to($row->email)->send(new SendToRecipients($subject, $message));
-                                $total++;
+                                $successful++;
                             } catch (\Exception $e) {
                                 $errors[] = "Error sending email to recipient {$row->email}: " . $e->getMessage();
+                                $failed++;
                             }
                         }
                     }
@@ -222,6 +229,8 @@ class EmailTemplateController extends Controller
                 $errors[] = "Error processing group {$group}: " . $e->getMessage();
             }
         }
+        $total = $successful + $failed;
+
         try {
             $custom_groups = Group::whereIn('id', $groups)->pluck('name')->toArray();
 
@@ -236,7 +245,10 @@ class EmailTemplateController extends Controller
                 'message' => $message,
                 'groups' => implode(",", $groups),
                 'ref_template_id' => $request->ref_template_id,
-                'total_sent' => $total
+                'total_sent' => $total,
+                'successful' => $successful,
+                'failed' => $failed,
+                'module' => 'direct'
             ]);
 
             if (isset($request['modified']) && $request['modified'] == 'on') {
@@ -282,5 +294,18 @@ class EmailTemplateController extends Controller
         return view('admin.email_template.preview', compact('template'));
     }
 
+    public function reports()
+    {
+        $modules_hash = ['campaign' => 'Campaigns', 'direct' => 'Direct Sent Emails'];
+
+        $reports = DB::table('sent_emails')->selectRaw('module, SUM(total_sent) as total, SUM(successful) as successful, SUM(failed) as failed')->groupBy('module')->get();
+
+        $reports = $reports->filter(function ($report) use ($modules_hash) {
+            $report->module = $modules_hash[$report->module];
+            return $report;
+        });
+
+        return view('admin.reports.index', compact('reports'));
+    }
 
 }

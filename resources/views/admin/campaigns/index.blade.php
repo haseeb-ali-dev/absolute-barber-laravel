@@ -20,6 +20,7 @@
                             <th>Campaign Template</th>
                             <th>Campaign Status</th>
                             <th>Campaign Recipients</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -72,9 +73,10 @@
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </form>
-                                    @if ($row->status == 'sent')
+                                    <td>
+                                        @if ($row->status == 'sent')
                                         <span class="p-2 border border-success text-success">
-                                            <i class="fas fa-check"></i> Already Sent
+                                            <i class="fas fa-check"></i>Sent
                                         </span>
                                     @else
                                         @if (isset($row->template))
@@ -93,6 +95,8 @@
                                             </small>
                                         @endif
                                     @endif
+                                    </td>
+                                    
                                 </td>
                             </tr>
                         @endforeach
