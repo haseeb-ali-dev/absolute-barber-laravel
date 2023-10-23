@@ -49,6 +49,8 @@
                     <option value="shop">Shop</option>
                     <option value="blog">Blog</option>
                     <option value="project">Project</option>
+                    <option value="tools">Tools</option>
+                    <option value="podcast">Podcast</option>
                 </select>
             </div>
 

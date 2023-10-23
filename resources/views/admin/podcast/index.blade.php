@@ -33,8 +33,8 @@
                                 <td class="copy-link" data-link="{{ $row->link }}" style="font-weight: bold; color: blue;">Click to Copy</td>
 
                                 <td>
-                                    {{-- <a href="{{ URL::to('admin/music/edit/'.$row->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a> --}}
-                                    <a href="{{ URL::to('admin/music/delete/'.$row->id) }}" class="btn btn-danger btn-sm" onClick="return confirm('Are you sure?');"><i class="fas fa-trash-alt"></i></a>
+                                    <a href="{{ URL::to('admin/podcast/edit/'.$row->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                                    <a href="{{ URL::to('admin/podcast/delete/'.$row->id) }}" class="btn btn-danger btn-sm" onClick="return confirm('Are you sure?');"><i class="fas fa-trash-alt"></i></a>
                                 </td>
                             </tr>
                         @endif
@@ -53,8 +53,8 @@
                                     </audio>
                                 </td>
                                 <td>
-                                    {{-- <a href="{{ URL::to('admin/music/edit/'.$row->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a> --}}
-                                    <a href="{{ URL::to('admin/music/delete/'.$row->id) }}" class="btn btn-danger btn-sm" onClick="return confirm('Are you sure?');"><i class="fas fa-trash-alt"></i></a>
+                                    <a href="{{ URL::to('admin/podcast/edit/'.$row->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                                    <a href="{{ URL::to('admin/podcast/delete/'.$row->id) }}" class="btn btn-danger btn-sm" onClick="return confirm('Are you sure?');"><i class="fas fa-trash-alt"></i></a>
                                 </td>
                             </tr>
                         @endif

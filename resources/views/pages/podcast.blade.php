@@ -73,6 +73,7 @@
 }
 
 </style>
+@include('sliders')
         <div class="feature">
             <div class="container">
                 <div class="row">
@@ -85,7 +86,7 @@
                 </div>
                 <div class="row">
                     @foreach($music as $row)
-                    <div class="col-md-4" >
+                    <div class="col-md-4" style="margin-top: 2%;">
                         @if ($row->upload_type=='embed')
                             {!! $row->link !!}
                         @endif

@@ -2,7 +2,7 @@
 @section('admin_content')
     <h1 class="h3 mb-3 text-gray-800">Add Podcast Item</h1>
 
-    <form action="{{ route('admin.podcast.store') }}" method="post" enctype="multipart/form-data">
+    <form action="{{ url('admin/podcast/update/'.$podcast->id) }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -15,22 +15,23 @@
                 <div class="form-group">
                     <label for="upload_type">Choose Upload Type:</label>
                     <div class="form-check">
-                        <input type="radio" class="form-check-input" id="upload_song" name="upload_type" value="upload" checked>
+                        <input type="radio" class="form-check-input" id="upload_song" name="upload_type" value="upload" @if ($podcast->upload_type=='upload')checked @endif>
                         <label class="form-check-label" for="upload_song">Upload From PC</label>
                     </div>
                     <div class="form-check">
-                        <input type="radio" class="form-check-input" id="embed_code" name="upload_type" value="embed">
+                        <input type="radio" class="form-check-input" id="embed_code" name="upload_type" value="embed" @if ($podcast->upload_type=='embed')checked @endif>
                         <label class="form-check-label" for="embed_code">Insert Embed Code</label>
                     </div>
                 </div>
 
                 <div class="form-group" id="title_cover_sound" style="display: block;">
                     <label for="name">Title *</label>
-                    <input type="text" name="title" class="form-control" value="{{ old('title') }}" autofocus >
+                    <input type="text" name="title" class="form-control" value="{{$podcast->title}}" autofocus >
                     
                     <label for="image">Cover Photo *</label>
                     <div>
-                        <input type="file" name="image" accept="image/*" >
+                    
+                        <input  type="file" name="image" accept="image/*" >
                     </div>
                     
                     <label for="sound">Sound File *</label>
@@ -42,7 +43,7 @@
 
                 <div class="form-group" id="embed_link" style="display: none;">
                     <label for="link">Embed Sound Code *</label>
-                    <input type="text" name="link" class="form-control" value="{{ old('link') }}">
+                    <input type="text" name="link" class="form-control" value="{{$podcast->link}}">
                 </div>
                 
                 <button type="submit" class="btn btn-success">Submit</button>
@@ -80,7 +81,8 @@
             setRequiredAttribute(linkInput, false);
         });
 
-        embedCodeRadio.addEventListener('change', () => {
+       // Define a function to handle the changes
+        function handleEmbedCodeChange() {
             titleCoverSoundFields.style.display = 'none';
             embedLinkField.style.display = 'block';
 
@@ -91,7 +93,15 @@
 
             // Set Embed Sound Link as required when "Insert Embed Code" is selected
             setRequiredAttribute(linkInput, true);
-        });
+        }
+
+        // Add the event listener for the change event
+        embedCodeRadio.addEventListener('change', handleEmbedCodeChange);
+
+        // Call the function when the page loads if the radio button is already selected
+        if (embedCodeRadio.checked) {
+            handleEmbedCodeChange();
+        }
 
     </script>
 @endsection

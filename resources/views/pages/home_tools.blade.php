@@ -51,12 +51,21 @@
             .h-100 {
                 height: 100%!important;
             }
+            .slider-item__backdrop {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.6); /* Change the opacity value to adjust the darkness of the backdrop */
+            }
             @media (max-width: 767px) {
                 #faizan {
                     margin-top: 13%;
                 }
             }
         </style>
+        @include('sliders')
         <div class="container-fluid">
             @php
                 $tools = [
@@ -91,7 +100,7 @@
 
                 $enabled_codes = isset($theme_color->home_tools) ? explode(',', $theme_color->home_tools) : [];
             @endphp
-
+            
             <div class="team bg-lightblue">
                 <div class="container">
                     <div class="row" id="faizan">

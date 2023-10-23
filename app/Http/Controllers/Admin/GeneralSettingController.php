@@ -15,7 +15,7 @@ class GeneralSettingController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('admin', ['except' => ['landing_page_contact', 'landing_page_contact_save']]);
+        $this->middleware('admin', ['except' => ['landing_page_contact','landingpages_view', 'landing_page_contact_save']]);
     }
 
     public function logo_edit()
@@ -1143,6 +1143,9 @@ class GeneralSettingController extends Controller
     }
 
     public function landingpages_delete($id){
+        if($id=='1'){
+            return back()->with('error', 'You cannot delete Main Landing Page. This landing Page needed as reference to create future Landing Pages..');
+        }
         GeneralSetting::find($id)->delete();
 
         return back()->with('success', 'Landing Page deleted successfully');

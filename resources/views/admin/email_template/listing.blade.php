@@ -1,7 +1,7 @@
 <div class="row" style="background: #B2BEB5">
     @foreach ($templates as $row)
-        <div class="col-2">
-            <div class="card m-2">
+        <div class="col-3">
+            <div class="card m-3">
                 <div class="card-container">
                     <img src="{{ isset($row->thumbnail) ? asset('public/uploads/' . $row->thumbnail) : 'https://dummyimage.com/245x300/e8e8e8/000000.png&text=No+thumbnail+found' }}"
                         class="card-img-top" alt="Thumbnail">

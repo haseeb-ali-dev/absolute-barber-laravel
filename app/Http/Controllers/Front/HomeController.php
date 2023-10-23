@@ -51,8 +51,9 @@ class HomeController extends Controller
     {
         $theme_color = DB::table('general_settings')->where('id', 1)->first();
         $page_home = DB::table('page_home_items')->where('id',1)->first();
+        $sliders = DB::table('sliders')->where('page','tools')->get();
 
-        return view('pages.home_tools', compact('theme_color','page_home'));
+        return view('pages.home_tools', compact('theme_color','page_home','sliders'));
     }
 
     public function home_sounds()
@@ -69,8 +70,9 @@ class HomeController extends Controller
         $theme_color = DB::table('general_settings')->where('id', 1)->first();
         $music = DB::table('podcasts')->get();
         $page_home = DB::table('page_home_items')->where('id',1)->first();
+        $sliders = DB::table('sliders')->where('page','podcast')->get();
 
-        return view('pages.podcast', compact('theme_color','music','page_home'));
+        return view('pages.podcast', compact('theme_color','music','page_home','sliders'));
     }
 
 

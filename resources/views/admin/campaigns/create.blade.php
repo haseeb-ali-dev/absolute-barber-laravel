@@ -111,9 +111,9 @@
                                 <div class="tab-content" id="myTabContent" style="background: #ACACAC">
                                     <div class="tab-pane fade show active" id="by-super-admin" role="tabpanel"
                                         aria-labelledby="by-super-admin-tab">
-                                        <div class="d-flex flex-wrap">
+                                        <div class="row" style="background: #B2BEB5">
                                             @foreach ($templates as $row)
-                                                <label class="d-flex flex-column align-items-center m-2">
+                                                <label class="d-flex flex-column align-items-center m-3">
                                                     <img src="{{ isset($row['thumbnail']) ? asset('public/uploads/' . $row['thumbnail']) : 'https://dummyimage.com/245x300/e8e8e8/000000.png&text=No+thumbnail+found' }}"
                                                         class="thumbnail" alt="Thumbnail">
                                                     <div class="d-flex align-items-baseline my-2 w-200">
@@ -128,9 +128,9 @@
                                     </div>
                                     <div class="tab-pane fade" id="by-yourself" role="tabpanel"
                                         aria-labelledby="by-yourself-tab">
-                                        <div class="d-flex flex-wrap">
+                                        <div class="row" style="background: #B2BEB5">
                                             @foreach ($modified_templates as $row)
-                                                <label class="d-flex flex-column align-items-center m-2">
+                                                <label class="d-flex flex-column align-items-center m-3">
                                                     <img src="{{ isset($row['thumbnail']) ? asset('public/uploads/' . $row['thumbnail']) : 'https://dummyimage.com/245x300/e8e8e8/000000.png&text=No+thumbnail+found' }}"
                                                         class="thumbnail" alt="Thumbnail">
                                                     <div class="d-flex align-items-baseline my-2 w-200">

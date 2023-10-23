@@ -661,7 +661,7 @@ Route::post('admin/landing_page_contact/setting', [GeneralSettingController::cla
 /* Landing Pages - Admin */
 /* --------------------------------------- */
 Route::get('landingpages_index', [GeneralSettingController::class,'landingpages_index'])->name('landingpages.index');
-Route::get('landingpages_view/{id}', [GeneralSettingController::class,'landingpages_view'])->name('landingpages.view');
+Route::get('landingpages/{id}', [GeneralSettingController::class,'landingpages_view'])->name('landingpages.view');
 Route::get('landingpages_create', [GeneralSettingController::class,'landingpages_create'])->name('landingpages.create');
 Route::post('landingpages_save', [GeneralSettingController::class,'landingpages_save'])->name('landingpages.save');
 Route::get('landingpages_edit/{id}', [GeneralSettingController::class,'landingpages_edit'])->name('landingpages.edit');

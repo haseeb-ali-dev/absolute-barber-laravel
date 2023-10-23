@@ -48,6 +48,9 @@
                         <option value="shop" {{ $slider->page === 'shop' ? 'selected' : '' }}>Shop</option>
                         <option value="blog" {{ $slider->page === 'blog' ? 'selected' : '' }}>Blog</option>
                         <option value="project" {{ $slider->page === 'project' ? 'selected' : '' }}>Project</option>
+                        <option value="tools" {{ $slider->page === 'tools' ? 'selected' : '' }}>Tools</option>
+                        <option value="podcast" {{ $slider->page === 'podcast' ? 'selected' : '' }}>Podcast</option>
+                        
                     </select>
                 </div>
                 @if (isset($slider->slider_photo))
