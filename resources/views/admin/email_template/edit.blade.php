@@ -18,6 +18,7 @@
         .custom-file-upload:hover {
             background-color: #36b9cc;
         }
+        .tox-notifications-container {display: none !important;}
     </style>
     <h1 class="h3 mb-3 text-gray-800">Edit Email Template</h1>
 
