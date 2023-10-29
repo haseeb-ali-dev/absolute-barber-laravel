@@ -30,14 +30,14 @@
                     </li>
                 </ul>
             </div>
-            <br>            
+            <br>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="by-super-admin" role="tabpanel"
                         aria-labelledby="by-super-admin-tab">
                         @includeIf('admin.email_template.listing', ['templates' => $templates])
                     </div>
                     <div class="tab-pane fade" id="by-yourself" role="tabpanel" aria-labelledby="by-yourself-tab">
-                        @includeIf('admin.email_template.listing', ['templates' => $modified_templates])
+                        @includeIf('admin.email_template.listing', ['templates' => $modified_templates, 'enable_delete' => true])
                     </div>
                 </div>
             @endif

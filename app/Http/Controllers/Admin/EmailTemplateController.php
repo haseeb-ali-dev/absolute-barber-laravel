@@ -267,11 +267,7 @@ class EmailTemplateController extends Controller
     }
     public function delete($id)
     {
-        if (session('is_super') != 1) {
-            return redirect()->back()->with('error', "You are not authorized to perform this action");
-        }
         $email_template = EmailTemplate::findOrFail($id);
-
         if ($email_template) {
             $email_template->delete();
         }
