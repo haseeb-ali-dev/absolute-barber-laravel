@@ -12,7 +12,7 @@
                                 class="btn btn-primary rounded-pill btn-sm">Edit</a>
 
                             <a href="{{ route('admin.email_template.delete', ['id' => $row->id]) }}"
-                                class="btn btn-danger rounded-pill btn-sm mt-2"
+                                class="btn btn-danger rounded-pill btn-sm"
                                 onclick="return confirm('Are you sure you want to delete this template?')">Delete</a>
                         </div>
                     @else
@@ -20,7 +20,7 @@
                             <a href="{{ route('admin.email_template.select', ['template_id' => $row->id]) }}"
                                 class="btn btn-success rounded-pill btn-sm">Select</a>
                             <a href="{{ route('admin.email_template.preview', ['template' => $row]) }}"
-                                class="btn btn-dark rounded-pill btn-sm ">Preview</a>
+                                class="btn btn-dark rounded-pill btn-sm">Preview</a>
                         </div>
                     @endif
                 </div>
