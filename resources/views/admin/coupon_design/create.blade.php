@@ -25,7 +25,7 @@
     </style>
     <h1 class="h3 mb-3 text-gray-800">Add Coupon Design</h1>
 
-    <form action="{{ url('admin/coupon_design/store') }}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('admin.coupon_design.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -76,7 +76,7 @@
                 valid_elements: '*[*]',
                 valid_children: "+body[style]",
                 tinycomments_author: 'Author name',
-                images_upload_url: '/upload-image',
+                images_upload_url: '/beauty/upload-image',
                 mergetags_list: [{
                         value: 'First.Name',
                         title: 'First Name'
