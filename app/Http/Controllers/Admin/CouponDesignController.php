@@ -19,6 +19,7 @@ class CouponDesignController extends Controller
 
     public function create()
     {
+        return view('admin.coupon_design.create');
     }
 
     public function store(Request $request)

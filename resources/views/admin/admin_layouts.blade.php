@@ -295,6 +295,13 @@
         </li>
 
         <li class="nav-item active">
+            <a class="nav-link" href="{{ route('admin.coupon_design.index') }}">
+                <i class="fab fa-flipboard"></i>
+                <span>Coupon Designs</span>
+            </a>
+        </li>
+
+        <li class="nav-item active">
             <a class="nav-link" href="{{ url('/clear-cache') }}">
                 <i class="fas fa-circle-notch"></i>
                 <span>Clear Cache</span>

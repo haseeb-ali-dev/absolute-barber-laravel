@@ -8,7 +8,7 @@
             <h6 class="m-0 mt-2 font-weight-bold text-primary">View Coupon Designs</h6>
             @if (session('is_super') == 1)
                 <div class="float-right d-inline">
-                    <a href="{{ url('admin/email-template/create') }}">
+                    <a href="{{ url('admin/coupon_design/create') }}">
                         <button class="bn632-hover bn22"><i class="fa fa-plus mr-2"></i>Create New Design</button>
                     </a>
                 </div>
