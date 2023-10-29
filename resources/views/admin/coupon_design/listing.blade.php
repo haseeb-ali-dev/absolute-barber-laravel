@@ -8,7 +8,7 @@
 
                     @if (session('is_super') == 1)
                         <div class="edit-button text-center">
-                            <a href="{{ URL::to('admin/email-template/edit/' . $row->id) }}"
+                            <a href="{{ route('admin.coupon_design.edit', ['coupon_design' => $row]) }}"
                                 class="btn btn-primary rounded-pill btn-sm">Edit</a>
 
                             <a href="{{ route('admin.email_template.delete', ['id' => $row->id]) }}"

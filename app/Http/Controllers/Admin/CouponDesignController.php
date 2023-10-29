@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 class CouponDesignController extends Controller
 {
-
     public function index()
     {
         $designs = CouponDesign::unmodified()->get();
@@ -27,38 +26,57 @@ class CouponDesignController extends Controller
         if (env('PROJECT_MODE') == 0) {
             return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
         }
-        $data = $request->validate([
-            'content' => 'required',
-            'title' => 'required',
-            'thumbnail' => 'sometimes|mimes:jpg,jpeg,png|max:5000'
-        ]);
+        $data = $this->request_validate($request);
         if ($request->hasFile('thumbnail')) {
-            $ext = $request->file('thumbnail')->extension();
-            $final_name = 'thumbnail_' . time() . '.' . $ext;
-            $request->file('thumbnail')->move(public_path('uploads'), $final_name);
-            $data['thumbnail'] = $final_name;
+            $data['thumbnail'] = $this->upload_thumbnail($request);
         }
         CouponDesign::create($data);
         return redirect()->route('admin.coupon_design.index')->with('success', 'Coupon Design is created successfully!');
     }
 
-    public function show(CouponDesign $couponDesign)
+    public function show(CouponDesign $design)
     {
         //
     }
 
     public function edit(CouponDesign $couponDesign)
     {
-        
+        return view('admin.coupon_design.edit')->with('design', $couponDesign);
     }
 
     public function update(Request $request, CouponDesign $couponDesign)
     {
-        //
+        if (env('PROJECT_MODE') == 0) {
+            return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
+        }
+        $data = $this->request_validate($request);
+        if ($request->hasFile('thumbnail')) {
+            $data['thumbnail'] = $this->upload_thumbnail($request);
+        }
+        $couponDesign->update($data);
+        return redirect()->route('admin.coupon_design.index')->with('success', 'Coupon Design is updated successfully!');
     }
 
     public function destroy(CouponDesign $couponDesign)
     {
         //
+    }
+
+    private function request_validate(Request $request)
+    {
+        $data = $request->validate([
+            'content' => 'required',
+            'title' => 'required',
+            'thumbnail' => 'sometimes|mimes:jpg,jpeg,png|max:5000'
+        ]);
+        return $data;
+    }
+
+    private function upload_thumbnail(Request $request)
+    {
+        $ext = $request->file('thumbnail')->extension();
+        $final_name = 'thumbnail_' . time() . '.' . $ext;
+        $request->file('thumbnail')->move(public_path('uploads'), $final_name);
+        return $final_name;
     }
 }
