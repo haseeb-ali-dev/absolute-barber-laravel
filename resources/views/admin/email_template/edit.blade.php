@@ -158,6 +158,7 @@
                 valid_elements : '*[*]',
                 valid_children : "+body[style]",
                 tinycomments_author: 'Author name',
+                images_upload_url: '/upload-image',
                 mergetags_list: [{
                         value: 'First.Name',
                         title: 'First Name'

@@ -6,11 +6,13 @@ use App\Models\Admin\Pricing;
 use Illuminate\Http\Request;
 use DB;
 
+use GuzzleHttp\Client;
+
 class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        
+
     	$sliders = DB::table('sliders')->where('page','home')->get();
     	$page_home = DB::table('page_home_items')->where('id',1)->first();
     	$why_choose_items = DB::table('why_choose_items')->get();
@@ -78,7 +80,7 @@ class HomeController extends Controller
 
     public function upload(Request $request)
 {
-    
+
      $image = $request->file('file');
 
         if ($image) {
@@ -114,17 +116,17 @@ class HomeController extends Controller
             if ($responseData && isset($responseData->data->link)) {
                 // Get the link to the uploaded image
                 $imgurLink = $responseData->data->link;
-                
+
 
                 return response()->json(['location' => $imgurLink]);
             }
         }
 
         return response()->json(['error' => 'Image upload failed'], 500);
-    
-    
-    
-    
+
+
+
+
 }
 
 
