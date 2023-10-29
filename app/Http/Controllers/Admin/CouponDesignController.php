@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Models\Admin\CouponDesign;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class CouponDesignController extends Controller
 {
@@ -34,9 +36,15 @@ class CouponDesignController extends Controller
         return redirect()->route('admin.coupon_design.index')->with('success', 'Coupon Design is created successfully!');
     }
 
-    public function show(CouponDesign $design)
+    public function show($id)
     {
-        //
+        try {
+            $decrypted = Crypt::decrypt($id);
+            $coupon = CouponDesign::find($decrypted);
+            return view('admin.coupon_design.show', compact('coupon'));
+        } catch (Exception $e) {
+            return abort(404, $e->getMessage());
+        }
     }
 
     public function edit(CouponDesign $couponDesign)

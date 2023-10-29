@@ -47,4 +47,27 @@
             @endif
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+
+    <script>
+        // Initialize Clipboard.js
+        var clipboard = new ClipboardJS('.copy-link');
+
+        clipboard.on('success', function(e) {
+            // Show a confirmation or feedback that the link has been copied
+            e.trigger.innerHTML = 'Link Copied!';
+            setTimeout(function() {
+                e.trigger.innerHTML = 'Copy Coupon Link';
+            }, 1500); // Reset back to the original text after 1.5 seconds
+            e.clearSelection();
+
+            // Prevent the default link behavior
+            e.preventDefault();
+        });
+
+        clipboard.on('error', function(e) {
+            // Handle any errors that may occur during copying
+            console.error('Error copying text:', e);
+        });
+    </script>
 @endsection

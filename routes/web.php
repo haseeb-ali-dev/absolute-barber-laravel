@@ -1017,6 +1017,8 @@ Route::resource('admin/coupon_design', CouponDesignController::class)
     ->except(['show', 'destroy'])
     ->names('admin.coupon_design')
     ->middleware('admin');
-Route::get('admi/coupon_design/{coupon_design}/delete', [CouponDesignController::class, 'destroy'])
+Route::get('admin/coupon_design/{coupon_design}/delete', [CouponDesignController::class, 'destroy'])
     ->name('admin.coupon_design.delete')
     ->middleware('admin');
+Route::get('admin/coupon_design/{id}/view', [CouponDesignController::class, 'show'])
+    ->name('admin.coupon_design.show');
