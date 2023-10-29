@@ -59,7 +59,8 @@ class CouponDesignController extends Controller
 
     public function destroy(CouponDesign $couponDesign)
     {
-        //
+        $couponDesign->delete();
+        return redirect()->route('admin.coupon_design.index')->with('success', 'Coupon Design is deleted successfully!');
     }
 
     private function request_validate(Request $request)

@@ -1014,6 +1014,9 @@ Route::get('admin/reports', [EmailTemplateController::class, 'reports'])->name('
 /* Coupon Design - Admin */
 /* --------------------------------------- */
 Route::resource('admin/coupon_design', CouponDesignController::class)
-    ->except(['show'])
+    ->except(['show', 'destroy'])
     ->names('admin.coupon_design')
+    ->middleware('admin');
+Route::get('admi/coupon_design/{coupon_design}/delete', [CouponDesignController::class, 'destroy'])
+    ->name('admin.coupon_design.delete')
     ->middleware('admin');
