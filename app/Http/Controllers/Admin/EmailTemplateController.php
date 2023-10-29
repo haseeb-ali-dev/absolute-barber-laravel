@@ -123,6 +123,7 @@ class EmailTemplateController extends Controller
     public function send(Request $request)
     {
         $request->validate([
+            'et_name' => 'required',
             'et_subject' => 'required',
             'et_content' => 'required',
             'recipients_id' => 'required|array',
@@ -130,6 +131,7 @@ class EmailTemplateController extends Controller
             'modified' => 'sometimes'
         ]);
 
+        $name = $request->et_name;
         $subject = $request->et_subject;
         $message = $request->et_content;
         $groups = $request->recipients_id;
@@ -252,7 +254,7 @@ class EmailTemplateController extends Controller
             ]);
 
             if (isset($request['modified']) && $request['modified'] == 'on') {
-                $this->save_as_template($request->get('ref_template_id'), $message);
+                $this->save_as_template($request->get('ref_template_id'), $message, $name);
             }
 
         } catch (\Exception $e) {
@@ -274,12 +276,13 @@ class EmailTemplateController extends Controller
         return redirect()->route('admin.email_template.gallery')->with('info', "Template is deleted successfully");
     }
 
-    private function save_as_template($id, $new_content)
+    private function save_as_template($id, $new_content, $new_name)
     {
         $previous_template = EmailTemplate::find($id);
         if ($previous_template) {
             $new_template = $previous_template->replicate();
             $new_template->et_content = $new_content;
+            $new_template->et_name = $new_name;
             $new_template->modified_by = session('id');
             $new_template->save();
         }

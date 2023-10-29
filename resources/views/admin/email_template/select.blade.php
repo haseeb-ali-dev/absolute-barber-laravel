@@ -23,6 +23,10 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
+                            <label for="">Template Name *</label>
+                            <input type="text" name="et_name" class="form-control" value="{{  $template->et_name }}">
+                        </div>
+                        <div class="form-group">
                             <label for="">Email Subject *</label>
                             <input type="text" name="et_subject" class="form-control" value="{{ $template->et_subject }}"
                                 autofocus>
@@ -95,9 +99,9 @@
                 valid_elements : '*[*]',
                 valid_children : "+body[style]",
                 images_upload_url: '/upload-image',
-                
+
                 tinycomments_author: 'Author name',
-                
+
                 mergetags_list: [{
                         value: 'First.Name',
                         title: 'First Name'
