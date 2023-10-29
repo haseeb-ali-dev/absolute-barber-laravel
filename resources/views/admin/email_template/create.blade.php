@@ -53,7 +53,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Message *</label>
-                            <textarea name="et_content" class="form-control editor" cols="30" rows="10" id="et_content">{{ old('et_content') }}</textarea>
+                            <textarea name="et_content"  cols="30" rows="10" id="et_content">{{ old('et_content') }}</textarea>
 
                             <div class="d-flex justify-content-between">
                                 <div>
@@ -83,12 +83,31 @@
         </div>
     </form>
 
+    <script src="https://cdn.tiny.cloud/1/ke6kl5fbofw7k5ek2q1zhsfknxjearp8ybyz4cd3nzdhaqng/tinymce/5/tinymce.min.js"
+        referrerpolicy="origin"></script>
+
     <script>
-        function addTag(tag_name) {
-            $("#et_content").summernote('editor.saveRange');
-            $("#et_content").summernote('editor.restoreRange');
-            $("#et_content").summernote('editor.focus');
-            $("#et_content").summernote('editor.insertText', tag_name);
-        }
+        $(document).ready(function() {
+            tinymce.init({
+                selector: '#et_content',
+                height: "500",
+                plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount code fullpage',
+                toolbar: 'undo export redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat | code',
+                tinycomments_mode: 'embedded',
+                cleanup : false,
+                valid_elements : '*[*]',
+                valid_children : "+body[style]",
+                tinycomments_author: 'Author name',
+                mergetags_list: [{
+                        value: 'First.Name',
+                        title: 'First Name'
+                    },
+                    {
+                        value: 'Email',
+                        title: 'Email'
+                    },
+                ],
+            });
+        });
     </script>
 @endsection

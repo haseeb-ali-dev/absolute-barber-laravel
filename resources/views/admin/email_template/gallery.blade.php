@@ -18,18 +18,19 @@
             @if (session('is_super') == 1)
                 @includeIf('admin.email_template.listing', ['templates' => $templates])
             @else
-                <ul class="nav nav-pills nav-justified border border-primary rounded-pill w-50" id="myTab"
-                    role="tablist">
+            <div class="nav-wrapper text-center">
+                <ul class="nav nav-pills d-flex justify-content-center  flex-wrap w-100" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link active rounded-pill" id="by-super-admin-tab" data-toggle="tab"
-                            href="#by-super-admin" role="tab" aria-controls="by-super-admin" aria-selected="true">By
-                            Super Admin</a>
+                        <a class="nav-link active rounded-pill" id="by-super-admin-tab" data-toggle="tab" href="#by-super-admin"
+                            role="tab" aria-controls="by-super-admin" aria-selected="true">By Super Admin</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link rounded-pill" id="by-yourself-tab" data-toggle="tab" href="#by-yourself"
-                            role="tab" aria-controls="by-yourself" aria-selected="false">By Yourself (Modified)</a>
+                        <a class="nav-link rounded-pill" id="by-yourself-tab" data-toggle="tab" href="#by-yourself" role="tab"
+                            aria-controls="by-yourself" aria-selected="false">By Yourself</a>
                     </li>
                 </ul>
+            </div>
+            <br>            
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="by-super-admin" role="tabpanel"
                         aria-labelledby="by-super-admin-tab">

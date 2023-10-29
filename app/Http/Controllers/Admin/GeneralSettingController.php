@@ -1159,7 +1159,7 @@ class GeneralSettingController extends Controller
 
     public function landing_page_contact_save(Request $request)
     {
-        
+       
         $data = $request->validate([
             'email' => 'required|email',
             'phone' => 'required|max:25',
@@ -1175,7 +1175,8 @@ class GeneralSettingController extends Controller
         unset($data['code']);
         // $data['id']
         
-        $message = GeneralSetting::where('id', 1)->first();
+        $message = GeneralSetting::where('id', $request->landing_page_id)->first();
+        
 
         $account_sid = env('TWILIO_ACCOUNT_SID');
         $auth_token = env('TWILIO_AUTH_TOKEN');
@@ -1183,6 +1184,7 @@ class GeneralSettingController extends Controller
 
         $recipient_number = $data['phone'];
         $message_body = $message->lpc_message_text;
+      
        
         DB::table('landing_page_contacts')->insert($data);
         

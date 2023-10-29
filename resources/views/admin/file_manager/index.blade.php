@@ -27,13 +27,13 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>
                                     @if (in_array($file->extension, ['png', 'jpg', 'jpeg']))
-                                        <img src="{{ asset('public/storage/' . $file->hashname) }}"
+                                        <img src="{{ asset('storage/app/public/' . $file->hashname) }}"
                                             alt="{{ $file->filename }}" class="w_200">
                                     @else
                                         <span class="d-flex align-items-center">
                                             {{ $file->filename }}
                                             @if ($file->extension == 'pdf' && $file->signature)
-                                                <a href="{{ asset('public/storage/' . $file->signature) }}" target="_blank"
+                                                <a href="{{ asset('storage/app/public/' . $file->signature) }}" target="_blank"
                                                     class="border border-info rounded-pill px-3 mx-2 py-1 text-muted">
                                                     <i class="fas fa-file-signature"></i>
                                                     Signed on:
@@ -60,15 +60,18 @@
                                 <td class="text-muted">{{ \Carbon\Carbon::parse($file->created_at)->format('d/m/Y') }}</td>
                                 <td>
                                     @if (in_array($file->extension, ['png', 'jpg', 'jpeg', 'pdf']))
-                                        <a href="{{ asset('public/storage/' . $file->hashname) }}" target="_blank"
+                                        <a href="{{ asset('storage/app/public/' . $file->hashname) }}" target="_blank"
                                             class="btn btn-success btn-sm">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                     @endif
-                                    <a href="{{ asset('public/storage/' . $file->hashname) }}" download
+                                    <a href="{{ asset('storage/app/public/' . $file->hashname) }}" download
                                         class="btn btn-info btn-sm">
                                         <i class="fas fa-arrow-alt-circle-down"></i>
                                     </a>
+                                    <button class="btn btn-success btn-sm copy-link" data-link="{{ asset('storage/app/public/' . $file->hashname) }}">
+                                        <i class="fas fa-copy"></i> Copy Link
+                                    </button>
                                     <a href="{{ route('file-manager.remove', ['id' => $file->id, 'name' => $file->hashname]) }}"
                                         class="btn btn-secondary btn-sm" onClick="return confirm('Are you sure?');">
                                         <i class="fas fa-trash"></i>
@@ -108,6 +111,34 @@
             });
         });
     </script>
+    <script>
+        document.querySelectorAll('.copy-link').forEach(button => {
+            button.addEventListener('click', function() {
+                const linkToCopy = this.getAttribute('data-link');
+                
+                // Create a temporary input element to copy the link
+                const input = document.createElement('input');
+                input.value = linkToCopy;
+                document.body.appendChild(input);
+    
+                // Select and copy the text in the input element
+                input.select();
+                document.execCommand('copy');
+    
+                // Remove the temporary input element
+                document.body.removeChild(input);
+    
+                // Change the button text to indicate success
+                this.innerHTML = '<i class="fas fa-check"></i> Copied';
+    
+                // Optional: Reset the button text after a few seconds
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-copy"></i> Copy Link';
+                }, 2000);
+            });
+        });
+    </script>
+    
 
     {{-- <div id="file-manager">
         <form action="{{ route('file-manager.upload') }}" method="post" enctype="multipart/form-data">

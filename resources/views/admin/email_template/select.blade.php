@@ -4,6 +4,7 @@
         .select2-container--default .select2-selection--multiple {
             height: 40px;
         }
+        .tox-notifications-container {display: none !important;}
     </style>
     <h1 class="h3 mb-3 text-gray-800">Sending Email.....</h1>
 
@@ -46,7 +47,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Email Message *</label>
-                            <textarea name="et_content" class="form-control editor" cols="30" rows="10" id="et_content">{{ $template->et_content }}</textarea>
+                            <textarea name="et_content"  cols="30" rows="10" id="et_content">{{ $template->et_content }}</textarea>
 
                             <div class="custom-control custom-switch float-right mt-2">
                                 <input type="checkbox" class="custom-control-input" id="customSwitch1" name="modified">
@@ -79,13 +80,35 @@
         </div>
     </form>
 
+    <script src="https://cdn.tiny.cloud/1/ke6kl5fbofw7k5ek2q1zhsfknxjearp8ybyz4cd3nzdhaqng/tinymce/5/tinymce.min.js"
+        referrerpolicy="origin"></script>
+
     <script>
-        function addTag(tag_name) {
-            $("#et_content").summernote('editor.saveRange');
-            $("#et_content").summernote('editor.restoreRange');
-            $("#et_content").summernote('editor.focus');
-            $("#et_content").summernote('editor.insertText', tag_name);
-        }
+        $(document).ready(function() {
+            tinymce.init({
+                selector: '#et_content',
+                height: "500",
+                plugins: 'anchor autolink charmap codesample emoticons image link lists  searchreplace table visualblocks wordcount code fullpage',
+                toolbar: 'undo export redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image  table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat | code',
+                tinycomments_mode: 'embedded',
+                cleanup : false,
+                valid_elements : '*[*]',
+                valid_children : "+body[style]",
+                images_upload_url: '/upload-image',
+                
+                tinycomments_author: 'Author name',
+                
+                mergetags_list: [{
+                        value: 'First.Name',
+                        title: 'First Name'
+                    },
+                    {
+                        value: 'Email',
+                        title: 'Email'
+                    },
+                ],
+            });
+        });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>

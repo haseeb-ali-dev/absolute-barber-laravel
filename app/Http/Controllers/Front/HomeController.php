@@ -76,6 +76,57 @@ class HomeController extends Controller
         return view('pages.podcast', compact('theme_color','music','page_home','sliders'));
     }
 
+    public function upload(Request $request)
+{
+    
+     $image = $request->file('file');
+
+        if ($image) {
+            // Create a new Guzzle HTTP client
+            $client = new Client();
+
+            // Imgur API endpoint
+            $imgurUrl = 'https://api.imgur.com/3/image';
+
+            // Imgur API client ID (replace with your own)
+            $clientId = '8007c2f8f6a1712';
+
+            // Prepare headers with the client ID
+            $headers = [
+                'Authorization' => 'Client-ID ' . $clientId,
+            ];
+
+            // Send a POST request to Imgur
+            $response = $client->request('POST', $imgurUrl, [
+                'headers' => $headers,
+                'multipart' => [
+                    [
+                        'name' => 'image',
+                        'contents' => fopen($image->getPathname(), 'r'),
+                        'filename' => $image->getClientOriginalName(),
+                    ],
+                ],
+            ]);
+
+            // Decode the JSON response from Imgur
+            $responseData = json_decode($response->getBody());
+
+            if ($responseData && isset($responseData->data->link)) {
+                // Get the link to the uploaded image
+                $imgurLink = $responseData->data->link;
+                
+
+                return response()->json(['location' => $imgurLink]);
+            }
+        }
+
+        return response()->json(['error' => 'Image upload failed'], 500);
+    
+    
+    
+    
+}
+
 
 
 }

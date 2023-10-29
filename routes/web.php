@@ -105,6 +105,7 @@ use Illuminate\Support\Facades\Route;
 /* Front End */
 /* --------------------------------------- */
 Route::get('/', [HomeController::class,'index'])->name('homepage');
+Route::post('/upload-image', [HomeController::class,'upload'])->name('upload')->withoutMiddleware(['web', 'csrf']); 
 Route::get('about', [AboutController::class,'index'])->name('front.about');
 Route::get('services', [ServiceControllerForFront::class,'index'])->name('front.services');
 Route::get('register', [ServiceControllerForFront::class,'index'])->name('front.register');
