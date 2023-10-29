@@ -71,6 +71,27 @@ class CouponDesignController extends Controller
         return redirect()->route('admin.coupon_design.index')->with('success', 'Coupon Design is deleted successfully!');
     }
 
+    public function modify(CouponDesign $couponDesign)
+    {
+        return view('admin.coupon_design.modify')->with('design', $couponDesign);
+    }
+
+    public function store_modified(Request $request, CouponDesign $couponDesign)
+    {
+        if (env('PROJECT_MODE') == 0) {
+            return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
+        }
+        $data = $this->request_validate($request);
+
+        $newCouponDesign = $couponDesign->replicate();
+        $newCouponDesign->content = $data['content'];
+        $newCouponDesign->title = $data['title'];
+        $newCouponDesign->modified_by = session('id');
+        $newCouponDesign->save();
+
+        return redirect()->route('admin.coupon_design.index')->with('success', 'Coupon Design is saved as your design successfully!');
+    }
+
     private function request_validate(Request $request)
     {
         $data = $request->validate([
@@ -80,7 +101,6 @@ class CouponDesignController extends Controller
         ]);
         return $data;
     }
-
     private function upload_thumbnail(Request $request)
     {
         $ext = $request->file('thumbnail')->extension();

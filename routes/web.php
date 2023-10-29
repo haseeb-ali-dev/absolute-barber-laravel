@@ -1022,3 +1022,9 @@ Route::get('admin/coupon_design/{coupon_design}/delete', [CouponDesignController
     ->middleware('admin');
 Route::get('admin/coupon_design/{id}/view', [CouponDesignController::class, 'show'])
     ->name('admin.coupon_design.show');
+Route::get('admin/coupon_design/{coupon_design}/modify', [CouponDesignController::class, 'modify'])
+    ->name('admin.coupon_design.modify')
+    ->middleware('admin');
+Route::post('admin/coupon_design/{coupon_design}/store_modified', [CouponDesignController::class, 'store_modified'])
+    ->name('admin.coupon_design.store_modified')
+    ->middleware('admin');

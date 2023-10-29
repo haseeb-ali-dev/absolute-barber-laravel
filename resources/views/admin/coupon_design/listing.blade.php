@@ -20,7 +20,7 @@
                             <div class="d-flex flex-column">
                                 <a id="copyCouponLink{{ $row->id }}" href="#"
                                     data-clipboard-text="{{ route('admin.coupon_design.show', ['id' => Crypt::encrypt($row->id)]) }}"
-                                    class="copy-link btn btn-success rounded-pill btn-sm">
+                                    class="copy-link btn btn-success rounded-pill btn-sm mb-2">
                                     Copy Coupon Link
                                 </a>
 
@@ -28,6 +28,9 @@
                                     <a href="{{ route('admin.coupon_design.delete', ['coupon_design' => $row]) }}"
                                         class="btn btn-danger rounded-pill btn-sm"
                                         onclick="return confirm('Are you sure you want to delete this template?')">Delete</a>
+                                @else
+                                    <a href="{{ route('admin.coupon_design.modify', ['coupon_design' => $row]) }}"
+                                        class="btn btn-primary rounded-pill btn-sm">Modify</a>
                                 @endif
                             </div>
                         </div>
