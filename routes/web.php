@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\ChatController;
+use App\Http\Controllers\Admin\CouponDesignController;
 use App\Http\Controllers\Admin\EnvController;
 use App\Http\Controllers\Admin\GroupController;
 use App\Http\Controllers\Admin\VideoConferenceController;
@@ -105,7 +106,7 @@ use Illuminate\Support\Facades\Route;
 /* Front End */
 /* --------------------------------------- */
 Route::get('/', [HomeController::class,'index'])->name('homepage');
-Route::post('/upload-image', [HomeController::class,'upload'])->name('upload')->withoutMiddleware(['web', 'csrf']); 
+Route::post('/upload-image', [HomeController::class,'upload'])->name('upload')->withoutMiddleware(['web', 'csrf']);
 Route::get('about', [AboutController::class,'index'])->name('front.about');
 Route::get('services', [ServiceControllerForFront::class,'index'])->name('front.services');
 Route::get('register', [ServiceControllerForFront::class,'index'])->name('front.register');
@@ -1008,3 +1009,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], fu
 /* Reports - Admin */
 /* --------------------------------------- */
 Route::get('admin/reports', [EmailTemplateController::class, 'reports'])->name('admin.reports')->middleware('admin');
+
+/* --------------------------------------- */
+/* Coupon Design - Admin */
+/* --------------------------------------- */
+Route::resource('admin/coupon_design', CouponDesignController::class)
+    ->except(['show'])
+    ->names('admin.coupon_design')
+    ->middleware('admin');

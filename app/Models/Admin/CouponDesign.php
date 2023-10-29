@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Models\Admin;
+
+use Illuminate\Database\Eloquent\Model;
+
+class CouponDesign extends Model
+{
+    protected $fillable = ['title', 'content', 'modified_by', 'thumbnail'];
+
+    public function scopeUnmodified($query)
+    {
+        return $query-> whereNull('modified_by')->orderBy('id');
+    }
+
+    public function scopeModified($query)
+    {
+        return $query-> where('modified_by', session('id'))->orderBy('id');
+    }
+}
