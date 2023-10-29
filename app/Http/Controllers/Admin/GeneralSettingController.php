@@ -1031,6 +1031,11 @@ class GeneralSettingController extends Controller
             return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
         }
 
+        $duplicate_name=GeneralSetting::where('lpc_name',$request->lpc_name)->count();
+        if($duplicate_name>0){
+            return back()->with('error', 'Landing Page having same name alreadly taken.');
+        }
+
         $request->validate([
             'lpc_logo' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
             'lpc_text' => 'sometimes|max:225|string',
@@ -1131,7 +1136,8 @@ class GeneralSettingController extends Controller
     }
 
     public function landingpages_view($id){
-        $setting = GeneralSetting::where('id',$id)->first();
+       
+        $setting = GeneralSetting::where('lpc_name',$id)->first();
         $type=null;
         if(substr($setting->lpc_background, 0, 1) == "#") {
             $type='color';

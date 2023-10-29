@@ -10,6 +10,7 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
+        
     	$sliders = DB::table('sliders')->where('page','home')->get();
     	$page_home = DB::table('page_home_items')->where('id',1)->first();
     	$why_choose_items = DB::table('why_choose_items')->get();

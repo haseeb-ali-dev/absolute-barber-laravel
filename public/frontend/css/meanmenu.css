@@ -279,11 +279,11 @@ a.meanmenu-reveal {
     }
     .mobile-nav .logo {
 		text-decoration: none;
-        position: absolute;
+        /*position: absolute;*/
         /* top: 11px; */
         z-index: 999;
         left: auto;
-        right: 15%;
+        /*right: 15%;*/
         color: #fff;
         font-weight: bold;
         text-transform: uppercase;

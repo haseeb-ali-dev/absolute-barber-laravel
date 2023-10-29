@@ -97,8 +97,8 @@
                                 <!-- Card -->
                                 <div class="card">
                                     <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                                        <img style="height: 300px;" class="card-img-top" src="{{ asset('public/uploads/' . $row->image) }}"
-                                            alt="Card image cap">
+                                      <img style="height: 300px; width: 100%; object-fit: cover;" class="card-img-top" src="{{ asset('public/uploads/' . $row->image) }}" alt="Card image cap">
+
                                         <a href="#!">
                                             <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
                                         </a>

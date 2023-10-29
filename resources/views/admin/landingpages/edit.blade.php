@@ -103,7 +103,7 @@
                     <a target="_blank" class="btn btn-sm btn-primary my-3" href="{{ route('landing_page_contact') }}">Go to
                         Landing Contact Page </a>
 
-                    <a target="_blank" href="{{ route('landingpages.view', ['id' => $general_setting->id]) }}">
+                    <a target="_blank" href="{{ route('landingpages.view', ['id' => $general_setting->lpc_name]) }}">
                         <div id="qrcode"></div>
                     </a>
 
@@ -417,7 +417,7 @@
             });
 
             var qrcode = new QRCode($("#qrcode")[0], {
-                text: "{{ route('landingpages.view', ['id' => $general_setting->id]) }}",
+                text: "{{ route('landingpages.view', ['id' => $general_setting->lpc_name]) }}",
                 width: 200,
                 height: 200,
                 colorDark: "#000000",

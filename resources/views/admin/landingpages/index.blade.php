@@ -36,7 +36,7 @@
                             </td>
                             <td>
                                 <a href="{{ URL::to('landingpages_edit/'.$row->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                                <a target="_blank" href="{{ route('landingpages.view', ['id' => $row->id]) }}" class="btn btn-info btn-sm">
+                                <a target="_blank" href="{{ route('landingpages.view', ['id' => $row->lpc_name]) }}" class="btn btn-info btn-sm">
                                     <i class="fas fa-arrow-alt-circle-right"></i> View Landing Page
                                 </a>
                                 <a href="{{ URL::to('landingpages_delete/'.$row->id) }}" class="btn btn-danger btn-sm" onClick="return confirm('Are you sure?');"><i class="fas fa-trash-alt"></i></a>

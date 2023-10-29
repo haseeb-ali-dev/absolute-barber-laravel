@@ -13,11 +13,15 @@ $menus = \App\Models\Admin\Menu::whereNull('parent_id')->get();
 <div class="navbar-area" id="stickymenu">
 
     <!-- Menu For Mobile Device -->
-    <div class="mobile-nav" >
-        <a href="" class="logo">
-            <img src="{{ asset('public/uploads/'.$g_setting->logo) }}" alt="" style="height: 90px;     margin-left: -80%;">
-        </a>
+    <div class="mobile-nav">
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <a href="" class="logo">
+                <img src="{{ asset('public/uploads/'.$g_setting->logo) }}" alt="" style="height: 90px;">
+            </a>
+        </div>
     </div>
+
+
     <!-- Menu For Desktop Device -->
         <div class="main-nav" style="background: #{{$navbar_color}} !important;">
             <div class="container">
