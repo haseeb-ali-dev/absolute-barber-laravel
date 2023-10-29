@@ -16,17 +16,19 @@
                                 onclick="return confirm('Are you sure you want to delete this template?')">Delete</a>
                         </div>
                     @else
-                        <div class="edit-button d-flex flex-column">
-                            <a href="{{ route('admin.email_template.select', ['template_id' => $row->id]) }}"
-                                class="btn btn-success rounded-pill btn-sm">Select</a>
-                            <a href="{{ route('admin.email_template.preview', ['template' => $row]) }}"
-                                class="btn btn-dark rounded-pill btn-sm my-2">Preview</a>
+                        <div class="edit-button text-center">
+                            <div class="d-flex flex-column">
+                                <a href="{{ route('admin.email_template.select', ['template_id' => $row->id]) }}"
+                                    class="btn btn-success rounded-pill btn-sm">Select</a>
+                                <a href="{{ route('admin.email_template.preview', ['template' => $row]) }}"
+                                    class="btn btn-dark rounded-pill btn-sm my-2">Preview</a>
 
-                            @if (isset($enable_delete) && $enable_delete)
-                                <a href="{{ route('admin.email_template.delete', ['id' => $row->id]) }}"
-                                    class="btn btn-danger rounded-pill btn-sm"
-                                    onclick="return confirm('Are you sure you want to delete this template?')">Delete</a>
-                            @endif
+                                @if (isset($enable_delete) && $enable_delete)
+                                    <a href="{{ route('admin.email_template.delete', ['id' => $row->id]) }}"
+                                        class="btn btn-danger rounded-pill btn-sm"
+                                        onclick="return confirm('Are you sure you want to delete this template?')">Delete</a>
+                                @endif
+                            </div>
                         </div>
                     @endif
                 </div>
