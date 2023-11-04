@@ -87,6 +87,7 @@ class CouponDesignController extends Controller
         $newCouponDesign->content = $data['content'];
         $newCouponDesign->title = $data['title'];
         $newCouponDesign->modified_by = session('id');
+        $newCouponDesign->expired_at = $data['expired_at'];
         $newCouponDesign->save();
 
         return redirect()->route('admin.coupon_design.index')->with('success', 'Coupon Design is saved as your design successfully!');
@@ -97,7 +98,8 @@ class CouponDesignController extends Controller
         $data = $request->validate([
             'content' => 'required',
             'title' => 'required',
-            'thumbnail' => 'sometimes|mimes:jpg,jpeg,png|max:5000'
+            'thumbnail' => 'sometimes|mimes:jpg,jpeg,png|max:5000',
+            'expired_at' => 'sometimes|date'
         ]);
         return $data;
     }

@@ -44,6 +44,11 @@
                             <input type="text" name="title" class="form-control" value="{{ $design->title }}"
                                 autofocus>
                         </div>
+                        <div class="form-group">
+                            <label for="">Expired At *</label>
+                            <input type="datetime-local" name="expired_at" class="form-control" value="{{ old('expired_at') }}"
+                                min="{{ now()->format('Y-m-d H:i') }}">
+                        </div>
                         <div class="form-group d-flex flex-column">
                             <label for="">Coupon Content *</label>
                             <textarea name="content" cols="30" rows="10" id="et_content">{{ $design->content }}</textarea>
@@ -70,9 +75,9 @@
                     valid_elements : '*[*]',
                     valid_children : "+body[style]",
                     images_upload_url: '/upload-image',
-    
+
                     tinycomments_author: 'Author name',
-    
+
                     mergetags_list: [{
                             value: 'First.Name',
                             title: 'First Name'

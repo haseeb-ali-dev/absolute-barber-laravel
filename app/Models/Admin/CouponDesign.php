@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class CouponDesign extends Model
 {
-    protected $fillable = ['title', 'content', 'modified_by', 'thumbnail'];
+    protected $fillable = ['title', 'content', 'modified_by', 'thumbnail', 'expired_at'];
+
+    protected $casts = [
+        'expired_at' => 'datetime',
+    ];
 
     public function scopeUnmodified($query)
     {

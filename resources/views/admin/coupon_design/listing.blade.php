@@ -18,11 +18,13 @@
                     @else
                         <div class="edit-button text-center">
                             <div class="d-flex flex-column">
-                                <a id="copyCouponLink{{ $row->id }}" href="#"
-                                    data-clipboard-text="{{ route('admin.coupon_design.show', ['id' => Crypt::encrypt($row->id)]) }}"
-                                    class="copy-link btn btn-success rounded-pill btn-sm mb-2">
-                                    Copy Coupon Link
-                                </a>
+                                @if (isset($row->expired_at))
+                                    <a id="copyCouponLink{{ $row->id }}" href="#"
+                                        data-clipboard-text="{{ route('admin.coupon_design.show', ['id' => Crypt::encrypt($row->id)]) }}"
+                                        class="copy-link btn btn-success rounded-pill btn-sm mb-2">
+                                        Copy Coupon Link
+                                    </a>
+                                @endif
 
                                 @if (isset($enable_delete) && $enable_delete)
                                     <a href="{{ route('admin.coupon_design.delete', ['coupon_design' => $row]) }}"
