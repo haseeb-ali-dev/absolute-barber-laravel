@@ -5,74 +5,16 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        #demo {
-            text-align: center;
-            font-size: 20px;
-            margin-block: 25px;
-            color: white;
-            border: 1px solid gray;
-            padding: 10px 25px;
-            width: fit-content;
-            margin-inline: auto;
-            border-radius: 10px;
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            background-color: black;
-        }
-
-        .expired {
-            font-weight: bold;
-            color: red;
-        }
-
-        .num {
-            animation: pulse 1s infinite;
-            font-size: 28px;
-        }
-
-        .days {
-            color: #6ab6ff;
-        }
-
-        .hours {
-            color: #ff7f7f;
-        }
-
-        .minutes {
-            color: #7eff95;
-        }
-
-        .seconds {
-            color: #ffeb6e;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                opacity: 0.7;
-            }
-
-            50% {
-                transform: scale(1.1);
-                opacity: 1;
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 0.7;
-            }
-        }
-
-        .ml-2 {
-            margin-left: 10px;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 
 <body>
     @if (isset($coupon->expired_at))
-        <p id="demo"></p>
+        <div class="container-sm mx-auto text-center my-4">
+            <p class="text-muted py-2 fs-5" id="info-text"></p>
+            <div id="countdown"></div>
+        </div>
 
         <script>
             // Set the date we're counting down to
@@ -85,36 +27,49 @@
 
                 if (distance < 0) {
                     clearInterval(x);
-                    document.getElementById("demo").innerHTML = "This Coupon is ";
+                    document.getElementById("info-text").innerHTML = "This Coupon is ";
                     var expiredText = document.createElement("span");
-                    expiredText.className = "expired";
+                    expiredText.className = "text-danger";
                     expiredText.textContent = "EXPIRED";
-                    document.getElementById("demo").appendChild(expiredText);
+                    document.getElementById("info-text").appendChild(expiredText);
                 } else {
                     var days = Math.floor(distance / (1000 * 60 * 60 * 24));
                     var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                    var countdownText = 'Expires in: ';
-                    if (days > 0) {
-                        countdownText += '<span class="ml-2 days"> <span class="num">' + days + '</span> day' + (days >
-                            1 ?
-                            's' : '') + '</span> - ';
-                    }
-                    if (hours > 0) {
-                        countdownText += '<span class="hours"> <span class="num">' + hours + '</span> hour' + (hours >
-                            1 ? 's' : '') + '</span> - ';
-                    }
-                    if (minutes > 0) {
-                        countdownText += '<span class="minutes"> <span class="num">' + minutes + '</span> minute' + (
-                            minutes > 1 ? 's' : '') + '</span> - ';
-                    }
-                    countdownText += '<span class="seconds"> <span class="num">' + seconds + '</span> second' + (
-                        seconds > 1 ? 's' : '') + '</span>';
+                    document.getElementById("info-text").innerHTML = "This Coupon Expires in";
 
-                    document.getElementById("demo").innerHTML = countdownText;
+                    var mainContainer = document.getElementById("countdown");
+                    mainContainer.className = "d-flex justify-content-around mx-auto w-50";
 
+                    var countdownText = `<div class="d-flex flex-column p-2">`;
+
+                    countdownText += '<span class="fs-3 fw-bold">' + days +
+                        '</span><small class="text-uppercase mt-1">day' + (days >
+                            1 ? 's' : '') + '</small>';
+
+                    countdownText += `</div><span class="fs-3 p-2">:</span><div class="d-flex flex-column p-2">`
+
+                    countdownText += '<span class="fs-3 fw-bold">' + hours +
+                        '</span><small class="text-uppercase mt-1">hour' + (hours >
+                            1 ? 's' : '') + '</small>';
+
+                    countdownText += `</div><span class="fs-3 p-2">:</span><div class="d-flex flex-column p-2">`
+
+                    countdownText += '<span class="fs-3 fw-bold">' + minutes +
+                        '</span><small class="text-uppercase mt-1">minute' + (minutes >
+                            1 ? 's' : '') + '</small>';
+
+                    countdownText += `</div><span class="fs-3 p-2">:</span><div class="d-flex flex-column p-2">`
+
+                    countdownText += '<span class="fs-3 fw-bold">' + seconds +
+                        '</span><small class="text-uppercase mt-1">second' + (seconds >
+                            1 ? 's' : '') + '</small>';
+
+                    countdownText += `</div>`
+
+                    mainContainer.innerHTML = countdownText
                 }
             }, 1000);
         </script>
