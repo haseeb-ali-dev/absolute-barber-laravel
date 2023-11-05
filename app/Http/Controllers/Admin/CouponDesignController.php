@@ -90,6 +90,8 @@ class CouponDesignController extends Controller
         $newCouponDesign->expired_at = $data['expired_at'];
         $newCouponDesign->save();
 
+        session(['tab' => 'modified']);
+
         return redirect()->route('admin.coupon_design.index')->with('success', 'Coupon Design is saved as your design successfully!');
     }
 
