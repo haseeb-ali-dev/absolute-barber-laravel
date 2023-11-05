@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\CouponDesign;
 use App\Models\Admin\ScheduleMessages;
 use App\Models\Customer;
 use App\Models\Admin\Subscriber;
@@ -65,7 +66,7 @@ class CustomerController extends Controller
 
     public function landing_page_messages_by_page($id)
     {
-        
+
         $coupons = CouponTool::all();
         $user_chat_statuses = UserChatStatus::all();
 
@@ -124,7 +125,7 @@ class CustomerController extends Controller
     public function import_excel_contacts(){
 
         $customers = ExcelContact::all();
-        $coupons = CouponTool::all();
+        $coupons = CouponDesign::modified()->get();
         return view('admin.excel.excel_import', compact('customers','coupons'));
     }
 

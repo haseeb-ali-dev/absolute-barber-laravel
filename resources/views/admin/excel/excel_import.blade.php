@@ -117,20 +117,24 @@
                               @foreach ($coupons as $coupon)
                                   <tr>
                                       <td>{{ $coupon->title }}</td>
-                                      <td>{{ Carbon\Carbon::createFromFormat('Y-m-d', $coupon->valid_till)->format('d F Y') }}</td>
+                                      <td>{{ isset($coupon->expired_at) ? $coupon->expired_at->format('d F Y, H:i A') : '-' }}</td>
                                       <td>
-                                          @if (Carbon\Carbon::createFromFormat('Y-m-d', $coupon->valid_till)->isPast())
-                                              <span class="text-danger">Expired</span>
-                                          @elseif (Carbon\Carbon::createFromFormat('Y-m-d', $coupon->valid_till)->isToday())
-                                              <span class="text-warning">Expires Today</span>
-                                          @else
-                                              <span class="text-success">Valid</span>
-                                          @endif
+                                            @if(isset($coupon->expired_at))
+                                                @if ($coupon->expired_at->isPast())
+                                                    <span class="text-danger">Expired</span>
+                                                @elseif ($coupon->expired_at->isToday())
+                                                    <span class="text-warning">Expires Today</span>
+                                                @else
+                                                    <span class="text-success">Valid</span>
+                                                @endif
+                                            @else
+                                                <span class="text-warning">Expiry Not Set</span>
+                                            @endif
                                       </td>
                                       <td>
                                           <a id="copyCouponLink{{ $coupon->id }}"
                                              href="javascript:void(0)"
-                                             data-clipboard-text="{{ URL::to('coupon/tool/view/'.$coupon->secret) }}"
+                                             data-clipboard-text="{{  route('admin.coupon_design.show', ['id' => bin2hex(base64_encode($coupon->id))]) }}"
                                              class="copy-link">
                                              Click to copy Coupon Link
                                           </a>
@@ -413,7 +417,7 @@ $.fn.TableCheckAll = function (options) {
             e.trigger.innerHTML = 'Click to copy Coupon Link';
         }, 1500); // Reset back to the original text after 1.5 seconds
         e.clearSelection();
-        
+
         // Prevent the default link behavior
         e.preventDefault();
     });

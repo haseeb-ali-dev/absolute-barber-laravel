@@ -39,7 +39,7 @@ class CouponDesignController extends Controller
     public function show($id)
     {
         try {
-            $decrypted = Crypt::decrypt($id);
+            $decrypted = base64_decode(hex2bin($id));
             $coupon = CouponDesign::find($decrypted);
             return view('admin.coupon_design.show', compact('coupon'));
         } catch (Exception $e) {
