@@ -19,13 +19,19 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="col-md-6 text-right">
+                            <div class="col-md-4 text-right">
                                 <div id="download_sample_excel" class="mb-1">
                                     <a href="{{ asset('public/demo_excels') }}/demo_bulk.xlsx" download>Download Sample
                                         Excel File</a>
                                 </div>
                                 <button type="submit" class="btn btn-sm btn-primary rounded-pill mr-auto px-3"
                                     id="submit-all">{{ __('Import Excel Sheet') }}</button>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-sm btn-success mr-auto px-3 create-contact-btn"
+                                    data-id="{{ $row->id }}">{{ __('Add Contact to ') }}
+                                    <span style="font-weight: bold;font-size: 20px;">{{ $row->name }}</span>
+                                </button>
                             </div>
                         </div>
                     </div>

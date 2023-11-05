@@ -130,4 +130,20 @@ class GroupController extends Controller
 
         return back()->with('success', 'Group Contact deleted successfully');
     }
+
+    public function store_contact(Request $request)
+    {
+        $data = $request->validate([
+            'group_id' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required|max:25',
+            'name' => 'required|max:224',
+        ]);
+
+        session(['gid' => $data['group_id']]);
+
+        GroupContact::create($data);
+
+        return back()->with('success', 'Group Contact added successfully!');
+    }
 }

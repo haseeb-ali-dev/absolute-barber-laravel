@@ -91,4 +91,5 @@
     </div>
 
     @includeIf('admin.group.contacts.edit')
+    @includeIf('admin.group.contacts.create')
 @endsection

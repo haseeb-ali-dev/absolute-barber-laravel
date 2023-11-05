@@ -20,7 +20,7 @@
                             <div class="d-flex flex-column">
                                 @if (isset($row->expired_at))
                                     <a id="copyCouponLink{{ $row->id }}" href="#"
-                                        data-clipboard-text="{{ route('admin.coupon_design.show', ['id' => bin2hex(base64_encode($coupon->id))]) }}"
+                                        data-clipboard-text="{{ route('admin.coupon_design.show', ['id' => bin2hex(base64_encode($row->id))]) }}"
                                         class="copy-link btn btn-success rounded-pill btn-sm mb-2">
                                         Copy Coupon Link
                                     </a>
