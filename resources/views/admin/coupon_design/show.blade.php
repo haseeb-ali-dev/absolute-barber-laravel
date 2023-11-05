@@ -8,26 +8,67 @@
     <style>
         #demo {
             text-align: center;
-            font-size: 18px;
-            margin-top: 10px;
-            color: #333;
+            font-size: 20px;
+            margin-block: 25px;
+            color: white;
             border: 1px solid gray;
             padding: 10px 25px;
             width: fit-content;
             margin-inline: auto;
             border-radius: 10px;
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            background-color: black;
         }
 
         .expired {
             font-weight: bold;
-            /* Make the "EXPIRED" text bold */
             color: red;
-            /* Expired text color */
+        }
+
+        .num {
+            animation: pulse 1s infinite;
+            font-size: 28px;
+        }
+
+        .days {
+            color: #6ab6ff;
+        }
+
+        .hours {
+            color: #ff7f7f;
+        }
+
+        .minutes {
+            color: #7eff95;
+        }
+
+        .seconds {
+            color: #ffeb6e;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+        }
+
+        .ml-2 {
+            margin-left: 10px;
         }
     </style>
 </head>
-{{-- @dd($coupon->expired_at->toDatetimeString()) --}}
 
 <body>
     @if (isset($coupon->expired_at))
@@ -57,15 +98,20 @@
 
                     var countdownText = 'Expires in: ';
                     if (days > 0) {
-                        countdownText += days + ' day' + (days > 1 ? 's' : '') + ' - ';
+                        countdownText += '<span class="ml-2 days"> <span class="num">' + days + '</span> day' + (days >
+                            1 ?
+                            's' : '') + '</span> - ';
                     }
                     if (hours > 0) {
-                        countdownText += hours + ' hour' + (hours > 1 ? 's' : '') + ' - ';
+                        countdownText += '<span class="hours"> <span class="num">' + hours + '</span> hour' + (hours >
+                            1 ? 's' : '') + '</span> - ';
                     }
                     if (minutes > 0) {
-                        countdownText += minutes + ' minute' + (minutes > 1 ? 's' : '') + ' - ';
+                        countdownText += '<span class="minutes"> <span class="num">' + minutes + '</span> minute' + (
+                            minutes > 1 ? 's' : '') + '</span> - ';
                     }
-                    countdownText += seconds + ' second' + (seconds > 1 ? 's' : '');
+                    countdownText += '<span class="seconds"> <span class="num">' + seconds + '</span> second' + (
+                        seconds > 1 ? 's' : '') + '</span>';
 
                     document.getElementById("demo").innerHTML = countdownText;
 
