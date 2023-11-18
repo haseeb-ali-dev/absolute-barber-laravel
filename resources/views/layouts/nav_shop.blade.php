@@ -22,7 +22,7 @@
                         <span class="cart-count">
                             @if(session()->get('cart_product_id'))
                                 {{ count(session()->get('cart_product_id')) }}
-                            @endif 
+                            @endif
 
                         </span>
                     </a>
@@ -54,15 +54,14 @@
                     <!-- Cart Icon - Replace '#' with the actual link for the cart -->
                     <a href="{{ route('front.cart') }}" class="nav-link cart-icon" style="font-size: 22px; position: relative;">
                         <i class="fa fa-shopping-basket"></i>
+                        @if(session()->get('cart_product_id'))
                         <span class="cart-count">
-                            @if(session()->get('cart_product_id'))
                                 {{ count(session()->get('cart_product_id')) }}
-                            @endif 
-
                         </span>
+                        @endif
                     </a>
-                    
-                    
+
+
                     <!-- Login Button - Replace '#' with the actual link for login -->
                     <!-- Login Button - Replace '#' with the actual link for login -->
                     <!-- Login Button -->
@@ -114,11 +113,11 @@
                                             <a style="color: #{{$settings['items_color']}};" href="{{ $row->fixed ? route($row->route) : route($row->route) }}" class="nav-link" @if ($row->menu_key == 'Shop') target='_blank' @endif>{{ $row->menu_name }}</a>
                                         @endif
                                         @if ($row->link==1)
-                                            
+
                                             <a target="_blank" style="color: #{{$settings['items_color']}};" href="{{ filter_var($row->route, FILTER_VALIDATE_URL) ? $row->route : ($row->fixed ? route($row->route) : route($row->route)) }}" class="nav-link" @if ($row->menu_key == 'Shop') target='_blank' @endif>{{ $row->menu_name }}</a>
 
                                         @endif
-                                        
+
                                     @endif
                             @endif
 
@@ -131,7 +130,7 @@
 
                         @php
                         $dynamic_pages = DB::table('dynamic_pages')->get();
-                       
+
                         @endphp
 
                         @if ($dynamic_pages)
@@ -146,7 +145,7 @@
                                 @endforeach
 
                         @endif
-                       
+
                         <li class="nav-item">
                             <a style="color: #{{$settings['items_color']}};" href="{{ route('customer.registration') }}" class="nav-link">Register</a>
                         </li>

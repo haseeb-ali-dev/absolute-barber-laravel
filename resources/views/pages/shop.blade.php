@@ -108,7 +108,7 @@
                                 </div>
                                 <div class="cart-button">
 
-                                    @if($row->product_stock != 0)
+                                    @if($row->product_stock == 0)
                                     <a href="javascript:void(0);" class="stock-empty w-100-p text-center">Stock is
                                         empty</a>
                                     @else
