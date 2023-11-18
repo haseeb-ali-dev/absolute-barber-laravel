@@ -1,6 +1,6 @@
 @extends('admin.admin_layouts')
 @section('admin_content')
-    <h1 class="h3 mb-3 text-gray-800">Coupons</h1>
+    <h1 class="h3 mb-3 text-gray-800">Flyers</h1>
     @php
         use Carbon\Carbon;
     @endphp
@@ -8,7 +8,7 @@
         <div class="col-md-8">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 mt-2 font-weight-bold text-primary">View Coupons</h6>
+                    <h6 class="m-0 mt-2 font-weight-bold text-primary">View Flyers</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -41,7 +41,7 @@
                                                href="#"
                                                data-clipboard-text="{{ URL::to('coupon/tool/view/'.$coupon->secret) }}"
                                                class="copy-link">
-                                               Click to copy Coupon Link
+                                               Click to copy Flyer Link
                                             </a>
                                         </td>
                                         <td class="d-flex">
@@ -74,11 +74,11 @@
                 @csrf
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 mt-2 font-weight-bold text-primary">New Coupon</h6>
+                        <h6 class="m-0 mt-2 font-weight-bold text-primary">New Flyer</h6>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="">Coupon Title</label>
+                            <label for="">Flyer Title</label>
                             <textarea name="title" class="form-control editor" cols="30" rows="10">{{ old('title') }}</textarea>
                         </div>
                         <div class="form-group">
@@ -95,7 +95,7 @@
                             <input type="file" name="image" id="" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="">Coupon Validity</label>
+                            <label for="">Flyer Validity</label>
                             <input required type="date" name="valid_till" class="form-control" value="{{ old('valid_till') }}">
                         </div>
                         <button type="submit" class="btn btn-success">Save</button>
@@ -107,7 +107,7 @@
                 @method('PUT')
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 mt-2 font-weight-bold text-primary">Edit Coupon</h6>
+                        <h6 class="m-0 mt-2 font-weight-bold text-primary">Edit Flyer</h6>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
@@ -128,7 +128,7 @@
                             <input type="file" name="image" id="" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="">Coupon Validity</label>
+                            <label for="">Flyer Validity</label>
                             <input required type="date" name="valid_till" class="form-control" >
                         </div>
                        
@@ -157,7 +157,7 @@
             // Show a confirmation or feedback that the link has been copied
             e.trigger.innerHTML = 'Link Copied!';
             setTimeout(function () {
-                e.trigger.innerHTML = 'Click to copy Coupon Link';
+                e.trigger.innerHTML = 'Click to copy Flyer Link';
             }, 1500); // Reset back to the original text after 1.5 seconds
             e.clearSelection();
             

@@ -16,15 +16,30 @@ class SliderController extends Controller
         $this->middleware('admin');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $slider = Slider::all();
-        return view('admin.slider.index', compact('slider'));
+        if(isset($request->store)){
+            $slider = Slider::where('page','shop')->get();
+            $is_store=true;
+        }else{
+            $slider = Slider::where('page', '<>', 'shop')->get();
+
+            $is_store=false;
+        }
+        
+        return view('admin.slider.index', compact('slider','is_store'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return view('admin.slider.create');
+
+        if(isset($request->store)){
+            $is_store=true;
+        }else{
+            $is_store=false;
+        }
+        
+        return view('admin.slider.create', compact('is_store'));
     }
 
     public function store(Request $request)
@@ -71,17 +86,33 @@ class SliderController extends Controller
 
         $slider->fill($data)->save();
 
-        return redirect()->route('admin.slider.index')->with('success', 'Slider is added successfully!');
+
+        if($request->is_store=='1'){
+            return redirect()->route('admin.slider.index', ['store' => 1])->with('success', 'Slider is added successfully!');
+
+        }else{
+            return redirect()->route('admin.slider.index')->with('success', 'Slider is added successfully!');
+        }
+
+        
     }
 
-    public function edit($id)
+    public function edit($id, Request $request)
     {
         $slider = Slider::findOrFail($id);
-        return view('admin.slider.edit', compact('slider'));
+
+        if(isset($request->store)){
+            $is_store=true;
+        }else{
+            $is_store=false;
+        }
+     
+        return view('admin.slider.edit', compact('slider','is_store'));
     }
 
     public function update(Request $request, $id)
     {
+        
         if(env('PROJECT_MODE') == 0) {
             return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
         }
@@ -128,8 +159,14 @@ class SliderController extends Controller
         
 
         $slider->fill($data)->save();
+        
+        if($request->is_store=='1'){
+            return redirect()->route('admin.slider.index', ['store' => 1])->with('success', 'Slider is updated successfully!');
 
-        return redirect()->route('admin.slider.index')->with('success', 'Slider is updated successfully!');
+        }else{
+            return redirect()->route('admin.slider.index')->with('success', 'Slider is updated successfully!');
+        }
+        
     }
 
     public function destroy($id)

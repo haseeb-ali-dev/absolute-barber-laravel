@@ -5,7 +5,7 @@
         @forelse ($sliders as $row)
 
         @if ($row->slider_type == 'video')
-        <div class="slider-item">
+        <div class="slider-item" >
             <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, {{$row->overlay}});"></div>
 
             @php

@@ -6,8 +6,16 @@
     <div class="card-header py-3">
         <h6 class="m-0 mt-2 font-weight-bold text-primary">View Sliders</h6>
         <div class="float-right d-inline">
-            <a href="{{ route('admin.slider.create') }}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Add
+            @if ($is_store)
+                <a href="{{ route('admin.slider.create', ['store' => 1]) }}" class="btn btn-primary btn-sm">
+                    <i class="fa fa-plus"></i> Add New
+                </a>
+            
+            @else
+                <a href="{{ route('admin.slider.create') }}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Add
                 New</a>
+            @endif
+            
         </div>
     </div>
     <div class="card-body">
@@ -47,8 +55,14 @@
                         </td>
                         <td>{{ $row->slider_heading }}</td>
                         <td>
+                            @if ($is_store)
+                            <a href="{{ URL::to('admin/slider/edit/'.$row->id) }}?store=1" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+
+                            @else
                             <a href="{{ URL::to('admin/slider/edit/'.$row->id) }}" class="btn btn-warning btn-sm"><i
-                                    class="fas fa-edit"></i></a>
+                                class="fas fa-edit"></i></a>
+                            @endif
+                            
                             <a href="{{ URL::to('admin/slider/delete/'.$row->id) }}" class="btn btn-danger btn-sm"
                                 onClick="return confirm('Are you sure?');"><i class="fas fa-trash-alt"></i></a>
                         </td>

@@ -18,7 +18,7 @@
     }
 </style>
 
-    @includeIf('admin.order.grid_css', ['color' => $active['hex']])
+    {{-- @includeIf('admin.order.grid_css', ['color' => $active['hex']]) --}}
 
     <h1 class="h3 mb-3 text-gray-800">Orders -- {{ strtoupper($active['title']) }}</h1>
 
@@ -38,9 +38,13 @@
 
             <div class="row">
                 @forelse ($data as $row)
+                    @php
+                        $current_active_color = isset($row->status_id) ? App\Models\Admin\Status::find($row->status_id) : collect(['hex' => '36b9cc' , 'title' => 'All']);
+                        
+                    @endphp
                     <div class="col-md-3 my-2">
                         <div class="card order_card" style="border-color: #6D6E71" >
-                            <div class="card-header p-2 d-flex flex-column order_header" @if ($row->status==null) style="background-color: #FF155D;" @endif  >
+                            <div class="card-header p-2 d-flex flex-column order_header" @if ($row->status==null) style="background-color: #FF155D;" @else style="background-color: #{{$current_active_color->hex}};"  @endif  >
                                 <div class="d-flex justify-content-between">
                                     @if ($row->created_at->diffInMinutes(now()) < 1440 && $row->status==null)
                                         <span class="d-flex w-50 align-items-center justify-content-start">

@@ -149,6 +149,55 @@
           </div>
       </div>
   </div>
+  <div class="row">
+    <div class="col-md-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 mt-2 font-weight-bold text-primary">View Flyer Links to copy</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Validity</th>
+                                <th>Status</th>
+                                <th>Link</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($coupons_old as $coupon)
+                                <tr>
+                                    <td>{!! $coupon->title !!}</td>
+                                    <td>{{ Carbon\Carbon::createFromFormat('Y-m-d', $coupon->valid_till)->format('d F Y') }}</td>
+                                    <td>
+                                        @if (Carbon\Carbon::createFromFormat('Y-m-d', $coupon->valid_till)->isPast())
+                                            <span class="text-danger">Expired</span>
+                                        @elseif (Carbon\Carbon::createFromFormat('Y-m-d', $coupon->valid_till)->isToday())
+                                            <span class="text-warning">Expires Today</span>
+                                        @else
+                                            <span class="text-success">Valid</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a id="copyCouponLink{{ $coupon->id }}"
+                                           href="javascript:void(0)"
+                                           data-clipboard-text="{{ URL::to('coupon/tool/view/'.$coupon->secret) }}"
+                                           class="copy-link">
+                                           Click to copy Flyer Link
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
     <!-- Modal -->

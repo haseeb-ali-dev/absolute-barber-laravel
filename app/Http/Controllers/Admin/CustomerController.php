@@ -56,12 +56,12 @@ class CustomerController extends Controller
     public function landing_page_messages()
     {
         // dd('1');
-        $coupons = CouponTool::all();
+        $coupons_old = CouponTool::all();
         $user_chat_statuses = UserChatStatus::all();
-
+        $coupons = CouponDesign::modified()->get();
         $customers = LandingPageContact::all();
         $scheduled_messages = ScheduleMessages::where('module', 'landing_page_contacts')->orderBy('scheduled_at', 'DESC')->get();
-        return view('admin.customer.landing', compact('customers','coupons','user_chat_statuses', 'scheduled_messages'));
+        return view('admin.customer.landing', compact('customers','coupons','coupons_old','user_chat_statuses', 'scheduled_messages'));
     }
 
     public function landing_page_messages_by_page($id)
@@ -126,7 +126,9 @@ class CustomerController extends Controller
 
         $customers = ExcelContact::all();
         $coupons = CouponDesign::modified()->get();
-        return view('admin.excel.excel_import', compact('customers','coupons'));
+        $coupons_old = CouponTool::all();
+
+        return view('admin.excel.excel_import', compact('customers','coupons','coupons_old'));
     }
 
 

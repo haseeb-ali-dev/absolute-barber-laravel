@@ -707,6 +707,30 @@
                         src="{{ isset($general_settings_global->bercotool_27) ? asset("public/uploads/$general_settings_global->bercotool_27") : 'https://placehold.co/640x360?text=Follow Up Customer' }}"
                         alt="">
                 </div>
+
+                <div class="form-group d-flex flex-column col-md-2">
+                    <input type="file" name="bercotool_28" accept="image/*">
+                    <span>Flyers</span>
+                    @php
+                        $text=App\Models\ToolText::where('id',28)->first();
+                    @endphp
+                    <input type="text" value="{{$text->text}}" name="28" id="" class="form-control">
+                    <input type="text" value="{{$text->width}}" name="28_width" id="" class="form-control">
+                </div>
+                <div class="col-md-2">
+                    <input type="checkbox" name="codes[]" value="28"
+                        @if (in_array(28, $enabled_tools)) checked @endif>
+                    @if (in_array(28, $enabled_tools))
+                        Uncheck to Enable
+                    @else
+                        Check to Disable
+                    @endif
+                </div>
+                <div class="col-md-2">
+                    <img style="width:100px; height:100px;"
+                        src="{{ isset($general_settings_global->bercotool_28) ? asset("public/uploads/$general_settings_global->bercotool_28") : 'https://placehold.co/640x360?text=Flyers' }}"
+                        alt="">
+                </div>
                 
             </div>
 

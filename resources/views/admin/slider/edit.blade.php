@@ -6,6 +6,7 @@
         @csrf
 
         <input type="hidden" name="current_photo" value="{{ $slider->slider_photo }}">
+        <input type="hidden" name="is_store" value="{{ $is_store }}">
 
         <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -39,13 +40,18 @@
                 </div>
 
                 @include('admin.slider.centered', ['centered' => $slider->centered])
-                <div class="form-group">
+                @if ($is_store)
+                    <div class="form-group" style="display: none;">
+                @else
+                    <div class="form-group" >    
+                @endif
+                
                     <select  class="form-control" required name="page">
                         <option value="">Select Page</option>
                         <option value="home" {{ $slider->page === 'home' ? 'selected' : '' }}>Home</option>
                         <option value="about_us" {{ $slider->page === 'about_us' ? 'selected' : '' }}>About Us</option>
                         <option value="services" {{ $slider->page === 'services' ? 'selected' : '' }}>Services</option>
-                        <option value="shop" {{ $slider->page === 'shop' ? 'selected' : '' }}>Shop</option>
+                        <option  @if ($is_store==false) style="display: none;" @endif value="shop" {{ $slider->page === 'shop' ? 'selected' : '' }}>Shop</option>
                         <option value="blog" {{ $slider->page === 'blog' ? 'selected' : '' }}>Blog</option>
                         <option value="project" {{ $slider->page === 'project' ? 'selected' : '' }}>Project</option>
                         <option value="tools" {{ $slider->page === 'tools' ? 'selected' : '' }}>Tools</option>

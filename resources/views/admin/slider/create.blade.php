@@ -4,6 +4,8 @@
 
 <form action="{{ route('admin.slider.store') }}" method="post" enctype="multipart/form-data">
     @csrf
+    
+    <input type="hidden" name="is_store" value="{{$is_store}}">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 mt-2 font-weight-bold text-primary">Add Slider</h6>
@@ -40,19 +42,35 @@
 
             @include('admin.slider.centered')
             
-            <div class="form-group">
-                <select  class="form-control" required name="page">
-                    <option value="">Select Page</option>
-                    <option value="home">Home</option>
-                    <option value="about_us">About Us</option>
-                    <option value="services">Services</option>
-                    <option value="shop">Shop</option>
-                    <option value="blog">Blog</option>
-                    <option value="project">Project</option>
-                    <option value="tools">Tools</option>
-                    <option value="podcast">Podcast</option>
-                </select>
-            </div>
+            @if ($is_store)
+                <div class="form-group" style="display:none;">
+                    <select  class="form-control" required name="page">
+                        <option value="">Select Page</option>
+                        <option  value="home">Home</option>
+                        <option value="about_us">About Us</option>
+                        <option value="services">Services</option>
+                        <option selected value="shop">Shop</option>
+                        <option value="blog">Blog</option>
+                        <option value="project">Project</option>
+                        <option value="tools">Tools</option>
+                        <option value="podcast">Podcast</option>
+                    </select>
+                </div>
+            @else
+                <div class="form-group">
+                    <select  class="form-control" required name="page">
+                        <option value="">Select Page</option>
+                        <option value="about_us">About Us</option>
+                        <option value="services">Services</option>
+                        <option value="shop">Shop</option>
+                        <option value="blog">Blog</option>
+                        <option value="project">Project</option>
+                        <option value="tools">Tools</option>
+                        <option value="podcast">Podcast</option>
+                    </select>
+                </div>
+            @endif
+            
 
             <div class="form-group">
                 <select id="slider-type-box" class="form-control" required name="slider_type">
