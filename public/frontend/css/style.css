@@ -3119,7 +3119,7 @@ h4.contact-form-title {
 
 /* Product */
 .product-item {
-	margin-bottom: 80px!important;
+	/* margin-bottom: 80px!important; */
 }
 
 .product-item .photo img {
@@ -3153,10 +3153,11 @@ h4.contact-form-title {
 .product-item .text .price del {
 	color: red;
 }
-.product-item .text .cart-button {
+.product-item .text .cart-button, .cart-button {
 	overflow: hidden;
 }
-.product-item .text .cart-button a,
+
+.product-item .text .cart-button a, .cart-button a,
 .product-item .text .cart-button input[type="submit"] {
 	background: #3867D6;
 	color: #fff;
@@ -3169,9 +3170,9 @@ h4.contact-form-title {
 	display: inline-block;
 }
 
-.product-item .text button {
+.product-item .text button, .cart-button button {
 	width: 100%;
-	background: #3867D6;
+	background: #4D0101!important;
 	color: #fff;
 	border-radius: 30px;
 	padding: 10px 20px;
@@ -3186,17 +3187,17 @@ h4.contact-form-title {
 	font-size: 14px;
 }
 
-.product-item .text .cart-button a.stock-empty {
+.product-item .text .cart-button a.stock-empty, .cart-button a.stock-empty {
 	background: #ead1d1;
 	color: #ff0000;
 }
 
-.product-item .text .cart-button a.stock-empty:hover {
+.product-item .text .cart-button a.stock-empty:hover, .cart-button a.stock-empty:hover {
 	background: #ead1d1;
 	color: #ff0000;
 }
 
-.product-item .text .cart-button a:hover,
+.product-item .text .cart-button a:hover, .cart-button a:hover,
 .product-item .text .cart-button input[type="submit"]:hover {
 	background: #333;
 }
