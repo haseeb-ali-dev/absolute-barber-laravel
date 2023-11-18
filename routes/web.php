@@ -736,6 +736,11 @@ Route::get('admin/table/delete/{id}', [ProductControllerForAdmin::class,'table_d
 /* Shop QR Code - Admin */
 /* --------------------------------------- */
 Route::get('admin/shop/qrcode', [ProductControllerForAdmin::class, 'qrcode'])->name('admin.shop.qrcode');
+/* --------------------------------------- */
+/* Shop Settings - Admin */
+/* --------------------------------------- */
+Route::get('admin/shop/settings', [ProductControllerForAdmin::class, 'settings'])->name('admin.shop.settings');
+Route::post('admin/shop/settings', [ProductControllerForAdmin::class, 'save_settings'])->name('admin.shop.settings.save');
 
 
 /* --------------------------------------- */

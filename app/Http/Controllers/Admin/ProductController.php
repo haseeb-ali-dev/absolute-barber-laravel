@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\GeneralSetting;
 use App\Models\Admin\Menu;
 use App\Models\Admin\Product;
 use App\Models\Admin\ProductCategory;
@@ -23,10 +24,10 @@ class ProductController extends Controller
         $product = Product::all();
         return view('admin.product.index', compact('product'));
     }
-    
+
     public function tables(){
         $tables=DB::table('tables')->get();
-     
+
         return view('admin.product.tables', compact('tables'));
     }
 
@@ -36,7 +37,7 @@ class ProductController extends Controller
         ]);
         return redirect()->back()->with('success', 'Table added successfully!');
     }
-    
+
     public function table_destroy($id){
         DB::table('tables')->where('id', $id)->delete();
         return redirect()->back()->with('success', 'Table deleted successfully!');
@@ -160,5 +161,25 @@ class ProductController extends Controller
     {
         $shop_hidden = Menu::where('menu_key', 'Shop')->value('menu_status') != 'Show';
         return view('admin.shop.qrcode' , compact('shop_hidden'));
+    }
+
+    public function settings()
+    {
+        $general_setting = GeneralSetting::where('id',1)->first();
+        return view('admin.shop.settings', compact('general_setting'));
+    }
+
+    public function save_settings(Request $request)
+    {
+        $general_setting = GeneralSetting::where('id',1)->first();
+
+        $data = $request->validate([
+            'shop_heading' => 'sometimes|max:250',
+            'shop_title' => 'sometimes|max:250',
+            'shop_subtitle' => 'sometimes|max:1500',
+        ]);
+
+        $general_setting->update($data);
+        return Redirect()->back()->with('success', 'Shop Settings is saved successfully!');
     }
 }

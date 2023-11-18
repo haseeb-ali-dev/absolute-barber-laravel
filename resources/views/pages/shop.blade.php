@@ -55,13 +55,13 @@
 <div class="row wow fadeInUp" data-wow-duration="1s" style="visibility: visible; animation-duration: 1s; animation-name: fadeInUp;">
     <div class="col-md-8 col-lg-7 col-xl-6 m-auto text-center">
         <div class="wsus__section_heading mb_45">
-            <h4>Food Menu 2</h4>
-            <h2>Our Popular Delicious Foods 2</h2>
+            <h4>{{ $g_setting->shop_heading ?? 'Shop Heading' }}</h4>
+            <h2>{{ $g_setting->shop_title ?? 'Shop Title' }}</h2>
             <span>
                 <img src="https://rebeats.site/public/unifood/user/images/heading_shapes.png" alt="shapes" class="img-fluid w-50">
                 <!-- Add a custom class (e.g., w-50) or inline styles to adjust the size -->
             </span>
-            <p>Objectively pontificate quality models before intuitive information. Dramatically recaptiualize multifunctional 2.</p>
+            <p>{{ $g_setting->shop_subtitle ?? 'Shop Subtitle' }}</p>
         </div>
     </div>
 </div>

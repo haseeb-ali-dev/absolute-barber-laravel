@@ -89,6 +89,7 @@
             ['route' => route('admin.shop.qrcode'), 'name' => 'Shop QR Code', 'icon' => 'fas fa-bookmark'],
             ['route' => route('admin.status.index'), 'name' => 'All Status', 'icon' => 'fas fa-bookmark'],
             ['route' => route('admin.tables'), 'name' => 'Tables', 'icon' => 'fas fa-bookmark'],
+            ['route' => route('admin.shop.settings'), 'name' => 'Shop Settings', 'icon' => 'fas fa-bookmark'],
         ];
         $subscriber = [
             ['route' => route('admin.subscriber.index'), 'name' => 'All Subscribers', 'icon' => 'fas fa-share-alt-square'],
