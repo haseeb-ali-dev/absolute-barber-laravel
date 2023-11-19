@@ -73,6 +73,10 @@
 }
 
 </style>
+
+<x-swiper-slider :sliders="$sliders" />
+
+<!---
 <div class="slider homeSlider">
     <div class="slide-carousel owl-carousel">
 
@@ -369,7 +373,7 @@
 
     </div>
 </div>
-
+--->
 
 @if($page_home->why_choose_status == 'Show')
 <div class="feature">
@@ -420,7 +424,7 @@
                 @if ($row->upload_type=='embed')
                     {!! $row->link !!}
                 @endif
-        
+
                 @if ($row->upload_type=='upload')
                     <!-- Content -->
                     <div id="mobile-box">
@@ -473,7 +477,7 @@
                 @if ($row->upload_type=='embed')
                     {!! $row->link !!}
                 @endif
-        
+
                 @if ($row->upload_type=='upload')
                     <!-- Content -->
                     <div id="mobile-box">
