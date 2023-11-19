@@ -1,4 +1,4 @@
-@if (sizeof($sliders)>0)
+{{-- @if (sizeof($sliders)>0)
 <div class="slider homeSlider">
     <div class="slide-carousel owl-carousel">
 
@@ -80,7 +80,7 @@
             </div>
         </div>
         @elseif ($row->slider_type == 'color')
-        
+
         <div class="slider-item" style="background-color:#{{$row->slider_color}};height: 800px;">
             <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, {{$row->overlay}});"></div>
             <div class="slider--item__inner">
@@ -186,4 +186,6 @@
 
     </div>
 </div>
-@endif
+@endif --}}
+
+<x-swiper-slider :sliders="$sliders" />

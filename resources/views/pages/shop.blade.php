@@ -47,8 +47,7 @@
 
 
 
-    {{-- @include('sliders') --}}
-    @include('new_sliders')
+    @include('sliders')
 
     <div class="container pt_60">
 

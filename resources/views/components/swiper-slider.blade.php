@@ -1,0 +1,85 @@
+@if (sizeof($sliders) > 0)
+
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        .swiper {
+            width: 100%;
+            height: 80vh;
+        }
+
+        .swiper-slide h1 {
+            color: #fff;
+            font-size: 4rem;
+            font-weight: 800;
+        }
+
+        .swiper-slide h3 {
+            color: #fff;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+        }
+
+        .swiper-slide a {
+            font-size: 16px;
+            font-weight: 500;
+            width: fit-content;
+            margin-inline: auto;
+            background-color: transparent;
+            color: #fff;
+            border: 2px solid #fff;
+            border-radius: 50px;
+            padding: 11px 40px;
+            text-decoration: none;
+        }
+
+        .swiper-slide a:hover {
+            background-color: #4D0101 !important;
+            border-color: #4D0101 !important;
+        }
+
+        @media only screen and (max-width: 767px) {
+            .swiper {
+                width: 100%;
+                height: 50vh;
+            }
+
+            .swiper-slide h1 {
+                font-size: 2rem;
+            }
+
+            .swiper-slide h3 {
+                font-size: 1rem;
+            }
+
+            .swiper-slide a {
+                font-size: 14px;
+                padding: 8px 30px;
+            }
+        }
+    </style>
+
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+
+            @foreach ($sliders as $key => $slide)
+                <x-slide :slide="$slide" :key="$key + 1" />
+            @endforeach
+
+        </div>
+    </div>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- Initialize Swiper -->
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            autoplay: {
+                delay: 5000,
+            },
+        });
+    </script>
+@endif
