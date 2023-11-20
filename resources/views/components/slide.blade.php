@@ -61,7 +61,7 @@
         @if ($slide->slider_type == 'mp4')
             <!-- Video -->
             <video playsinline="playsinline" muted="muted" preload="yes" autoplay="autoplay" loop="loop"
-                id="vjs_video_739_html5_api" class="video-js" data-setup='{"autoplay":"any"}' controls>
+                class="video-js vjs_video_739_html5_api" data-setup='{"autoplay":"any"}' controls>
                 <source src="{{ asset('public/uploads/' . $slide->slider_mp4) }}" type="video/mp4" />
             </video>
         @endif

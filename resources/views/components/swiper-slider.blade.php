@@ -81,5 +81,11 @@
                 delay: 5000,
             },
         });
+        $(document).ready(function() {
+            var videoElements = document.getElementsByClassName('vjs_video_739_html5_api');
+            for (var i = 0; i < videoElements.length; i++) {
+                videoElements[i].play();
+            }
+        });
     </script>
 @endif
