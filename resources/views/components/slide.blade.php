@@ -47,6 +47,8 @@
             width: 100%;
         }
     }
+   
+
 </style>
 
 <div class="swiper-slide">
@@ -59,12 +61,16 @@
         @endif
 
         @if ($slide->slider_type == 'mp4')
-            <!-- Video -->
+        <!-- Video -->
+        <div style="position: relative; width: 100%; height: 100%;">
             <video playsinline="playsinline" muted="muted" preload="yes" autoplay="autoplay" loop="loop"
-                class="video-js vjs_video_739_html5_api" data-setup='{"autoplay":"any"}' controls>
+                class="video-js vjs_video_739_html5_api" data-setup='{"autoplay":"any"}' controls
+                style="width: 100%; height: 100%; object-fit: cover;">
                 <source src="{{ asset('public/uploads/' . $slide->slider_mp4) }}" type="video/mp4" />
             </video>
-        @endif
+        </div>
+    @endif
+    
 
         @if ($slide->slider_type == 'color')
             <!-- Color -->

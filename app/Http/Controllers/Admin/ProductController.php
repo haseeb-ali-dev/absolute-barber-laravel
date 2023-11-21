@@ -171,13 +171,22 @@ class ProductController extends Controller
 
     public function save_settings(Request $request)
     {
+        
         $general_setting = GeneralSetting::where('id',1)->first();
 
         $data = $request->validate([
             'shop_heading' => 'sometimes|max:250',
             'shop_title' => 'sometimes|max:250',
             'shop_subtitle' => 'sometimes|max:1500',
+            'reservation_text' => 'sometimes|max:250',
         ]);
+        
+        if ($request->reservation_status=='on') {
+            $data['reservation_status']='true';
+        }else{
+            $data['reservation_status']='false';
+        }
+
 
         $general_setting->update($data);
         return Redirect()->back()->with('success', 'Shop Settings is saved successfully!');

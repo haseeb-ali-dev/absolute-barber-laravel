@@ -11,14 +11,14 @@
 
         .swiper-slide h1 {
             color: #fff;
-            font-size: 4rem;
-            font-weight: 800;
+            font-size: 2rem;
+            font-weight: 400;
         }
 
         .swiper-slide h3 {
             color: #fff;
-            font-size: 2rem;
-            font-weight: 800;
+            font-size: 1rem;
+            font-weight: 300;
             margin-bottom: 30px;
         }
 
@@ -47,11 +47,11 @@
             }
 
             .swiper-slide h1 {
-                font-size: 2rem;
+                font-size: 1.2rem;
             }
 
             .swiper-slide h3 {
-                font-size: 1rem;
+                font-size: 0.9rem;
             }
 
             .swiper-slide a {

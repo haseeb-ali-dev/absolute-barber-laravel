@@ -106,6 +106,8 @@ class GeneralSetting extends Model
         'shop_heading',
         'shop_title',
         'shop_subtitle',
+        'reservation_text',
+        'reservation_status',
     ];
 
 }
