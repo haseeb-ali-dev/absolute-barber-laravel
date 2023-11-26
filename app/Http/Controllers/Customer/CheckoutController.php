@@ -310,7 +310,8 @@ class CheckoutController extends Controller
                 $product_detail = DB::table('products')->where('id', $product_arr[0])->first();
                 if ($variant) {
                     $variant_options = json_decode($product_detail->variant_options, true);
-                    $product_price = $variant_options[$variant];
+                    $variant_existed = isset($variant_options[$variant]);
+                    $product_price = $variant_existed ? $variant_options[$variant] : $product_detail->product_current_price;
                 } else {
                     $product_price = $product_detail->product_current_price;
                 }
@@ -558,7 +559,8 @@ class CheckoutController extends Controller
                 $product_detail = DB::table('products')->where('id', $product_arr[0])->first();
                 if ($variant) {
                     $variant_options = json_decode($product_detail->variant_options, true);
-                    $product_price = $variant_options[$variant];
+                    $variant_existed = isset($variant_options[$variant]);
+                    $product_price = $variant_existed ? $variant_options[$variant] : $product_detail->product_current_price;
                 } else {
                     $product_price = $product_detail->product_current_price;
                 }

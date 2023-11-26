@@ -72,7 +72,8 @@
                                             $product_name = $itm->product_name;
                                             $product_slug = $itm->product_slug;
                                             $variant_options = json_decode($itm->variant_options, true);
-                                            $product_current_price = isset($variant) && isset($variant_options)
+                                            $variant_existed = isset($variant_options[$variant]);
+                                            $product_current_price = isset($variant) && isset($variant_options) && $variant_existed
                                                 ? $variant_options[$variant]
                                                 : $itm->product_current_price;
                                             $product_featured_photo = $itm->product_featured_photo;
@@ -86,7 +87,7 @@
                                         <td class="align-middle">
                                             <a href="{{ url('product/'.$product_slug) }}">{{ $product_name }}</a>
                                         </td>
-                                        <td class="align-middle">{{ isset($variant) ? $variant : '-' }}</td>
+                                        <td class="align-middle">{{ isset($variant) && $variant_existed ? $variant : '-' }}</td>
                                         <td class="align-middle">USD {{ $product_current_price }}</td>
                                         <td class="align-middle">
                                             <input type="number" class="form-control" name="product_qty[]" step="1" min="1" max="" pattern="" pattern="[0-9]*" inputmode="numeric" value="{{ $arr_cart_product_qty[$i] }}">
