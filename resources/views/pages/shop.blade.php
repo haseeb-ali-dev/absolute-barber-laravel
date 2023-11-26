@@ -69,9 +69,9 @@
             height: 270px;
         }
         @endif
-      
-        
-      
+
+
+
     </style>
 
 
@@ -110,7 +110,7 @@
                         </li>
                     @endforeach
 
-                   
+
 
                 </ul>
             </div>
@@ -128,7 +128,7 @@
                                             <img src="{{ asset('public/uploads/'.$row->product_featured_photo) }}" alt="Product Photo">
                                         </a>
                                     </div>
-                                    <div class="text">
+                                    <div class="text text-center">
                                         <h3><a href="{{ url('product/'.$row->product_slug) }}">{{ $row->product_name }}</a>
                                         </h3>
                                         <div class="price">
@@ -178,7 +178,7 @@
                                 <div class="product-item">
                                     <div class="photo"><a href="{{ url('product/'.$row->product_slug) }}"><img
                                                 src="{{ asset('public/uploads/'.$row->product_featured_photo) }}"></a></div>
-                                    <div class="text">
+                                    <div class="text text-center">
                                         <h3><a href="{{ url('product/'.$row->product_slug) }}">{{ $row->product_name }}</a>
                                         </h3>
                                         <div class="price">
@@ -248,5 +248,5 @@
             });
         });
     </script>
-    
+
     @endsection
