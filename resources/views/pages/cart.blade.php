@@ -28,6 +28,7 @@
                                     <th>Serial</th>
                                     <th>Thumbnail</th>
                                     <th>Product Name</th>
+                                    <th>Product Variant</th>
                                     <th>Unit Price</th>
                                     <th>Quantity</th>
                                     <th>Subtotal</th>
@@ -57,19 +58,23 @@
                                         $arr_cart_product_qty[$i] = $value;
                                     @endphp
                                 @endforeach
-
                                 @php $tot1 = 0 @endphp
                                 @for($i=1;$i<=count($arr_cart_product_id);$i++)
 
                                     @php
-                                        $all_data = DB::table('products')->where('id', $arr_cart_product_id[$i])->get();
+                                        $product_arr = explode("--", $arr_cart_product_id[$i]);
+                                        $variant = isset($product_arr[1]) ? $product_arr[1] : null;
+                                        $all_data = DB::table('products')->where('id', $product_arr[0])->get();
                                     @endphp
 
                                     @foreach ($all_data as $itm)
                                         @php
                                             $product_name = $itm->product_name;
                                             $product_slug = $itm->product_slug;
-                                            $product_current_price = $itm->product_current_price;
+                                            $variant_options = json_decode($itm->variant_options, true);
+                                            $product_current_price = isset($variant) && isset($variant_options)
+                                                ? $variant_options[$variant]
+                                                : $itm->product_current_price;
                                             $product_featured_photo = $itm->product_featured_photo;
                                         @endphp
                                     @endforeach
@@ -81,6 +86,7 @@
                                         <td class="align-middle">
                                             <a href="{{ url('product/'.$product_slug) }}">{{ $product_name }}</a>
                                         </td>
+                                        <td class="align-middle">{{ isset($variant) ? $variant : '-' }}</td>
                                         <td class="align-middle">USD {{ $product_current_price }}</td>
                                         <td class="align-middle">
                                             <input type="number" class="form-control" name="product_qty[]" step="1" min="1" max="" pattern="" pattern="[0-9]*" inputmode="numeric" value="{{ $arr_cart_product_qty[$i] }}">

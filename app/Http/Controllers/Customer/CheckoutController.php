@@ -76,7 +76,7 @@ class CheckoutController extends Controller
 
 
     public function billing_shipping(Request $request)
-    
+
     {
         // dd($request->all());
         if(!session()->get('cart_product_id'))
@@ -178,7 +178,7 @@ class CheckoutController extends Controller
                 $data->transaction_id=$response->balance_transaction;
                 $data->amount=$price;
                 $data->payment_status='Captured';
-                $data->valid_till=$newDate = Carbon::parse($currentDate)->addDays(31)->toDateString(); 
+                $data->valid_till=$newDate = Carbon::parse($currentDate)->addDays(31)->toDateString();
 
                 $data->save();
                 return Redirect()->back()->with('success', 'Payment is successful!');
@@ -305,12 +305,20 @@ class CheckoutController extends Controller
 
             for($i=0;$i<count($arr_cart_product_id);$i++)
             {
-                $product_detail = DB::table('products')->where('id', $arr_cart_product_id[$i])->first();
+                $product_arr = explode("--", $arr_cart_product_id[$i]);
+                $variant = isset($product_arr[1]) ? $product_arr[1] : null;
+                $product_detail = DB::table('products')->where('id', $product_arr[0])->first();
+                if ($variant) {
+                    $variant_options = json_decode($product_detail->variant_options, true);
+                    $product_price = $variant_options[$variant];
+                } else {
+                    $product_price = $product_detail->product_current_price;
+                }
                 $data2 = array();
                 $data2['order_id'] = $ai_id;
                 $data2['product_id'] = $product_detail->id;
+                $data2['product_price'] = $product_price;
                 $data2['product_name'] = $product_detail->product_name;
-                $data2['product_price'] = $product_detail->product_current_price;
                 $data2['product_qty'] = $arr_cart_product_qty[$i];
                 $data2['payment_status'] = 'Completed';
                 $data2['order_no'] = $order_no;
@@ -325,7 +333,7 @@ class CheckoutController extends Controller
                 $product_row .= '
                 <b>Product #'.($i+1).'</b><br>
                 Product Name: '.$product_detail->product_name.'<br>
-                Product Price: $'.$product_detail->product_current_price.'<br>
+                Product Price: $'.$product_price.'<br>
                 Product Quantity: '.$arr_cart_product_qty[$i].'<br>
                 ';
             }
@@ -545,12 +553,20 @@ class CheckoutController extends Controller
 
             for($i=0;$i<count($arr_cart_product_id);$i++)
             {
-                $product_detail = DB::table('products')->where('id', $arr_cart_product_id[$i])->first();
+                $product_arr = explode("--", $arr_cart_product_id[$i]);
+                $variant = isset($product_arr[1]) ? $product_arr[1] : null;
+                $product_detail = DB::table('products')->where('id', $product_arr[0])->first();
+                if ($variant) {
+                    $variant_options = json_decode($product_detail->variant_options, true);
+                    $product_price = $variant_options[$variant];
+                } else {
+                    $product_price = $product_detail->product_current_price;
+                }
                 $data2 = array();
                 $data2['order_id'] = $ai_id;
                 $data2['product_id'] = $product_detail->id;
                 $data2['product_name'] = $product_detail->product_name;
-                $data2['product_price'] = $product_detail->product_current_price;
+                $data2['product_price'] = $product_price;
                 $data2['product_qty'] = $arr_cart_product_qty[$i];
                 $data2['payment_status'] = 'Completed';
                 $data2['order_no'] = $order_no;
@@ -565,7 +581,7 @@ class CheckoutController extends Controller
                 $product_row .= '
                 <b>Product #'.($i+1).'</b><br>
                 Product Name: '.$product_detail->product_name.'<br>
-                Product Price: $'.$product_detail->product_current_price.'<br>
+                Product Price: $'.$product_price.'<br>
                 Product Quantity: '.$arr_cart_product_qty[$i].'<br>
                 ';
 
