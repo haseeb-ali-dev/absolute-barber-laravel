@@ -32,7 +32,6 @@
                             <th scope="col"><input type="checkbox" class="check-all"></th>
                         @endif
                         <th>Customer Name</th>
-                        <th>Customer Email</th>
                         <th>Customer Phone</th>
                         <th>Lead from (Landing Page)</th>
                         <th>Actions</th>
@@ -40,19 +39,18 @@
                     </thead>
                     <tbody>
                     @foreach($customers as $row)
-                    
+
                         <tr>
                             <th scope="row">
                                 <input type="checkbox" class="check" data-id="{{$row->id}}">
                                 {{ $row->id }}
                             </th>
                             <td>{{ $row->name }}</td>
-                            <td>{{ $row->email }}</td>
                             <td>{{ $row->phone }}</td>
                             <td>
                                 @php
                                     $lead_from = DB::table('general_settings')->select('lpc_name')->where('id', $row->landing_page_id)->first();
-                                    
+
                                 @endphp
                                 {{$lead_from->lpc_name}}
                             </td>
@@ -136,7 +134,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
-  
+
                             </tbody>
                         </table>
                     </div>
@@ -186,7 +184,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
-  
+
                             </tbody>
                         </table>
                     </div>
@@ -194,7 +192,7 @@
             </div>
         </div>
     </div>
-  
+
   @if (isset($scheduled_messages) && sizeof($scheduled_messages) > 0)
     @include('admin.customer.scheduled_messages', ['data' => $scheduled_messages])
   @endif

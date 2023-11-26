@@ -15,8 +15,13 @@
             <div class="card-header py-3">
                 <h6 class="m-0 mt-2 font-weight-bold text-primary">Compose Email</h6>
                 <div class="float-right d-inline">
-                    <a href="{{ route('admin.email_template.gallery') }}" class="btn btn-primary btn-sm rounded-pill px-3">
-                        <i class="fa fa-arrow-left mr-2"></i> Back To Gallery</a>
+                    @if (Session::has('landing_page_customer_ids'))
+                        <a href="{{ route('landingpages.index') }}" class="btn btn-primary btn-sm rounded-pill px-3">
+                            <i class="fa fa-arrow-left mr-2"></i> Back To Landing Pages</a>
+                    @else
+                        <a href="{{ route('admin.email_template.gallery') }}" class="btn btn-primary btn-sm rounded-pill px-3">
+                            <i class="fa fa-arrow-left mr-2"></i> Back To Gallery</a>
+                    @endif
                 </div>
             </div>
             <div class="card-body">
@@ -31,33 +36,39 @@
                             <input type="text" name="et_subject" class="form-control" value="{{ $template->et_subject }}"
                                 autofocus>
                         </div>
-                        <div class="form-group">
-                            <label for="">Select Users Groups</label>
-                            <select name="recipients_id[]" class="form-control select3" required multiple>
-                                <optgroup label="Default Groups">
-                                    <option value="recipients">Recipients</option>
-                                    <option value="subscribers">Subscribers</option>
-                                    <option value="landing_page">Landingpage Contacts</option>
-                                    {{-- <option value="external_data">External Data</option> --}}
-                                </optgroup>
-                                @if (sizeOf($custom_groups) > 0)
-                                    <optgroup label="Added Groups">
-                                        @foreach ($custom_groups as $key => $value)
-                                            <option value="{{ $key }}">{{ $value }}</option>
-                                        @endforeach
+                        @if (Session::has('landing_page_customer_ids'))
+                            <input type="hidden" name="recipients_id[]" value="landing_page">
+                        @else
+                            <div class="form-group">
+                                <label for="">Select Users Groups</label>
+                                <select name="recipients_id[]" class="form-control select3" required multiple>
+                                    <optgroup label="Default Groups">
+                                        <option value="recipients">Recipients</option>
+                                        <option value="subscribers">Subscribers</option>
+                                        <option value="landing_page">Landingpage Contacts</option>
+                                        {{-- <option value="external_data">External Data</option> --}}
                                     </optgroup>
-                                @endif
-                            </select>
-                        </div>
+                                    @if (sizeOf($custom_groups) > 0)
+                                        <optgroup label="Added Groups">
+                                            @foreach ($custom_groups as $key => $value)
+                                                <option value="{{ $key }}">{{ $value }}</option>
+                                            @endforeach
+                                        </optgroup>
+                                    @endif
+                                </select>
+                            </div>
+                        @endif
                         <div class="form-group">
                             <label for="">Email Message *</label>
                             <textarea name="et_content"  cols="30" rows="10" id="et_content">{{ $template->et_content }}</textarea>
 
-                            <div class="custom-control custom-switch float-right mt-2">
-                                <input type="checkbox" class="custom-control-input" id="customSwitch1" name="modified">
-                                <label class="custom-control-label" for="customSwitch1">Save this changes as
-                                    template</label>
-                            </div>
+                            @if (!Session::has('landing_page_customer_ids'))
+                                <div class="custom-control custom-switch float-right mt-2">
+                                    <input type="checkbox" class="custom-control-input" id="customSwitch1" name="modified">
+                                    <label class="custom-control-label" for="customSwitch1">Save this changes as
+                                        template</label>
+                                </div>
+                            @endif
 
                             <div class="d-flex align-items-center mt_20">
 

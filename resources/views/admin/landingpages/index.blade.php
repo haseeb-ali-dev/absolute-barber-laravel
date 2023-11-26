@@ -17,6 +17,7 @@
                         <th>SL</th>
                         <th>Landing Page Name</th>
                         <th>Leads for SMS Marketing</th>
+                        <th>Leads for Email Marketing</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -28,10 +29,15 @@
                             <td>
                                 @php
                                     $count=DB::table('landing_page_contacts')->where('landing_page_id',$row->id)->count();
-                                    
+
                                 @endphp
                                 <a  href="{{ route('admin.landing_page_messages_by_page', ['id' => $row->id]) }}" class="btn btn-info btn-sm">
                                     <i class="fas fa-arrow-alt-circle-right"></i> {{$count}}
+                                </a>
+                            </td>
+                            <td>
+                                <a  href="{{ route('admin.landing_page_emails_by_page', ['id' => $row->id]) }}" class="btn btn-primary btn-sm">
+                                    <i class="far fa-envelope"></i> {{$count}}
                                 </a>
                             </td>
                             <td>

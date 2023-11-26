@@ -177,7 +177,12 @@ class EmailTemplateController extends Controller
                     }
                 }
                 if ($group == 'landing_page') {
-                    $emails = DB::table('landing_page_contacts')->get();
+                    if (session()->has('landing_page_customer_ids')) {
+                        $customer_ids = session()->get('landing_page_customer_ids', []);
+                        $emails = DB::table('landing_page_contacts')->whereIn('id', $customer_ids)->get();
+                    } else {
+                        $emails = DB::table('landing_page_contacts')->get();
+                    }
 
                     if (sizeof($emails) > 0) {
                         foreach ($emails as $row) {
@@ -265,7 +270,14 @@ class EmailTemplateController extends Controller
             return redirect()->route('admin.email_template.gallery')->with('error', "After sending {$total} emails, these are some errors enlisted as: " . implode("<br>", $errors));
         }
 
-        return redirect()->route('admin.email_template.gallery')->with('success', "{$total} Emails are sent successfully");
+        if (session()->has('landing_page_customer_ids')) {
+            session()->forget('landing_page_customer_ids');
+
+            return redirect()->route('landingpages.index')->with('success', "{$total} Emails are sent successfully to customers");
+        } else {
+            return redirect()->route('admin.email_template.gallery')->with('success', "{$total} Emails are sent successfully");
+        }
+
     }
     public function delete($id)
     {

@@ -75,6 +75,24 @@ class CustomerController extends Controller
         return view('admin.customer.landing', compact('customers','coupons','user_chat_statuses', 'scheduled_messages'));
     }
 
+    public function landing_page_emails_by_page($id)
+    {
+        $coupons = CouponTool::all();
+        $user_chat_statuses = UserChatStatus::all();
+        $customers = LandingPageContact::where('landing_page_id',$id)->get();
+        return view('admin.customer.emails', compact('customers','coupons','user_chat_statuses', 'id'));
+    }
+
+    public function select_emails(Request $request)
+    {
+        $data = $request->validate([
+            'customer_ids' => 'required',
+            'landing_page_id' => 'required',
+        ]);
+        session(['landing_page_customer_ids' => explode(',', $data['customer_ids'])]);
+        return redirect()->route('admin.email_template.gallery')->with('success', 'Customer are selected for emails marketing');
+    }
+
     public function follow_up_customer()
     {
 

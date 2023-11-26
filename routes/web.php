@@ -779,6 +779,8 @@ Route::resource('admin/user_chat_status', UserChatStatusController::class)->exce
 Route::get('admin/customer/view', [CustomerController::class,'index'])->name('admin.customer.index');
 Route::get('landing_page_messages', [CustomerController::class,'landing_page_messages'])->name('admin.landing_page_messages');
 Route::get('landing_page_messages_by_page/{id}', [CustomerController::class,'landing_page_messages_by_page'])->name('admin.landing_page_messages_by_page');
+Route::get('landing_page_emails_by_page/{id}', [CustomerController::class,'landing_page_emails_by_page'])->name('admin.landing_page_emails_by_page');
+Route::post('landing_page_emails_by_page/select_emails', [CustomerController::class,'select_emails'])->name('admin.select_emails');
 
 Route::get('follow_up_customer', [CustomerController::class,'follow_up_customer'])->name('admin.follow_up_customer'); //new route
 Route::get('follow_up_customer_comment', [CustomerController::class,'follow_up_customer_comment'])->name('admin.follow_up_customer_comment'); //new route
