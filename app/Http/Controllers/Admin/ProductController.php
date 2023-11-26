@@ -8,6 +8,7 @@ use App\Models\Admin\PageShopItem;
 use App\Models\Admin\Menu;
 use App\Models\Admin\Product;
 use App\Models\Admin\ProductCategory;
+use App\Models\Admin\Variant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -26,20 +27,23 @@ class ProductController extends Controller
         return view('admin.product.index', compact('product'));
     }
 
-    public function tables(){
-        $tables=DB::table('tables')->get();
+    public function tables()
+    {
+        $tables = DB::table('tables')->get();
 
         return view('admin.product.tables', compact('tables'));
     }
 
-    public function table_store(Request $request){
+    public function table_store(Request $request)
+    {
         DB::table('tables')->insert([
             'name' => $request->name,
         ]);
         return redirect()->back()->with('success', 'Table added successfully!');
     }
 
-    public function table_destroy($id){
+    public function table_destroy($id)
+    {
         DB::table('tables')->where('id', $id)->delete();
         return redirect()->back()->with('success', 'Table deleted successfully!');
     }
@@ -54,7 +58,7 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        if(env('PROJECT_MODE') == 0) {
+        if (env('PROJECT_MODE') == 0) {
             return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
         }
 
@@ -72,7 +76,7 @@ class ProductController extends Controller
             'product_category_id' => 'required',
         ]);
 
-        if(empty($data['product_slug'])) {
+        if (empty($data['product_slug'])) {
             $data['product_slug'] = Str::slug($request->product_name);
         }
 
@@ -80,7 +84,7 @@ class ProductController extends Controller
         $ai_id = $statement[0]->Auto_increment;
 
         $ext = $request->file('product_featured_photo')->extension();
-        $final_name = time().'.'.$ext;
+        $final_name = time() . '.' . $ext;
         $request->file('product_featured_photo')->move(public_path('uploads/'), $final_name);
         $data['product_featured_photo'] = $final_name;
 
@@ -97,17 +101,17 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
-        if(env('PROJECT_MODE') == 0) {
+        if (env('PROJECT_MODE') == 0) {
             return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
         }
 
         $product = Product::findOrFail($id);
         $data = $request->only($product->getFillable());
 
-        if($request->hasFile('product_featured_photo')) {
+        if ($request->hasFile('product_featured_photo')) {
             $request->validate([
                 'product_name' => 'required',
-                'product_slug'   =>  [
+                'product_slug' => [
                     Rule::unique('products')->ignore($id),
                 ],
                 'product_current_price' => 'required',
@@ -119,13 +123,13 @@ class ProductController extends Controller
             ]);
             // unlink(public_path('uploads/'.$product->product_featured_photo));
             $ext = $request->file('product_featured_photo')->extension();
-            $final_name = time().'.'.$ext;
+            $final_name = time() . '.' . $ext;
             $request->file('product_featured_photo')->move(public_path('uploads/'), $final_name);
             $data['product_featured_photo'] = $final_name;
         } else {
             $request->validate([
                 'product_name' => 'required',
-                'product_slug'   =>  [
+                'product_slug' => [
                     Rule::unique('products')->ignore($id),
                 ],
                 'product_current_price' => 'required',
@@ -136,8 +140,7 @@ class ProductController extends Controller
             $data['product_featured_photo'] = $product->product_featured_photo;
         }
 
-        if(empty($data['product_slug']))
-        {
+        if (empty($data['product_slug'])) {
             unset($data['product_slug']);
             $data['product_slug'] = Str::slug($request->product_name);
         }
@@ -148,7 +151,7 @@ class ProductController extends Controller
 
     public function destroy($id)
     {
-        if(env('PROJECT_MODE') == 0) {
+        if (env('PROJECT_MODE') == 0) {
             return redirect()->back()->with('error', env('PROJECT_NOTIFICATION'));
         }
 
@@ -161,7 +164,7 @@ class ProductController extends Controller
     public function qrcode()
     {
         $shop_hidden = Menu::where('menu_key', 'Shop')->value('menu_status') != 'Show';
-        return view('admin.shop.qrcode' , compact('shop_hidden'));
+        return view('admin.shop.qrcode', compact('shop_hidden'));
     }
 
     public function settings()
@@ -173,8 +176,8 @@ class ProductController extends Controller
 
     public function save_settings(Request $request)
     {
-        
-        $general_setting = GeneralSetting::where('id',1)->first();
+
+        $general_setting = GeneralSetting::where('id', 1)->first();
 
         $data = $request->validate([
             'shop_heading' => 'sometimes|max:250',
@@ -182,11 +185,11 @@ class ProductController extends Controller
             'shop_subtitle' => 'sometimes|max:1500',
             'reservation_text' => 'sometimes|max:250',
         ]);
-        
-        if ($request->reservation_status=='on') {
-            $data['reservation_status']='true';
-        }else{
-            $data['reservation_status']='false';
+
+        if ($request->reservation_status == 'on') {
+            $data['reservation_status'] = 'true';
+        } else {
+            $data['reservation_status'] = 'false';
         }
 
 
@@ -209,5 +212,21 @@ class ProductController extends Controller
 
 
         return Redirect()->back()->with('success', 'Shop Settings is saved successfully!');
+    }
+
+    public function product_variants(Product $product)
+    {
+        $variants = Variant::all();
+        return view('admin.product.variants', compact('product', 'variants'));
+    }
+
+    public function save_product_variants(Request $request, Product $product)
+    {
+        $data = $request->validate([
+            'variant_id' => 'required|numeric',
+            'variant_options' => 'required|array',
+        ]);
+        $product->update($data);
+        return redirect()->route('admin.product.index')->with('success', 'Variants to Product is saved successfully!');
     }
 }

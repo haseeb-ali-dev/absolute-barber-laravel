@@ -95,6 +95,7 @@
     </div>
 </div>
 
+@dump(session()->get('cart_product_id'), session()->get('cart_product_qty'))
 
         <div class="row">
             <div class="col-md-3">
@@ -142,17 +143,26 @@
                                     </div>
                                 </div>
                                 <div class="cart-button">
-
+                                    @if (isset($row->variant) && isset($row->variant_options))
+                                        <small class="px-2">In Variant</small>
+                                    @endif
                                     @if($row->product_stock == 0)
                                     <a href="javascript:void(0);" class="stock-empty w-100-p text-center">Stock is
                                         empty</a>
                                     @else
-                                    <form action="{{ route('front.add_to_cart') }}" method="post">
-                                        @csrf
-                                        <input type="hidden" name="product_id" value="{{ $row->id }}">
-                                        <input type="hidden" name="product_qty" value="1">
-                                        <button type="submit">Add to Cart</button>
-                                    </form>
+                                        @if (isset($row->variant))
+                                            <button type="button" class="select-variant-btn"
+                                                data-product_id="{{ $row->id }}" data-variant="{{ $row->variant }}">
+                                                Select Variant
+                                            </button>
+                                        @else
+                                            <form action="{{ route('front.add_to_cart') }}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="product_id" value="{{ $row->id }}">
+                                                <input type="hidden" name="product_qty" value="1">
+                                                <button type="submit">Add to Cart</button>
+                                            </form>
+                                        @endif
                                     @endif
 
                                 </div>
@@ -190,16 +200,23 @@
                                     </div>
                                 </div>
                                 <div class="cart-button">
+                                    @if (isset($row->variant) && isset($row->variant_options))
+                                        <small class="px-2">In Variant</small>
+                                    @endif
                                     @if($row->product_stock == 0)
                                     <a href="javascript:void(0);" class="stock-empty w-100-p text-center">Stock is
                                         empty</a>
                                     @else
-                                    <form action="{{ route('front.add_to_cart') }}" method="post">
-                                        @csrf
-                                        <input type="hidden" name="product_id" value="{{ $row->id }}">
-                                        <input type="hidden" name="product_qty" value="1">
-                                        <button type="submit">Add to Cart</button>
-                                    </form>
+                                        @if (isset($row->variant))
+                                            <button type="button">Select Variant</button>
+                                        @else
+                                            <form action="{{ route('front.add_to_cart') }}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="product_id" value="{{ $row->id }}">
+                                                <input type="hidden" name="product_qty" value="1">
+                                                <button type="submit">Add to Cart</button>
+                                            </form>
+                                        @endif
                                     @endif
                                 </div>
                             </div>
@@ -216,6 +233,7 @@
             </div>
         </div>
     </div>
+    @include('pages.select_variant')
     <script>
         $(document).ready(function () {
             // Add click event to category tabs
