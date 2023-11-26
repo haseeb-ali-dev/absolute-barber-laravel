@@ -94,9 +94,6 @@
         </div>
     </div>
 </div>
-
-@dump(session()->get('cart_product_id'), session()->get('cart_product_qty'))
-
         <div class="row">
             <div class="col-md-3">
                 <ul id="categories-list">
