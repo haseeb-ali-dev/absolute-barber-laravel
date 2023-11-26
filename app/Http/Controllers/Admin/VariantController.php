@@ -55,7 +55,22 @@ class VariantController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|max:255|unique:variants,name,' . $variant->id,
-            'options' => 'required|array',
+            'options' => [
+                'required',
+                'array',
+                'min:1',
+                function ($attribute, $value, $fail) {
+                    foreach ($value as $index => $option) {
+                        $position = $index + 1;
+                        if (empty($option) && $option !== 0) {
+                            $fail("The option at position {$position} is empty or null.");
+                        }
+                        if (preg_match('/[^A-Za-z0-9\s]/', $option)) {
+                            $fail("The option at position {$position} contains empty space or tabs or special characters.");
+                        }
+                    }
+                }
+            ],
         ]);
         $variant->update($data);
         return redirect()->route('admin.variant.index')->with('success', 'Variant updated successfully');
