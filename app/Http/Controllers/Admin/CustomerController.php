@@ -72,7 +72,9 @@ class CustomerController extends Controller
 
         $customers = LandingPageContact::where('landing_page_id',$id)->get();
         $scheduled_messages = ScheduleMessages::where('module', 'landing_page_contacts')->orderBy('scheduled_at', 'DESC')->get();
-        return view('admin.customer.landing', compact('customers','coupons','user_chat_statuses', 'scheduled_messages'));
+        $landing_page_detail =  DB::table('general_settings')->select('lpc_name')->where('id', $id)->first();
+        $lpc_name = isset($landing_page_detail) ? $landing_page_detail->lpc_name : 'No Name';
+        return view('admin.customer.landing', compact('customers','coupons','user_chat_statuses', 'scheduled_messages', 'lpc_name'));
     }
 
     public function landing_page_emails_by_page($id)
@@ -80,7 +82,9 @@ class CustomerController extends Controller
         $coupons = CouponTool::all();
         $user_chat_statuses = UserChatStatus::all();
         $customers = LandingPageContact::where('landing_page_id',$id)->get();
-        return view('admin.customer.emails', compact('customers','coupons','user_chat_statuses', 'id'));
+        $landing_page_detail =  DB::table('general_settings')->select('lpc_name')->where('id', $id)->first();
+        $lpc_name = isset($landing_page_detail) ? $landing_page_detail->lpc_name : 'No Name';
+        return view('admin.customer.emails', compact('customers','coupons','user_chat_statuses', 'id', 'lpc_name'));
     }
 
     public function select_emails(Request $request)

@@ -1,6 +1,6 @@
 @extends('admin.admin_layouts')
 @section('admin_content')
-    <h1 class="h3 mb-3 text-gray-800">Landing Page Contacts</h1>
+    <h1 class="h3 mb-3 text-gray-800">Landing Page Contacts : {{ $lpc_name }}</h1>
 
     <div class="card shadow mb-4">
         <form action="{{ route('admin.select_emails') }}" method="post" class="my-2">
@@ -26,7 +26,6 @@
                             @endif
                             <th>Customer Name</th>
                             <th>Customer Email</th>
-                            <th>Lead from (Landing Page)</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -39,16 +38,6 @@
                                 </th>
                                 <td>{{ $row->name }}</td>
                                 <td>{{ $row->email }}</td>
-                                <td>
-                                    @php
-                                        $lead_from = DB::table('general_settings')
-                                            ->select('lpc_name')
-                                            ->where('id', $row->landing_page_id)
-                                            ->first();
-
-                                    @endphp
-                                    {{ $lead_from->lpc_name }}
-                                </td>
                                 <td>
                                     <div class="d-flex">
                                         <button class="btn btn-sm text-success py-0 edit-contact-btn"

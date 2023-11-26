@@ -1,6 +1,6 @@
 @extends('admin.admin_layouts')
 @section('admin_content')
-    <h1 class="h3 mb-3 text-gray-800">Landing Page Contacts</h1>
+    <h1 class="h3 mb-3 text-gray-800">Landing Page Contacts : {{ $lpc_name }}</h1>
 
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -33,7 +33,6 @@
                         @endif
                         <th>Customer Name</th>
                         <th>Customer Phone</th>
-                        <th>Lead from (Landing Page)</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -47,13 +46,6 @@
                             </th>
                             <td>{{ $row->name }}</td>
                             <td>{{ $row->phone }}</td>
-                            <td>
-                                @php
-                                    $lead_from = DB::table('general_settings')->select('lpc_name')->where('id', $row->landing_page_id)->first();
-
-                                @endphp
-                                {{$lead_from->lpc_name}}
-                            </td>
                             <td>
                                <div class="d-flex">
                                     @if ($row->last_message!=null)
