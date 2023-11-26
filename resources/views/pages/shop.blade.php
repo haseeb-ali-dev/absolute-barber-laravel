@@ -12,11 +12,13 @@
             font-size: 16px; /* Adjust the font size as needed */
             transition: background-color 0.3s, color 0.3s;
             margin-bottom: 5px; /* Add 5px bottom margin to create spacing between buttons */
+            background-color: #{{$shop->category_text_color}};
+            color: #{{$shop->category_background_color}};
         }
 
         .nav-item .nav-link.active {
-            background-color: #000; /* Change to your desired active background color */
-            color: #fff; /* Change to your desired active text color */
+            background-color: #{{$shop->active_category_background_color}}; /* Change to your desired active background color */
+            color: #{{$shop->active_category_text_color}}; /* Change to your desired active text color */
         }
 
         @media screen and (max-width: 767px) {
@@ -43,6 +45,33 @@
         #categories-list li {
             margin-bottom: 10px;
         }
+
+        @if ($shop->rounded_images=='true')
+        .product-item .photo img {
+            height: 200px;
+        }
+        .photo img {
+        border-radius: 50%;
+        /* Other styles you may want to apply */
+        width: 100px; /* Adjust the width as needed */
+        height: 100px; /* Adjust the height as needed */
+        object-fit: cover; /* This property ensures the image covers the entire container */
+        }
+        @media (max-width: 767px) {
+            .product-item .photo img {
+                height: 300px;
+            }
+        }
+        @endif
+
+        @if ($shop->rounded_images=='false')
+        .product-item .photo img {
+            height: 270px;
+        }
+        @endif
+      
+        
+      
     </style>
 
 
@@ -58,7 +87,7 @@
             <h4>{{ $g_setting->shop_heading ?? 'Shop Heading' }}</h4>
             <h2>{{ $g_setting->shop_title ?? 'Shop Title' }}</h2>
             <span>
-                <img src="https://rebeats.site/public/unifood/user/images/heading_shapes.png" alt="shapes" class="img-fluid w-50">
+                <img src="https://i.ibb.co/mvvd7fW/heading-shapes.png" alt="shapes" class="img-fluid w-50">
                 <!-- Add a custom class (e.g., w-50) or inline styles to adjust the size -->
             </span>
             <p>{{ $g_setting->shop_subtitle ?? 'Shop Subtitle' }}</p>
@@ -71,15 +100,18 @@
             <div class="col-md-3">
                 <ul id="categories-list">
                     <li class="nav-item">
-                        <a class="nav-link h4 active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
+                        <a class="nav-link h4 active category-link" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
                             aria-controls="pills-home" aria-selected="true">All</a>
                     </li>
                     @foreach ($categories as $row)
                         <li class="nav-item">
-                            <a class="nav-link h4" id="category-tab-{{$row->id}}" data-toggle="pill" href="#category-{{$row->id}}"
+                            <a class="nav-link h4 category-link" id="category-tab-{{$row->id}}" data-toggle="pill" href="#category-{{$row->id}}"
                                 role="tab" aria-controls="pills-profile" aria-selected="false">{{$row->name}}</a>
                         </li>
                     @endforeach
+
+                   
+
                 </ul>
             </div>
 
@@ -91,8 +123,11 @@
                             @foreach($products as $row)
                             <div class="col-lg-3 col-md-6 col-sm-12 d-flex flex-column justify-content-between mb-3">
                                 <div class="product-item">
-                                    <div class="photo"><a href="{{ url('product/'.$row->product_slug) }}"><img
-                                                src="{{ asset('public/uploads/'.$row->product_featured_photo) }}"></a></div>
+                                    <div class="photo">
+                                        <a href="{{ url('product/'.$row->product_slug) }}">
+                                            <img src="{{ asset('public/uploads/'.$row->product_featured_photo) }}" alt="Product Photo">
+                                        </a>
+                                    </div>
                                     <div class="text">
                                         <h3><a href="{{ url('product/'.$row->product_slug) }}">{{ $row->product_name }}</a>
                                         </h3>
@@ -133,7 +168,7 @@
                     @foreach ($categories as $main_row)
                     <div class="tab-pane fade" id="category-{{$main_row->id}}" role="tabpanel"
                         aria-labelledby="category-tab-{{$main_row->id}}">
-                        <div class="my-4">
+                        <div class="tab-content">
                             <h4>{{$main_row->name}}</h4>
                             <small>{{$main_row->description}}</small>
                         </div>
@@ -200,4 +235,18 @@
             });
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            // Smooth scroll to target element on mobile screens
+            $('.category-link').on('click', function() {
+                if (window.innerWidth <= 767) {
+                    var offset = $('.tab-content').offset().top - 100; // Adjust the offset as needed
+                    $('html, body').animate({
+                        scrollTop: offset
+                    }, 800);
+                }
+            });
+        });
+    </script>
+    
     @endsection

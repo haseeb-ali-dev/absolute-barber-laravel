@@ -59,9 +59,11 @@
                 padding: 8px 30px;
             }
         }
+
+      
     </style>
 
-    <div class="swiper mySwiper">
+    <div class="swiper mySwiper desktop">
         <div class="swiper-wrapper">
 
             @foreach ($sliders as $key => $slide)
@@ -70,6 +72,9 @@
 
         </div>
     </div>
+
+
+
 
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>

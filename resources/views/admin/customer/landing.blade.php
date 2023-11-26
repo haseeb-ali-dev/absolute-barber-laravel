@@ -111,7 +111,7 @@
                             <tbody>
                                 @foreach ($coupons as $coupon)
                                     <tr>
-                                        <td>{{ $coupon->title }}</td>
+                                        <td>{!! $coupon->title !!}</td>
                                         <td>{{ isset($coupon->expired_at) ? $coupon->expired_at->format('d F Y, H:i A') : '-' }}</td>
                                         <td>
                                               @if(isset($coupon->expired_at))
@@ -163,7 +163,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($coupons_old as $coupon)
+                                @foreach ($coupons as $coupon)
                                     <tr>
                                         <td>{!! $coupon->title !!}</td>
                                         <td>{{ Carbon\Carbon::createFromFormat('Y-m-d', $coupon->valid_till)->format('d F Y') }}</td>

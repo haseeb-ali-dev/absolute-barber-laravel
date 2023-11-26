@@ -97,12 +97,45 @@
                         <input type="checkbox" name='reservation_status' @if ($general_setting->reservation_status=='true') checked @endif>
                         <span class="slider"></span>
                     </label>
-                    <span class="mx-2 p-1 mt-1 text-bold">Check if you want to align the items to the center of slider?</span>
+                    <span class="mx-2 p-1 mt-1 text-bold">Check if you want to Enable Reservations.</span>
+                </div>
+
+
+                <div class="d-flex">
+                    <label class="switch mb-3">
+                        <input type="checkbox" name='rounded_images' @if ($shop->rounded_images=='true') checked @endif>
+                        <span class="slider"></span>
+                    </label>
+                    <span class="mx-2 p-1 mt-1 text-bold">Check if you want to show Store Product images as Rounded / Circle.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Product Category Text color (When Category is not selected)</label>
+                    <input type="text" name="category_text_color" class="form-control jscolor"
+                        value="{{ $shop->category_text_color }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="">Product Category Background color (When Category is not selected)</label>
+                    <input type="text" name="category_background_color" class="form-control jscolor"
+                        value="{{ $shop->category_background_color }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="">Product Category Text color (When Category is selected)</label>
+                    <input type="text" name="active_category_text_color" class="form-control jscolor"
+                        value="{{ $shop->active_category_text_color }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="">Product Category Background color (When Category is selected)</label>
+                    <input type="text" name="active_category_background_color" class="form-control jscolor"
+                        value="{{ $shop->active_category_background_color }}">
                 </div>
 
                 <button class="btn btn-success mt-4 d-block">Save Settings</button>
             </div>
-
+            
         </form>
     </div>
     <script></script>

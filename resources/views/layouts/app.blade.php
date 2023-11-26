@@ -597,7 +597,7 @@ $footer_col_2 = DB::table('footer_columns')->orderBy('column_item_order', 'asc')
                 @endif
                 @if(request()->is('*shop*') || request()->is('*product*') || request()->is('*cart*') || request()->is('*checkout*') || request()->is('*payment*'))
                     <div class="col-md-4" >
-                        <div style="float: left;" class="top-right">
+                        <div  class="top-right">
                 @else
                     <div class="col-md-8" >
                         <div  class="top-right">        

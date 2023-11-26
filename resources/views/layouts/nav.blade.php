@@ -53,7 +53,7 @@ $menus = \App\Models\Admin\Menu::whereNull('parent_id')->get();
 
                                             @if($sub->menu_status == 'Show')
                                                 <li class="nav-item">
-                                                    <a style="color: #{{$settings['items_color']}};" href="{{ $sub->fixed ? route($sub->route) : url($sub->route) }}" class="nav-link" @if ($sub->menu_key == 'Shop') target='_blank' @endif>{{ $sub->menu_name }}</a>
+                                                    <a style="color: #{{$settings['items_color']}};" href="{{ $sub->fixed ? route($sub->route) : url($sub->route) }}" class="nav-link" @if ($sub->menu_key == 'Shop')  @endif>{{ $sub->menu_name }}</a>
                                                 </li>
                                             @endif
 
@@ -66,11 +66,11 @@ $menus = \App\Models\Admin\Menu::whereNull('parent_id')->get();
                                                 <a style="color: #{{$settings['items_color']}}; border-top:none;" href="{{ route($row->route, ['menu' => 1]) }}" class="nav-link">{{ $row->menu_name }}</a>
                                             @else
                                                 @if ($row->link==0)
-                                                    <a style="color: #{{$settings['items_color']}};" href="{{ $row->fixed ? route($row->route) : route($row->route) }}" class="nav-link" @if ($row->menu_key == 'Shop') target='_blank' @endif>{{ $row->menu_name }}</a>
+                                                    <a style="color: #{{$settings['items_color']}};" href="{{ $row->fixed ? route($row->route) : route($row->route) }}" class="nav-link" @if ($row->menu_key == 'Shop')  @endif>{{ $row->menu_name }}</a>
                                                 @endif
                                                 @if ($row->link==1)
                                                     
-                                                    <a target="_blank" style="color: #{{$settings['items_color']}};" href="{{ filter_var($row->route, FILTER_VALIDATE_URL) ? $row->route : ($row->fixed ? route($row->route) : route($row->route)) }}" class="nav-link" @if ($row->menu_key == 'Shop') target='_blank' @endif>{{ $row->menu_name }}</a>
+                                                    <a target="_blank" style="color: #{{$settings['items_color']}};" href="{{ filter_var($row->route, FILTER_VALIDATE_URL) ? $row->route : ($row->fixed ? route($row->route) : route($row->route)) }}" class="nav-link" @if ($row->menu_key == 'Shop')  @endif>{{ $row->menu_name }}</a>
 
                                                 @endif
                                                 

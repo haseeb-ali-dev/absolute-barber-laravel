@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\GeneralSetting;
+use App\Models\Admin\PageShopItem;
 use App\Models\Admin\Menu;
 use App\Models\Admin\Product;
 use App\Models\Admin\ProductCategory;
@@ -166,7 +167,8 @@ class ProductController extends Controller
     public function settings()
     {
         $general_setting = GeneralSetting::where('id',1)->first();
-        return view('admin.shop.settings', compact('general_setting'));
+        $shop = DB::table('page_shop_items')->where('id', 1)->first();
+        return view('admin.shop.settings', compact('general_setting','shop'));
     }
 
     public function save_settings(Request $request)
@@ -189,6 +191,23 @@ class ProductController extends Controller
 
 
         $general_setting->update($data);
+
+
+        $shop = PageShopItem::where('id', 1)->first();
+        $shop->category_text_color=$request->category_text_color;
+        $shop->category_background_color=$request->category_background_color;
+        $shop->active_category_text_color=$request->active_category_text_color;
+        $shop->	active_category_background_color=$request->	active_category_background_color;
+        if ($request->rounded_images=='on') {
+            $shop->rounded_images='true';
+        }else{
+            $shop->rounded_images='false';
+        }
+        $shop->update();
+
+
+
+
         return Redirect()->back()->with('success', 'Shop Settings is saved successfully!');
     }
 }

@@ -47,11 +47,47 @@
             width: 100%;
         }
     }
+
+    /* Default styles for images in the slider */
+    .swiper-slide img {
+        width: 100%; /* Make sure the image fills its container */
+        height: auto; /* Allow the height to adjust proportionally */
+    }
+
+    /* Media query for mobile devices with a maximum width of 767px */
+    @media (max-width: 767px) {
+        .swiper-slide img {
+            height: auto; /* Ensure the height still adjusts proportionally on mobile */
+        }
+
+        .content-container{
+            display: none;
+        }
+
+        .overlay-1,
+        .overlay-2,
+        .overlay-3,
+        .overlay-4,
+        .overlay-5,
+        .overlay-6,
+        .overlay-7,
+        .overlay-8,
+        .overlay-9,
+        .overlay-10 {
+            display: none; /* Hide the overlay on mobile devices */
+        }
+
+
+        .pt_60 {
+            margin-top: -65%; 
+        }
+        
+    }
    
 
 </style>
 
-<div class="swiper-slide">
+<div class="swiper-slide desktop">
     <div class="main-container">
         <div class="overlay-{{ $key }}"></div>
 
@@ -98,3 +134,7 @@
         </div>
     </div>
 </div>
+
+
+
+
