@@ -14,7 +14,8 @@ class ProductController extends Controller
         $sliders = DB::table('sliders')->where('page','shop')->get();
         $g_setting = DB::table('general_settings')->where('id', 1)->first();
         $shop = DB::table('page_shop_items')->where('id', 1)->first();
-        $products = DB::table('products')->orderBy('product_order', 'asc')->where('product_status', 'Show')->get();
+        // $products = DB::table('products')->orderBy('product_order', 'asc')->where('product_status', 'Show')->get();
+        $products = Product::with('variant')->orderBy('product_order', 'asc')->where('product_status', 'Show')->get();
         $categories = ProductCategory::all();
 
         return view('pages.shop', compact('shop','g_setting','products', 'categories', 'sliders'));
@@ -35,8 +36,13 @@ class ProductController extends Controller
     {
         $product_id = $request->input('product_id');
         $product_qty = $request->input('product_qty');
+        $variant = $request->input('variant');
 
         $product_detail = DB::table('products')->where('id', $product_id)->first();
+
+        if ($variant) {
+            $product_id = $product_id . '--' . $variant;
+        }
 
         // Check if items available in stock
         if($product_qty > $product_detail->product_stock)  {
@@ -54,7 +60,10 @@ class ProductController extends Controller
             }
 
             if(in_array($product_id,$arr_cart_product_id)) {
-                return redirect()->back()->with('error', 'This product is already added to the shopping cart.');
+                $message = isset($variant)
+                    ? 'This product of same variant is already added to the shopping cart.'
+                    : 'This product is already added to the shopping cart.';
+                return redirect()->back()->with('error', $message);
             }
         }
 
@@ -192,7 +201,7 @@ class ProductController extends Controller
             session()->put('coupon_code', '');
             session()->put('coupon_amount', '0');
         }
-        
+
         return view('pages.checkout', compact('g_setting', 'shipping_data'));
     }
 

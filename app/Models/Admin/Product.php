@@ -21,11 +21,26 @@ class Product extends Model
         'seo_title',
         'seo_meta_description',
         'product_category_id',
+        'variant_id',
+        'variant_options'
     ];
+
+    protected $casts = [
+        'variant_options' => 'array',
+    ];
+
+    public function setVariantOptionsAttribute($value)
+    {
+        $this->attributes['variant_options'] = json_encode(array_map('intval', $value));
+    }
 
     public function productCategory()
     {
         return $this->belongsTo(ProductCategory::class)->withTrashed();
     }
 
+    public function variant()
+    {
+        return $this->belongsTo(Variant::class)->withTrashed();
+    }
 }

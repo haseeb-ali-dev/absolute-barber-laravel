@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\CouponDesignController;
 use App\Http\Controllers\Admin\EnvController;
 use App\Http\Controllers\Admin\GroupController;
+use App\Http\Controllers\Admin\VariantController;
 use App\Http\Controllers\Admin\VideoConferenceController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\CouponController;
@@ -1036,3 +1037,15 @@ Route::get('admin/coupon_design/{coupon_design}/modify', [CouponDesignController
 Route::post('admin/coupon_design/{coupon_design}/store_modified', [CouponDesignController::class, 'store_modified'])
     ->name('admin.coupon_design.store_modified')
     ->middleware('admin');
+
+
+/* --------------------------------------- */
+/* Varaints & Product Variants - Admin */
+/* --------------------------------------- */
+Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], function () {
+    Route::resource('variant', VariantController::class)->except(['show', 'destroy']);
+    Route::get('variant/{variant}/delete', [VariantController::class, 'destroy'])->name('variant.destroy');
+
+    Route::get('product/{product}/variants', [ProductControllerForAdmin::class, 'product_variants'])->name('product.variants');
+    Route::post('product/{product}/variants', [ProductControllerForAdmin::class, 'save_product_variants'])->name('product.variants.save');
+});

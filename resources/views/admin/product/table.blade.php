@@ -20,6 +20,15 @@
                         class="fas fa-edit"></i></a>
                 <a href="{{ URL::to('admin/product/delete/'.$row->id) }}" class="btn btn-danger btn-sm"
                     onClick="return confirm('Are you sure?');"><i class="fas fa-trash-alt"></i></a>
+                @if (isset($row->variant))
+                    <a href="{{ route('admin.product.variants', ['product' => $row]) }}" class="btn btn-outline-dark btn-sm">
+                        <i class="fas fa-cog"></i> Update Variants
+                    </a>
+                @else
+                    <a href="{{ route('admin.product.variants', ['product' => $row]) }}" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-cog"></i> Add Variants
+                    </a>
+                @endif
             </td>
         </tr>
         @endforeach
