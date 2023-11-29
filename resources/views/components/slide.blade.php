@@ -60,22 +60,13 @@
             height: auto; /* Ensure the height still adjusts proportionally on mobile */
         }
 
-        .content-container{
-            display: none;
+
+
+        .main-container{
+            height: 50%;
         }
 
-        .overlay-1,
-        .overlay-2,
-        .overlay-3,
-        .overlay-4,
-        .overlay-5,
-        .overlay-6,
-        .overlay-7,
-        .overlay-8,
-        .overlay-9,
-        .overlay-10 {
-            display: none; /* Hide the overlay on mobile devices */
-        }
+      
 
 
         .pt_60 {
@@ -88,7 +79,7 @@
 </style>
 
 <div class="swiper-slide desktop">
-    <div class="main-container">
+    <div class="main-container" >
         <div class="overlay-{{ $key }}"></div>
 
         @if ($slide->slider_type == 'photo')

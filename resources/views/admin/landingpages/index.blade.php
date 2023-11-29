@@ -32,7 +32,7 @@
 
                                 @endphp
                                 <a  href="{{ route('admin.landing_page_messages_by_page', ['id' => $row->id]) }}" class="btn btn-info btn-sm">
-                                    <i class="fas fa-arrow-alt-circle-right"></i> {{$count}}
+                                    <i class="fas fa-sms"></i> {{$count}}
                                 </a>
                             </td>
                             <td>

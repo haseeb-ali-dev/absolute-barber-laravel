@@ -72,6 +72,28 @@
   cursor: pointer;
 }
 
+@media (max-width: 767px) {
+    .content-container{
+            display: none;
+        }
+          .overlay-1,
+        .overlay-2,
+        .overlay-3,
+        .overlay-4,
+        .overlay-5,
+        .overlay-6,
+        .overlay-7,
+        .overlay-8,
+        .overlay-9,
+        .overlay-10 {
+            display: none; 
+        }
+
+        .feature {
+            margin-top: -65%; 
+        }
+}
+       
 </style>
 
 <x-swiper-slider :sliders="$sliders" />
