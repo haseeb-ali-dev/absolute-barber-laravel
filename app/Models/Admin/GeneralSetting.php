@@ -8,6 +8,9 @@ class GeneralSetting extends Model
 {
     protected $fillable = [
         'logo',
+        'logo_shop',
+        'logo_shop_width',
+        'logo_shop_height',
         'favicon',
         'login_bg',
         'top_bar_email',

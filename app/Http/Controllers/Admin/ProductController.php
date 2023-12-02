@@ -209,6 +209,24 @@ class ProductController extends Controller
         $shop->update();
 
 
+        if (isset($request['logo']))
+        {
+            // Unlink old photo
+            // unlink(public_path('uploads/'.$request->current_photo));
+
+            // Uploading new photo
+            
+            $ext = $request->file('logo')->extension();
+            $final_name = time().'.'.$ext;
+            $request->file('logo')->move(public_path('uploads/'), $final_name);
+
+            $data['logo_shop'] = $final_name;
+        }
+
+        $data['logo_shop_width'] = $request->logo_shop_width;
+        $data['logo_shop_height'] = $request->logo_shop_height;
+     
+        GeneralSetting::where('id',1)->update($data);
 
 
         return Redirect()->back()->with('success', 'Shop Settings is saved successfully!');

@@ -47,15 +47,15 @@
             }
 
             .swiper-slide h1 {
-                font-size: 1.2rem;
-            }
-
-            .swiper-slide h3 {
                 font-size: 0.9rem;
             }
 
+            .swiper-slide h3 {
+                font-size: 0.6rem;
+            }
+
             .swiper-slide a {
-                font-size: 14px;
+                font-size: 10px;
                 padding: 8px 30px;
             }
         }

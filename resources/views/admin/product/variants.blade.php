@@ -61,23 +61,25 @@
             });
         });
 
-        document.querySelectorAll('.variant_select').forEach(function(select) {
-            select.addEventListener('change', function() {
-                var selectedVariant = select.options[select.selectedIndex];
-                var value = selectedVariant.value;
-                var options = selectedVariant.getAttribute('data-options');
+        $(document).ready(function() {
+            $('.variant_select').on('change', function() {
+                var selectedVariant = $(this).find(':selected');
+                var value = selectedVariant.val();
+                var options = selectedVariant.data('options');
+                
                 const variants = options.split(',');
-                const variantOptionsTable = document.getElementById('variant-options').getElementsByTagName(
-                    'tbody')[0];
-                variantOptionsTable.innerHTML = '';
+                const variantOptionsTable = $('#variant-options tbody');
+                variantOptionsTable.empty(); // Clear existing rows
+
                 variants.forEach(function(variant) {
-                    var newRow = document.createElement('tr');
-                    newRow.innerHTML = '<td>' + variant + '</td>' +
+                    var newRow = $('<tr>');
+                    newRow.html('<td>' + variant + '</td>' +
                         '<td><input type="number" name="variant_options[' + variant +
-                        ']" class="form-control" value="0" min="1"></td>';
-                    variantOptionsTable.appendChild(newRow);
+                        ']" class="form-control" value="0" min="1"></td>');
+                    variantOptionsTable.append(newRow);
                 });
             });
         });
+
     </script>
 @endsection

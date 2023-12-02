@@ -17,8 +17,8 @@ class ProductController extends Controller
         // $products = DB::table('products')->orderBy('product_order', 'asc')->where('product_status', 'Show')->get();
         $products = Product::with('variant')->orderBy('product_order', 'asc')->where('product_status', 'Show')->get();
         $categories = ProductCategory::all();
-
-        return view('pages.shop', compact('shop','g_setting','products', 'categories', 'sliders'));
+        $is_shop=true;
+        return view('pages.shop', compact('shop','g_setting','products', 'categories', 'sliders','is_shop'));
     }
 
 

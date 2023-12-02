@@ -42,7 +42,7 @@ class BookingController extends Controller
             'type' => 'required|in:1,2',
         ]);
         Booking::create($data);
-        $this->add_to_landing_page_contact($data);
+        // $this->add_to_landing_page_contact($data);
         return back()->with('success', $data['type'] == 1 ? 'You reserved a table successfully' : 'You made a appointment successfully');
     }
 

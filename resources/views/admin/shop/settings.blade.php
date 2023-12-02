@@ -63,7 +63,7 @@
         <div class="card-header py-3">
             <h6 class="m-0 mt-2 font-weight-bold text-primary">Update Shop Settings</h6>
         </div>
-        <form action="{{ route('admin.shop.settings.save') }}" method="post">
+        <form action="{{ route('admin.shop.settings.save') }}" enctype="multipart/form-data" method="post">
             @csrf
             <div class="card-body">
 
@@ -133,8 +133,45 @@
                         value="{{ $shop->active_category_background_color }}">
                 </div>
 
+
+
+
+                <input type="hidden" name="current_photo" value="{{ $general_setting->logo_shop }}">
+
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="">Existing Shop Logo</label>
+                            <div>
+                                <img src="{{ asset('public/uploads/'.$general_setting->logo_shop) }}" alt="" class="w_200">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Change Logo</label>
+                            <div>
+                                <input type="file" name="logo">
+                            </div>
+                        </div>
+
+                        <div class="form-group d-flex align-items-center">
+                            <label for="width">Width</label>
+                            <input type="number" value="{{$general_setting->logo_shop_width}}" name="logo_shop_width" id="width" class="form-control form-control-sm mx-3" style="width: 120px;" min="1">
+                        </div>
+
+                        <div class="form-group d-flex align-items-center">
+                            <label for="height">Height</label>
+                            <input type="number" value="{{$general_setting->logo_shop_height}}" name="logo_shop_height" id="height" class="form-control form-control-sm mx-3" style="width: 120px;" min="1">
+                        </div>
+
+                        
+                    </div>
+                </div>
+
+
                 <button class="btn btn-success mt-4 d-block">Save Settings</button>
             </div>
+
+            
             
         </form>
     </div>

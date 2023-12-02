@@ -27,7 +27,12 @@ $menus = \App\Models\Admin\Menu::whereNull('parent_id')->get();
             <div class="container">
                 <nav class="navbar navbar-expand-md navbar-light">
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        <img src="{{ asset('public/uploads/'.$g_setting->logo) }}" alt="logo" style="width: {{ $g_setting->logo_width }}px !important;height: {{ $g_setting->logo_height }}px !important;">
+                        @if (isset($is_sop))
+                            
+                        @else
+                             <img src="{{ asset('public/uploads/'.$g_setting->logo) }}" alt="logo" style="width: {{ $g_setting->logo_width }}px !important;height: {{ $g_setting->logo_height }}px !important;">
+                        @endif
+                        
                     </a>
                     @if(!request()->is('*shop*') && !request()->is('*product*') && !request()->is('*cart*') && !request()->is('*checkout*') && !request()->is('*payment*'))
                         <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">

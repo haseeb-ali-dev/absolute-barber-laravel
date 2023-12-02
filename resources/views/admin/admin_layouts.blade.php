@@ -418,5 +418,24 @@
     // Listen for window resize events
     window.addEventListener('resize', toggleClassOnMobile);
  </script>
+<script>
+    function hideWarning() {
+        // Get the element with the specified class
+        var warningElement = document.querySelector('.tox-notification--warning');
+
+        // Check if the element is found
+        if (warningElement) {
+            // Hide the warning by setting display to none
+            warningElement.style.display = 'none';
+        }
+    }
+
+    // Use setTimeout to delay the execution of the script by 5 seconds
+    setTimeout(hideWarning, 500); // 1000 milliseconds = 1 second
+    setTimeout(hideWarning, 1000); // 1000 milliseconds = 1 second
+    setTimeout(hideWarning, 3000); // 3000 milliseconds = 3 seconds
+    setTimeout(hideWarning, 6000); // 6000 milliseconds = 6 seconds
+</script>
+
 </body>
 </html>

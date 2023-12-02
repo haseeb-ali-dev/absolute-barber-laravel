@@ -5,7 +5,7 @@
         <div class="d-flex justify-content-between align-items-center">
             <!-- Logo on the left -->
             <a href="{{ url('/') }}" class="logo">
-                <img src="{{ asset('public/uploads/'.$g_setting->logo) }}" alt="" style="height: 90px;">
+                <img src="{{ asset('public/uploads/'.$g_setting->logo_shop) }}" alt="" style="height: 90px;">
             </a>
             <!-- Hamburger Icon on the right -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileNavbar" aria-controls="mobileNavbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +46,7 @@
                 <!-- Logo -->
                 <a class="navbar-brand mr-3" href="{{ url('/') }}">
                     <!-- Add margin to the right side of the logo -->
-                    <img src="{{ asset('public/uploads/'.$g_setting->logo) }}" alt="logo" style="width: {{ $g_setting->logo_width }}px !important;height: {{ $g_setting->logo_height }}px !important;">
+                    <img src="{{ asset('public/uploads/'.$g_setting->logo_shop) }}" alt="logo" style="width: {{ $g_setting->logo_shop_width }}px !important;height: {{ $g_setting->logo_shop_height }}px !important;">
                 </a>
                 <!-- Cart Icon, Login, and Register Buttons -->
                 <div class="navbar-right d-flex align-items-center ml-auto">

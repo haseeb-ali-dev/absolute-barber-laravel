@@ -73,7 +73,7 @@
 }
 
 @media (max-width: 767px) {
-    .content-container{
+    /* .content-container{
             display: none;
         }
           .overlay-1,
@@ -87,7 +87,7 @@
         .overlay-9,
         .overlay-10 {
             display: none; 
-        }
+        } */
 
         .feature {
             margin-top: -65%; 
