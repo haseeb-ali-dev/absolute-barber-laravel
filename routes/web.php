@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\CouponDesignController;
 use App\Http\Controllers\Admin\EnvController;
 use App\Http\Controllers\Admin\GroupController;
+use App\Http\Controllers\Admin\ModifierController;
 use App\Http\Controllers\Admin\VariantController;
 use App\Http\Controllers\Admin\VideoConferenceController;
 use App\Http\Controllers\Admin\CommentController;
@@ -1048,4 +1049,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], fu
 
     Route::get('product/{product}/variants', [ProductControllerForAdmin::class, 'product_variants'])->name('product.variants');
     Route::post('product/{product}/variants', [ProductControllerForAdmin::class, 'save_product_variants'])->name('product.variants.save');
+
+    Route::resource('modifier', ModifierController::class)->except(['show', 'destroy']);
+    Route::get('modifier/{modifier}/delete', [ModifierController::class, 'destroy'])->name('modifier.destroy');
+    Route::get('modifier/json', [ModifierController::class, 'modifier_json']);
 });
