@@ -28,7 +28,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>
-                                    @if (isset($row->thumbnail))
+                                    @if (isset($row->thumbnail) && file_exists(public_path('uploads/') . $row->thumbnail))
                                         <img src="{{ asset('public/uploads/' . $row->thumbnail) }}" alt=""
                                             class="w_150">
                                     @else
