@@ -81,6 +81,7 @@
             ['route' => route('admin.product.index'), 'name' => 'Product', 'icon' => 'fas fa-shopping-cart'],
             ['route' => route('admin.product_category.index'), 'name' => 'Product Categories', 'icon' => 'fas fa-shopping-cart'],
             ['route' => route('admin.variant.index'), 'name' => 'All Variants', 'icon' => 'fas fa-shopping-cart'],
+            ['route' => route('admin.modifier.index'), 'name' => 'Modifiers', 'icon' => 'fas fa-shopping-cart'],
             ['route' => route('admin.shipping.index'), 'name' => 'Shipping', 'icon' => 'fas fa-shopping-cart'],
             ['route' => route('admin.slider.index', ['store' => 1]), 'name' => 'Store Sliders', 'icon' => 'fas fa-sliders-h'],
             ['route' => route('admin.coupon.index'), 'name' => 'Coupon', 'icon' => 'fas fa-shopping-cart'],
