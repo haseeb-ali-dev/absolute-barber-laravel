@@ -14,10 +14,13 @@ class ModifierController extends Controller
         return view('admin.product_modifier.index', compact('data'));
     }
 
-    public function modifier_json()
+    public function add_modifier_to_cart(Request $request)
     {
-        $data = Modifier::all();
-        return response()->json(['data' => $data, 'status' => 'success']);
+        $modifier_ids = !is_null($request['modifier_ids']) ? explode(",", $request['modifier_ids']) : [];
+        session()->put('modifiers_added', $modifier_ids);
+        return back()->with('success', empty($modifier_ids)
+            ? 'No Modifiers is added to the cart. Please select an modifier!'
+            : 'Modifiers added to cart');
     }
 
     public function create()
