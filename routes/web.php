@@ -1052,5 +1052,5 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], fu
 
     Route::resource('modifier', ModifierController::class)->except(['show', 'destroy']);
     Route::get('modifier/{modifier}/delete', [ModifierController::class, 'destroy'])->name('modifier.destroy');
-    Route::get('modifier/json', [ModifierController::class, 'modifier_json']);
+    Route::post('add/modifier/cart', [ModifierController::class, 'add_modifier_to_cart'])->name('modifier.add_to_cart');
 });
