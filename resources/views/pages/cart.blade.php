@@ -103,20 +103,53 @@
                                     @php $tot1 = $tot1 + $subtotal; @endphp
                                 @endfor
 
+                                @php
+                                    $session_modifiers = Session::get('modifiers_added', []);
+                                    $total_price = 0.0;
+                                @endphp
+                                @if (count($session_modifiers) > 0)
+                                    @php
+                                        $query = DB::table('modifiers')->whereIn('id', $session_modifiers);
+                                        $data = isset($query) ? $query->get() : [];
+                                        $total_price = isset($query) ? $query->sum('unit_price') : 0.0;
+                                    @endphp
+                                    <tr>
+                                        <td colspan="2" class="text-right h5">Modifiers: </td>
+                                        <td colspan="4">
+                                            @foreach ($data as $row)
+                                                <span>{{ $row->name }} (USD {{ $row->unit_price }})
+                                                    @if (!$loop->last)
+                                                        <span class="px-2 h4">||</span>
+                                                    @endif
+                                                </span>
+                                            @endforeach
+                                        </td>
+                                        <td>USD <span class="update_subtotal h4">{{ $total_price }}</span></td>
+                                    </tr>
+                                @endif
+
                                 <tr>
                                     <td colspan="5" class="text-right">Total: </td>
-                                    <td colspan="2">USD <span class="update_subtotal">{{ $tot1 }}</span></td>
+                                    <td colspan="2">USD <span class="update_subtotal">{{ $tot1 + $total_price }}</span></td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <div class="cart-buttons">
-                            <a href="{{ route('front.shop') }}" class="btn btn-info btn-arf">Continue Shopping</a>
-                            <input type="submit" value="Update Cart" class="btn btn-info btn-arf" name="form1">
-                            <a href="{{ route('front.checkout') }}" class="btn btn-info btn-arf">Checkout</a>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="cart-buttons">
+                                <a href="#add_modifier" data-toggle="modal" class="btn btn-info btn-arf">
+                                    <i class="far fa-star"></i>
+                                    Please Add {{ count($session_modifiers) > 0 ? 'More' : '' }} Modifiers <i class="far fa-star"></i>
+                                </a>
+                            </div>
+                            <div class="cart-buttons">
+                                <a href="{{ route('front.shop') }}" class="btn btn-info btn-arf">Continue Shopping</a>
+                                <input type="submit" value="Update Cart" class="btn btn-info btn-arf" name="form1">
+                                <a href="{{ route('front.checkout') }}" class="btn btn-info btn-arf">Checkout</a>
+                            </div>
                         </div>
                     </form>
-
+                    @includeIf('pages.add_modifer', ['modifiers' => $modifiers, 'session_modifiers' => $session_modifiers])
                     @else
                         Cart is empty!
                     @endif
