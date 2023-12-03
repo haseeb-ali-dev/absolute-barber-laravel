@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Modifier;
 use App\Models\Admin\Product;
 use App\Models\Admin\ProductCategory;
 use Illuminate\Http\Request;
@@ -76,7 +77,8 @@ class ProductController extends Controller
     public function cart()
     {
         $g_setting = DB::table('general_settings')->where('id', 1)->first();
-        return view('pages.cart', compact('g_setting'));
+        $modifiers = Modifier::all();
+        return view('pages.cart', compact('g_setting', 'modifiers'));
     }
 
     public function cart_item_delete($id)
