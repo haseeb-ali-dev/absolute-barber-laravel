@@ -25,7 +25,7 @@
                                             <a href="javascript:window.print();" class="btn btn-info btn-sm mr_5 print-invoice-button">Print Invoice</a>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -69,11 +69,11 @@
                                 <ul class="invoice-address">
                                     <h5>Invoice Date & Time</h5>
                                     <p>
-                                        Date: 
+                                        Date:
                                         {{ \Carbon\Carbon::parse($order_detail->created_at)->format('d M, Y') }}
                                     </p>
                                     <p>
-                                        Time: 
+                                        Time:
                                         {{ \Carbon\Carbon::parse($order_detail->created_at)->format('H:i:s A') }}
                                     </p>
                                 </ul>
@@ -96,10 +96,10 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @php $total=0;  @endphp
+                                            @php $total=0; $serial=1; @endphp
                                             @foreach($product_list as $row)
                                                 <tr>
-                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $serial }}</td>
                                                     <td>{{ $row->product_name }}</td>
                                                     <td>${{ $row->product_price }}</td>
                                                     <td>{{ $row->product_qty }}</td>
@@ -110,8 +110,36 @@
                                                 </tr>
                                                 @php
                                                     $total = $total + $subtotal;
+                                                    $serial++;
                                                 @endphp
-                                            @endforeach 
+                                            @endforeach
+
+                                            @if (count($modifier_list) > 0)
+                                                @php
+                                                    $subtotal = 0;
+                                                @endphp
+                                                <tr>
+                                                    <td>{{ $serial }}</td>
+                                                    <td>
+                                                        <span class="font-weight-bold h6">MODIFIERS:</span>
+                                                        @foreach ($modifier_list as $row)
+                                                            <span>{{ $row->modifier_name }} (${{ $row->modifier_price }})
+                                                                @if (!$loop->last) , @endif
+                                                            </span>
+                                                            @php
+                                                                $subtotal += $row->modifier_price;
+                                                            @endphp
+                                                        @endforeach
+                                                    </td>
+                                                    <td>${{ $subtotal }}</td>
+                                                    <td>1</td>
+                                                    <td class="text-right">${{ $subtotal }}</td>
+                                                </tr>
+                                                @php
+                                                    $total = $total + $subtotal;
+                                                @endphp
+                                            @endif
+
                                         </tbody>
                                         <tfoot class="text-right">
                                             <tr>
@@ -134,11 +162,11 @@
                                     </table>
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
 @endsection
