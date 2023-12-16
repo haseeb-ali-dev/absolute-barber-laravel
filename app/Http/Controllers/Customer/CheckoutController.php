@@ -312,14 +312,16 @@ class CheckoutController extends Controller
                     $variant_options = json_decode($product_detail->variant_options, true);
                     $variant_existed = isset($variant_options[$variant]);
                     $product_price = $variant_existed ? $variant_options[$variant] : $product_detail->product_current_price;
+                    $product_name = $variant_existed ? $product_detail->product_name . ' ('. $variant .')' : $product_detail->product_name;
                 } else {
                     $product_price = $product_detail->product_current_price;
+                    $product_name = $product_detail->product_name;
                 }
                 $data2 = array();
                 $data2['order_id'] = $ai_id;
                 $data2['product_id'] = $product_detail->id;
                 $data2['product_price'] = $product_price;
-                $data2['product_name'] = $product_detail->product_name;
+                $data2['product_name'] = $product_name;
                 $data2['product_qty'] = $arr_cart_product_qty[$i];
                 $data2['payment_status'] = 'Completed';
                 $data2['order_no'] = $order_no;
@@ -333,12 +335,29 @@ class CheckoutController extends Controller
 
                 $product_row .= '
                 <b>Product #'.($i+1).'</b><br>
-                Product Name: '.$product_detail->product_name.'<br>
+                Product Name: '.$product_name.'<br>
                 Product Price: $'.$product_price.'<br>
                 Product Quantity: '.$arr_cart_product_qty[$i].'<br>
                 ';
             }
 
+            $modifier_ids = session()->get('modifiers_added', []);
+            if (count($modifier_ids) > 0) {
+                $modifiers = DB::table('modifiers')->whereIn('id', $modifier_ids)->get();
+
+                foreach ($modifiers as $modifier) {
+                    $data4 = array();
+                    $data4['order_id'] = $ai_id;
+                    $data4['modifier_id'] = $modifier->id;
+                    $data4['modifier_price'] = isset($modifier->unit_price) ? $modifier->unit_price : 0.0;
+                    $data4['modifier_name'] = $modifier->name;
+                    $data4['payment_status'] = 'Completed';
+                    $data4['order_no'] = $order_no;
+                    $data4['created_at'] = date('Y-m-d H:i:s');
+
+                    DB::table('order_modifiers')->insert($data4);
+                }
+            }
 
             // Send Email To Customer
             $payment_method = '
@@ -413,6 +432,8 @@ class CheckoutController extends Controller
             session()->forget('coupon_code');
             session()->forget('coupon_amount');
             session()->forget('coupon_id');
+
+            session()->forget('modifiers_added');
 
             return Redirect()->to('/')->with('success', 'Payment is successful!');
         }

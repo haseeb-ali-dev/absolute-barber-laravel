@@ -206,6 +206,33 @@
                 </div>
             </div>
         </div>
+        @if (count($modifier_list) > 0)
+            <div class="col-md-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 mt-2 font-weight-bold text-primary">Modifier Information</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>SL</th>
+                                    <th>Modifer Name</th>
+                                    <th>Modifer Price</th>
+                                </tr>
+                                @foreach ($modifier_list as $row)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $row->modifier_name }}</td>
+                                        <td>${{ $row->modifier_price }}</td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
-    
+
 @endsection

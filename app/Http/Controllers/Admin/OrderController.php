@@ -39,7 +39,8 @@ class OrderController extends Controller
     {
         $order_detail = DB::table('orders')->where('id',$id)->first();
         $product_list = DB::table('order_details')->where('order_id',$id)->get();
-        return view('admin.order.detail', compact('order_detail','product_list'));
+        $modifier_list = DB::table('order_modifiers')->where('order_id', $id)->get();
+        return view('admin.order.detail', compact('order_detail','product_list', 'modifier_list'));
     }
 
     public function invoice($id)
@@ -47,7 +48,8 @@ class OrderController extends Controller
         $g_setting = DB::table('general_settings')->where('id', 1)->first();
         $order_detail = DB::table('orders')->where('id',$id)->first();
         $product_list = DB::table('order_details')->where('order_id',$id)->get();
-        return view('admin.order.invoice', compact('order_detail','product_list','g_setting'));
+        $modifier_list = DB::table('order_modifiers')->where('order_id', $id)->get();
+        return view('admin.order.invoice', compact('order_detail','product_list','modifier_list','g_setting'));
     }
 
     public function invoice_thermal($id)
@@ -55,7 +57,8 @@ class OrderController extends Controller
         $g_setting = DB::table('general_settings')->where('id', 1)->first();
         $order_detail = DB::table('orders')->where('id',$id)->first();
         $product_list = DB::table('order_details')->where('order_id',$id)->get();
-        return view('admin.order.invoice_thermal', compact('order_detail','product_list','g_setting'));
+        $modifier_list = DB::table('order_modifiers')->where('order_id', $id)->get();
+        return view('admin.order.invoice_thermal', compact('order_detail','product_list','modifier_list','g_setting'));
     }
 
     public function destroy($id)
@@ -66,6 +69,7 @@ class OrderController extends Controller
 
         DB::table('orders')->where('id', $id)->delete();
         DB::table('order_details')->where('order_id', $id)->delete();
+        DB::table('order_modifiers')->where('order_id', $id)->delete();
 
         return Redirect()->back()->with('success', 'Order is deleted successfully!');
     }

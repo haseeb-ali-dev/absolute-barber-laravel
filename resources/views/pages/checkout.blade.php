@@ -18,8 +18,8 @@
         <div class="container">
             <div class="row cart">
                 <div class="col-md-12 faq">
-                    
-                    
+
+
                     <div class="panel-group" id="accordion1" role="tablist" aria-multiselectable="true">
 
                         <div class="panel panel-default">
@@ -81,9 +81,9 @@
                                                                     @endif
                                                                 @else
                                                                     @if(session()->get('shipping_id') == $row->id)
-                                                                    
+
                                                                         @php $chk='checked'; @endphp
-                                                                    
+
                                                                     @else
                                                                         @php $chk=''; @endphp
                                                                     @endif
@@ -114,7 +114,7 @@
                             </div>
                         </div>
 
-                        
+
 
 
 
@@ -135,15 +135,15 @@
                                                     $arr_cart_product_id = array();
                                                     $arr_cart_product_qty = array();
                                                 @endphp
-                                                
+
                                                 @php $i=0; @endphp
                                                 @foreach(session()->get('cart_product_id') as $value)
-                                                    @php 
+                                                    @php
                                                         $arr_cart_product_id[$i] = $value;
                                                         $i++;
                                                     @endphp
                                                 @endforeach
-                    
+
                                                 @php $i=0; @endphp
                                                 @foreach(session()->get('cart_product_qty') as $value)
                                                     @php
@@ -151,39 +151,76 @@
                                                         $i++;
                                                     @endphp
                                                 @endforeach
-                    
                                                 @php $tot1 = 0; @endphp
-                                                
+
                                                 @for($i=0;$i<count($arr_cart_product_id);$i++)
-                
+
                                                     @php
+                                                        $product_arr = explode("--", $arr_cart_product_id[$i]);
+                                                        $variant = isset($product_arr[1]) ? $product_arr[1] : null;
+
                                                         $product_detail = DB::table('products')->where('id', $arr_cart_product_id[$i])->first();
                                                         $product_name = $product_detail->product_name;
                                                         $product_slug = $product_detail->product_slug;
-                                                        $product_current_price = $product_detail->product_current_price;
+
+                                                        $variant_options = json_decode($product_detail->variant_options, true);
+                                                        $variant_existed = isset($variant_options[$variant]);
+
+                                                        $product_current_price = isset($variant) && isset($variant_options) && $variant_existed
+                                                            ? $variant_options[$variant]
+                                                            : $product_detail->product_current_price;
+
                                                         $product_featured_photo = $product_detail->product_featured_photo;
                                                     @endphp
-                
+
                                                     <tr>
                                                         <td class="text-left">
-                                                            {{ $product_name }} x {{ $arr_cart_product_qty[$i] }}
+                                                            {{ $product_name }} @if(isset($variant)) ({{ $variant }}) @endif x {{ $arr_cart_product_qty[$i] }}
                                                         </td>
                                                         <td class="text-right">
                                                             @php $subtotal = $product_current_price * $arr_cart_product_qty[$i] @endphp
                                                             ${{ $subtotal }}
                                                         </td>
                                                     </tr>
-                                                    
+
                                                     @php
-                                                        $tot1 = $tot1+$subtotal; 
+                                                        $tot1 = $tot1+$subtotal;
                                                     @endphp
-                                                    
+
                                                 @endfor
-                
-                                                @php 
+
+                                                @php
+                                                    $session_modifiers = Session::get('modifiers_added', []);
+                                                @endphp
+                                                @if (count($session_modifiers) > 0)
+                                                    @php
+                                                        $query = DB::table('modifiers')->whereIn('id', $session_modifiers);
+                                                        $data = isset($query) ? $query->get() : [];
+                                                        $total_price = isset($query) ? $query->sum('unit_price') : 0.0;
+                                                    @endphp
+                                                    <tr>
+                                                        <td class="text-left">
+                                                            <span class="font-weight-bold">MODIFIERS:</span>
+                                                            @foreach ($data as $row)
+                                                                <span>{{ $row->name }} (USD {{ $row->unit_price }})
+                                                                    @if (!$loop->last) , @endif
+                                                                </span>
+                                                            @endforeach
+                                                        </td>
+                                                        <td class="text-right">
+                                                            ${{ $total_price }}
+                                                        </td>
+                                                    </tr>
+                                                    @php
+                                                        $tot1 = $tot1 + $total_price;
+                                                    @endphp
+                                                @endif
+
+
+                                                @php
                                                     session()->put('subtotal', $tot1);
                                                 @endphp
-                                                
+
                                                 <tr>
                                                     <td class="text-left">Subtotal </td>
                                                     <td class="text-right">
@@ -203,13 +240,13 @@
                                                         @endif
                                                     </td>
                                                 </tr>
-                                                
+
                                                 @if(session()->get('shipping_id'))
                                                 <tr>
                                                     @php
                                                         $shipping_info = DB::table('shippings')->where('id', session()->get('shipping_id'))->first();
                                                     @endphp
-                
+
                                                     <td class="text-left">
                                                         Shipping Information <br>(<span class="font-weight-bold">{{ $shipping_info->shipping_name }} - {{ $shipping_info->shipping_text }}</span>)
                                                     </td>
@@ -218,31 +255,31 @@
                                                     </td>
                                                 </tr>
                                                 @endif
-                    
+
                                                 <tr>
                                                     <td class="text-left">Total </td>
                                                     <td class="text-right">
-                                                        
+
                                                         @if(!session()->get('coupon_amount'))
                                                             @php session()->put('coupon_amount', 0) @endphp
                                                         @endif
-                                                        
+
                                                         @if(session()->get('shipping_cost'))
-                                                            @php 
-                                                                $final_price = (session()->get('subtotal') + session()->get('shipping_cost'))-session()->get('coupon_amount'); 
+                                                            @php
+                                                                $final_price = (session()->get('subtotal') + session()->get('shipping_cost'))-session()->get('coupon_amount');
                                                             @endphp
                                                         @else
                                                             @php
                                                                 $final_price =session()->get('subtotal') - session()->get('coupon_amount');
                                                             @endphp
                                                         @endif
-                                                       
+
                                                         $<span class="total_price">{{ $final_price }}</span>
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </table>
-                    
+
                                     </div>
                                 </div>
                             </div>
@@ -255,11 +292,11 @@
                     @if(!session()->get('customer_id'))
                     <form action="{{ route('customer.login_from_checkout_page.store') }}" method="post">
                         @csrf
-                        <div class="customer-info mb_30">                       
+                        <div class="customer-info mb_30">
                             <div class="form-check mt_10 mb_10">
                                 <input class="form-check-input" type="checkbox" id="returning_customer_action">
                                 <label class="form-check-label" for="returning_customer_action">
-                                    Returning Customer? Click here to login                            
+                                    Returning Customer? Click here to login
                                 </label>
                             </div>
                             <div class="returning-customer-login-section d_n">
@@ -277,7 +314,7 @@
                         </div>
                     </form>
                     @endif
-                    
+
                     @if(session()->get('customer_id') && session()->get('customer_id')!= null)
                     <div class="existing-customer-container">
                         <h4>Existing Customer</h4>
@@ -290,7 +327,7 @@
 
 
                             $tables = DB::table('tables')
-                            ->get();    
+                            ->get();
                                 // dd($customer_data->is_waiter);
                         @endphp
                         <div class="row mb_30">
@@ -300,7 +337,7 @@
                             <div class="col">
                                 <input type="text" class="form-control second_field" value="{{ session()->get('customer_email') }}" disabled>
                             </div>
-                        </div>      
+                        </div>
                     </div>
                     @endif
 
@@ -323,9 +360,9 @@
                             </div>
                         @endif
                         @endif
-                        
-                        
-                        
+
+
+
                         <div class="row mb_10">
                             <div class="col">
                                 @if(session()->get('billing_name'))
@@ -536,9 +573,9 @@
 
     <script>
         (function($) {
-            
+
             "use strict";
-            
+
             $(document).ready(function() {
                 $("#click_shipping_same_check").on('change',function(e) {
                     e.preventDefault();
@@ -548,7 +585,7 @@
                         $('.shipping-info').attr('class','shipping-info mt_15 d_n');
                     }
                 });
-        
+
                 $("#returning_customer_action").on('change',function(e) {
                     e.preventDefault();
                     if($(this).prop("checked") == true){
@@ -557,7 +594,7 @@
                         $('.returning-customer-login-section').attr('class','returning-customer-login-section d_n');
                     }
                 });
-                
+
                 $("#coupon_parent").on('change',function(e) {
                     e.preventDefault();
                     if($(this).prop("checked") == true){
@@ -567,7 +604,7 @@
                     }
                 });
             });
-        
+
         })(jQuery);
         </script>
 @endsection
