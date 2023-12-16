@@ -194,7 +194,7 @@
                                                 @endphp
                                                 @if (count($session_modifiers) > 0)
                                                     @php
-                                                        $query = DB::table('modifiers')->whereIn('id', $session_modifiers);
+                                                        $query = DB::table('modifiers')->whereNull('deleted_at')->whereIn('id', $session_modifiers);
                                                         $data = isset($query) ? $query->get() : [];
                                                         $total_price = isset($query) ? $query->sum('unit_price') : 0.0;
                                                     @endphp

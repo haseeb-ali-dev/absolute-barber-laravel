@@ -114,6 +114,11 @@ class ProductController extends Controller
             }
         }
 
+        if (!session()->has('cart_product_id'))
+        {
+            session()->forget('modifiers_added');
+        }
+
         return redirect()->back()->with('success', 'Item is deleted from the cart successfully!');
     }
 

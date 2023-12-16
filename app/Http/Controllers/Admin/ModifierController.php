@@ -60,7 +60,9 @@ class ModifierController extends Controller
         // Delete file before delete
         if ($modifier->thumbnail) {
             $file_path = public_path('uploads/') . $modifier->thumbnail;
-            unlink($file_path);
+            if (file_exists($file_path)) {
+                unlink($file_path);
+            }
         }
         $modifier->delete();
         return back()->with('success', 'Modifier deleted successfully');

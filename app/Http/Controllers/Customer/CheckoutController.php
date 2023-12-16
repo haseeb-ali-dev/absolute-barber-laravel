@@ -343,7 +343,7 @@ class CheckoutController extends Controller
 
             $modifier_ids = session()->get('modifiers_added', []);
             if (count($modifier_ids) > 0) {
-                $modifiers = DB::table('modifiers')->whereIn('id', $modifier_ids)->get();
+                $modifiers = DB::table('modifiers')->whereNull('deleted_at')->whereIn('id', $modifier_ids)->get();
 
                 foreach ($modifiers as $modifier) {
                     $data4 = array();
