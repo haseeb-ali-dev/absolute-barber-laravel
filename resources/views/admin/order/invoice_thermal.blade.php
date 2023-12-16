@@ -51,18 +51,40 @@
                 </tr>
             </thead>
             <tbody>
-                @php $total = 0; @endphp
+                @php $total = 0; $serial = 1; @endphp
                 @foreach($product_list as $row)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $serial }}</td>
                         <td>{{ $row->product_name }}</td>
                         <td>${{ $row->product_price }}</td>
                         <td>{{ $row->product_qty }}</td>
                         @php $subtotal = $row->product_price * $row->product_qty; @endphp
                         <td>${{ $subtotal }}</td>
                     </tr>
-                    @php $total = $total + $subtotal; @endphp
+                    @php $total = $total + $subtotal; $serial++; @endphp
                 @endforeach
+
+                @if (count($modifier_list) > 0)
+                    @php $subtotal = 0; @endphp
+                    <tr>
+                        <td>{{ $serial }}</td>
+                        <td>
+                            <span>MODIFIERS:</span>
+                            @foreach ($modifier_list as $row)
+                                <span>
+                                    {{ $row->modifier_name }} (${{ $row->modifier_price }}) @if (!$loop->last),@endif
+                                </span>
+                                @php $subtotal += $row->modifier_price; @endphp
+                            @endforeach
+                        </td>
+                        <td>${{ $subtotal }}</td>
+                        <td>1</td>
+                        <td>${{ $subtotal }}</td>
+                    </tr>
+                    @php
+                        $total = $total + $subtotal;
+                    @endphp
+                @endif
             </tbody>
             <tfoot class="text-right">
                 <tr>
