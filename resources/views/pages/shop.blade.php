@@ -48,7 +48,8 @@
 
         @if ($shop->rounded_images=='true')
         .product-item .photo img {
-            height: 200px;
+            height: 180px;
+            width: 180px;
         }
         .photo img {
         border-radius: 50%;
@@ -60,6 +61,7 @@
         @media (max-width: 767px) {
             .product-item .photo img {
                 height: 300px;
+                width: 300px;
             }
         }
         @endif
@@ -67,6 +69,7 @@
         @if ($shop->rounded_images=='false')
         .product-item .photo img {
             height: 270px;
+            width: 270px;
         }
         @endif
 
@@ -121,7 +124,7 @@
                             @foreach($products as $row)
                             <div class="col-lg-3 col-md-6 col-sm-12 d-flex flex-column justify-content-between mb-3">
                                 <div class="product-item">
-                                    <div class="photo">
+                                    <div class="photo text-center">
                                         <a href="{{ url('product/'.$row->product_slug) }}">
                                             <img src="{{ asset('public/uploads/'.$row->product_featured_photo) }}" alt="Product Photo">
                                         </a>
@@ -183,7 +186,7 @@
                             @forelse($main_row->products()->paginate(12) as $row)
                             <div class="col-lg-3 col-md-6 col-sm-12 d-flex flex-column justify-content-between mb-3">
                                 <div class="product-item">
-                                    <div class="photo"><a href="{{ url('product/'.$row->product_slug) }}"><img
+                                    <div class="photo text-center"><a href="{{ url('product/'.$row->product_slug) }}"><img
                                                 src="{{ asset('public/uploads/'.$row->product_featured_photo) }}"></a></div>
                                     <div class="text text-center">
                                         <h3><a href="{{ url('product/'.$row->product_slug) }}">{{ $row->product_name }}</a>
