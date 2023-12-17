@@ -21,9 +21,9 @@
                 <form action="{{ route('modifier.add_to_cart') }}" method="post">
                     @csrf
                     <input type="hidden" name="modifier_ids" id="modifiers">
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4">
+                    <div class="row row-cols-1 row-cols-md-4 row-cols-lg-5">
                         @foreach ($modifiers as $row)
-                            <div class="col mb-4">
+                            <div class="col mb-2">
                                 <div class="card">
                                     @if (isset($row->thumbnail) && file_exists(public_path('uploads/') . $row->thumbnail))
                                         <img src="{{ asset('public/uploads/' . $row->thumbnail) }}" alt="Modifier"
@@ -32,8 +32,8 @@
                                         <img src="http://via.placeholder.com/640x360?text={{ isset($row->name) ? str_replace(' ', '+', $row->name) : 'Modifier+Thumbnail' }}"
                                             alt="Modifier" class="card-img-top" height="150">
                                     @endif
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title">{{ ucwords($row->name) }}</h5>
+                                    <div class="card-body text-center px-2 py-2">
+                                        <span class="font-weight-bold">{{ Str::limit(ucwords($row->name), 20, '...') }}</span>
                                         <p class="card-text">USD {{ $row->unit_price }}</p>
                                         <a href="javascript:;"
                                             class="btn {{ in_array($row->id, $session_modifiers) ? 'btn-success' : 'btn-info' }} btn-block rounded-pill select-modifier py-1"
