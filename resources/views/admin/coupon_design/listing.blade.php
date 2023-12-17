@@ -28,8 +28,12 @@
 
                                 @if (isset($enable_delete) && $enable_delete)
                                     <a href="{{ route('admin.coupon_design.delete', ['coupon_design' => $row]) }}"
-                                        class="btn btn-danger rounded-pill btn-sm"
+                                        class="btn btn-danger rounded-pill btn-sm mb-2"
                                         onclick="return confirm('Are you sure you want to delete this template?')">Delete</a>
+                                    <a href="{{ route('admin.coupon_design.edit', ['coupon_design' => $row]) }}"
+                                        class="btn btn-dark rounded-pill btn-sm">
+                                        Edit
+                                    </a>
                                 @else
                                     <a href="{{ route('admin.coupon_design.modify', ['coupon_design' => $row]) }}"
                                         class="btn btn-primary rounded-pill btn-sm">Modify</a>
