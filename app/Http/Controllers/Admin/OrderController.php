@@ -19,7 +19,7 @@ class OrderController extends Controller
 
     public function index()
     {
-        $order = Order::all();
+        $order = Order::orderBy('id', 'DESC')->get();
         return view('admin.order.index', compact('order'));
     }
     public function grid(Request $request)
