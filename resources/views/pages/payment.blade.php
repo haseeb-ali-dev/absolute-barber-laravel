@@ -18,9 +18,50 @@
         <div class="container">
             <div class="row cart">
                 <div class="col-md-12">
-                    
+
                     <h3>Make Payment</h3>
+
+                    <h5>Select Payment Mode</h5>
                     <div class="row">
+                        <div class="col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="payment_type" value="online" />
+                                    <label class="form-check-label">Online</label>
+                                </div>
+                                <div class="form-check form-check-inline ml-5">
+                                    <input class="form-check-input" type="radio" name="payment_type" value="offline" />
+                                    <label class="form-check-label">Offline</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form action="{{ route('customer.payment.offline') }}" method="POST" class="offline">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-6 col-lg-4">
+                                <div class="form-group">
+                                    <select name="offline_type" class="form-control offline-select-box">
+                                        <option value="">Select Offline Payment Type</option>
+                                        <option value="Delivery">Home Delivery</option>
+                                        <option value="Pickup">Pick Up</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row shipping-address">
+                            <div class="col-md-12">
+                                <span class="font-weight-bold">Shipping Address:</span>
+                                {{ session()->get('shipping_address') .', '. session()->get('shipping_country') .' '. session()->get('shipping_state') .' '. session()->get('shipping_city') .', '. session()->get('shipping_zip') }}
+                            </div>
+                        </div>
+                        <div class="mt_20">
+                            <button class="btn btn-primary" type="submit">Place Order</button>
+                        </div>
+                    </form>
+
+                    <div class="row online">
                         <div class="col-md-6 col-lg-4">
                             <div class="form-group">
                                 <select name="payment_method" class="form-control" id="paymentMethodChange">
@@ -41,8 +82,8 @@
                         <h4>Pay with Stripe</h4>
 
                         @if(session()->get('shipping_cost'))
-                            @php 
-                                $final_price = (session()->get('subtotal') + session()->get('shipping_cost'))-session()->get('coupon_amount'); 
+                            @php
+                                $final_price = (session()->get('subtotal') + session()->get('shipping_cost'))-session()->get('coupon_amount');
                             @endphp
                         @else
                             @php
@@ -93,17 +134,17 @@
 
     @if(session()->get('shipping_cost'))
         @php
-            $final_price = (session()->get('subtotal') + session()->get('shipping_cost'))-session()->get('coupon_amount'); 
+            $final_price = (session()->get('subtotal') + session()->get('shipping_cost'))-session()->get('coupon_amount');
         @endphp
     @else
         @php
             $final_price =session()->get('subtotal') - session()->get('coupon_amount');
         @endphp
-    @endif  
+    @endif
 
     @if($paypal_mode == 'sandbox')
         @php
-            $paypal_url = 'https://api.sandbox.paypal.com/v1/';	
+            $paypal_url = 'https://api.sandbox.paypal.com/v1/';
             $env_type = 'sandbox';
         @endphp
     @elseif($paypal_mode == 'production')
@@ -148,6 +189,53 @@
             onAuthorize: function (data, actions) {
                 return actions.redirect();
             }
-        }, '#paypal-button');       
+        }, '#paypal-button');
         </script>
+
+    <script>
+        initPaymentTypes()
+        $(document).ready(function () {
+
+            $("input[name='payment_type']").change(function (e) {
+                e.preventDefault();
+
+                const payment_type = $(this).val();
+
+                if (payment_type == 'online') {
+                    $(".offline").hide();
+                    $(".online").show();
+                } else if (payment_type == 'offline') {
+                    $(".online").hide();
+                    $(".offline").show();
+                } else {
+                    initPaymentTypes()
+                    toastr.error("Please select valid payment type")
+                }
+            });
+
+            $("select[name='offline_type']").change(function (e) {
+                e.preventDefault();
+
+                const offline_type = $(this).val();
+                if (offline_type == 'Delivery') {
+                    $(".shipping-address").show();
+                } else if (offline_type == 'Pickup') {
+                    $(".shipping-address").hide();
+                } else {
+                    initPaymentTypes()
+                    toastr.error("Please select valid offline payment type")
+                }
+            });
+
+        });
+
+        function initPaymentTypes() {
+            $("input[name='payment_type']").prop("checked", false);
+            $(".offline-select-box option:selected").prop("selected", false);
+            $(".offline").hide();
+            $(".online").hide();
+            $(".shipping-address").hide();
+        }
+    </script>
+
 @endsection

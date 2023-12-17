@@ -695,4 +695,187 @@ class CheckoutController extends Controller
     }
 
 
+    public function offline(Request $request)
+    {
+        if(!session()->get('cart_product_id'))
+        {
+            return redirect()->to('/');
+        }
+
+        if(session()->get('shipping_cost')) {
+            $final_price = (session()->get('subtotal') + session()->get('shipping_cost'))-session()->get('coupon_amount');
+        } else {
+            $final_price =session()->get('subtotal') - session()->get('coupon_amount');
+        }
+
+        if(!is_null($request['offline_type']))
+        {
+            $paid_amount = $final_price;
+            $fee_amount  = 0;
+            $net_amount  = $final_price;
+
+            $order_no = uniqid();
+
+            $statement = DB::select("SHOW TABLE STATUS LIKE 'orders'");
+            $ai_id = $statement[0]->Auto_increment;
+
+            $data = array();
+            if(session()->get('customer_id'))
+            {
+                $data['customer_id'] = session()->get('customer_id');
+                $data['customer_name'] = session()->get('customer_name');
+                $data['customer_email'] = session()->get('customer_email');
+                $data['table_id'] = session()->get('table_id');
+                $data['customer_type'] = 'Returning Customer';
+            }
+            else
+            {
+                $data['customer_id'] = 0;
+                $data['customer_name'] = session()->get('billing_name');
+                $data['customer_email'] = session()->get('billing_email');
+                $data['customer_type'] = 'Guest';
+            }
+
+            $data['billing_name'] = session()->get('billing_name');
+            $data['billing_email'] = session()->get('billing_email');
+            $data['billing_phone'] = session()->get('billing_phone');
+            $data['billing_country'] = session()->get('billing_country');
+            $data['billing_address'] = session()->get('billing_address');
+            $data['billing_state'] = session()->get('billing_state');
+            $data['billing_city'] = session()->get('billing_city');
+            $data['billing_zip'] = session()->get('billing_zip');
+
+            $data['shipping_name'] = session()->get('shipping_name');
+            $data['shipping_email'] = session()->get('shipping_email');
+            $data['shipping_phone'] = session()->get('shipping_phone');
+            $data['shipping_country'] = session()->get('shipping_country');
+            $data['shipping_address'] = session()->get('shipping_address');
+            $data['shipping_state'] = session()->get('shipping_state');
+            $data['shipping_city'] = session()->get('shipping_city');
+            $data['shipping_zip'] = session()->get('shipping_zip');
+
+            $data['order_note'] = session()->get('order_note');
+            $data['shipping_cost'] = session()->get('shipping_cost');
+            $data['coupon_code'] = session()->get('coupon_code');
+            $data['coupon_discount'] = session()->get('coupon_amount');
+
+            $data['paid_amount'] = $paid_amount;
+            $data['fee_amount'] = $fee_amount;
+            $data['net_amount'] = $net_amount;
+            $data['payment_method'] = $request['offline_type'];
+            $data['payment_status'] = 'Completed';
+            $data['order_no'] = $order_no;
+
+            $data['created_at'] = date('Y-m-d H:i:s');
+
+            DB::table('orders')->insert($data);
+
+            $arr_cart_product_id = array();
+            $arr_cart_product_qty = array();
+
+            $i=0;
+            foreach(session()->get('cart_product_id') as $value) {
+                $arr_cart_product_id[$i] = $value;
+                $i++;
+            }
+
+            $i=0;
+            foreach(session()->get('cart_product_qty') as $value) {
+                $arr_cart_product_qty[$i] = $value;
+                $i++;
+            }
+
+            for($i=0;$i<count($arr_cart_product_id);$i++)
+            {
+                $product_arr = explode("--", $arr_cart_product_id[$i]);
+                $variant = isset($product_arr[1]) ? $product_arr[1] : null;
+                $product_detail = DB::table('products')->where('id', $product_arr[0])->first();
+
+                if ($variant) {
+                    $variant_options = json_decode($product_detail->variant_options, true);
+                    $variant_existed = isset($variant_options[$variant]);
+                    $product_price = $variant_existed ? $variant_options[$variant] : $product_detail->product_current_price;
+                    $product_name = $variant_existed ? $product_detail->product_name . ' ('. $variant .')' : $product_detail->product_name;
+                } else {
+                    $product_price = $product_detail->product_current_price;
+                    $product_name = $product_detail->product_name;
+                }
+
+                $data2 = array();
+                $data2['order_id'] = $ai_id;
+                $data2['product_id'] = $product_detail->id;
+                $data2['product_price'] = $product_price;
+                $data2['product_name'] = $product_name;
+                $data2['product_qty'] = $arr_cart_product_qty[$i];
+                $data2['payment_status'] = 'Completed';
+                $data2['order_no'] = $order_no;
+                $data2['created_at'] = date('Y-m-d H:i:s');
+                DB::table('order_details')->insert($data2);
+
+                // Update Stock in Database
+                $current_stock = $product_detail->product_stock - $arr_cart_product_qty[$i];
+                $data3['product_stock'] = $current_stock;
+                DB::table('products')->where('id',$product_detail->id)->update($data3);
+
+            }
+
+            $modifier_ids = session()->get('modifiers_added', []);
+
+            if (count($modifier_ids) > 0) {
+                $modifiers = DB::table('modifiers')->whereNull('deleted_at')->whereIn('id', $modifier_ids)->get();
+
+                foreach ($modifiers as $modifier) {
+                    $data4 = array();
+                    $data4['order_id'] = $ai_id;
+                    $data4['modifier_id'] = $modifier->id;
+                    $data4['modifier_price'] = isset($modifier->unit_price) ? $modifier->unit_price : 0.0;
+                    $data4['modifier_name'] = $modifier->name;
+                    $data4['payment_status'] = 'Completed';
+                    $data4['order_no'] = $order_no;
+                    $data4['created_at'] = date('Y-m-d H:i:s');
+
+                    DB::table('order_modifiers')->insert($data4);
+                }
+            }
+
+            session()->forget('billing_name');
+            session()->forget('billing_email');
+            session()->forget('billing_phone');
+            session()->forget('billing_country');
+            session()->forget('billing_address');
+            session()->forget('billing_state');
+            session()->forget('billing_city');
+            session()->forget('billing_zip');
+
+            session()->forget('name_click_shipping_same_check');
+
+            session()->forget('shipping_name');
+            session()->forget('shipping_email');
+            session()->forget('shipping_phone');
+            session()->forget('shipping_country');
+            session()->forget('shipping_address');
+            session()->forget('shipping_state');
+            session()->forget('shipping_city');
+            session()->forget('shipping_zip');
+
+            session()->forget('order_note');
+
+            session()->forget('cart_product_id');
+            session()->forget('cart_product_qty');
+
+            session()->forget('shipping_id');
+            session()->forget('shipping_cost');
+
+            session()->forget('coupon_code');
+            session()->forget('coupon_amount');
+            session()->forget('coupon_id');
+
+            session()->forget('modifiers_added');
+
+            return Redirect()->to('/')->with('success', 'Offline Payment is successful!');
+        } else {
+            return Redirect()->back()->with('error', 'Please Select Delivery or Pickup (Offline Payment Type)!');
+        }
+    }
+
 }
