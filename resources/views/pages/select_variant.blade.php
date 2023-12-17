@@ -15,7 +15,10 @@
                     <div id="variant_options" class="mx-1"></div>
                 </div>
                 <div class="modal-footer cart-button px-2">
-                    <button type="submit">Add To Cart</button>
+                    <button type="submit">
+                        <i class="fas fa-shopping-bag mr-1"></i>
+                        Add To Cart
+                    </button>
                 </div>
             </form>
         </div>

@@ -2,6 +2,9 @@
 
     @section('content')
     <style>
+        .h-100 {
+            height: 100%!important;
+        }
         /* Add border, round the nav-link class, and create spacing between buttons */
         .nav-item .nav-link {
             border: 1px solid #000; /* Replace #000 with the desired border color */
@@ -74,6 +77,14 @@
         @endif
 
 
+        .product-card {
+            transition: border-bottom 0.3s ease;
+        }
+
+        .product-card:hover {
+            border-bottom: 6px solid #113B30 !important;
+        }
+
 
     </style>
 
@@ -122,49 +133,55 @@
                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                         <div class="row">
                             @foreach($products as $row)
-                            <div class="col-lg-3 col-md-6 col-sm-12 d-flex flex-column justify-content-between mb-3">
-                                <div class="product-item">
-                                    <div class="photo text-center">
-                                        <a href="{{ url('product/'.$row->product_slug) }}">
-                                            <img src="{{ asset('public/uploads/'.$row->product_featured_photo) }}" alt="Product Photo">
-                                        </a>
-                                    </div>
-                                    <div class="text text-center">
-                                        <h3><a href="{{ url('product/'.$row->product_slug) }}">{{ $row->product_name }}</a>
-                                        </h3>
-                                        <div class="price">
+                            <div class="col-lg-3 col-md-6 col-sm-12 mb-2 text-center px-1">
+                                <div class="px-2 py-3 border rounded-lg d-flex flex-column justify-content-between h-100 product-card">
+                                    <div class="product-item">
+                                        <div class="photo text-center">
+                                            <a href="{{ url('product/'.$row->product_slug) }}">
+                                                <img src="{{ asset('public/uploads/'.$row->product_featured_photo) }}" alt="Product Photo">
+                                            </a>
+                                        </div>
+                                        <div class="text text-center">
+                                            <h3><a href="{{ url('product/'.$row->product_slug) }}">{{ $row->product_name }}</a>
+                                            </h3>
+                                            <div class="price">
 
-                                            @if($row->product_old_price != '')
-                                            <del>USD {{ $row->product_old_price }}</del>
-                                            @endif
+                                                @if($row->product_old_price != '')
+                                                <del>USD {{ $row->product_old_price }}</del>
+                                                @endif
 
-                                            USD {{ $row->product_current_price }}
+                                                USD {{ $row->product_current_price }}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="cart-button">
-                                    @if (isset($row->variant) && isset($row->variant_options))
-                                        <small class="px-2">In Variant</small>
-                                    @endif
-                                    @if($row->product_stock == 0)
-                                    <a href="javascript:void(0);" class="stock-empty w-100-p text-center">Stock is
-                                        empty</a>
-                                    @else
-                                        @if (isset($row->variant))
-                                            <button type="button" class="select-variant-btn"
-                                                data-product_id="{{ $row->id }}" data-variant="{{ $row->variant }}">
-                                                Select Variant
-                                            </button>
-                                        @else
-                                            <form action="{{ route('front.add_to_cart') }}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="product_id" value="{{ $row->id }}">
-                                                <input type="hidden" name="product_qty" value="1">
-                                                <button type="submit">Add to Cart</button>
-                                            </form>
+                                    <div class="cart-button">
+                                        @if (isset($row->variant) && isset($row->variant_options))
+                                            <small class="px-2">In Variant</small>
                                         @endif
-                                    @endif
+                                        @if($row->product_stock == 0)
+                                        <a href="javascript:void(0);" class="stock-empty w-100-p text-center">Stock is
+                                            empty</a>
+                                        @else
+                                            @if (isset($row->variant))
+                                                <button type="button" class="select-variant-btn"
+                                                    data-product_id="{{ $row->id }}" data-variant="{{ $row->variant }}">
+                                                    <i class="fas fa-stream mr-1"></i>
+                                                    Select Variant
+                                                </button>
+                                            @else
+                                                <form action="{{ route('front.add_to_cart') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="product_id" value="{{ $row->id }}">
+                                                    <input type="hidden" name="product_qty" value="1">
+                                                    <button type="submit">
+                                                        <i class="fas fa-shopping-bag mr-1"></i>
+                                                        Add to Cart
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        @endif
 
+                                    </div>
                                 </div>
                             </div>
                             @endforeach
@@ -184,40 +201,49 @@
                         </div>
                         <div class="row">
                             @forelse($main_row->products()->paginate(12) as $row)
-                            <div class="col-lg-3 col-md-6 col-sm-12 d-flex flex-column justify-content-between mb-3">
-                                <div class="product-item">
-                                    <div class="photo text-center"><a href="{{ url('product/'.$row->product_slug) }}"><img
-                                                src="{{ asset('public/uploads/'.$row->product_featured_photo) }}"></a></div>
-                                    <div class="text text-center">
-                                        <h3><a href="{{ url('product/'.$row->product_slug) }}">{{ $row->product_name }}</a>
-                                        </h3>
-                                        <div class="price">
-                                            @if($row->product_old_price != '')
-                                            <del>USD {{ $row->product_old_price }}</del>
-                                            @endif
-                                            USD {{ $row->product_current_price }}
+                            <div class="col-lg-3 col-md-6 col-sm-12 text-center px-1 mb-2">
+                                <div class="px-2 py-3 border rounded-lg d-flex flex-column justify-content-between h-100 product-card">
+                                    <div class="product-item">
+                                        <div class="photo text-center"><a href="{{ url('product/'.$row->product_slug) }}"><img
+                                                    src="{{ asset('public/uploads/'.$row->product_featured_photo) }}"></a></div>
+                                        <div class="text text-center">
+                                            <h3><a href="{{ url('product/'.$row->product_slug) }}">{{ $row->product_name }}</a>
+                                            </h3>
+                                            <div class="price">
+                                                @if($row->product_old_price != '')
+                                                <del>USD {{ $row->product_old_price }}</del>
+                                                @endif
+                                                USD {{ $row->product_current_price }}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="cart-button">
-                                    @if (isset($row->variant) && isset($row->variant_options))
-                                        <small class="px-2">In Variant</small>
-                                    @endif
-                                    @if($row->product_stock == 0)
-                                    <a href="javascript:void(0);" class="stock-empty w-100-p text-center">Stock is
-                                        empty</a>
-                                    @else
-                                        @if (isset($row->variant))
-                                            <button type="button">Select Variant</button>
-                                        @else
-                                            <form action="{{ route('front.add_to_cart') }}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="product_id" value="{{ $row->id }}">
-                                                <input type="hidden" name="product_qty" value="1">
-                                                <button type="submit">Add to Cart</button>
-                                            </form>
+                                    <div class="cart-button">
+                                        @if (isset($row->variant) && isset($row->variant_options))
+                                            <small class="px-2">In Variant</small>
                                         @endif
-                                    @endif
+                                        @if($row->product_stock == 0)
+                                        <a href="javascript:void(0);" class="stock-empty w-100-p text-center">Stock is
+                                            empty</a>
+                                        @else
+                                            @if (isset($row->variant))
+                                                <button type="button" class="select-variant-btn"
+                                                    data-product_id="{{ $row->id }}" data-variant="{{ $row->variant }}">
+                                                    <i class="fas fa-stream mr-1"></i>
+                                                    Select Variant
+                                                </button>
+                                            @else
+                                                <form action="{{ route('front.add_to_cart') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="product_id" value="{{ $row->id }}">
+                                                    <input type="hidden" name="product_qty" value="1">
+                                                    <button type="submit">
+                                                        <i class="fas fa-shopping-bag mr-1"></i>
+                                                        Add to Cart
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                             @empty
