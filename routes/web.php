@@ -175,6 +175,7 @@ Route::get('customer/order', [OrderControllerForCustomer::class,'index'])->name(
 Route::post('customer/checkout/billing/shipping', [CheckoutController::class,'billing_shipping'])->name('customer.billing_shipping_submit');
 Route::get('customer/payment', [CheckoutController::class,'payment'])->name('customer.payment');
 Route::post('customer/payment/stripe', [CheckoutController::class,'stripe'])->name('customer.stripe');
+Route::post('customer/payment/offline', [CheckoutController::class,'offline'])->name('customer.payment.offline');
 Route::post('customer/payment/stripe1', [CheckoutController::class,'stripe1'])->name('customer.stripe1');
 Route::get('customer/execute-payment', [CheckoutController::class,'paypal']);
 Route::get('employee/register', [RegistrationController::class,'registerEmployee'])->name('employee.registration');
@@ -1052,5 +1053,5 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], fu
 
     Route::resource('modifier', ModifierController::class)->except(['show', 'destroy']);
     Route::get('modifier/{modifier}/delete', [ModifierController::class, 'destroy'])->name('modifier.destroy');
-    Route::post('add/modifier/cart', [ModifierController::class, 'add_modifier_to_cart'])->name('modifier.add_to_cart');
 });
+Route::post('add/modifier/cart', [ModifierController::class, 'add_modifier_to_cart'])->name('modifier.add_to_cart');

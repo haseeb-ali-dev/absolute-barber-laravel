@@ -18,7 +18,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('admin.modifier.add_to_cart') }}" method="post">
+                <form action="{{ route('modifier.add_to_cart') }}" method="post">
                     @csrf
                     <input type="hidden" name="modifier_ids" id="modifiers">
                     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4">
