@@ -15,7 +15,7 @@
                     <div id="variant_options" class="mx-1"></div>
                 </div>
                 <div class="modal-footer cart-button px-2">
-                    <button type="submit">
+                    <button type="submit" class="add-to-cart" disabled>
                         <i class="fas fa-shopping-bag mr-1"></i>
                         Add To Cart
                     </button>
@@ -34,7 +34,7 @@
             $('#variant_options').empty();
             variant?.options?.map(function(i) {
                 var option = $('<div class="form-check mb-2">' +
-                    '<input class="form-check-input" type="radio" name="variant" id="inlineRadio' +
+                    '<input class="form-check-input" type="radio" name="variant" required id="inlineRadio' +
                     i + '" value="' + i + '">' +
                     '<label class="form-check-label" for="inlineRadio' + i + '">' + i + '</label>' +
                     '</div>');
@@ -45,5 +45,10 @@
             // Show modal
             $("#select_variant").modal('show');
         }
+
+        $("input[name='variant']").change(function (e) {
+            e.preventDefault();
+            $(".add-to-cart").removeAttr("disabled");
+        });
     });
 </script>
