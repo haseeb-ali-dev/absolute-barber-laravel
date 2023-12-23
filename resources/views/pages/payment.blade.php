@@ -71,55 +71,58 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div class="col-md-12">
+                            <div class="paypal mt_20">
+                                <h4>Pay with PayPal</h4>
+                                <div id="paypal-button"></div>
+                            </div>
+
+                            <div class="stripe mt_20">
+                                <h4>Pay with Stripe</h4>
+
+                                @if(session()->get('shipping_cost'))
+                                    @php
+                                        $final_price = (session()->get('subtotal') + session()->get('shipping_cost'))-session()->get('coupon_amount');
+                                    @endphp
+                                @else
+                                    @php
+                                        $final_price =session()->get('subtotal') - session()->get('coupon_amount');
+                                    @endphp
+                                @endif
+
+                                @php
+                                    $cents = $final_price*100;
+                                @endphp
+
+                                @if(session()->get('customer_email'))
+                                    @php
+                                        $c_email = session()->get('customer_email');
+                                    @endphp
+                                @else
+                                    @php
+                                        $c_email = session()->get('billing_email');
+                                    @endphp
+                                @endif
+
+                                <form action="{{ route('customer.stripe') }}" method="post">
+                                    @csrf
+                                    <script
+                                        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                        data-key="{{ env('ADMIN_STRIPE_PUBLIC_KEY') }}"
+                                        data-amount="{{ $cents }}"
+                                        data-name="{{ env('APP_NAME') }}"
+                                        data-description=""
+                                        data-image="{{ asset('public/uploads/stripe_icon.png') }}"
+                                        data-currency="usd"
+                                        data-email="{{ $c_email }}"
+                                    >
+                                    </script>
+                                </form>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="paypal mt_20">
-                        <h4>Pay with PayPal</h4>
-                        <div id="paypal-button"></div>
-                    </div>
-
-                    <div class="stripe mt_20">
-                        <h4>Pay with Stripe</h4>
-
-                        @if(session()->get('shipping_cost'))
-                            @php
-                                $final_price = (session()->get('subtotal') + session()->get('shipping_cost'))-session()->get('coupon_amount');
-                            @endphp
-                        @else
-                            @php
-                                $final_price =session()->get('subtotal') - session()->get('coupon_amount');
-                            @endphp
-                        @endif
-
-                        @php
-                            $cents = $final_price*100;
-                        @endphp
-
-                        @if(session()->get('customer_email'))
-                            @php
-                                $c_email = session()->get('customer_email');
-                            @endphp
-                        @else
-                            @php
-                                $c_email = session()->get('billing_email');
-                            @endphp
-                        @endif
-
-                        <form action="{{ route('customer.stripe') }}" method="post">
-                            @csrf
-                            <script
-                                src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                data-key="{{ env('ADMIN_STRIPE_PUBLIC_KEY') }}"
-                                data-amount="{{ $cents }}"
-                                data-name="{{ env('APP_NAME') }}"
-                                data-description=""
-                                data-image="{{ asset('public/uploads/stripe_icon.png') }}"
-                                data-currency="usd"
-                                data-email="{{ $c_email }}"
-                            >
-                            </script>
-                        </form>
-                    </div>
 
                 </div>
             </div>
