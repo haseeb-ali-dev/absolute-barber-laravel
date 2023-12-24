@@ -124,15 +124,16 @@
                                                         <span class="font-weight-bold h6">MODIFIERS:</span>
                                                         @foreach ($modifier_list as $row)
                                                             <span>{{ $row->modifier_name }} (${{ $row->modifier_price }})
+                                                                <span class="h6 ml-1">x {{ $row->modifier_qty }}</span>
                                                                 @if (!$loop->last) , @endif
                                                             </span>
                                                             @php
-                                                                $subtotal += $row->modifier_price;
+                                                                $subtotal += $row->modifier_price * $row->modifier_qty;
                                                             @endphp
                                                         @endforeach
                                                     </td>
                                                     <td>${{ $subtotal }}</td>
-                                                    <td>1</td>
+                                                    <td>-</td>
                                                     <td class="text-right">${{ $subtotal }}</td>
                                                 </tr>
                                                 @php
