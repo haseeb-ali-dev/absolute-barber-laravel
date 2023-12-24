@@ -44,7 +44,7 @@
             <thead>
                 <tr>
                     <th>Serial</th>
-                    <th>Name</th>
+                    <th style="width: 150px;">Name</th>
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Subtotal</th>
@@ -72,13 +72,13 @@
                             <span>MODIFIERS:</span>
                             @foreach ($modifier_list as $row)
                                 <span>
-                                    {{ $row->modifier_name }} (${{ $row->modifier_price }}) @if (!$loop->last),@endif
+                                    {{ $row->modifier_name }} (${{ $row->modifier_price }}) x {{ $row->modifier_qty }} @if (!$loop->last),@endif
                                 </span>
-                                @php $subtotal += $row->modifier_price; @endphp
+                                @php $subtotal += $row->modifier_price * $row->modifier_qty; @endphp
                             @endforeach
                         </td>
                         <td>${{ $subtotal }}</td>
-                        <td>1</td>
+                        <td>-</td>
                         <td>${{ $subtotal }}</td>
                     </tr>
                     @php
