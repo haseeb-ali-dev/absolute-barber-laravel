@@ -191,18 +191,25 @@
 
                                                 @php
                                                     $session_modifiers = Session::get('modifiers_added', []);
+                                                    $session_modifier_qtys = Session::get('modifiers_qtys', []);
                                                 @endphp
                                                 @if (count($session_modifiers) > 0)
                                                     @php
                                                         $query = DB::table('modifiers')->whereNull('deleted_at')->whereIn('id', $session_modifiers);
                                                         $data = isset($query) ? $query->get() : [];
-                                                        $total_price = isset($query) ? $query->sum('unit_price') : 0.0;
+                                                        $total_price = 0.0;
+                                                        // $total_price = isset($query) ? $query->sum('unit_price') : 0.0;
                                                     @endphp
                                                     <tr>
                                                         <td class="text-left">
                                                             <span class="font-weight-bold">MODIFIERS:</span>
                                                             @foreach ($data as $row)
+                                                                @php
+                                                                    $qty = isset($session_modifier_qtys[$row->id]) ? $session_modifier_qtys[$row->id] : 1;
+                                                                    $total_price += $row->unit_price * $qty;
+                                                                @endphp
                                                                 <span>{{ $row->name }} (USD {{ $row->unit_price }})
+                                                                    <span class="ml-1">x {{ $qty }}</span>
                                                                     @if (!$loop->last) , @endif
                                                                 </span>
                                                             @endforeach
