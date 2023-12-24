@@ -78,7 +78,8 @@ class ProductController extends Controller
     {
         $g_setting = DB::table('general_settings')->where('id', 1)->first();
         $modifiers = Modifier::all();
-        return view('pages.cart', compact('g_setting', 'modifiers'));
+        $selected_modifiers = $modifiers->whereIn('id', session()->get('modifiers_added', []))->all();
+        return view('pages.cart', compact('g_setting', 'modifiers', 'selected_modifiers'));
     }
 
     public function cart_item_delete($id)

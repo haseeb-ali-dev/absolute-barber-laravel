@@ -105,24 +105,37 @@
 
                                 @php
                                     $session_modifiers = Session::get('modifiers_added', []);
+                                    $session_modifier_qtys = Session::get('modifiers_qtys', []);
                                     $total_price = 0.0;
                                 @endphp
                                 @if (count($session_modifiers) > 0)
                                     @php
                                         $query = DB::table('modifiers')->whereNull('deleted_at')->whereIn('id', $session_modifiers);
                                         $data = isset($query) ? $query->get() : [];
-                                        $total_price = isset($query) ? $query->sum('unit_price') : 0.0;
+                                        // $total_price = isset($query) ? $query->sum('unit_price') : 0.0;
                                     @endphp
                                     <tr>
-                                        <td colspan="2" class="text-right h5">Modifiers: </td>
+                                        <td class="text-right">Modifiers: </td>
                                         <td colspan="4">
                                             @foreach ($data as $row)
+                                                @php
+                                                    $qty = isset($session_modifier_qtys[$row->id]) ? $session_modifier_qtys[$row->id] : 1;
+                                                    $total_price += $row->unit_price * $qty;
+                                                @endphp
                                                 <span>{{ $row->name }} (USD {{ $row->unit_price }})
+                                                    <span class="ml-1 h5">x {{ $qty }}</span>
                                                     @if (!$loop->last)
-                                                        <span class="px-2 h4">||</span>
+                                                        <span class="px-2">||</span>
                                                     @endif
                                                 </span>
                                             @endforeach
+                                        </td>
+                                        <td>
+                                            <div class="cart-buttons">
+                                                <a href="#edit_modifier_qtys" data-toggle="modal" class="btn btn-sm btn-info btn-arf">
+                                                    <i class="fas fa-pencil-alt"></i> Edit Qtys
+                                                </a>
+                                            </div>
                                         </td>
                                         <td>USD <span class="update_subtotal h4">{{ $total_price }}</span></td>
                                     </tr>
@@ -150,6 +163,9 @@
                         </div>
                     </form>
                     @includeIf('pages.add_modifer', ['modifiers' => $modifiers, 'session_modifiers' => $session_modifiers])
+                    @includeIf('pages.edit_modifier_qtys',
+                        ['selected_modifiers' => $selected_modifiers, 'session_modifier_qtys' => $session_modifier_qtys]
+                    )
                     @else
                         Cart is empty!
                     @endif
