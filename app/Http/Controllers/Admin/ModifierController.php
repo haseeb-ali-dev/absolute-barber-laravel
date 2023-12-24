@@ -16,11 +16,27 @@ class ModifierController extends Controller
 
     public function add_modifier_to_cart(Request $request)
     {
-        $modifier_ids = !is_null($request['modifier_ids']) ? explode(",", $request['modifier_ids']) : [];
+        $modifier_qtys = [];
+        $modifier_ids = [];
+        if (!is_null($request['modifier_ids'])) {
+            $modifier_ids = explode(",", $request['modifier_ids']);
+            $session_modifier_qtys = session()->get('modifiers_qtys', []);
+            foreach ($modifier_ids as $value) {
+                $modifier_qtys[$value] = isset($session_modifier_qtys[$value]) ? $session_modifier_qtys[$value] : 1;
+            }
+        }
         session()->put('modifiers_added', $modifier_ids);
+        session()->put('modifiers_qtys', $modifier_qtys);
         return back()->with('success', empty($modifier_ids)
             ? 'No Modifiers is added to the cart. Please select an modifier!'
             : 'Modifiers added to cart');
+    }
+
+    public function update_modifier_qtys(Request $request)
+    {
+        $modifier_qtys = $request->get('modifier_qtys', []);
+        session()->put('modifiers_qtys', $modifier_qtys);
+        return back()->with('success', 'Modifiers quantities updated successfully!');
     }
 
     public function create()
