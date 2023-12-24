@@ -1055,3 +1055,4 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], fu
     Route::get('modifier/{modifier}/delete', [ModifierController::class, 'destroy'])->name('modifier.destroy');
 });
 Route::post('add/modifier/cart', [ModifierController::class, 'add_modifier_to_cart'])->name('modifier.add_to_cart');
+Route::post('update/modifier/qtys', [ModifierController::class, 'update_modifier_qtys'])->name('modifier.update_qtys');
