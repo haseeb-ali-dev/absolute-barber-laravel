@@ -344,12 +344,14 @@ class CheckoutController extends Controller
             $modifier_ids = session()->get('modifiers_added', []);
             if (count($modifier_ids) > 0) {
                 $modifiers = DB::table('modifiers')->whereNull('deleted_at')->whereIn('id', $modifier_ids)->get();
+                $modifier_qtys = session()->get('modifiers_qtys', []);
 
                 foreach ($modifiers as $modifier) {
                     $data4 = array();
                     $data4['order_id'] = $ai_id;
                     $data4['modifier_id'] = $modifier->id;
                     $data4['modifier_price'] = isset($modifier->unit_price) ? $modifier->unit_price : 0.0;
+                    $data4['modifier_qty'] = isset($modifier_qtys[$modifier->id]) ? $modifier_qtys[$modifier->id] : 1;
                     $data4['modifier_name'] = $modifier->name;
                     $data4['payment_status'] = 'Completed';
                     $data4['order_no'] = $order_no;
@@ -434,6 +436,7 @@ class CheckoutController extends Controller
             session()->forget('coupon_id');
 
             session()->forget('modifiers_added');
+            session()->forget('modifiers_qtys');
 
             return Redirect()->to('/')->with('success', 'Payment is successful!');
         }
@@ -823,12 +826,14 @@ class CheckoutController extends Controller
 
             if (count($modifier_ids) > 0) {
                 $modifiers = DB::table('modifiers')->whereNull('deleted_at')->whereIn('id', $modifier_ids)->get();
+                $modifier_qtys = session()->get('modifiers_qtys', []);
 
                 foreach ($modifiers as $modifier) {
                     $data4 = array();
                     $data4['order_id'] = $ai_id;
                     $data4['modifier_id'] = $modifier->id;
                     $data4['modifier_price'] = isset($modifier->unit_price) ? $modifier->unit_price : 0.0;
+                    $data4['modifier_qty'] = isset($modifier_qtys[$modifier->id]) ? $modifier_qtys[$modifier->id] : 1;
                     $data4['modifier_name'] = $modifier->name;
                     $data4['payment_status'] = 'Completed';
                     $data4['order_no'] = $order_no;
@@ -871,6 +876,7 @@ class CheckoutController extends Controller
             session()->forget('coupon_id');
 
             session()->forget('modifiers_added');
+            session()->forget('modifiers_qtys');
 
             return Redirect()->to('/')->with('success', 'Offline Payment is successful!');
         } else {
