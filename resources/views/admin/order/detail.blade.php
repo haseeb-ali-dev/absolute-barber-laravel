@@ -219,12 +219,16 @@
                                     <th>SL</th>
                                     <th>Modifer Name</th>
                                     <th>Modifer Price</th>
+                                    <th>Product Quantity</th>
+                                    <th>Product Subtotal</th>
                                 </tr>
                                 @foreach ($modifier_list as $row)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $row->modifier_name }}</td>
                                         <td>${{ $row->modifier_price }}</td>
+                                        <td>{{ $row->modifier_qty }}</td>
+                                        <td>${{ $row->modifier_price * $row->modifier_qty }}</td>
                                     </tr>
                                 @endforeach
                             </table>
