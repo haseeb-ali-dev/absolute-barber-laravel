@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\GeneralSetting;
+use App\Models\Admin\Modifier;
 use App\Models\Admin\PageShopItem;
 use App\Models\Admin\Menu;
 use App\Models\Admin\Product;
@@ -215,7 +216,7 @@ class ProductController extends Controller
             // unlink(public_path('uploads/'.$request->current_photo));
 
             // Uploading new photo
-            
+
             $ext = $request->file('logo')->extension();
             $final_name = time().'.'.$ext;
             $request->file('logo')->move(public_path('uploads/'), $final_name);
@@ -225,7 +226,7 @@ class ProductController extends Controller
 
         $data['logo_shop_width'] = $request->logo_shop_width;
         $data['logo_shop_height'] = $request->logo_shop_height;
-     
+
         GeneralSetting::where('id',1)->update($data);
 
 
@@ -246,5 +247,20 @@ class ProductController extends Controller
         ]);
         $product->update($data);
         return redirect()->route('admin.product.index')->with('success', 'Variants to Product is saved successfully!');
+    }
+
+    public function product_modifiers(Product $product)
+    {
+        $modifiers = Modifier::all();
+        return view('admin.product.modifiers', compact('product', 'modifiers'));
+    }
+
+    public function save_product_modifiers(Request $request, Product $product)
+    {
+        $data = $request->validate([
+            'modifier_ids' => 'required|array',
+        ]);
+        $product->modifiers()->sync($data['modifier_ids']);
+        return redirect()->route('admin.product.index')->with('success', 'Modifiers to Product are saved successfully!');
     }
 }
