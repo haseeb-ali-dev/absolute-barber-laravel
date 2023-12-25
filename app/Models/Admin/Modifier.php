@@ -27,4 +27,9 @@ class Modifier extends Model
             $this->attributes['thumbnail'] = $final_name;
         }
     }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'products_modifiers', 'modifier_id', 'product_id');
+    }
 }
