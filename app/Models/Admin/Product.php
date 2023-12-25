@@ -43,4 +43,9 @@ class Product extends Model
     {
         return $this->belongsTo(Variant::class)->withTrashed();
     }
+
+    public function modifiers()
+    {
+        return $this->belongsToMany(Modifier::class, 'products_modifiers', 'product_id', 'modifier_id');
+    }
 }
