@@ -29,6 +29,10 @@
                         <i class="fas fa-cog"></i> Add Variants
                     </a>
                 @endif
+                <a href="{{ route('admin.product.modifiers', ['product' => $row]) }}" class="btn btn-outline-info btn-sm">
+                    <i class="fas fa-list-alt"></i>
+                    Modifiers {{ sizeOf($row->modifiers) > 0 ? '(' . $row->modifiers->count(). ')' : null }}
+                </a>
             </td>
         </tr>
         @endforeach
