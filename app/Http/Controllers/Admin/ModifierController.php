@@ -80,6 +80,7 @@ class ModifierController extends Controller
                 unlink($file_path);
             }
         }
+        $modifier->products()->detach();
         $modifier->delete();
         return back()->with('success', 'Modifier deleted successfully');
     }

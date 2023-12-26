@@ -157,6 +157,7 @@ class ProductController extends Controller
         }
 
         $product = Product::findOrFail($id);
+        $product->modifiers()->detach();
         // unlink(public_path('uploads/'.$product->product_featured_photo));
         $product->delete();
         return Redirect()->back()->with('success', 'Product is deleted successfully!');
