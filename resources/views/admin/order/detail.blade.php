@@ -195,10 +195,13 @@
                             @foreach($product_list as $row)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $row->product_name }}</td>
+                                <td>
+                                    {{ $row->product_name }}
+                                    @if (isset($row->product_modifier)) {{ $row->product_modifier }} @endif
+                                </td>
                                 <td>${{ $row->product_price }}</td>
                                 <td>{{ $row->product_qty }}</td>
-                                <td>${{ $row->product_price * $row->product_qty }}</td>
+                                <td>${{ ($row->product_price * $row->product_qty) + $row->subtotal }}</td>
                             </tr>
                             @endforeach
                         </table>
