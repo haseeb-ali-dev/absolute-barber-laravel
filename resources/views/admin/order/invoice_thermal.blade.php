@@ -55,10 +55,13 @@
                 @foreach($product_list as $row)
                     <tr>
                         <td>{{ $serial }}</td>
-                        <td>{{ $row->product_name }}</td>
+                        <td>
+                            {{ $row->product_name }}
+                            @if (isset($row->product_modifier)) {{ $row->product_modifier }} @endif
+                        </td>
                         <td>${{ $row->product_price }}</td>
                         <td>{{ $row->product_qty }}</td>
-                        @php $subtotal = $row->product_price * $row->product_qty; @endphp
+                        @php $subtotal = ($row->product_price * $row->product_qty) + $row->subtotal; @endphp
                         <td>${{ $subtotal }}</td>
                     </tr>
                     @php $total = $total + $subtotal; $serial++; @endphp
