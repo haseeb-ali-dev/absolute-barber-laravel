@@ -7,6 +7,7 @@ use App\Models\Admin\Product;
 use App\Models\Admin\ProductCategory;
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
 {
@@ -16,7 +17,7 @@ class ProductController extends Controller
         $g_setting = DB::table('general_settings')->where('id', 1)->first();
         $shop = DB::table('page_shop_items')->where('id', 1)->first();
         // $products = DB::table('products')->orderBy('product_order', 'asc')->where('product_status', 'Show')->get();
-        $products = Product::with('variant')->orderBy('product_order', 'asc')->where('product_status', 'Show')->get();
+        $products = Product::with(['variant', 'modifiers'])->orderBy('product_order', 'asc')->where('product_status', 'Show')->get();
         $categories = ProductCategory::all();
         $is_shop=true;
         return view('pages.shop', compact('shop','g_setting','products', 'categories', 'sliders','is_shop'));
@@ -36,42 +37,53 @@ class ProductController extends Controller
     public function add_to_cart(Request $request)
     {
         $product_id = $request->input('product_id');
-        $product_qty = $request->input('product_qty');
+        $product_count = $request->input('product_count');
         $variant = $request->input('variant');
+        $modifiers = $request->get('products_modifiers', []);
 
-        $product_detail = DB::table('products')->where('id', $product_id)->first();
-
+        // Handle variant
         if ($variant) {
             $product_id = $product_id . '--' . $variant;
         }
 
-        // Check if items available in stock
-        if($product_qty > $product_detail->product_stock)  {
-            return redirect()->back()->with('error', 'Sorry! There are only '.$product_detail->product_stock.' item(s) in stock');
+        // Check if items available in stock or not
+        $product = Product::findOrFail($product_id);
+        if(!$this->check_if_stock_available($product, $product_count)) {
+            return redirect()->back()->with('error', 'Sorry! There are only '.$product->product_stock.' item(s) in stock');
         }
 
-        // Check if items already added to cart
-        if(session()->has('cart_product_id'))
-        {
-            $arr_cart_product_id = array();
-            $i=0;
-            foreach(session()->get('cart_product_id') as $value) {
-                $arr_cart_product_id[$i] = $value;
-                $i++;
-            }
+        // Add products according to count
+        for ($i = 0; $i < $product_count; $i++) {
+            session()->push('cart_product_id', $product_id);
+            session()->push('cart_product_qty', 1);
+            session()->push('cart_modifier_id' , $modifiers);
+        }
 
-            if(in_array($product_id,$arr_cart_product_id)) {
-                $message = isset($variant)
-                    ? 'This product of same variant is already added to the shopping cart.'
-                    : 'This product is already added to the shopping cart.';
-                return redirect()->back()->with('error', $message);
+        return redirect()->back()->with('success', 'Item(s) are added to the cart successfully!');
+    }
+
+    private function check_if_stock_available(Product $product, $count)
+    {
+        // Check if cart is empty
+        if (!(Session::has('cart_product_id') && Session::has('cart_product_id'))) {
+            return true;
+        }
+
+        // Calculate total quantity of given product either with variant or not
+        $product_qtys = Session::get('cart_product_qty');
+        $cart_product_total_qty = 0;
+
+        foreach (Session::get('cart_product_id') as $index => $value) {
+            // Handle variant if exists
+            $product_arr = explode("--", $value);
+            $session_product_id = isset($product_arr[0]) ? $product_arr[0] : $value;
+
+            if ($product->id == $session_product_id) {
+                $cart_product_total_qty += $product_qtys[$index];
             }
         }
 
-        session()->push('cart_product_id', $product_id);
-        session()->push('cart_product_qty', $product_qty);
-
-        return redirect()->back()->with('success', 'Item is added to the cart successfully!');
+        return $product->product_stock >= $cart_product_total_qty + $count;
     }
 
     public function cart()
@@ -82,110 +94,112 @@ class ProductController extends Controller
         return view('pages.cart', compact('g_setting', 'modifiers', 'selected_modifiers'));
     }
 
-    public function cart_item_delete($id)
+    public function cart_item_delete($id, $index)
     {
-        $arr_cart_product_id = array();
-        $arr_cart_product_qty = array();
+        // Remove product ID
+        $cart_product_id = session()->get('cart_product_id');
+        if (array_key_exists($index, $cart_product_id)) {
+            unset($cart_product_id[$index]);
+            $cart_product_id = array_values($cart_product_id);
 
-        $i=0;
-        foreach(session()->get('cart_product_id') as $value) {
-            $arr_cart_product_id[$i] = $value;
-            $i++;
-        }
-
-        $i=0;
-        foreach(session()->get('cart_product_qty') as $value) {
-            $arr_cart_product_qty[$i] = $value;
-            $i++;
-        }
-
-        session()->forget('cart_product_id');
-        session()->forget('cart_product_qty');
-
-        for($i=0;$i<count($arr_cart_product_id);$i++)
-        {
-            if($arr_cart_product_id[$i] == $id)
-            {
-                continue;
-            }
-            else
-            {
-                session()->push('cart_product_id', $arr_cart_product_id[$i]);
-                session()->push('cart_product_qty', $arr_cart_product_qty[$i]);
+            // Handle general modifiers for empty cart
+            if (count($cart_product_id) < 1) {
+                Session::forget(['modifiers_added', 'modifiers_qtys', 'cart_product_id']);
+            } else {
+                Session::put('cart_product_id', $cart_product_id);
             }
         }
+        // Remove product qty
+        $cart_product_qty = session()->get('cart_product_qty');
+        if (array_key_exists($index, $cart_product_qty)) {
+            unset($cart_product_qty[$index]);
+            $cart_product_qty = array_values($cart_product_qty);
 
-        if (!session()->has('cart_product_id'))
-        {
-            session()->forget('modifiers_added');
+            if (count($cart_product_qty) < 1) {
+                Session::forget('cart_product_qty');
+            } else {
+                Session::put('cart_product_qty', $cart_product_qty);
+            }
         }
+        // Remove modifier ID array
+        $cart_modifier_id = session()->get('cart_modifier_id');
+        if (array_key_exists($index, $cart_modifier_id)) {
+            unset($cart_modifier_id[$index]);
+            $cart_modifier_id = array_values($cart_modifier_id);
+
+            if (count($cart_modifier_id) < 1) {
+                Session::forget('cart_modifier_id');
+            } else {
+                Session::put('cart_modifier_id', $cart_product_qty);
+            }
+        }
+
+        Session::save();
 
         return redirect()->back()->with('success', 'Item is deleted from the cart successfully!');
     }
 
     public function update_cart(Request $request)
     {
-        $error_msg = 0;
+        $error_flag = false;
+        $data = $request->validate([
+            'product_id' => 'required|array',
+            'product_qty' => 'required|array',
+            'products_modifiers' => 'sometimes|array',
+            'products_modifiers.*' => 'required|array',
+        ]);
 
-        // Storing old data into array
-        $old_cart_product_id = array();
-        $old_cart_product_qty = array();
+        $cart_product_qty = session()->get('cart_product_qty');
+        $cart_modifier_id = session()->get('cart_modifier_id');
 
-        $i=0;
-        foreach(session()->get('cart_product_id') as $value) {
-            $old_cart_product_id[$i] = $value;
-            $i++;
-        }
+        foreach(session()->get('cart_product_id') as $key => $value) {
+            $product_arr = explode("--", $value);
+            $session_product_id = isset($product_arr[0]) ? $product_arr[0] : $value;
+            $product = Product::findOrFail($session_product_id);
 
-        $i=0;
-        foreach(session()->get('cart_product_qty') as $value) {
-            $old_cart_product_qty[$i] = $value;
-            $i++;
-        }
-
-        // Removing old data from session
-        session()->forget('cart_product_id');
-        session()->forget('cart_product_qty');
-
-        // Storing new data into array
-        $new_cart_product_id = array();
-        $new_cart_product_qty = array();
-
-        $i=0;
-        foreach($request->product_id as $value) {
-            $new_cart_product_id[$i] = $value;
-            $i++;
-        }
-
-        $i=0;
-        foreach($request->product_qty as $value) {
-            $new_cart_product_qty[$i] = $value;
-            $i++;
-        }
-
-        for($i=0;$i<count($new_cart_product_id);$i++)
-        {
-            $product_detail = DB::table('products')->where('id', $new_cart_product_id[$i])->first();
-            if($new_cart_product_qty[$i] > $product_detail->product_stock)
-            {
-                session()->push('cart_product_id', $new_cart_product_id[$i]);
-                session()->push('cart_product_qty', $old_cart_product_qty[$i]);
-
-                $error_msg = 1;
+            // Handle quantity w.r.t stock availibility
+            $total_qty = $this->get_cart_product_qty_difference($session_product_id, $data['product_qty']);
+            if($total_qty > $product->product_stock) {
+                $error_flag = true;
+            } else {
+                $cart_product_qty[$key] = $data['product_qty'][$key];
+                Session::put('cart_product_qty', $cart_product_qty);
             }
-            else
-            {
-                session()->push('cart_product_id', $new_cart_product_id[$i]);
-                session()->push('cart_product_qty', $new_cart_product_qty[$i]);
+
+            // Handle empty modifiers
+            if (isset($data['products_modifiers'][$key])) {
+                $cart_modifier_id[$key] = $data['products_modifiers'][$key];
+            } else {
+                $cart_modifier_id[$key] = array();
             }
         }
 
-        if($error_msg==1)
-        {
+        Session::put('cart_modifier_id', $cart_modifier_id);
+
+        if($error_flag) {
             return redirect()->back()->with('error', 'Those quantity will not be updated that are more than stock.');
         }
 
         return redirect()->back()->with('success', 'Cart is updated successfully!');
+    }
+
+    private function get_cart_product_qty_difference($product_id, $new_qty)
+    {
+        $cart_product_qty = Session::get('cart_product_qty');
+        $difference = 0;
+        $total = 0;
+
+        foreach (Session::get('cart_product_id') as $key => $value) {
+            $product_arr = explode("--", $value);
+            $session_product_id = isset($product_arr[0]) ? $product_arr[0] : $value;
+
+            if ($product_id == $session_product_id) {
+                $total += $cart_product_qty[$key];
+                $difference += $new_qty[$key] - $cart_product_qty[$key];
+            }
+        }
+
+        return $difference + $total;
     }
 
     public function checkout()

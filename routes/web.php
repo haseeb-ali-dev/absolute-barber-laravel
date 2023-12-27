@@ -137,7 +137,7 @@ Route::get('shop', [ProductControllerForFront::class,'index'])->name('front.shop
 Route::get('product/{slug}', [ProductControllerForFront::class,'detail']);
 Route::post('product/cart/add', [ProductControllerForFront::class,'add_to_cart'])->name('front.add_to_cart');
 Route::get('cart', [ProductControllerForFront::class,'cart'])->name('front.cart');
-Route::get('cart/delete/{id}', [ProductControllerForFront::class,'cart_item_delete']);
+Route::get('cart/delete/{id}/{index}', [ProductControllerForFront::class,'cart_item_delete']);
 Route::post('cart/update', [ProductControllerForFront::class,'update_cart']);
 Route::get('checkout', [ProductControllerForFront::class,'checkout'])->name('front.checkout');
 Route::post('checkout/shipping/update', [ProductControllerForFront::class,'shipping_update'])->name('front.shipping_update');
