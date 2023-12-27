@@ -14,8 +14,8 @@
         </div>
     </div> --}}
 
-    <div class="page-content pt_50 pb_60">
-        <div class="container">
+    <div class="page-content pt_50 pb_60 px-5">
+        <div class="container-fluid">
             <div class="row cart">
                 <div class="col-md-12">
                     @if(Session::has('cart_product_id'))
@@ -29,6 +29,7 @@
                                     <th>Thumbnail</th>
                                     <th>Product Name</th>
                                     <th>Product Variant</th>
+                                    <th>Product Modifiers</th>
                                     <th>Unit Price</th>
                                     <th>Quantity</th>
                                     <th>Subtotal</th>
@@ -58,27 +59,34 @@
                                         $arr_cart_product_qty[$i] = $value;
                                     @endphp
                                 @endforeach
-                                @php $tot1 = 0 @endphp
+                                @php
+                                    $tot1 = 0;
+                                    $arr_cart_modifier_id = Session::get('cart_modifier_id');
+                                @endphp
                                 @for($i=1;$i<=count($arr_cart_product_id);$i++)
 
                                     @php
                                         $product_arr = explode("--", $arr_cart_product_id[$i]);
                                         $variant = isset($product_arr[1]) ? $product_arr[1] : null;
-                                        $all_data = DB::table('products')->where('id', $product_arr[0])->get();
+                                        $all_data = App\Models\Admin\Product::where('id', $product_arr[0])->get();
+                                        // $all_data = DB::table('products')->where('id', $product_arr[0])->get();
                                     @endphp
 
                                     @foreach ($all_data as $itm)
                                         @php
                                             $product_name = $itm->product_name;
                                             $product_slug = $itm->product_slug;
-                                            $variant_options = json_decode($itm->variant_options, true);
+                                            $variant_options = $itm->variant_options;
+                                            // $variant_options = json_decode($itm->variant_options, true);
                                             $variant_existed = isset($variant_options[$variant]);
                                             $product_current_price = isset($variant) && isset($variant_options) && $variant_existed
                                                 ? $variant_options[$variant]
                                                 : $itm->product_current_price;
                                             $product_featured_photo = $itm->product_featured_photo;
+                                            $product_modifiers = $itm->modifiers;
                                         @endphp
                                     @endforeach
+
 
                                     <input type="hidden" name="product_id[]" value="{{ $arr_cart_product_id[$i] }}">
                                     <tr>
@@ -88,15 +96,31 @@
                                             <a href="{{ url('product/'.$product_slug) }}">{{ $product_name }}</a>
                                         </td>
                                         <td class="align-middle">{{ isset($variant) && $variant_existed ? $variant : '-' }}</td>
+                                        <td class="align-middle" @if(sizeOf($product_modifiers) > 0) style="min-width:300px" @endif>
+                                            @php $cart_modifier_subtotal = 0 @endphp
+                                            @foreach ($product_modifiers as $row)
+                                                @php
+                                                    $checked = in_array($row->id, $arr_cart_modifier_id[$i - 1]);
+                                                    if ($checked) {
+                                                        $cart_modifier_subtotal += $row->unit_price;
+                                                    }
+                                                @endphp
+                                                <div class="d-flex align-items-center mb-1 ml-1">
+                                                    <input type="checkbox" name="products_modifiers[{{ $i - 1 }}][]" value="{{ $row->id }}"
+                                                        @if($checked) checked @endif>
+                                                    <label class="form-check-label ml-1">{{ $row->name }} (USD {{ $row->unit_price }})</label>
+                                                </div>
+                                            @endforeach
+                                        </td>
                                         <td class="align-middle">USD {{ $product_current_price }}</td>
                                         <td class="align-middle">
                                             <input type="number" class="form-control" name="product_qty[]" step="1" min="1" max="" pattern="" pattern="[0-9]*" inputmode="numeric" value="{{ $arr_cart_product_qty[$i] }}">
                                         </td>
                                         <td class="align-middle">
-                                            USD {{ $subtotal = $product_current_price * $arr_cart_product_qty[$i] }}
+                                            USD {{ $subtotal = ($product_current_price * $arr_cart_product_qty[$i]) +  $cart_modifier_subtotal }}
                                         </td>
                                         <td class="align-middle">
-                                        <a href="{{ url('cart/delete/'.$arr_cart_product_id[$i]) }}" class="cart_button_arefin btn btn-xs btn-danger" onClick="return confirm('Are you sure?');"><i class="fa fa-trash"></i></a>
+                                        <a href="{{ url('cart/delete/'.$arr_cart_product_id[$i]. '/' .$i - 1) }}" class="cart_button_arefin btn btn-xs btn-danger" onClick="return confirm('Are you sure?');"><i class="fa fa-trash"></i></a>
                                         </td>
                                     </tr>
 
@@ -143,14 +167,14 @@
 
                                 <tr>
                                     <td colspan="5" class="text-right">Total: </td>
-                                    <td colspan="2">USD <span class="update_subtotal">{{ $tot1 + $total_price }}</span></td>
+                                    <td colspan="3">USD <span class="update_subtotal">{{ $tot1 + $total_price }}</span></td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="cart-buttons">
-                                <a href="#add_modifier" data-toggle="modal" class="btn btn-info btn-arf">
+                                <a href="#add_modifier" data-toggle="modal" class="btn btn-info btn-arf d-none">
                                     <i class="far fa-star"></i>
                                     Please Add {{ count($session_modifiers) > 0 ? 'More' : '' }} Modifiers <i class="far fa-star"></i>
                                 </a>
