@@ -14,7 +14,7 @@
         </div>
     </div> --}}
 
-    <div class="page-content pt_50 pb_60 px-5">
+    <div class="page-content pt_50 pb_60 px-lg-5">
         <div class="container-fluid">
             <div class="row cart">
                 <div class="col-md-12">
