@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Product;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Hash;
@@ -307,9 +308,9 @@ class CheckoutController extends Controller
             {
                 $product_arr = explode("--", $arr_cart_product_id[$i]);
                 $variant = isset($product_arr[1]) ? $product_arr[1] : null;
-                $product_detail = DB::table('products')->where('id', $product_arr[0])->first();
+                $product_detail = Product::where('id', $product_arr[0])->first();
                 if ($variant) {
-                    $variant_options = json_decode($product_detail->variant_options, true);
+                    $variant_options = $product_detail->variant_options;
                     $variant_existed = isset($variant_options[$variant]);
                     $product_price = $variant_existed ? $variant_options[$variant] : $product_detail->product_current_price;
                     $product_name = $variant_existed ? $product_detail->product_name . ' ('. $variant .')' : $product_detail->product_name;
@@ -317,6 +318,9 @@ class CheckoutController extends Controller
                     $product_price = $product_detail->product_current_price;
                     $product_name = $product_detail->product_name;
                 }
+
+                [$modifier_list, $subtotal] = $this->get_cart_modifiers_and_their_subtotal($product_detail, $i);
+
                 $data2 = array();
                 $data2['order_id'] = $ai_id;
                 $data2['product_id'] = $product_detail->id;
@@ -325,6 +329,8 @@ class CheckoutController extends Controller
                 $data2['product_qty'] = $arr_cart_product_qty[$i];
                 $data2['payment_status'] = 'Completed';
                 $data2['order_no'] = $order_no;
+                $data2['product_modifier'] = $modifier_list;
+                $data2['subtotal'] = $subtotal;
                 $data2['created_at'] = date('Y-m-d H:i:s');
                 DB::table('order_details')->insert($data2);
 
@@ -426,6 +432,7 @@ class CheckoutController extends Controller
             session()->forget('order_note');
 
             session()->forget('cart_product_id');
+            session()->forget('cart_modifier_id');
             session()->forget('cart_product_qty');
 
             session()->forget('shipping_id');
@@ -792,10 +799,10 @@ class CheckoutController extends Controller
             {
                 $product_arr = explode("--", $arr_cart_product_id[$i]);
                 $variant = isset($product_arr[1]) ? $product_arr[1] : null;
-                $product_detail = DB::table('products')->where('id', $product_arr[0])->first();
+                $product_detail = Product::where('id', $product_arr[0])->first();
 
                 if ($variant) {
-                    $variant_options = json_decode($product_detail->variant_options, true);
+                    $variant_options = $product_detail->variant_options;
                     $variant_existed = isset($variant_options[$variant]);
                     $product_price = $variant_existed ? $variant_options[$variant] : $product_detail->product_current_price;
                     $product_name = $variant_existed ? $product_detail->product_name . ' ('. $variant .')' : $product_detail->product_name;
@@ -803,6 +810,8 @@ class CheckoutController extends Controller
                     $product_price = $product_detail->product_current_price;
                     $product_name = $product_detail->product_name;
                 }
+
+                [$modifier_list, $subtotal] = $this->get_cart_modifiers_and_their_subtotal($product_detail, $i);
 
                 $data2 = array();
                 $data2['order_id'] = $ai_id;
@@ -812,6 +821,8 @@ class CheckoutController extends Controller
                 $data2['product_qty'] = $arr_cart_product_qty[$i];
                 $data2['payment_status'] = 'Completed';
                 $data2['order_no'] = $order_no;
+                $data2['product_modifier'] = $modifier_list;
+                $data2['subtotal'] = $subtotal;
                 $data2['created_at'] = date('Y-m-d H:i:s');
                 DB::table('order_details')->insert($data2);
 
@@ -866,6 +877,7 @@ class CheckoutController extends Controller
             session()->forget('order_note');
 
             session()->forget('cart_product_id');
+            session()->forget('cart_modifier_id');
             session()->forget('cart_product_qty');
 
             session()->forget('shipping_id');
@@ -882,6 +894,40 @@ class CheckoutController extends Controller
         } else {
             return Redirect()->back()->with('error', 'Please Select Delivery or Pickup (Offline Payment Type)!');
         }
+    }
+
+    public function get_cart_modifiers_and_their_subtotal(Product $product, $index)
+    {
+        $modifier = null;
+        $subtotal = 0;
+
+        if (!session()->has('cart_modifier_id')) {
+            return [$modifier, $subtotal];
+        }
+
+        $cart_modifier_id = session()->get('cart_modifier_id');
+        $session_modifiers = isset($cart_modifier_id[$index]) ? $cart_modifier_id[$index] : [];
+
+        if (count($session_modifiers) < 1) {
+            return [$modifier, $subtotal];
+        }
+
+        $list = '( ';
+        $countModifiers = count($product->modifiers);
+        foreach ($product->modifiers as $key => $row) {
+            if (in_array($row->id, $session_modifiers)) {
+                $list .= $row->name . '[$' . $row->unit_price . ']';
+                $subtotal += $row->unit_price;
+
+                // Check if it's not the last iteration
+                if ($key + 1 < $countModifiers) {
+                    $list .= ' , ';
+                }
+            }
+        }
+        $modifier = $list . ' )';
+
+        return [$modifier, $subtotal];
     }
 
 }
