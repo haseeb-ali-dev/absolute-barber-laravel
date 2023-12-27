@@ -151,7 +151,10 @@
                                                         $i++;
                                                     @endphp
                                                 @endforeach
-                                                @php $tot1 = 0; @endphp
+                                                @php
+                                                    $tot1 = 0;
+                                                    $arr_cart_modifier_id = Session::get('cart_modifier_id');
+                                                @endphp
 
                                                 @for($i=0;$i<count($arr_cart_product_id);$i++)
 
@@ -159,11 +162,13 @@
                                                         $product_arr = explode("--", $arr_cart_product_id[$i]);
                                                         $variant = isset($product_arr[1]) ? $product_arr[1] : null;
 
-                                                        $product_detail = DB::table('products')->where('id', $arr_cart_product_id[$i])->first();
+                                                        // $product_detail = DB::table('products')->where('id', $arr_cart_product_id[$i])->first();
+                                                        $product_detail = App\Models\Admin\Product::where('id', $product_arr[0])->first();;
                                                         $product_name = $product_detail->product_name;
                                                         $product_slug = $product_detail->product_slug;
 
-                                                        $variant_options = json_decode($product_detail->variant_options, true);
+                                                        $variant_options = $product_detail->variant_options;
+                                                        // $variant_options = json_decode($product_detail->variant_options, true);
                                                         $variant_existed = isset($variant_options[$variant]);
 
                                                         $product_current_price = isset($variant) && isset($variant_options) && $variant_existed
@@ -171,14 +176,25 @@
                                                             : $product_detail->product_current_price;
 
                                                         $product_featured_photo = $product_detail->product_featured_photo;
+                                                        $product_modifiers = $product_detail->modifiers;
                                                     @endphp
 
                                                     <tr>
                                                         <td class="text-left">
                                                             {{ $product_name }} @if(isset($variant)) ({{ $variant }}) @endif x {{ $arr_cart_product_qty[$i] }}
+                                                            @php $mod_total = 0; @endphp
+                                                            @if (count($arr_cart_modifier_id[$i]) > 0)
+                                                                [@foreach ($product_modifiers as $mod)
+                                                                    @if (in_array($mod->id, $arr_cart_modifier_id[$i]))
+                                                                        {{ $mod->name }} (${{ $mod->unit_price }})
+                                                                        @if ($loop->iteration < count($arr_cart_modifier_id[$i])) , @endif
+                                                                        @php $mod_total += $mod->unit_price; @endphp
+                                                                    @endif
+                                                                @endforeach]
+                                                            @endif
                                                         </td>
                                                         <td class="text-right">
-                                                            @php $subtotal = $product_current_price * $arr_cart_product_qty[$i] @endphp
+                                                            @php $subtotal = ($product_current_price * $arr_cart_product_qty[$i]) + $mod_total @endphp
                                                             ${{ $subtotal }}
                                                         </td>
                                                     </tr>
