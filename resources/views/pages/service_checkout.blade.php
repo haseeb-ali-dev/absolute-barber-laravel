@@ -18,7 +18,7 @@
         <div class="container-fluid px-5">
             <div class="row cart">
                 <div class="col-md-12">
-                    <form action="{{ url('offering/avail/update') }}" method="post">
+                    <form id="serviceForm" action="{{ url('offering/avail/update') }}" method="post">
                         @csrf
                         <div class="d-flex align-items-baseline justify-content-between">
                             <h3>Service</h3>
@@ -119,7 +119,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12">
+                        <div id="offline_payment" class="col-md-12">
                             <div class="cash-in-shop mt_20">
                                 <h6>You will pay after your service done in shop</h6>
                                 <a href="{{ url('offering/payment/cash') }}" class="btn btn-sm btn-primary">Proceed
@@ -127,7 +127,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12">
+                        <div id="paypal_div" class="col-md-12">
                             <div class="paypal mt_20">
                                 <h4>Pay with PayPal</h4>
                                 <div id="paypal-button"></div>
@@ -159,39 +159,131 @@
 
     <script>
         paypal.Button.render({
-            env: '{{ $env_type }}',
-            client: {
-                sandbox: '{{ $client }}',
-                production: '{{ $client }}'
-            },
-            locale: 'en_US',
-            style: {
-                size: 'medium',
-                color: 'blue',
-                shape: 'rect',
-            },
+    env: '{{ $env_type }}',
+    client: {
+        sandbox: '{{ $client }}',
+        production: '{{ $client }}'
+    },
+    locale: 'en_US',
+    style: {
+        size: 'medium',
+        color: 'blue',
+        shape: 'rect',
+    },
+    commit: true, // Allow users to pay without a PayPal account
 
-            // Set up a payment
-            payment: function(data, actions) {
-                return actions.payment.create({
+    // Set up a payment
+    payment: function(data, actions) {
+        return actions.payment.create({
+            transactions: [{
+                amount: {
+                    total: '{{ $final_price }}',
+                    currency: 'USD'
+                }
+            }]
+        });
+    },
 
-                    redirect_urls: {
-                        return_url: '{{ url('offering/payment/paypal') }}'
-                    },
+    // Execute the payment
+    onAuthorize: function(data, actions) {
+        return actions.redirect();
+    }
+}, '#paypal-button');
 
-                    transactions: [{
-                        amount: {
-                            total: '{{ $final_price }}',
-                            currency: 'USD'
-                        }
-                    }]
-                });
-            },
-
-            // Execute the payment
-            onAuthorize: function(data, actions) {
-                return actions.redirect();
-            }
-        }, '#paypal-button');
     </script>
+
+
+    <script>
+        // Wait for the DOM to be ready
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get the div element by id
+            var offlinePaymentDiv = document.getElementById("offline_payment");
+
+            // Check if the div element is found
+            if (offlinePaymentDiv) {
+                // Hide the div by setting its display property to "none"
+                offlinePaymentDiv.style.display = "none";
+            }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Add an event listener to the select element
+            $('#paymentMethodChange').change(function() {
+                // Check if the selected value is "CashInShop"
+                if ($(this).val() === 'CashInShop') {
+                    // If yes, show the offline_payment div
+                    $('#offline_payment').show();
+                } else {
+                    // If not, hide the offline_payment div
+                    $('#offline_payment').hide();
+                }
+            });
+        });
+    </script>
+
+
+<script>
+    // Wait for the DOM to be ready
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get the div element by id
+        var offlinePaymentDiv = document.getElementById("offline_payment");
+        var paypalButtonDiv = document.getElementById("paypal-button");
+        var paypalButtonDiv_p = document.getElementById("paypal_div");
+        var paymentMethodSelect = document.getElementById("paymentMethodChange");
+
+        // Check if the div elements are found
+        if (offlinePaymentDiv && paypalButtonDiv && paymentMethodSelect) {
+            // Hide the offline_payment div by default
+            offlinePaymentDiv.style.display = "none";
+
+            // Check the selected payment method on page load
+            if (paymentMethodSelect.value === 'CashInShop') {
+                // If "Cash in Shop" is selected, hide the PayPal button
+                paypalButtonDiv.style.display = "none";
+                paypalButtonDiv_p.style.display = "none";
+            } else {
+                // If another payment method is selected, hide the offline_payment div
+                offlinePaymentDiv.style.display = "none";
+                
+            }
+        }
+    });
+
+    $(document).ready(function() {
+        // Add an event listener to the select element
+        $('#paymentMethodChange').change(function() {
+            var offlinePaymentDiv = document.getElementById("offline_payment");
+            var paypalButtonDiv = document.getElementById("paypal-button");
+            var paypalButtonDiv_p = document.getElementById("paypal_div");
+
+            // Check if the selected value is "CashInShop"
+            if ($(this).val() === 'CashInShop') {
+                // If yes, show the offline_payment div and hide the PayPal button
+                $('#offline_payment').show();
+                if (paypalButtonDiv) {
+                    paypalButtonDiv.style.display = "none";
+                    paypalButtonDiv_p.style.display="none";
+                }
+            } else {
+                // If not, hide the offline_payment div and show the PayPal button
+                $('#offline_payment').hide();
+                if (paypalButtonDiv) {
+                    paypalButtonDiv.style.display = "block"; // or "" to use the default display style
+                    paypalButtonDiv_p.style.display="block";
+                }
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        // Attach a click event listener to all radio boxes with name "rate_type"
+        $('input[name="rate_type"]').on('click', function () {
+            // Submit the form with ID "serviceForm"
+            $('#serviceForm').submit();
+        });
+    });
+</script>
 @endsection

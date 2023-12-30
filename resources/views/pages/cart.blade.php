@@ -120,7 +120,7 @@
                                             USD {{ $subtotal = ($product_current_price * $arr_cart_product_qty[$i]) +  $cart_modifier_subtotal }}
                                         </td>
                                         <td class="align-middle">
-                                        <a href="{{ url('cart/delete/'.$arr_cart_product_id[$i]. '/' .$i - 1) }}" class="cart_button_arefin btn btn-xs btn-danger" onClick="return confirm('Are you sure?');"><i class="fa fa-trash"></i></a>
+                                        <a href="{{ url('cart/delete/'.$arr_cart_product_id[$i]. '/' .($i - 1)) }}" class="cart_button_arefin btn btn-xs btn-danger" onClick="return confirm('Are you sure?');"><i class="fa fa-trash"></i></a>
                                         </td>
                                     </tr>
 

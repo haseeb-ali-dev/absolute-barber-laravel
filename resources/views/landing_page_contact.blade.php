@@ -222,8 +222,8 @@ margin-top: 20px;
                                         <div class="d-flex">
                                             <select id="countryCodes" class="form-control" name="code">
                                                 <option value="">Select Country Code</option>
-                                                <option value="+1">USA +1</option>
-                                                <option value="+51">PERU +51</option>
+                                                <option selected value="+1">USA +1</option>
+                                                
                                             </select>
                                             <input required type="tel" name="phone" class="form-control" id="phone" placeholder="Enter your phone number">
                                         </div>
@@ -517,8 +517,8 @@ margin-top: 20px;
                                         <div class="d-flex">
                                             <select id="countryCodes" class="form-control"  name="code">
                                                 <option value="">Select Country Code</option>
-                                                <option value="+1">USA +1</option>
-                                                <option value="+51">PERU +51</option>
+                                                <option selected value="+1">USA +1</option>
+                                                
                                             </select>
                                             <input required type="tel" name="phone" class="form-control ml-1" id="phone" placeholder="Enter your phone number">
                                         </div>
