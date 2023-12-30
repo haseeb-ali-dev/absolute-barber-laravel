@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CouponDesignController;
 use App\Http\Controllers\Admin\EnvController;
 use App\Http\Controllers\Admin\GroupController;
 use App\Http\Controllers\Admin\ModifierController;
+use App\Http\Controllers\Admin\OfferingController;
 use App\Http\Controllers\Admin\VariantController;
 use App\Http\Controllers\Admin\VideoConferenceController;
 use App\Http\Controllers\Admin\CommentController;
@@ -1059,3 +1060,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], fu
 });
 Route::post('add/modifier/cart', [ModifierController::class, 'add_modifier_to_cart'])->name('modifier.add_to_cart');
 Route::post('update/modifier/qtys', [ModifierController::class, 'update_modifier_qtys'])->name('modifier.update_qtys');
+
+/* --------------------------------------- */
+/* Offerings / Services - Admin */
+/* --------------------------------------- */
+Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], function () {
+    Route::resource('offering', OfferingController::class)->except(['show', 'destroy']);
+    Route::get('offering/{offering}/delete', [OfferingController::class, 'destroy'])->name('offering.destroy');
+});
