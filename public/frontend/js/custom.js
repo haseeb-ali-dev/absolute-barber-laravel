@@ -50,6 +50,7 @@
 		        $('.stripe').show();
 		        $('.bank').hide();
 		        $('.cash-on-delivery').hide();
+                $('.cash-in-shop').hide();
 		    }
 		    else if($('#paymentMethodChange').val() == 'Bank')
 		    {
@@ -75,6 +76,7 @@
             {
                 $('.paypal').hide();
 		        $('.cash-in-shop').show();
+                $('.stripe').hide();
             }
 
 		});

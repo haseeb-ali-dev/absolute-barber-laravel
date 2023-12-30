@@ -18,6 +18,7 @@
                             <th>Paid Amount</th>
                             <th>Fee Amount</th>
                             <th>Net Amount</th>
+                            <th>Payment Mode</th>
                             <th>Payment Type</th>
                             <th>Service Type</th>
                             <th>Appointment Details</th>
@@ -45,13 +46,13 @@
                                 <td>${{ $row->paid_amount }}</td>
                                 <td>${{ $row->fee_amount }}</td>
                                 <td>${{ $row->net_amount }}</td>
+                                <td>{{ ucwords($row->payment_type) }}</td>
                                 <td>
                                     @if (ucwords($row->payment_type)=='Cash')
                                         <p style="color: red">Pending Payment</p>
                                     @else
                                         <p style="color: green" >Paid</p>
                                     @endif
-
                                 </td>
                                 <td>{{ $row->is_appointed ? 'Appointment' : 'Regular' }}</td>
                                 <td>

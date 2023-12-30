@@ -1074,3 +1074,4 @@ Route::post('offering/avail/update', [ProductControllerForFront::class,'update_o
 Route::get('offering/checkout', [ProductControllerForFront::class,'checkout_offering'])->name('front.checkout_offering');
 Route::get('offering/payment/cash', [ProductControllerForFront::class,'payment_offering_cash']);
 Route::get('offering/payment/paypal', [ProductControllerForFront::class,'payment_offering_paypal']);
+Route::post('offering/payment/stripe', [ProductControllerForFront::class,'payment_offering_stripe']);

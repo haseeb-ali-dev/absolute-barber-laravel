@@ -340,7 +340,7 @@ class ProductController extends Controller
     }
 
     public function payment_offering_paypal()
-     {
+    {
         if (!Session::has('offering')) {
             return redirect()->route('front.shop')->with('error', 'No service is added yet');
         }
@@ -381,10 +381,53 @@ class ProductController extends Controller
             DB::table('service_orders')->insert($data);
 
             Session::forget("offering");
-            return redirect()->route('front.shop')->with('succes', 'Service order is placed successfully through cash!');
+            return redirect()->route('front.shop')->with('succes', 'Service order is placed successfully through paypal!');
         } else {
             return redirect()->back()->with('error', 'Something went wrong while proceeding paypal payment');
         }
+    }
+
+    public function payment_offering_stripe()
+    {
+        if (!Session::has('offering')) {
+            return redirect()->route('front.shop')->with('error', 'No service is added yet');
+        }
+        $data = $this->setup_order("stripe");
+
+        \Stripe\Stripe::setApiKey(env('ADMIN_STRIPE_SECRET_KEY'));
+
+        if(isset($_POST['stripeToken']))
+        {
+            \Stripe\Stripe::setVerifySslCerts(false);
+			$token = $_POST['stripeToken'];
+
+            $response = \Stripe\Charge::create([
+                'amount' => $data["net_amount"] * 100,
+                'currency' => 'usd',
+                'description' => 'Stripe Payment',
+                'source' => $token,
+                'metadata' => ['order_id' => uniqid()],
+            ]);
+
+            $bal = \Stripe\BalanceTransaction::retrieve($response->balance_transaction);
+            $balJson = $bal->jsonSerialize();
+
+            $paid_amount = $balJson['amount']/100;
+            $fee_amount  = $balJson['fee']/100;
+            $net_amount  = $balJson['net']/100;
+
+            $data["paid_amount"] = $paid_amount;
+            $data["net_amount"] = $net_amount;
+            $data["fee_amount"] = $fee_amount;
+
+            DB::table('service_orders')->insert($data);
+
+            Session::forget("offering");
+            return redirect()->route('front.shop')->with('succes', 'Service order is placed successfully through stripe!');
+        } else {
+            return redirect()->back()->with('error', 'Something went wrong while proceeding stripe payment');
+        }
+
     }
 
     private function validate_offering(Request $request)
@@ -415,7 +458,7 @@ class ProductController extends Controller
             $data["paid_amount"] = $data["net_amount"];
             $data["fee_amount"] = 0;
         } else {
-            $data["payment_type"] = "paypal";
+            $data["payment_type"] = $type;
         }
 
         $data["appointment_date"] =  $data["rate_type"] == "appointed" ? $data["appointment_date"] : null;
