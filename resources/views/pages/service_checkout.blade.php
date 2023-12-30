@@ -14,7 +14,6 @@
             </nav>
         </div>
     </div>
-    @dump($session_offering)
     <div class="page-content pt_50 pb_60">
         <div class="container-fluid px-5">
             <div class="row cart">

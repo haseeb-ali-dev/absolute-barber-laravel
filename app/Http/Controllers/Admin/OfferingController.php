@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\Offering;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use DB;
 
 class OfferingController extends Controller
 {
@@ -92,5 +93,11 @@ class OfferingController extends Controller
                 File::delete($photoPath);
             }
         }
+    }
+
+    public function orders()
+    {
+        $orders = DB::table('service_orders')->get();
+        return view('admin.offering.orders', compact('orders'));
     }
 }

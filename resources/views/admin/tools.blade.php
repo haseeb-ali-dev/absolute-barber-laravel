@@ -83,6 +83,7 @@
             ['route' => route('admin.variant.index'), 'name' => 'All Variants', 'icon' => 'fas fa-shopping-cart'],
             ['route' => route('admin.modifier.index'), 'name' => 'Modifiers', 'icon' => 'fas fa-shopping-cart'],
             ['route' => route('admin.offering.index'), 'name' => 'Service / Offering', 'icon' => 'fas fa-shopping-cart'],
+            ['route' => route('admin.offering.orders'), 'name' => 'Service Orders', 'icon' => 'fas fa-shopping-cart'],
             ['route' => route('admin.shipping.index'), 'name' => 'Shipping', 'icon' => 'fas fa-shopping-cart'],
             ['route' => route('admin.slider.index', ['store' => 1]), 'name' => 'Store Sliders', 'icon' => 'fas fa-sliders-h'],
             ['route' => route('admin.coupon.index'), 'name' => 'Coupon', 'icon' => 'fas fa-shopping-cart'],

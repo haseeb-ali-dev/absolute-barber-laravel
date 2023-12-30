@@ -1067,6 +1067,7 @@ Route::post('update/modifier/qtys', [ModifierController::class, 'update_modifier
 Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], function () {
     Route::resource('offering', OfferingController::class)->except(['show', 'destroy']);
     Route::get('offering/{offering}/delete', [OfferingController::class, 'destroy'])->name('offering.destroy');
+    Route::get('offering/orders', [OfferingController::class, 'orders'])->name('offering.orders');
 });
 Route::post('offering/avail', [ProductControllerForFront::class,'avail_offering'])->name('front.avail_offering');
 Route::post('offering/avail/update', [ProductControllerForFront::class,'update_offering']);
