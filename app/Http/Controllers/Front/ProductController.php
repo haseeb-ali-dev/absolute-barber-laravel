@@ -336,7 +336,7 @@ class ProductController extends Controller
         DB::table('service_orders')->insert($data);
 
         Session::forget("offering");
-        return redirect()->route('front.shop')->with('succes', 'Service order is placed successfully through cash!');
+        return redirect()->route('front.shop')->with('success', 'Service order is placed successfully through cash!');
     }
 
     public function payment_offering_paypal()
@@ -381,7 +381,7 @@ class ProductController extends Controller
             DB::table('service_orders')->insert($data);
 
             Session::forget("offering");
-            return redirect()->route('front.shop')->with('succes', 'Service order is placed successfully through paypal!');
+            return redirect()->route('front.shop')->with('success', 'Service order is placed successfully through paypal!');
         } else {
             return redirect()->back()->with('error', 'Something went wrong while proceeding paypal payment');
         }
@@ -423,7 +423,7 @@ class ProductController extends Controller
             DB::table('service_orders')->insert($data);
 
             Session::forget("offering");
-            return redirect()->route('front.shop')->with('succes', 'Service order is placed successfully through stripe!');
+            return redirect()->route('front.shop')->with('success', 'Service order is placed successfully through stripe!');
         } else {
             return redirect()->back()->with('error', 'Something went wrong while proceeding stripe payment');
         }
