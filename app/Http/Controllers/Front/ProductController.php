@@ -3,11 +3,17 @@
 namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Modifier;
+use App\Models\Admin\Offering;
 use App\Models\Admin\Product;
 use App\Models\Admin\ProductCategory;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Session;
+use PayPal\Api\Amount;
+use PayPal\Api\Details;
+use PayPal\Api\Payment;
+use PayPal\Api\PaymentExecution;
+use PayPal\Api\Transaction;
 
 class ProductController extends Controller
 {
@@ -20,7 +26,8 @@ class ProductController extends Controller
         $products = Product::with(['variant', 'modifiers'])->orderBy('product_order', 'asc')->where('product_status', 'Show')->get();
         $categories = ProductCategory::all();
         $is_shop=true;
-        return view('pages.shop', compact('shop','g_setting','products', 'categories', 'sliders','is_shop'));
+        $services = Offering::all();
+        return view('pages.shop', compact('shop','g_setting','products', 'categories', 'sliders','is_shop', 'services'));
     }
 
 
@@ -286,4 +293,136 @@ class ProductController extends Controller
         return redirect()->back()->with('success', 'Coupon is selected successfully!');
     }
 
+    public function avail_offering(Request $request)
+    {
+        $data = $this->validate_offering($request);
+        Session::put('offering', $data);
+        return redirect()->route('front.checkout_offering')->with('success', 'Service is added successfully');
+    }
+
+    public function checkout_offering()
+    {
+        if (!Session::has('offering')) {
+            return redirect()->route('front.shop')->with('error', 'No service is added yet');
+        }
+
+        $session_offering = Session::get('offering');
+        $offering = Offering::findOrFail($session_offering['offering_id']);
+
+        $final_price = $session_offering['rate_type'] == 'regular'
+            ? $offering->regular_rate
+            : $offering->appointed_rate;
+
+        return view('pages.service_checkout', compact('offering', 'final_price', 'session_offering'));
+    }
+
+    public function update_offering(Request $request)
+    {
+        $data = $this->validate_offering($request);
+        $data["appointment_date"] =  $data["rate_type"] == "appointed" ? $data["appointment_date"] : null;
+        $data["appointment_time"] =  $data["rate_type"] == "appointed" ? $data["appointment_time"] : null;
+
+        Session::put('offering', $data);
+        return redirect()->back()->with('success', 'Service is updated successfully');
+    }
+
+    public function payment_offering_cash()
+    {
+        if (!Session::has('offering')) {
+            return redirect()->route('front.shop')->with('error', 'No service is added yet');
+        }
+
+        $data = $this->setup_order("cash");
+        DB::table('service_orders')->insert($data);
+
+        Session::forget("offering");
+        return redirect()->route('front.shop')->with('succes', 'Service order is placed successfully through cash!');
+    }
+
+    public function payment_offering_paypal()
+     {
+        if (!Session::has('offering')) {
+            return redirect()->route('front.shop')->with('error', 'No service is added yet');
+        }
+
+        $data = $this->setup_order("paypal");
+
+        $apiContext = new \PayPal\Rest\ApiContext(
+            new \PayPal\Auth\OAuthTokenCredential(
+                env('PAYPAL_CLIENT_ID'), // ClientID
+                env('PAYPAL_SECRET_KEY') // ClientSecret
+            )
+        );
+
+        $paymentId = request('paymentId');
+        $payment = Payment::get($paymentId, $apiContext);
+        $execution = new PaymentExecution();
+        $execution->setPayerId(request('PayerID'));
+        $transaction = new Transaction();
+        $amount = new Amount();
+        $details = new Details();
+        $details->setShipping(0)->setTax(0)->setSubtotal($data["net_amount"]);
+        $amount->setCurrency('USD');
+        $amount->setTotal($data["net_amount"]);
+        $amount->setDetails($details);
+        $transaction->setAmount($amount);
+        $execution->addTransaction($transaction);
+        $result = $payment->execute($execution, $apiContext);
+
+        if($result->state == 'approved') {
+            $paid_amount = $result->transactions[0]->amount->total;
+            $fee_amount  = $result->transactions[0]->related_resources[0]->sale->transaction_fee->value;
+            $net_amount  = $paid_amount-$fee_amount;
+
+            $data["paid_amount"] = $paid_amount;
+            $data["net_amount"] = $net_amount;
+            $data["fee_amount"] = $fee_amount;
+
+            DB::table('service_orders')->insert($data);
+
+            Session::forget("offering");
+            return redirect()->route('front.shop')->with('succes', 'Service order is placed successfully through cash!');
+        } else {
+            return redirect()->back()->with('error', 'Something went wrong while proceeding paypal payment');
+        }
+    }
+
+    private function validate_offering(Request $request)
+    {
+        return $request->validate([
+            'offering_id' => 'required',
+            'client_fname' => 'required|max:50',
+            'client_lname' => 'required|max:50',
+            'client_email' => 'required|email',
+            'client_phone' => 'required|max:50',
+            'rate_type' => 'required|in:regular,appointed',
+            'appointment_date' => 'nullable|date|after_or_equal:today',
+            'appointment_time' => 'nullable'
+        ]);
+    }
+
+    private function setup_order($type)
+    {
+        $data = Session::get('offering');
+        $offering = Offering::findOrFail($data['offering_id']);
+
+        $data["is_appointed"] = $data["rate_type"] == "appointed";
+        $data["offering_name"] = $offering->name;
+        $data["net_amount"] = $data["rate_type"] == "appointed" ? $offering->appointed_rate : $offering->regular_rate;
+
+        if ($type == "cash") {
+            $data["payment_type"] = "cash";
+            $data["paid_amount"] = $data["net_amount"];
+            $data["fee_amount"] = 0;
+        } else {
+            $data["payment_type"] = "paypal";
+        }
+
+        $data["appointment_date"] =  $data["rate_type"] == "appointed" ? $data["appointment_date"] : null;
+        $data["appointment_time"] =  $data["rate_type"] == "appointed" ? $data["appointment_time"] : null;
+        $data["order_no"] =  uniqid();
+
+        unset($data["rate_type"]);
+        return $data;
+    }
 }

@@ -23,7 +23,7 @@
 		$('.select2').select2({
 			theme: "bootstrap"
 		});
-	    
+
 	    $('#checkShipping').on('change',function() {
 	        $('.shipping-form').toggle();
 	    });
@@ -32,6 +32,7 @@
 	    $('.stripe').hide();
 	    $('.bank').hide();
 	    $('.cash-on-delivery').hide();
+        $('.cash-in-shop').hide();
 
 		$('#paymentMethodChange').on('change',function() {
 
@@ -41,6 +42,7 @@
 		        $('.stripe').hide();
 		        $('.bank').hide();
 		        $('.cash-on-delivery').hide();
+		        $('.cash-in-shop').hide();
 		    }
 		    else if($('#paymentMethodChange').val() == 'Stripe')
 		    {
@@ -69,11 +71,15 @@
 		        $('.stripe').hide();
 		        $('.bank').hide();
 		        $('.cash-on-delivery').hide();
-		    }
+		    }else if($('#paymentMethodChange').val() == 'CashInShop')
+            {
+                $('.paypal').hide();
+		        $('.cash-in-shop').show();
+            }
 
 		});
 
-		
+
 
 	});
 

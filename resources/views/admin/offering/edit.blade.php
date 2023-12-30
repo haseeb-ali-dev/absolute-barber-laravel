@@ -36,7 +36,7 @@
                 </div>
                 <div class="form-group">
                     <label for="">Details *</label>
-                    <textarea name="details" class="form-control editor" cols="30" rows="10">{{ $offering->details }}</textarea>
+                    <textarea name="details" class="form-control" cols="30" rows="10">{{ $offering->details }}</textarea>
                 </div>
                 <div class="form-group">
                     <label for="">Existing Featured Photo</label>

@@ -35,9 +35,10 @@
                                 role="tab" aria-controls="pills-profile" aria-selected="false">{{$row->name}}</a>
                         </li>
                     @endforeach
-
-
-
+                    <li class="nav-item">
+                        <a class="nav-link h4 category-link" id="category-tab-00" data-toggle="pill" href="#category-00"
+                            role="tab" aria-controls="pills-profile" aria-selected="false">Services</a>
+                    </li>
                 </ul>
             </div>
 
@@ -177,6 +178,8 @@
                         </div>
                     </div>
                     @endforeach
+
+                    @include('pages.serivce')
                 </div>
             </div>
         </div>

@@ -1068,3 +1068,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as'=> 'admin.'], fu
     Route::resource('offering', OfferingController::class)->except(['show', 'destroy']);
     Route::get('offering/{offering}/delete', [OfferingController::class, 'destroy'])->name('offering.destroy');
 });
+Route::post('offering/avail', [ProductControllerForFront::class,'avail_offering'])->name('front.avail_offering');
+Route::post('offering/avail/update', [ProductControllerForFront::class,'update_offering']);
+Route::get('offering/checkout', [ProductControllerForFront::class,'checkout_offering'])->name('front.checkout_offering');
+Route::get('offering/payment/cash', [ProductControllerForFront::class,'payment_offering_cash']);
+Route::get('offering/payment/paypal', [ProductControllerForFront::class,'payment_offering_paypal']);
