@@ -94,6 +94,7 @@
             ['route' => route('admin.status.index'), 'name' => 'All Status', 'icon' => 'fas fa-bookmark'],
             ['route' => route('admin.tables'), 'name' => 'Tables', 'icon' => 'fas fa-bookmark'],
             ['route' => route('admin.shop.settings'), 'name' => 'Shop Settings', 'icon' => 'fas fa-bookmark'],
+            ['route' => route('admin.offering.settings'), 'name' => 'Service Settings', 'icon' => 'fas fa-shopping-cart'],
         ];
         $subscriber = [
             ['route' => route('admin.subscriber.index'), 'name' => 'All Subscribers', 'icon' => 'fas fa-share-alt-square'],

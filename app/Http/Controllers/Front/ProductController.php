@@ -308,12 +308,16 @@ class ProductController extends Controller
 
         $session_offering = Session::get('offering');
         $offering = Offering::findOrFail($session_offering['offering_id']);
+        $enabled_modes = DB::table('service_payment_modes')
+            ->where('service_type', $session_offering['rate_type'])
+            ->where('enabled', 1)
+            ->get();
 
         $final_price = $session_offering['rate_type'] == 'regular'
             ? $offering->regular_rate
             : $offering->appointed_rate;
 
-        return view('pages.service_checkout', compact('offering', 'final_price', 'session_offering'));
+        return view('pages.service_checkout', compact('offering', 'final_price', 'session_offering', 'enabled_modes'));
     }
 
     public function update_offering(Request $request)

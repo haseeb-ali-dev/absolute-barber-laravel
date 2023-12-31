@@ -100,4 +100,31 @@ class OfferingController extends Controller
         $orders = DB::table('service_orders')->orderBy("id", "DESC")->get();
         return view('admin.offering.orders', compact('orders'));
     }
+
+    public function settings()
+    {
+        // Payment Modes
+        $settings['regular_modes'] = DB::table('service_payment_modes')->where('service_type', 'regular')->get();
+        $settings['appointment_modes'] = DB::table('service_payment_modes')->where('service_type', 'appointed')->get();
+
+        return view('admin.offering.settings', compact('settings'));
+    }
+
+    public function update_settings(Request $request, $type)
+    {
+        if ($type == "payment_modes") {
+            $this->update_payment_modes($request);
+
+            return back()->with('success', 'Setting Payment Modes are updated successfully!');
+        } else {
+            return back()->with('error', 'This is invalid type of Setting');
+        }
+    }
+
+    private function update_payment_modes(Request $request)
+    {
+        $ids = $request->get("payment_mode_ids", []);
+        DB::table('service_payment_modes')->whereNotIn('id', $ids)->update(['enabled' => 0]);
+        DB::table('service_payment_modes')->whereIn('id', $ids)->update(['enabled' => 1]);
+    }
 }

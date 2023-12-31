@@ -111,11 +111,9 @@
                             <div class="form-group">
                                 <select name="payment_method" class="form-control select2" id="paymentMethodChange">
                                     <option value="">Select Payment Method</option>
-                                    <option value="PayPal">PayPal</option>
-                                    <option value="Stripe">Stripe</option>
-                                    @if ($session_offering['rate_type'] == 'regular')
-                                        <option value="CashInShop">Cash in Shop</option>
-                                    @endif
+                                    @foreach ($enabled_modes as $mode)
+                                        <option value="{{ $mode->method_key }}">{{ $mode->method_name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
