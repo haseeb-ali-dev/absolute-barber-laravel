@@ -1,4 +1,4 @@
-<div class="tab-pane fade" id="category-00" role="tabpanel" aria-labelledby="category-tab-00">
+<div class="tab-pane fade show active" id="category-00" role="tabpanel" aria-labelledby="category-tab-00">
     <div class="tab-content mb-2">
         <h4>Services</h4>
         <small>Here are some services or offerings by Barber Shop</small>

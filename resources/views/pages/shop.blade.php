@@ -26,8 +26,8 @@
             <div class="col-md-3">
                 <ul id="categories-list">
                     <li class="nav-item">
-                        <a class="nav-link h4 active category-link" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
-                            aria-controls="pills-home" aria-selected="true">All</a>
+                        <a class="nav-link h4 active category-link" id="category-tab-00" data-toggle="pill" href="#category-00"
+                            role="tab" aria-controls="pills-profile" aria-selected="false">Services</a>
                     </li>
                     @foreach ($categories as $row)
                         <li class="nav-item">
@@ -35,81 +35,14 @@
                                 role="tab" aria-controls="pills-profile" aria-selected="false">{{$row->name}}</a>
                         </li>
                     @endforeach
-                    <li class="nav-item">
-                        <a class="nav-link h4 category-link" id="category-tab-00" data-toggle="pill" href="#category-00"
-                            role="tab" aria-controls="pills-profile" aria-selected="false">Services</a>
-                    </li>
+                    
                 </ul>
             </div>
 
             <div class="col-md-9">
                 <!-- Rest of your content -->
                 <div class="tab-content" id="pills-tabContent">
-                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                        <div class="row">
-                            @foreach($products as $row)
-                            <div class="col-lg-3 col-md-6 col-sm-12 mb-2 text-center px-1">
-                                <div class="px-2 py-3 border rounded-lg d-flex flex-column justify-content-between h-100 product-card">
-                                    <div class="product-item">
-                                        <div class="photo text-center">
-                                            <a href="{{ url('product/'.$row->product_slug) }}">
-                                                <img src="{{ asset('public/uploads/'.$row->product_featured_photo) }}" alt="Product Photo">
-                                            </a>
-                                        </div>
-                                        <div class="text text-center">
-                                            <h3><a href="{{ url('product/'.$row->product_slug) }}">{{ $row->product_name }}</a>
-                                            </h3>
-                                            <div class="price">
-
-                                                @if($row->product_old_price != '')
-                                                <del>USD {{ $row->product_old_price }}</del>
-                                                @endif
-
-                                                USD {{ $row->product_current_price }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="cart-button">
-                                        @if (isset($row->variant) && isset($row->variant_options))
-                                            <small class="px-2">In Variant</small>
-                                        @endif
-                                        @if($row->product_stock == 0)
-                                        <a href="javascript:void(0);" class="stock-empty w-100-p text-center">Stock is
-                                            empty</a>
-                                        @else
-                                            <button class="add-to-cart-btn" data-product="{{ $row }}">
-                                                <i class="fas fa-shopping-bag mr-1"></i>
-                                                Add to Cart
-                                            </button>
-                                            {{-- @if (isset($row->variant))
-                                                <button type="button" class="select-variant-btn"
-                                                    data-product_id="{{ $row->id }}" data-variant="{{ $row->variant }}">
-                                                    <i class="fas fa-stream mr-1"></i>
-                                                    Select Variant
-                                                </button>
-                                            @else
-                                                <form action="{{ route('front.add_to_cart') }}" method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="product_id" value="{{ $row->id }}">
-                                                    <input type="hidden" name="product_qty" value="1">
-                                                    <button type="submit">
-                                                        <i class="fas fa-shopping-bag mr-1"></i>
-                                                        Add to Cart
-                                                    </button>
-                                                </form>
-                                            @endif --}}
-                                        @endif
-
-                                    </div>
-                                </div>
-                            </div>
-                            @endforeach
-
-                            <div class="col-md-12">
-                                {{-- {{ $products->links() }} --}}
-                            </div>
-                        </div>
-                    </div>
+                    
 
                     @foreach ($categories as $main_row)
                     <div class="tab-pane fade" id="category-{{$main_row->id}}" role="tabpanel"
