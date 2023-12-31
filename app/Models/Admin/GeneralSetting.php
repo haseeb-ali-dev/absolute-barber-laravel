@@ -111,6 +111,10 @@ class GeneralSetting extends Model
         'shop_subtitle',
         'reservation_text',
         'reservation_status',
+
+        'shop_close_time',
+        'shop_service_interval',
+        'shop_open_time',
     ];
 
 }

@@ -1,6 +1,7 @@
 <script src="{{ asset('public/backend/js/sb-admin-2.min.js') }}"></script>
 <script src="{{ asset('public/backend/js/custom.js') }}"></script>
 <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+<script src="{{ asset('public/frontend/js/select2.full.js') }}"></script>
 
 <script>
     toastr.options = {

@@ -15,7 +15,7 @@
                             aria-controls="v-pills-payment-modes" aria-selected="true">Payment Modes</button>
                         <button class="nav-link btn" id="v-pills-schedule-tab" data-toggle="pill"
                             data-target="#v-pills-schedule" type="button" role="tab" aria-controls="v-pills-schedule"
-                            aria-selected="false">Schedule</button>
+                            aria-selected="false">Shop Timings</button>
                     </div>
                 </div>
                 <div class="col-md-9 py-3">
@@ -26,7 +26,7 @@
                         </div>
                         <div class="tab-pane fade" id="v-pills-schedule" role="tabpanel"
                             aria-labelledby="v-pills-schedule-tab">
-                            Shop Schedule
+                            @include('admin.offering.settings.timings')
                         </div>
                     </div>
                 </div>
