@@ -337,6 +337,10 @@ class ProductController extends Controller
         }
 
         $data = $this->setup_order("cash");
+        if ($data["is_appointed"] && is_null($data["appointment_time"])) {
+            return back()->with('error', 'For appointment, You must select an available time slot');
+        }
+
         DB::table('service_orders')->insert($data);
 
         Session::forget("offering");
@@ -350,6 +354,9 @@ class ProductController extends Controller
         }
 
         $data = $this->setup_order("paypal");
+        if ($data["is_appointed"] && is_null($data["appointment_time"])) {
+            return back()->with('error', 'For appointment, You must select an available time slot');
+        }
 
         $apiContext = new \PayPal\Rest\ApiContext(
             new \PayPal\Auth\OAuthTokenCredential(
@@ -396,7 +403,11 @@ class ProductController extends Controller
         if (!Session::has('offering')) {
             return redirect()->route('front.shop')->with('error', 'No service is added yet');
         }
+
         $data = $this->setup_order("stripe");
+        if ($data["is_appointed"] && is_null($data["appointment_time"])) {
+            return back()->with('error', 'For appointment, You must select an available time slot');
+        }
 
         \Stripe\Stripe::setApiKey(env('ADMIN_STRIPE_SECRET_KEY'));
 
@@ -431,21 +442,22 @@ class ProductController extends Controller
         } else {
             return redirect()->back()->with('error', 'Something went wrong while proceeding stripe payment');
         }
-
     }
 
     private function validate_offering(Request $request)
     {
-        return $request->validate([
+        $data = $request->validate([
             'offering_id' => 'required',
             'client_fname' => 'required|max:50',
             'client_lname' => 'required|max:50',
             'client_email' => 'required|email',
             'client_phone' => 'required|max:50',
             'rate_type' => 'required|in:regular,appointed',
-            'appointment_date' => 'nullable|date|after_or_equal:today',
             'appointment_time' => 'nullable'
         ]);
+
+        $data['appointment_date'] = now()->format('Y-m-d');
+        return $data;
     }
 
     private function setup_order($type)
@@ -467,7 +479,10 @@ class ProductController extends Controller
 
         $data["appointment_date"] =  $data["rate_type"] == "appointed" ? $data["appointment_date"] : null;
         $data["appointment_time"] =  $data["rate_type"] == "appointed" ? $data["appointment_time"] : null;
-        $data["order_no"] =  uniqid();
+
+        // Auto Incremented ID
+        $statement = DB::select("SHOW TABLE STATUS LIKE 'service_orders'");
+        $data["order_no"] = 'ORDER-' . $statement[0]->Auto_increment;
 
         unset($data["rate_type"]);
         return $data;

@@ -1,5 +1,5 @@
 <div class="modal fade" id="avail_offering" tabindex="-1" aria-labelledby="avail_offeringLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog">
         <div class="modal-content">
             <form action="{{ route('front.avail_offering') }}" method="post">
                 <div class="modal-header">
@@ -67,17 +67,35 @@
                     </div>
                     <div class="row mt-3 appointment" style="display: none">
                         <span class="col-md-12 mb-2 font-weight-bold">Appointment Details</span>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="d-flex flex-column mt-1">
-                                <small class="mb-0">Select Date *</small>
-                                <input class="form-control" type="date" name="appointment_date"
-                                    min="{{ now()->format('Y-m-d') }}">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="d-flex flex-column mt-1">
-                                <small class="mb-0">Select Time *</small>
-                                <input class="form-control" type="time" name="appointment_time">
+                                <small class="mb-0">Chosse Time Slot *</small>
+                                <div class="d-flex flex-wrap">
+                                    @if (isset($general_settings_global->shop_open_time) &&
+                                            isset($general_settings_global->shop_close_time) &&
+                                            isset($general_settings_global->shop_service_interval))
+                                        @php
+                                            $intervals = \Carbon\CarbonPeriod::since($general_settings_global->shop_open_time)
+                                                ->minutes($general_settings_global->shop_service_interval)
+                                                ->until($general_settings_global->shop_close_time)
+                                                ->toArray();
+                                        @endphp
+                                        @foreach ($intervals as $row)
+                                            <div class="border p-2 m-1">
+                                                <div class="custom-control custom-radio">
+                                                    <input type="radio" id="slot{{ $loop->index }}"
+                                                        name="appointment_time" class="custom-control-input"
+                                                        value="{{ $row->format('H:i') }}">
+                                                    <label class="custom-control-label" for="slot{{ $loop->index }}">
+                                                        {{ $row->format('H:i') }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <p>Opening and Closing times are not set yet</p>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -101,8 +119,7 @@
         $("#avail_offering .appointed-rate").hide()
         $("#avail_offering .appointment").hide()
         $("#avail_offering input[name='rate_type']").prop("checked", false);
-        $("#avail_offering input[name='appointment_date']").val("");
-        $("#avail_offering input[name='appointment_time']").val("");
+        $("#avail_offering input[name='appointment_time']").prop("checked", false);
 
         $("#avail_offering input[name='offering_id']").val(offering?.id);
         $("#avail_offering .modal-title").text(`${offering?.name}`);
@@ -116,8 +133,7 @@
                 $("#avail_offering .regular-rate").text(`USD ${offering?.regular_rate}`)
                 $("#avail_offering .appointed-rate").hide()
                 $("#avail_offering .appointment").hide()
-                $("#avail_offering input[name='appointment_date']").val("");
-                $("#avail_offering input[name='appointment_time']").val("");
+                $("#avail_offering input[name='appointment_time']").prop("checked", false);
 
             } else {
                 $("#avail_offering .regular-rate").hide()
