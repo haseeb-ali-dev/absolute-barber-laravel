@@ -81,12 +81,19 @@
                                                 ->toArray();
                                         @endphp
                                         @foreach ($intervals as $row)
-                                            <div class="border p-2 m-1">
+                                            @php
+                                                $na = in_array($row->format('H:i'), $appointed_slots);
+                                            @endphp
+                                            <div
+                                                class="border p-2 m-1 @if ($na) bg-success @endif">
                                                 <div class="custom-control custom-radio">
                                                     <input type="radio" id="slot{{ $loop->index }}"
                                                         name="appointment_time" class="custom-control-input"
-                                                        value="{{ $row->format('H:i') }}">
-                                                    <label class="custom-control-label" for="slot{{ $loop->index }}">
+                                                        value="{{ $row->format('H:i') }}"
+                                                        @if ($na) disabled @endif>
+                                                    <label
+                                                        class="custom-control-label @if ($na) text-white @endif"
+                                                        for="slot{{ $loop->index }}">
                                                         {{ $row->format('H:i') }}
                                                     </label>
                                                 </div>

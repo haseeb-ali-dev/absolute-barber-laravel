@@ -27,7 +27,9 @@ class ProductController extends Controller
         $categories = ProductCategory::all();
         $is_shop=true;
         $services = Offering::all();
-        return view('pages.shop', compact('shop','g_setting','products', 'categories', 'sliders','is_shop', 'services'));
+        $appointed_slots = $this->appointed_slots();
+
+        return view('pages.shop', compact('shop','g_setting','products', 'categories', 'sliders','is_shop', 'services', 'appointed_slots'));
     }
 
 
@@ -317,7 +319,9 @@ class ProductController extends Controller
             ? $offering->regular_rate
             : $offering->appointed_rate;
 
-        return view('pages.service_checkout', compact('offering', 'final_price', 'session_offering', 'enabled_modes'));
+        $slots = $this->appointed_slots();
+
+        return view('pages.service_checkout', compact('offering', 'final_price', 'session_offering', 'enabled_modes', 'slots'));
     }
 
     public function update_offering(Request $request)
@@ -486,5 +490,15 @@ class ProductController extends Controller
 
         unset($data["rate_type"]);
         return $data;
+    }
+
+    private function appointed_slots()
+    {
+        return DB::table('service_orders')
+            ->select('appointment_time')
+            ->where('appointment_date', today())
+            ->get()
+            ->pluck('appointment_time')
+            ->toArray();
     }
 }

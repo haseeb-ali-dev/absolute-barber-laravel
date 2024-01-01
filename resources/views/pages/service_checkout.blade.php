@@ -105,7 +105,8 @@
                                                             </option>
                                                             @foreach ($intervals as $row)
                                                                 <option value="{{ $row->format('H:i') }}"
-                                                                    @if ($session_offering['appointment_time'] == $row->format('H:i')) selected @endif>
+                                                                    @if ($session_offering['appointment_time'] == $row->format('H:i')) selected @endif
+                                                                    @if (in_array($row->format('H:i'), $slots)) disabled @endif>
                                                                     {{ $row->format('H:i') }}
                                                                 </option>
                                                             @endforeach

@@ -98,7 +98,7 @@ class OfferingController extends Controller
 
     public function orders()
     {
-        $orders = DB::table('service_orders')->orderBy("id", "DESC")->get();
+        $orders = DB::table('service_orders')->where('appointment_date', today())->orderBy("id", "DESC")->get();
         return view('admin.offering.orders', compact('orders'));
     }
 
